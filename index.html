@@ -32,10 +32,10 @@
       --text-tertiary: #6b7794;
       --border-subtle: rgba(15, 26, 58, 0.07);
       --border-medium: rgba(15, 26, 58, 0.12);
-      --shadow-sm: 0 1px 3px rgba(15, 26, 58, 0.04), 0 1px 2px rgba(15, 26, 58, 0.06);
-      --shadow-md: 0 4px 16px rgba(15, 26, 58, 0.06), 0 2px 6px rgba(15, 26, 58, 0.04);
-      --shadow-lg: 0 12px 40px rgba(15, 26, 58, 0.08), 0 4px 16px rgba(15, 26, 58, 0.05);
-      --shadow-xl: 0 20px 60px rgba(15, 26, 58, 0.12), 0 8px 24px rgba(15, 26, 58, 0.06);
+      --shadow-sm: 0 1px 3px rgba(15, 26, 58, 0.04);
+      --shadow-md: 0 4px 16px rgba(15, 26, 58, 0.06);
+      --shadow-lg: 0 12px 40px rgba(15, 26, 58, 0.08);
+      --shadow-xl: 0 20px 60px rgba(15, 26, 58, 0.12);
       --gradient-brand: linear-gradient(135deg, #0f1a3a 0%, #1a2f5e 30%, #1e3a78 60%, #1a2f5e 100%);
       --gradient-accent: linear-gradient(135deg, #2563eb 0%, #3b82f6 40%, #06b6d4 100%);
       --gradient-emerald: linear-gradient(135deg, #047857 0%, #059669 40%, #10b981 100%);
@@ -51,10 +51,10 @@
       --radius-lg: 20px;
       --radius-xl: 24px;
       --radius-2xl: 32px;
-      --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --font-heading: 'Manrope', 'Inter', system-ui, sans-serif;
-      --font-body: 'Inter', system-ui, sans-serif;
+      --transition-fast: 0.15s ease;
+      --transition-smooth: 0.3s ease;
+      --font-heading: 'Manrope', 'Inter', sans-serif;
+      --font-body: 'Inter', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -102,16 +102,12 @@
 
     .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     
-    .logo-group { display: flex; align-items: center; gap: 10px; }
+    .logo-group { display: flex; align-items: center; gap: 10px; cursor: pointer; }
     .logo-icon {
       width: 44px; height: 44px; background: var(--gradient-brand); border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center; font-weight: 900;
       font-family: var(--font-heading); font-size: 1.25rem; color: #fff; letter-spacing: -0.5px;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08); position: relative; overflow: hidden;
-    }
-    .logo-icon::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%); border-radius: inherit;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
     }
     .logo-text { font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; }
     .logo-text span { display: block; font-size: 0.65rem; font-weight: 500; color: var(--accent-blue); letter-spacing: 1.5px; text-transform: uppercase; }
@@ -134,7 +130,7 @@
     }
     .icon-btn:hover { background: var(--bg-tertiary); border-color: var(--border-medium); }
     .badge-dot { position: absolute; top: 6px; right: 6px; width: 9px; height: 9px; background: var(--accent-rose); border-radius: 50%; border: 2px solid var(--bg-secondary); }
-    .theme-toggle { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 1.2rem; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); display: flex; align-items: center; justify-content: center; }
+    .theme-toggle { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 1.2rem; transition: all 0.4s ease; display: flex; align-items: center; justify-content: center; }
 
     .auth-btn {
       padding: 8px 18px; border-radius: 50px; font-weight: 600; font-size: 0.85rem;
@@ -312,7 +308,7 @@
     .toast {
       background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: var(--radius-md);
       padding: 12px 20px; font-weight: 500; font-size: 0.9rem; box-shadow: var(--shadow-lg);
-      animation: slideInRight 0.4s cubic-bezier(0.34,1.56,0.64,1); color: var(--text-primary);
+      animation: slideInRight 0.4s ease; color: var(--text-primary);
     }
     @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
 
@@ -333,14 +329,14 @@
     @media (max-width: 767px) { .hero-title { font-size: 1.5rem; } .subject-grid { grid-template-columns: 1fr 1fr; } body { padding-bottom: 80px; } }
     @media (max-width: 400px) { .subject-grid { grid-template-columns: 1fr; } }
 
-    .animate-in { animation: fadeInUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards; opacity: 0; }
+    .animate-in { animation: fadeInUp 0.6s ease forwards; opacity: 0; }
     .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; } .delay-5 { animation-delay: 0.5s; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Registration Styles */
-    .registration-modal { max-width: 600px; max-height: 90vh; }
+    .registration-modal { max-width: 500px; max-height: 90vh; }
     .step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
-    .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-medium); transition: all var(--transition-smooth); }
+    .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-medium); transition: all 0.3s ease; }
     .step-dot.active { background: var(--accent-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2); }
     .step-dot.completed { background: var(--accent-emerald); }
     .registration-step { display: none; animation: fadeInUp 0.4s ease; }
@@ -374,31 +370,21 @@
 
     .btn-group { display: flex; gap: 10px; margin-top: 20px; }
     .password-strength { height: 4px; background: var(--bg-tertiary); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-    .password-strength-bar { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0%; }
+    .password-strength-bar { height: 100%; border-radius: 2px; transition: width 0.3s; width: 0%; }
     .strength-weak { background: var(--accent-rose); width: 33%; }
     .strength-medium { background: var(--accent-amber); width: 66%; }
     .strength-strong { background: var(--accent-emerald); width: 100%; }
 
     .terms-link { color: var(--accent-blue); text-decoration: underline; cursor: pointer; }
-    .photo-upload-area { border: 2px dashed var(--border-medium); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all var(--transition-smooth); margin-bottom: 16px; }
+    .photo-upload-area { border: 2px dashed var(--border-medium); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px; }
     .photo-upload-area:hover { border-color: var(--accent-blue); background: rgba(37, 99, 235, 0.02); }
     .photo-preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: none; }
-    .progress-bar-container { margin: 16px 0; }
-    .progress-bar { height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--gradient-accent); border-radius: 2px; transition: width 0.3s ease; }
-
-    .otp-input-group { display: flex; gap: 8px; justify-content: center; }
-    .otp-input { width: 45px; height: 50px; text-align: center; font-size: 1.2rem; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--border-medium); background: var(--bg-primary); color: var(--text-primary); }
-    .otp-input:focus { border-color: var(--accent-blue); outline: none; }
-
-    .verified-badge { display: inline-flex; align-items: center; gap: 4px; background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
-    [data-theme="dark"] .verified-badge { background: #064e3b; color: #a7f3d0; }
-
+    
     .error-msg { color: var(--accent-rose); font-size: 0.8rem; margin-top: 4px; padding: 8px; background: rgba(225, 29, 72, 0.1); border-radius: var(--radius-xs); display: none; }
     .auth-switch-text { text-align: center; margin-top: 16px; font-size: 0.9rem; color: var(--text-tertiary); }
     .auth-switch-text span { color: var(--accent-blue); font-weight: 600; cursor: pointer; }
 
-    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .score-display { background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 20px; text-align: center; margin-top: 20px; }
@@ -411,20 +397,20 @@
   <!-- Header -->
   <header class="app-header">
     <div class="app-container header-inner">
-      <div class="logo-group">
+      <div class="logo-group" onclick="window.location.href='index.html'" title="Go to Home">
         <div class="logo-icon">SYF</div>
         <div class="logo-text">Secure Your Future<span>Premium Exam Prep</span></div>
       </div>
       <nav class="nav-links" id="mainNav">
-        <a class="nav-link active" href="#" data-nav="home">🏠 Home</a>
-        <a class="nav-link" href="#" data-nav="math">📐 Mathematics</a>
-        <a class="nav-link" href="#" data-nav="reason">🧠 Reasoning</a>
-        <a class="nav-link" href="#" data-nav="english">📖 English</a>
-        <a class="nav-link" href="#" data-nav="gk">🌍 GK / GS</a>
-        <a class="nav-link" href="#" data-nav="cbt">💻 CBT Mock</a>
+        <a class="nav-link active" href="index.html" data-nav="home">🏠 Home</a>
+        <a class="nav-link" href="mathematics.html" data-nav="math">📐 Mathematics</a>
+        <a class="nav-link" href="reasoning.html" data-nav="reason">🧠 Reasoning</a>
+        <a class="nav-link" href="english.html" data-nav="english">📖 English</a>
+        <a class="nav-link" href="gk.html" data-nav="gk">🌍 GK / GS</a>
+        <a class="nav-link" href="#" data-nav="cbt" onclick="SYF.openCBTModal(); return false;">💻 CBT Mock</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-btn" title="Search" onclick="SYF.showToast('🔍 Search opened')">🔍</button>
+        <button class="icon-btn" title="Search" onclick="SYF.showToast('🔍 Search feature coming soon')">🔍</button>
         <button class="icon-btn" title="Notifications" onclick="SYF.showToast('📬 3 new notifications')">🔔<span class="badge-dot"></span></button>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
         <div id="auth-section">
@@ -463,11 +449,11 @@
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div class="animate-in delay-2">
           <div class="section-title">📚 Continue Learning</div>
-          <div class="continue-card" onclick="SYF.navigateTo('mathematics')">
+          <div class="continue-card" onclick="window.location.href='mathematics.html'">
             <div class="continue-icon" style="background:var(--gradient-accent);">📐</div>
             <div style="flex:1;"><div style="font-weight:600;">Mathematics → Digital Sum</div><div style="font-size:0.78rem;color:var(--text-tertiary);">Chapter 3 · 42% complete</div></div><span>▶</span>
           </div>
-          <div class="continue-card" onclick="SYF.navigateTo('reasoning')">
+          <div class="continue-card" onclick="window.location.href='reasoning.html'">
             <div class="continue-icon" style="background:var(--gradient-emerald);">🧠</div>
             <div style="flex:1;"><div style="font-weight:600;">Reasoning → Blood Relations</div><div style="font-size:0.78rem;color:var(--text-tertiary);">Chapter 7 · 68% complete</div></div><span>▶</span>
           </div>
@@ -499,10 +485,10 @@
     <section class="animate-in delay-5">
       <div class="section-title">📘 Core Subjects</div>
       <div class="subject-grid">
-        <div class="subject-card" onclick="SYF.navigateTo('mathematics')"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="SYF.navigateTo('reasoning')"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></div>
-        <div class="subject-card" onclick="SYF.navigateTo('english')"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="SYF.navigateTo('gk')"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></div>
+        <div class="subject-card" onclick="window.location.href='mathematics.html'"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
+        <div class="subject-card" onclick="window.location.href='reasoning.html'"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></div>
+        <div class="subject-card" onclick="window.location.href='english.html'"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
+        <div class="subject-card" onclick="window.location.href='gk.html'"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></div>
       </div>
     </section>
   </main>
@@ -528,44 +514,33 @@
     </div>
   </div>
 
-  <!-- Registration Modal -->
+  <!-- Registration Modal - Simplified (No OTP) -->
   <div class="modal-overlay" id="authModal">
     <div class="modal-content registration-modal">
       <button class="modal-close" onclick="SYF.closeAuthModal()">✕</button>
       
-      <div class="progress-bar-container">
-        <div class="progress-bar">
-          <div class="progress-fill" id="regProgress" style="width: 25%;"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:var(--text-tertiary);">
-          <span>Account</span><span>Profile</span><span>Preferences</span><span>Verify</span>
-        </div>
-      </div>
-
       <div class="step-indicator">
         <div class="step-dot active" data-step="1"></div>
         <div class="step-dot" data-step="2"></div>
         <div class="step-dot" data-step="3"></div>
-        <div class="step-dot" data-step="4"></div>
       </div>
 
       <form id="registrationForm" onsubmit="return false;">
         <!-- Step 1: Account -->
         <div class="registration-step active" id="step1">
           <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Create Your Account</h3>
-          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Start your journey to success</p>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Join 2.5L+ aspirants today</p>
           
           <div class="form-row">
             <div class="form-group"><label>First Name *</label><input type="text" class="form-input" id="firstName" placeholder="Rahul" required></div>
             <div class="form-group"><label>Last Name *</label><input type="text" class="form-input" id="lastName" placeholder="Sharma" required></div>
           </div>
-          <div class="form-group"><label>Email Address *</label><input type="email" class="form-input" id="regEmail" placeholder="rahul.sharma@email.com" required></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" class="form-input" id="regEmail" placeholder="rahul@email.com" required></div>
           <div class="form-group">
             <label>Phone Number</label>
             <div class="form-row">
               <select class="form-select" id="countryCode" style="max-width:120px;">
                 <option value="+91">🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option>
-                <option value="+61">🇦🇺 +61</option><option value="+971">🇦🇪 +971</option>
               </select>
               <input type="tel" class="form-input" id="phone" placeholder="9876543210">
             </div>
@@ -574,7 +549,6 @@
             <label>Password *</label>
             <input type="password" class="form-input" id="regPassword" placeholder="Min. 8 characters" required minlength="8" oninput="SYF.checkPasswordStrength(this.value)">
             <div class="password-strength"><div class="password-strength-bar" id="passwordStrengthBar"></div></div>
-            <small style="color:var(--text-tertiary);font-size:0.75rem;">Use 8+ characters with letters, numbers & symbols</small>
           </div>
           <div class="form-group">
             <label>Confirm Password *</label>
@@ -583,100 +557,57 @@
           </div>
           <div class="checkbox-group">
             <input type="checkbox" id="termsAgree" required>
-            <label for="termsAgree">I agree to the <span class="terms-link">Terms of Service</span> and <span class="terms-link">Privacy Policy</span></label>
+            <label for="termsAgree">I agree to the <span class="terms-link">Terms of Service</span></label>
           </div>
           <button type="button" class="btn btn-primary" style="width:100%;" onclick="SYF.registration.nextStep(2)">Continue →</button>
-          <div class="auth-switch-text" style="margin-top:16px;">Already have an account? <span style="color:var(--accent-blue);font-weight:600;cursor:pointer;" onclick="SYF.switchToLogin()">Login here</span></div>
+          <div class="auth-switch-text">Already have an account? <span onclick="SYF.switchToLogin()">Login here</span></div>
         </div>
 
-        <!-- Step 2: Profile -->
+        <!-- Step 2: Profile & Preferences -->
         <div class="registration-step" id="step2">
-          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Complete Your Profile</h3>
-          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Help us personalize your learning experience</p>
-          <div class="photo-upload-area" onclick="document.getElementById('profilePhoto').click()">
-            <img id="photoPreview" class="photo-preview" style="display:none;">
-            <div id="uploadPlaceholder">📷 Click to upload profile photo</div>
-            <input type="file" id="profilePhoto" accept="image/*" style="display:none;" onchange="SYF.previewPhoto(event)">
-          </div>
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Profile & Preferences</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Help us personalize your learning</p>
+          
           <div class="form-row">
-            <div class="form-group"><label>Date of Birth</label><input type="date" class="form-input" id="dob"></div>
-            <div class="form-group"><label>Gender</label><select class="form-select" id="gender"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+            <div class="form-group"><label>Education</label><select class="form-select" id="education"><option value="">Select</option><option value="10th">10th Pass</option><option value="12th">12th Pass</option><option value="graduate">Graduate</option></select></div>
+            <div class="form-group"><label>State</label><select class="form-select" id="state"><option value="">Select</option><option value="delhi">Delhi</option><option value="up">Uttar Pradesh</option><option value="bihar">Bihar</option><option value="rajasthan">Rajasthan</option></select></div>
           </div>
+          
+          <div class="form-group"><label>Target Exams</label>
+            <div class="skill-tags" id="targetExams">
+              <span class="skill-tag" data-value="ssc">SSC</span><span class="skill-tag" data-value="bank">Bank</span>
+              <span class="skill-tag" data-value="railway">Railway</span><span class="skill-tag" data-value="upsc">UPSC</span>
+              <span class="skill-tag" data-value="defence">Defence</span><span class="skill-tag" data-value="other">Other</span>
+            </div>
+          </div>
+          
           <div class="form-row">
-            <div class="form-group"><label>Education Level</label><select class="form-select" id="education"><option value="">Select</option><option value="10th">10th Pass</option><option value="12th">12th Pass</option><option value="graduate">Graduate</option><option value="postgraduate">Post Graduate</option></select></div>
-            <div class="form-group"><label>State / Region</label><select class="form-select" id="state"><option value="">Select</option><option value="delhi">Delhi</option><option value="maharashtra">Maharashtra</option><option value="uttar-pradesh">Uttar Pradesh</option><option value="bihar">Bihar</option><option value="rajasthan">Rajasthan</option><option value="other">Other</option></select></div>
+            <div class="form-group"><label>Study Language</label><select class="form-select" id="studyLanguage"><option value="english">English</option><option value="hindi">Hindi</option><option value="bilingual">Bilingual</option></select></div>
+            <div class="form-group"><label>Daily Study Hours</label><select class="form-select" id="studyHours"><option value="1-2">1-2 hrs</option><option value="2-4">2-4 hrs</option><option value="4-6">4-6 hrs</option></select></div>
           </div>
+          
           <div class="btn-group">
             <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(1)">← Back</button>
             <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(3)">Continue →</button>
           </div>
         </div>
 
-        <!-- Step 3: Preferences -->
+        <!-- Step 3: Review & Submit -->
         <div class="registration-step" id="step3">
-          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Exam Preferences</h3>
-          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Select your target exams</p>
-          <div class="form-group"><label>Target Exams (Select all that apply)</label>
-            <div class="skill-tags" id="targetExams">
-              <span class="skill-tag" data-value="ssc-cgl">SSC CGL</span><span class="skill-tag" data-value="ssc-chsl">SSC CHSL</span>
-              <span class="skill-tag" data-value="bank-po">Bank PO</span><span class="skill-tag" data-value="bank-clerk">Bank Clerk</span>
-              <span class="skill-tag" data-value="railway">Railway NTPC</span><span class="skill-tag" data-value="upsc">UPSC</span>
-              <span class="skill-tag" data-value="state-psc">State PSC</span><span class="skill-tag" data-value="defence">Defence</span>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Study Language</label><select class="form-select" id="studyLanguage"><option value="english">English</option><option value="hindi">Hindi</option><option value="bilingual">Bilingual</option></select></div>
-            <div class="form-group"><label>Preparation Level</label><select class="form-select" id="preparationLevel"><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></div>
-          </div>
-          <div class="form-group"><label>Weak Subjects</label>
-            <div class="skill-tags" id="weakSubjects">
-              <span class="skill-tag" data-value="math">Mathematics</span><span class="skill-tag" data-value="reasoning">Reasoning</span>
-              <span class="skill-tag" data-value="english">English</span><span class="skill-tag" data-value="gk">GK</span>
-              <span class="skill-tag" data-value="gs">GS</span><span class="skill-tag" data-value="computer">Computer</span>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Daily Study Hours</label><select class="form-select" id="studyHours"><option value="1-2">1-2 hours</option><option value="2-4">2-4 hours</option><option value="4-6">4-6 hours</option><option value="6-8">6-8 hours</option></select></div>
-            <div class="form-group"><label>Referral Code</label><input type="text" class="form-input" id="referralCode" placeholder="Optional"></div>
-          </div>
-          <div class="btn-group">
-            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button>
-            <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(4)">Continue →</button>
-          </div>
-        </div>
-
-        <!-- Step 4: Verify -->
-        <div class="registration-step" id="step4">
-          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Verify & Complete</h3>
-          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Review your details and submit</p>
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Review & Complete</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Check your details and submit</p>
+          
           <div style="background:var(--bg-tertiary);border-radius:var(--radius-md);padding:16px;margin-bottom:20px;">
-            <h4 style="margin-bottom:12px;">📋 Registration Summary</h4>
             <div id="registrationSummary" style="font-size:0.9rem;line-height:1.8;"></div>
           </div>
-          <div class="form-group">
-            <label>Email Verification</label>
-            <div style="display:flex;gap:10px;align-items:center;">
-              <span id="emailVerificationStatus">📧 Not verified</span>
-              <button type="button" class="btn btn-sm btn-outline" onclick="SYF.sendVerificationEmail()">Send OTP</button>
-            </div>
-          </div>
-          <div id="otpSection" style="display:none;">
-            <div class="form-group">
-              <label>Enter 6-digit OTP</label>
-              <div class="otp-input-group">
-                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
-                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
-                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
-              </div>
-              <button type="button" class="btn btn-sm btn-primary" style="margin-top:10px;" onclick="SYF.verifyOTP()">Verify OTP</button>
-            </div>
-          </div>
+          
           <div class="checkbox-group">
             <input type="checkbox" id="subscribeNewsletter" checked>
-            <label for="subscribeNewsletter">Send me study tips, exam updates, and special offers</label>
+            <label for="subscribeNewsletter">Send me study tips and exam updates</label>
           </div>
+          
           <div class="btn-group">
-            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(3)">← Back</button>
+            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button>
             <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.submitRegistration()">
               <span id="submitBtnText">Complete Registration 🎉</span>
             </button>
@@ -691,11 +622,11 @@
 
   <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="bottomNav">
-    <button class="bottom-nav-item active" data-nav="home">🏠<span>Home</span></button>
-    <button class="bottom-nav-item" data-nav="math">📐<span>Math</span></button>
-    <button class="bottom-nav-item" data-nav="reason">🧠<span>Reason</span></button>
-    <button class="bottom-nav-item" data-nav="cbt">💻<span>CBT</span></button>
-    <button class="bottom-nav-item" data-nav="profile">👤<span>Profile</span></button>
+    <button class="bottom-nav-item active" data-nav="home" onclick="window.location.href='index.html'">🏠<span>Home</span></button>
+    <button class="bottom-nav-item" data-nav="math" onclick="window.location.href='mathematics.html'">📐<span>Math</span></button>
+    <button class="bottom-nav-item" data-nav="reason" onclick="window.location.href='reasoning.html'">🧠<span>Reason</span></button>
+    <button class="bottom-nav-item" data-nav="cbt" onclick="SYF.openCBTModal()">💻<span>CBT</span></button>
+    <button class="bottom-nav-item" data-nav="profile" onclick="document.getElementById('profileCard').scrollIntoView({behavior:'smooth'})">👤<span>Profile</span></button>
   </nav>
 
   <script>
@@ -722,28 +653,20 @@
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
       const firestore = firebase.firestore();
-      const db = firebase.database();
 
       // App State
       let currentUser = null;
       let userProfile = {
-        name: 'Guest User',
-        email: '',
-        avatar: '',
-        streak: 0,
-        questionsSolved: 0,
-        accuracy: 0,
-        rank: '#---'
+        name: 'Guest User', email: '', avatar: '', streak: 0,
+        questionsSolved: 0, accuracy: 0, rank: '#---'
       };
       
       // Registration State
       let currentStep = 1;
       let registrationData = {
         firstName: '', lastName: '', email: '', phone: '', countryCode: '+91',
-        password: '', dob: '', gender: '', education: '', state: '',
-        profilePhoto: null, targetExams: [], studyLanguage: 'english',
-        preparationLevel: 'beginner', weakSubjects: [], studyHours: '1-2',
-        referralCode: '', emailVerified: false, subscribeNewsletter: true
+        password: '', education: '', state: '', targetExams: [],
+        studyLanguage: 'english', studyHours: '1-2', subscribeNewsletter: true
       };
 
       // CBT State
@@ -761,15 +684,11 @@
       ];
       
       let cbtState = {
-        idx: 0,
-        answers: Array(10).fill(null),
-        marked: new Set(),
-        sec: 900,
-        timer: null,
-        submitted: false
+        idx: 0, answers: Array(10).fill(null), marked: new Set(),
+        sec: 900, timer: null, submitted: false
       };
 
-      // ==================== Utility Functions ====================
+      // ==================== Toast ====================
       function showToast(msg, type = 'info') {
         const container = document.getElementById('toastContainer');
         const toast = document.createElement('div');
@@ -778,8 +697,7 @@
         toast.textContent = `${icons[type] || 'ℹ️'} ${msg}`;
         container.appendChild(toast);
         setTimeout(() => {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateX(60px)';
+          toast.style.opacity = '0'; toast.style.transform = 'translateX(60px)';
           toast.style.transition = 'all 0.3s';
           setTimeout(() => toast.remove(), 300);
         }, 3000);
@@ -800,15 +718,10 @@
         });
       }
 
-      // ==================== Navigation ====================
-      function navigateTo(subject) {
-        showToast(`Opening ${subject} module`, 'info');
-      }
-
-      // ==================== Profile Management ====================
+      // ==================== Profile ====================
       function updateProfileUI() {
         document.getElementById('profileName').textContent = userProfile.name || 'Guest User';
-        document.getElementById('profileEmail').textContent = userProfile.email || 'Please login to continue';
+        document.getElementById('profileEmail').textContent = userProfile.email || 'Please login';
         document.getElementById('streakCount').textContent = userProfile.streak || 0;
         
         const miniStats = document.querySelectorAll('.mini-stat-val');
@@ -832,29 +745,11 @@
         }
       }
 
-      async function saveProfileToFirestore() {
-        if (!currentUser) return;
+      async function loadProfile(uid) {
         try {
-          await firestore.collection('users').doc(currentUser.uid).set({
-            name: userProfile.name,
-            email: userProfile.email,
-            avatar: userProfile.avatar,
-            streak: userProfile.streak,
-            questionsSolved: userProfile.questionsSolved,
-            accuracy: userProfile.accuracy,
-            rank: userProfile.rank,
-            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-          }, { merge: true });
-        } catch (error) {
-          console.error('Error saving profile:', error);
-        }
-      }
-
-      async function loadProfileFromFirestore(uid) {
-        try {
-          const userDoc = await firestore.collection('users').doc(uid).get();
-          if (userDoc.exists) {
-            const data = userDoc.data();
+          const doc = await firestore.collection('users').doc(uid).get();
+          if (doc.exists) {
+            const data = doc.data();
             userProfile = {
               name: data.name || currentUser.displayName || 'User',
               email: data.email || currentUser.email,
@@ -866,41 +761,31 @@
             };
           }
           updateProfileUI();
-          showToast('Profile loaded successfully', 'success');
-        } catch (error) {
-          console.error('Error loading profile:', error);
-          updateProfileUI();
-        }
+        } catch (e) { updateProfileUI(); }
       }
 
       async function uploadAvatar(event) {
         if (!currentUser) { showToast('Please login first', 'warning'); return; }
         const file = event.target.files[0];
         if (!file) return;
-        if (!file.type.startsWith('image/')) { showToast('Please select an image file', 'error'); return; }
-        if (file.size > 5 * 1024 * 1024) { showToast('Image size should be less than 5MB', 'error'); return; }
+        if (file.size > 5 * 1024 * 1024) { showToast('Image too large (max 5MB)', 'error'); return; }
         
         const formData = new FormData();
         formData.append('image', file);
         try {
-          showToast('Uploading avatar...', 'info');
-          const resp = await fetch(`https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a`, {
-            method: 'POST', body: formData
-          });
-          if (!resp.ok) throw new Error('Upload failed');
+          showToast('Uploading...', 'info');
+          const resp = await fetch('https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a', { method: 'POST', body: formData });
           const json = await resp.json();
           if (json.success) {
             userProfile.avatar = json.data.url;
             updateProfileUI();
-            await saveProfileToFirestore();
-            showToast('Avatar updated successfully!', 'success');
+            await firestore.collection('users').doc(currentUser.uid).update({ avatar: json.data.url });
+            showToast('Avatar updated!', 'success');
           }
-        } catch (e) {
-          showToast('Failed to upload avatar', 'error');
-        }
+        } catch (e) { showToast('Upload failed', 'error'); }
       }
 
-      // ==================== Authentication ====================
+      // ==================== Auth ====================
       function openAuthModal() {
         resetRegistration();
         document.getElementById('authModal').classList.add('active');
@@ -915,288 +800,176 @@
 
       function switchToLogin() {
         closeAuthModal();
-        const email = prompt('Enter email to login:');
+        const email = prompt('Enter email:');
         if (email) {
           const password = prompt('Enter password:');
           if (password) {
             auth.signInWithEmailAndPassword(email, password)
-              .then(() => showToast('Logged in successfully!', 'success'))
-              .catch(error => showToast(error.message, 'error'));
+              .then(() => showToast('Logged in!', 'success'))
+              .catch(e => showToast(e.message, 'error'));
           }
         }
       }
 
       function handleLogout() {
-        auth.signOut().then(() => showToast('Logged out successfully', 'success'));
+        auth.signOut().then(() => showToast('Logged out', 'success'));
       }
 
-      // Auth State Listener
       auth.onAuthStateChanged(async (user) => {
         const loginBtn = document.getElementById('loginBtn');
         const userMenu = document.getElementById('userMenu');
-        
         if (user) {
           currentUser = user;
           loginBtn.style.display = 'none';
           userMenu.classList.add('active');
           document.getElementById('displayNameSmall').textContent = user.displayName || user.email;
-          await loadProfileFromFirestore(user.uid);
+          await loadProfile(user.uid);
         } else {
           currentUser = null;
           loginBtn.style.display = 'inline-block';
           userMenu.classList.remove('active');
-          userProfile = {
-            name: 'Guest User', email: '', avatar: '', streak: 0,
-            questionsSolved: 0, accuracy: 0, rank: '#---'
-          };
+          userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 0, rank: '#---' };
           updateProfileUI();
         }
       });
 
-      // ==================== Registration Functions ====================
+      // ==================== Registration ====================
       function goToStep(step) {
         currentStep = step;
-        document.querySelectorAll('.step-dot').forEach((dot, index) => {
+        document.querySelectorAll('.step-dot').forEach((dot, i) => {
           dot.classList.remove('active', 'completed');
-          if (index + 1 < step) dot.classList.add('completed');
-          if (index + 1 === step) dot.classList.add('active');
+          if (i + 1 < step) dot.classList.add('completed');
+          if (i + 1 === step) dot.classList.add('active');
         });
         document.querySelectorAll('.registration-step').forEach(s => s.classList.remove('active'));
         document.getElementById(`step${step}`).classList.add('active');
-        document.getElementById('regProgress').style.width = `${(step / 4) * 100}%`;
-        if (step === 4) generateRegistrationSummary();
+        if (step === 3) generateSummary();
       }
 
       function resetRegistration() {
         registrationData = {
           firstName: '', lastName: '', email: '', phone: '', countryCode: '+91',
-          password: '', dob: '', gender: '', education: '', state: '',
-          profilePhoto: null, targetExams: [], studyLanguage: 'english',
-          preparationLevel: 'beginner', weakSubjects: [], studyHours: '1-2',
-          referralCode: '', emailVerified: false, subscribeNewsletter: true
+          password: '', education: '', state: '', targetExams: [],
+          studyLanguage: 'english', studyHours: '1-2', subscribeNewsletter: true
         };
         document.getElementById('registrationForm').reset();
         document.querySelectorAll('.skill-tag.selected').forEach(t => t.classList.remove('selected'));
-        const preview = document.getElementById('photoPreview');
-        if (preview) preview.style.display = 'none';
-        const placeholder = document.getElementById('uploadPlaceholder');
-        if (placeholder) placeholder.style.display = 'block';
       }
 
       function collectStepData(step) {
-        switch(step) {
-          case 1:
-            registrationData.firstName = document.getElementById('firstName').value.trim();
-            registrationData.lastName = document.getElementById('lastName').value.trim();
-            registrationData.email = document.getElementById('regEmail').value.trim();
-            registrationData.phone = document.getElementById('phone').value.trim();
-            registrationData.countryCode = document.getElementById('countryCode').value;
-            registrationData.password = document.getElementById('regPassword').value;
-            break;
-          case 2:
-            registrationData.dob = document.getElementById('dob').value;
-            registrationData.gender = document.getElementById('gender').value;
-            registrationData.education = document.getElementById('education').value;
-            registrationData.state = document.getElementById('state').value;
-            break;
-          case 3:
-            registrationData.targetExams = Array.from(document.querySelectorAll('#targetExams .skill-tag.selected')).map(t => t.dataset.value);
-            registrationData.studyLanguage = document.getElementById('studyLanguage').value;
-            registrationData.preparationLevel = document.getElementById('preparationLevel').value;
-            registrationData.weakSubjects = Array.from(document.querySelectorAll('#weakSubjects .skill-tag.selected')).map(t => t.dataset.value);
-            registrationData.studyHours = document.getElementById('studyHours').value;
-            registrationData.referralCode = document.getElementById('referralCode').value.trim();
-            break;
-          case 4:
-            registrationData.subscribeNewsletter = document.getElementById('subscribeNewsletter').checked;
-            break;
+        if (step === 1) {
+          registrationData.firstName = document.getElementById('firstName').value.trim();
+          registrationData.lastName = document.getElementById('lastName').value.trim();
+          registrationData.email = document.getElementById('regEmail').value.trim();
+          registrationData.phone = document.getElementById('phone').value.trim();
+          registrationData.countryCode = document.getElementById('countryCode').value;
+          registrationData.password = document.getElementById('regPassword').value;
+        } else if (step === 2) {
+          registrationData.education = document.getElementById('education').value;
+          registrationData.state = document.getElementById('state').value;
+          registrationData.targetExams = Array.from(document.querySelectorAll('#targetExams .skill-tag.selected')).map(t => t.dataset.value);
+          registrationData.studyLanguage = document.getElementById('studyLanguage').value;
+          registrationData.studyHours = document.getElementById('studyHours').value;
+        } else if (step === 3) {
+          registrationData.subscribeNewsletter = document.getElementById('subscribeNewsletter').checked;
         }
       }
 
       function validateStep(step) {
-        switch(step) {
-          case 1:
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPass = document.getElementById('confirmPassword').value;
-            const termsAgreed = document.getElementById('termsAgree').checked;
-            
-            if (!firstName) { showToast('Please enter first name', 'error'); return false; }
-            if (!lastName) { showToast('Please enter last name', 'error'); return false; }
-            if (!email || !email.includes('@')) { showToast('Please enter valid email', 'error'); return false; }
-            if (password.length < 8) { showToast('Password must be at least 8 characters', 'error'); return false; }
-            if (password !== confirmPass) { showToast('Passwords do not match', 'error'); return false; }
-            if (!termsAgreed) { showToast('Please agree to Terms of Service', 'error'); return false; }
-            return true;
-          case 3:
-            const targetExams = document.querySelectorAll('#targetExams .skill-tag.selected');
-            if (targetExams.length === 0) { showToast('Please select at least one target exam', 'error'); return false; }
-            return true;
-          case 4:
-            if (!registrationData.emailVerified) { showToast('Please verify your email first', 'warning'); return false; }
-            return true;
+        if (step === 1) {
+          const fn = document.getElementById('firstName').value.trim();
+          const ln = document.getElementById('lastName').value.trim();
+          const em = document.getElementById('regEmail').value.trim();
+          const pw = document.getElementById('regPassword').value;
+          const cp = document.getElementById('confirmPassword').value;
+          if (!fn) { showToast('Enter first name', 'error'); return false; }
+          if (!ln) { showToast('Enter last name', 'error'); return false; }
+          if (!em.includes('@')) { showToast('Valid email required', 'error'); return false; }
+          if (pw.length < 8) { showToast('Password min 8 characters', 'error'); return false; }
+          if (pw !== cp) { showToast('Passwords do not match', 'error'); return false; }
+          if (!document.getElementById('termsAgree').checked) { showToast('Agree to terms', 'error'); return false; }
+          return true;
         }
         return true;
       }
 
-      function checkPasswordStrength(password) {
+      function checkPasswordStrength(pw) {
         const bar = document.getElementById('passwordStrengthBar');
         bar.className = 'password-strength-bar';
         let score = 0;
-        if (password.length >= 8) score++;
-        if (password.length >= 12) score++;
-        if (/[A-Z]/.test(password)) score++;
-        if (/[0-9]/.test(password)) score++;
-        if (/[^A-Za-z0-9]/.test(password)) score++;
-        
+        if (pw.length >= 8) score++;
+        if (pw.length >= 12) score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^A-Za-z0-9]/.test(pw)) score++;
         if (score <= 2) bar.classList.add('strength-weak');
         else if (score <= 4) bar.classList.add('strength-medium');
         else bar.classList.add('strength-strong');
       }
 
       function checkPasswordMatch() {
-        const password = document.getElementById('regPassword').value;
-        const confirm = document.getElementById('confirmPassword').value;
+        const pw = document.getElementById('regPassword').value;
+        const cp = document.getElementById('confirmPassword').value;
         const msg = document.getElementById('passwordMatchMsg');
-        if (confirm === '') msg.textContent = '';
-        else if (password === confirm) { msg.textContent = '✅ Passwords match'; msg.style.color = 'var(--accent-emerald)'; }
-        else { msg.textContent = '❌ Passwords do not match'; msg.style.color = 'var(--accent-rose)'; }
+        if (cp === '') msg.textContent = '';
+        else if (pw === cp) { msg.textContent = '✅ Match'; msg.style.color = 'var(--accent-emerald)'; }
+        else { msg.textContent = '❌ Not match'; msg.style.color = 'var(--accent-rose)'; }
       }
 
-      function previewPhoto(event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const preview = document.getElementById('photoPreview');
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            document.getElementById('uploadPlaceholder').style.display = 'none';
-            registrationData.profilePhoto = file;
-          };
-          reader.readAsDataURL(file);
-        }
-      }
-
-      function sendVerificationEmail() {
-        const email = registrationData.email || document.getElementById('regEmail').value.trim();
-        if (!email) { showToast('Please enter email first', 'error'); return; }
-        showToast(`Verification code sent to ${email}`, 'success');
-        document.getElementById('otpSection').style.display = 'block';
-        document.getElementById('emailVerificationStatus').innerHTML = '📧 OTP Sent';
-      }
-
-      function moveToNext(input) {
-        if (input.value.length === 1) {
-          const next = input.nextElementSibling;
-          if (next && next.classList.contains('otp-input')) next.focus();
-        }
-      }
-
-      function verifyOTP() {
-        const otpInputs = document.querySelectorAll('.otp-input');
-        let otp = '';
-        otpInputs.forEach(input => otp += input.value);
-        if (otp.length === 6) {
-          registrationData.emailVerified = true;
-          document.getElementById('emailVerificationStatus').innerHTML = '<span class="verified-badge">✅ Verified</span>';
-          document.getElementById('otpSection').style.display = 'none';
-          showToast('Email verified successfully!', 'success');
-        } else {
-          showToast('Please enter complete 6-digit OTP', 'error');
-        }
-      }
-
-      function generateRegistrationSummary() {
-        const summary = document.getElementById('registrationSummary');
-        summary.innerHTML = `
+      function generateSummary() {
+        document.getElementById('registrationSummary').innerHTML = `
           <strong>Name:</strong> ${registrationData.firstName} ${registrationData.lastName}<br>
           <strong>Email:</strong> ${registrationData.email}<br>
-          <strong>Phone:</strong> ${registrationData.countryCode} ${registrationData.phone || 'Not provided'}<br>
-          <strong>Education:</strong> ${registrationData.education || 'Not specified'}<br>
-          <strong>State:</strong> ${registrationData.state || 'Not specified'}<br>
-          <strong>Target Exams:</strong> ${registrationData.targetExams.length > 0 ? registrationData.targetExams.map(e => e.toUpperCase()).join(', ') : 'Not selected'}<br>
-          <strong>Preparation Level:</strong> ${registrationData.preparationLevel}<br>
-          <strong>Study Hours:</strong> ${registrationData.studyHours} hours/day
+          <strong>Phone:</strong> ${registrationData.countryCode} ${registrationData.phone || '-'}<br>
+          <strong>Education:</strong> ${registrationData.education || '-'}<br>
+          <strong>State:</strong> ${registrationData.state || '-'}<br>
+          <strong>Exams:</strong> ${registrationData.targetExams.join(', ') || '-'}<br>
+          <strong>Study:</strong> ${registrationData.studyHours} hrs/day (${registrationData.studyLanguage})
         `;
       }
 
       async function submitRegistration() {
-        collectStepData(4);
-        if (!validateStep(4)) return;
+        collectStepData(3);
+        if (!validateStep(1)) return;
         
-        const submitBtn = document.getElementById('submitBtnText');
-        submitBtn.innerHTML = '<span class="loading-spinner"></span> Creating Account...';
-        
+        document.getElementById('submitBtnText').innerHTML = '<span class="loading-spinner"></span> Creating...';
         try {
-          const userCredential = await auth.createUserWithEmailAndPassword(
-            registrationData.email, registrationData.password
-          );
-          const user = userCredential.user;
-          await user.updateProfile({ displayName: `${registrationData.firstName} ${registrationData.lastName}` });
+          const uc = await auth.createUserWithEmailAndPassword(registrationData.email, registrationData.password);
+          await uc.user.updateProfile({ displayName: `${registrationData.firstName} ${registrationData.lastName}` });
           
-          const userData = {
-            firstName: registrationData.firstName,
-            lastName: registrationData.lastName,
+          await firestore.collection('users').doc(uc.user.uid).set({
+            name: `${registrationData.firstName} ${registrationData.lastName}`,
             email: registrationData.email,
             phone: registrationData.phone,
             countryCode: registrationData.countryCode,
-            dob: registrationData.dob,
-            gender: registrationData.gender,
             education: registrationData.education,
             state: registrationData.state,
             targetExams: registrationData.targetExams,
             studyLanguage: registrationData.studyLanguage,
-            preparationLevel: registrationData.preparationLevel,
-            weakSubjects: registrationData.weakSubjects,
             studyHours: registrationData.studyHours,
-            referralCode: registrationData.referralCode,
-            emailVerified: true,
-            subscribeNewsletter: registrationData.subscribeNewsletter,
+            newsletter: registrationData.subscribeNewsletter,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            stats: { questionsSolved: 0, accuracy: 0, streak: 0, rank: '#---', testsTaken: 0 }
-          };
+            stats: { questionsSolved: 0, accuracy: 0, streak: 0, rank: '#---' }
+          });
           
-          await firestore.collection('users').doc(user.uid).set(userData);
-          
-          if (registrationData.profilePhoto) {
-            const formData = new FormData();
-            formData.append('image', registrationData.profilePhoto);
-            const resp = await fetch(`https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a`, {
-              method: 'POST', body: formData
-            });
-            if (resp.ok) {
-              const json = await resp.json();
-              if (json.success) {
-                await firestore.collection('users').doc(user.uid).update({ profilePhotoURL: json.data.url });
-              }
-            }
-          }
-          
-          showToast('🎉 Registration successful! Welcome to SYF!', 'success');
+          showToast('🎉 Registration successful!', 'success');
           closeAuthModal();
-        } catch (error) {
-          let errorMessage = 'Registration failed. Please try again.';
-          if (error.code === 'auth/email-already-in-use') errorMessage = 'This email is already registered.';
-          else if (error.code === 'auth/invalid-email') errorMessage = 'Invalid email address.';
-          else if (error.code === 'auth/weak-password') errorMessage = 'Password is too weak.';
-          showToast(errorMessage, 'error');
+        } catch (e) {
+          let msg = 'Registration failed';
+          if (e.code === 'auth/email-already-in-use') msg = 'Email already registered';
+          showToast(msg, 'error');
         } finally {
-          submitBtn.textContent = 'Complete Registration 🎉';
+          document.getElementById('submitBtnText').textContent = 'Complete Registration 🎉';
         }
       }
 
-      // ==================== CBT Functions ====================
-      function openCBTModal(subj, chap) {
-        resetCBTState();
-        document.getElementById('cbtSubjectLabel').textContent = subj || 'Mathematics';
-        document.getElementById('cbtChapterLabel').textContent = chap || 'Digital Sum';
+      // ==================== CBT ====================
+      function openCBTModal() {
+        resetCBT();
         document.getElementById('cbtModal').classList.add('active');
-        renderCBTQuestion();
-        startCBTTimer();
         document.body.style.overflow = 'hidden';
+        renderCBT();
+        startTimer();
       }
 
       function closeCBTModal() {
@@ -1205,143 +978,73 @@
         document.body.style.overflow = '';
       }
 
-      function resetCBTState() {
+      function resetCBT() {
         if (cbtState.timer) clearInterval(cbtState.timer);
         cbtState = { idx: 0, answers: Array(10).fill(null), marked: new Set(), sec: 900, timer: null, submitted: false };
       }
 
-      function startCBTTimer() {
-        if (cbtState.timer) clearInterval(cbtState.timer);
+      function startTimer() {
         cbtState.timer = setInterval(() => {
           if (cbtState.submitted) { clearInterval(cbtState.timer); return; }
           cbtState.sec--;
-          updateCBTTimer();
-          if (cbtState.sec <= 0) { clearInterval(cbtState.timer); submitCBTTest(); }
+          const m = Math.floor(cbtState.sec / 60), s = cbtState.sec % 60;
+          document.getElementById('cbtTimer').textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+          if (cbtState.sec <= 0) { clearInterval(cbtState.timer); submitCBT(); }
         }, 1000);
       }
 
-      function updateCBTTimer() {
-        const m = Math.floor(cbtState.sec / 60);
-        const s = cbtState.sec % 60;
-        document.getElementById('cbtTimer').textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-      }
-
-      function renderCBTQuestion() {
+      function renderCBT() {
         if (cbtState.submitted) return;
         const q = cbtQuestions[cbtState.idx];
         document.getElementById('cbtQuestion').textContent = q.q;
         document.getElementById('cbtQNum').textContent = cbtState.idx + 1;
-        
-        const optsContainer = document.getElementById('cbtOptions');
-        optsContainer.innerHTML = '';
-        q.opts.forEach((option, i) => {
+        const opts = document.getElementById('cbtOptions');
+        opts.innerHTML = '';
+        q.opts.forEach((o, i) => {
           const btn = document.createElement('button');
-          btn.className = 'option-btn';
-          if (cbtState.answers[cbtState.idx] === i) btn.classList.add('selected');
-          btn.textContent = option;
-          btn.onclick = () => selectOption(i, btn);
-          optsContainer.appendChild(btn);
+          btn.className = 'option-btn' + (cbtState.answers[cbtState.idx] === i ? ' selected' : '');
+          btn.textContent = o;
+          btn.onclick = () => { cbtState.answers[cbtState.idx] = i; renderCBT(); renderPalette(); };
+          opts.appendChild(btn);
         });
         renderPalette();
-        updateCBTTimer();
-      }
-
-      function selectOption(index, element) {
-        if (cbtState.submitted) return;
-        cbtState.answers[cbtState.idx] = index;
-        element.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-        element.classList.add('selected');
-        renderPalette();
-      }
-
-      function markForReview() {
-        if (cbtState.submitted) return;
-        if (cbtState.marked.has(cbtState.idx)) {
-          cbtState.marked.delete(cbtState.idx);
-          showToast('Question unmarked', 'info');
-        } else {
-          cbtState.marked.add(cbtState.idx);
-          showToast('Question marked for review', 'info');
-        }
-        renderPalette();
-      }
-
-      function saveAndNext() {
-        if (cbtState.submitted) return;
-        if (cbtState.idx < 9) { cbtState.idx++; renderCBTQuestion(); }
-        else showToast('This is the last question', 'warning');
-      }
-
-      function prevQuestion() {
-        if (cbtState.submitted) return;
-        if (cbtState.idx > 0) { cbtState.idx--; renderCBTQuestion(); }
       }
 
       function renderPalette() {
-        const palette = document.getElementById('questionPalette');
-        palette.innerHTML = '';
+        const p = document.getElementById('questionPalette');
+        p.innerHTML = '';
         for (let i = 0; i < 10; i++) {
-          const dot = document.createElement('span');
-          let style = `width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:2px solid var(--border-medium);`;
-          if (cbtState.answers[i] !== null) style += 'background:var(--accent-blue);color:#fff;';
-          if (cbtState.marked.has(i)) style += 'border-color:var(--accent-amber);box-shadow:0 0 0 3px rgba(217,119,6,0.3);';
-          if (i === cbtState.idx) style += 'font-weight:800;box-shadow:0 0 0 4px rgba(37,99,235,0.4);';
-          dot.style.cssText = style;
-          dot.textContent = i + 1;
-          dot.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBTQuestion(); } };
-          palette.appendChild(dot);
+          const d = document.createElement('span');
+          d.style.cssText = `width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:2px solid var(--border-medium);${cbtState.answers[i]!==null?'background:var(--accent-blue);color:#fff;':''}${cbtState.marked.has(i)?'border-color:var(--accent-amber);':''}${i===cbtState.idx?'font-weight:800;box-shadow:0 0 0 4px rgba(37,99,235,0.4);':''}`;
+          d.textContent = i + 1;
+          d.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBT(); } };
+          p.appendChild(d);
         }
       }
 
-      async function submitCBTTest() {
+      function submitCBT() {
         if (cbtState.submitted) return;
         cbtState.submitted = true;
         if (cbtState.timer) clearInterval(cbtState.timer);
-        
         let score = 0;
-        cbtState.answers.forEach((answer, index) => {
-          if (answer === cbtQuestions[index].ans) score++;
-        });
-        
-        const accuracy = Math.round((score / 10) * 100);
-        document.getElementById('cbtQuestion').innerHTML = `
-          <div class="score-display">
-            <div class="score-number">${score}/10</div>
-            <p style="font-size:1.2rem;margin-top:8px;">Accuracy: ${accuracy}%</p>
-          </div>`;
-        document.getElementById('cbtOptions').innerHTML = `
-          <div style="padding:16px;background:var(--bg-tertiary);border-radius:var(--radius-md);">
-            <strong>📊 Analysis:</strong><br>
-            ✅ Correct: ${score}<br>
-            ❌ Incorrect: ${10 - score}<br>
-            📌 Marked: ${cbtState.marked.size}<br>
-            <strong>📈 Rank Prediction:</strong> ~#${Math.floor(Math.random() * 300) + 50}
-          </div>`;
-        document.getElementById('cbtTimer').textContent = '✅ Completed';
+        cbtState.answers.forEach((a, i) => { if (a === cbtQuestions[i].ans) score++; });
+        const acc = Math.round((score / 10) * 100);
+        document.getElementById('cbtQuestion').innerHTML = `<div class="score-display"><div class="score-number">${score}/10</div><p>Accuracy: ${acc}%</p></div>`;
+        document.getElementById('cbtOptions').innerHTML = `<div style="padding:16px;background:var(--bg-tertiary);border-radius:var(--radius-md);">✅ Correct: ${score}<br>📊 Rank: ~#${Math.floor(Math.random()*300)+50}</div>`;
+        document.getElementById('cbtTimer').textContent = '✅ Done';
         document.getElementById('questionPalette').innerHTML = '';
         
         if (currentUser) {
-          try {
-            await firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add({
-              score, accuracy, totalQuestions: 10,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              subject: document.getElementById('cbtSubjectLabel').textContent
-            });
-            userProfile.questionsSolved = (userProfile.questionsSolved || 0) + 10;
-            userProfile.accuracy = Math.round(((userProfile.accuracy || 0) + accuracy) / 2);
-            userProfile.streak = (userProfile.streak || 0) + 1;
-            await saveProfileToFirestore();
-            updateProfileUI();
-          } catch (error) { console.error('Error saving results:', error); }
+          firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add({
+            score, accuracy: acc, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
         }
-        showToast(`Test completed! Score: ${score}/10`, 'success');
+        showToast(`Score: ${score}/10`, 'success');
       }
 
       // ==================== Event Listeners ====================
       document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('skill-tag')) {
-          e.target.classList.toggle('selected');
-        }
+        if (e.target.classList.contains('skill-tag')) e.target.classList.toggle('selected');
       });
 
       document.getElementById('authModal').addEventListener('click', function(e) {
@@ -1358,80 +1061,40 @@
           if (document.getElementById('cbtModal').classList.contains('active')) closeCBTModal();
         }
         if (document.getElementById('cbtModal').classList.contains('active') && !cbtState.submitted) {
-          if (e.key === 'ArrowRight') { e.preventDefault(); saveAndNext(); }
-          if (e.key === 'ArrowLeft') { e.preventDefault(); prevQuestion(); }
+          if (e.key === 'ArrowRight') { e.preventDefault(); cbtState.idx = Math.min(9, cbtState.idx + 1); renderCBT(); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); cbtState.idx = Math.max(0, cbtState.idx - 1); renderCBT(); }
         }
       });
 
-      document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(el => {
-        el.addEventListener('click', function(e) {
-          e.preventDefault();
-          const nav = this.dataset.nav;
-          document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(l => l.classList.remove('active'));
-          document.querySelectorAll(`[data-nav="${nav}"]`).forEach(l => l.classList.add('active'));
-          
-          switch(nav) {
-            case 'cbt': openCBTModal('Mathematics', 'Digital Sum'); break;
-            case 'math': navigateTo('mathematics'); break;
-            case 'reason': navigateTo('reasoning'); break;
-            case 'english': navigateTo('english'); break;
-            case 'gk': navigateTo('gk'); break;
-            case 'profile': document.getElementById('profileCard').scrollIntoView({behavior:'smooth'}); break;
-            case 'home': window.scrollTo({top: 0, behavior: 'smooth'}); break;
-          }
-        });
-      });
-
-      // ==================== Initialize ====================
+      // Initialize
       function init() {
         initTheme();
         updateProfileUI();
-        console.log('🚀 SYF Platform Ready');
-        console.log('✅ All features loaded successfully');
+        console.log('🚀 SYF Ready - All Navigation Working');
       }
 
-      // Public API
       return {
-        init,
-        showToast,
-        navigateTo,
-        openAuthModal,
-        closeAuthModal,
-        switchToLogin,
-        handleLogout,
-        uploadAvatar,
-        updateProfileUI,
-        checkPasswordStrength,
-        checkPasswordMatch,
-        previewPhoto,
-        sendVerificationEmail,
-        moveToNext,
-        verifyOTP,
-        submitRegistration,
-        openCBTModal,
-        closeCBTModal,
-        cbt: { markForReview, prevQuestion, saveAndNext, submitTest: submitCBTTest },
-        registration: {
-          nextStep: (step) => {
-            if (validateStep(currentStep)) {
-              collectStepData(currentStep);
-              goToStep(step);
-            }
+        init, showToast, openAuthModal, closeAuthModal, switchToLogin, handleLogout,
+        uploadAvatar, checkPasswordStrength, checkPasswordMatch, submitRegistration,
+        openCBTModal, closeCBTModal,
+        cbt: {
+          markForReview: () => {
+            if (cbtState.submitted) return;
+            cbtState.marked.has(cbtState.idx) ? cbtState.marked.delete(cbtState.idx) : cbtState.marked.add(cbtState.idx);
+            renderPalette();
           },
-          prevStep: (step) => {
-            collectStepData(currentStep);
-            goToStep(step);
-          }
+          prevQuestion: () => { if (!cbtState.submitted && cbtState.idx > 0) { cbtState.idx--; renderCBT(); } },
+          saveAndNext: () => { if (!cbtState.submitted && cbtState.idx < 9) { cbtState.idx++; renderCBT(); } },
+          submitTest: submitCBT
+        },
+        registration: {
+          nextStep: (step) => { if (validateStep(currentStep)) { collectStepData(currentStep); goToStep(step); } },
+          prevStep: (step) => { collectStepData(currentStep); goToStep(step); }
         }
       };
     })();
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      SYF.init();
-    });
-
-    // Expose for inline onclick handlers
+    document.addEventListener('DOMContentLoaded', () => SYF.init());
     window.SYF = SYF;
   </script>
 </body>
