@@ -1,1761 +1,530 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0a0e27">
-    <meta name="description" content="SYF - Secure Your Future | India's Premium SSC, Banking & Railway Exam Preparation Platform with PDF Study Materials">
-    <meta name="keywords" content="SYF, Secure Your Future, SSC, Banking, Railway, Exam Preparation, CBT, Mock Tests, PDF Notes">
-    <meta name="author" content="SYF - Secure Your Future">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://pdfhost.io https://*.pdfhost.io; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://pdfhost.io; frame-src 'self' https://pdfhost.io https://*.pdfhost.io; media-src 'self'; object-src 'none';">
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="SYF - Secure Your Future | Premium Exam Preparation">
-    <meta property="og:description" content="Practice Today, Secure Tomorrow - India's most premium SSC, Banking & Railway Exam preparation platform">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="SYF - Secure Your Future">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    
-    <title>SYF - Secure Your Future | Premium Exam Preparation Platform</title>
-    
-    <!-- Preload Critical Assets -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://pdfhost.io">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYF Admin Panel</title>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                            950: '#1e1b4b',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        },
-                        surface: {
-                            dark: '#0a0e27',
-                            card: 'rgba(15, 23, 42, 0.8)',
-                            glass: 'rgba(30, 41, 59, 0.6)',
-                        }
-                    },
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
-                        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                        'fade-in': 'fadeIn 0.3s ease-out',
-                        'slide-in-right': 'slideInRight 0.4s ease-out',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        glow: {
-                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' },
-                            '100%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.8)' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideInRight: {
-                            '0%': { transform: 'translateX(100%)', opacity: '0' },
-                            '100%': { transform: 'translateX(0)', opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
+
     <style>
-        /* ============================================
-           SYF Core Styles - Production Ready
-           ============================================ */
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg: #f5f6fa; --sidebar-bg: #1e272e; --primary: #0fb9b1;
+            --primary-hover: #0a9e98; --danger: #e84118; --warning: #fbc531;
+            --text: #2f3640; --card: #ffffff; --border: #dcdde1;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px;
+            --transition: 0.2s ease;
         }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #e2e8f0;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* Glass Morphism Base */
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .glass-card:hover {
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .glass-card:active {
-            transform: scale(0.98);
-        }
-        
-        .glass-nav {
-            background: rgba(10, 14, 39, 0.8);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
-        }
-        
-        /* Particle Background */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-        }
-        
-        /* Loading Skeleton Animation */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.4) 25%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.4) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        /* Ripple Effect */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ripple::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            padding-top: 100%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(0);
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .ripple:active::after {
-            animation: rippleEffect 0.6s ease-out;
-        }
-        
-        @keyframes rippleEffect {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(4); opacity: 0; }
-        }
-        
-        /* PDF Container */
-        .pdf-container {
-            width: 100%;
-            height: 80vh;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #000;
-        }
-        
-        .pdf-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Admin Upload Area */
-        .upload-area {
-            border: 2px dashed rgba(99, 102, 241, 0.4);
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-area:hover {
-            border-color: rgba(99, 102, 241, 0.8);
-            background: rgba(99, 102, 241, 0.05);
-        }
-        
-        .upload-area.dragover {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.1);
-            transform: scale(1.02);
-        }
-        
-        /* CBT Timer */
-        @keyframes timerPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        
-        .timer-warning {
-            animation: timerPulse 1s infinite;
-            color: #ef4444 !important;
-        }
-        
-        /* Selection Prevention in CBT */
-        .cbt-mode {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-        
-        /* Focus Styles */
-        *:focus-visible {
-            outline: 2px solid #6366f1;
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-        
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-            .glass-card {
-                border-radius: 16px;
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-            }
-            
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .pdf-container {
-                height: 60vh;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .glass-card {
-                border-radius: 12px;
-                padding: 16px;
-            }
-        }
-        
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
-                color: black;
-            }
-            
-            .glass-card, .glass-nav {
-                background: white;
-                border: 1px solid #ccc;
-                box-shadow: none;
-            }
-            
-            #particles-canvas, .sidebar, .mobile-nav {
-                display: none !important;
-            }
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: var(--sidebar-bg); color: white; padding: 25px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; }
+        .sidebar .logo { padding: 0 20px 30px; font-size: 1.4rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .sidebar .logo i { color: var(--primary); margin-right: 8px; }
+        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); font-weight: 500; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--primary); }
+        .sidebar nav a i { width: 20px; }
+        .main { margin-left: 250px; flex: 1; padding: 30px; }
+        .page { display: none; } .page.active { display: block; }
+        h2 { margin-bottom: 25px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        h2 i { color: var(--primary); }
+        .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 25px; }
+        .card h3 { margin-bottom: 18px; color: var(--text); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.9rem; }
+        input, textarea, select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; transition: var(--transition); font-family: inherit; }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(15,185,177,0.1); }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn { padding: 10px 22px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover { background: var(--primary-hover); }
+        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { opacity: 0.9; }
+        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); } .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { background: #f8f9fa; font-weight: 600; font-size: 0.85rem; color: var(--text); }
+        td { font-size: 0.9rem; }
+        .img-preview { max-width: 60px; border-radius: 6px; cursor: pointer; }
+        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 15px; font-weight: 500; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .alert-success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .alert-error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .help-text { font-size: 0.8rem; color: #666; margin-top: 5px; }
+        .help-text a { color: var(--primary); }
+        @media (max-width: 768px) { .sidebar { width: 200px; } .main { margin-left: 200px; padding: 20px; } table { font-size: 0.8rem; } th, td { padding: 8px 6px; } }
+        @media (max-width: 600px) { .sidebar { width: 60px; } .sidebar .logo span, .sidebar nav a span { display: none; } .sidebar nav a { justify-content: center; padding: 15px; } .sidebar nav a i { margin: 0; font-size: 1.2rem; } .main { margin-left: 60px; padding: 15px; } }
     </style>
 </head>
-<body class="dark">
-    <!-- Particle Background -->
-    <canvas id="particles-canvas"></canvas>
-    
-    <!-- ============================================
-         ADMIN PDF UPLOAD MODAL
-         ============================================ -->
-    <div id="adminUploadModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div class="glass-card p-6 md:p-8 max-w-2xl w-full mx-auto animate-slide-up max-h-[90vh] overflow-y-auto">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between mb-6 sticky top-0 bg-surface-dark/80 backdrop-blur-md p-2 rounded-lg z-10">
-                <h2 class="text-xl md:text-2xl font-bold text-white font-jakarta">
-                    <i class="fas fa-cloud-upload-alt text-primary-400 mr-2"></i>
-                    Upload PDF to PDFHost
-                </h2>
-                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white hover:bg-red-500/20 p-2 rounded-lg transition-all">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <!-- Upload Method Selection -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <button onclick="showUploadArea()" class="glass-card p-6 text-center hover:border-primary-500 transition-all group">
-                    <div class="w-16 h-16 bg-primary-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-500/30 transition-all">
-                        <i class="fas fa-cloud-upload-alt text-3xl text-primary-400"></i>
-                    </div>
-                    <h3 class="text-white font-semibold text-lg">Upload New PDF</h3>
-                    <p class="text-sm text-gray-400 mt-2">Upload directly to PDFHost.io</p>
-                </button>
-                
-                <button onclick="showDirectLinkInput()" class="glass-card p-6 text-center hover:border-green-500 transition-all group">
-                    <div class="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-green-500/30 transition-all">
-                        <i class="fas fa-link text-3xl text-green-400"></i>
-                    </div>
-                    <h3 class="text-white font-semibold text-lg">Paste PDF Link</h3>
-                    <p class="text-sm text-gray-400 mt-2">Already have PDFHost link?</p>
-                </button>
-            </div>
-            
-            <!-- Upload Area Section -->
-            <div id="uploadSection" class="hidden">
-                <div class="upload-area mb-4" id="dropZone">
-                    <i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i>
-                    <p class="text-white font-semibold text-lg mb-2">Click or Drag & Drop PDF</p>
-                    <p class="text-sm text-gray-400">Only PDF files (Max 50MB)</p>
-                    <input type="file" id="pdfFileInput" accept=".pdf" class="hidden" onchange="handleFileSelect(event)">
-                </div>
-                
-                <!-- Upload Progress -->
-                <div id="uploadProgress" class="hidden mb-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <i class="fas fa-spinner fa-spin text-primary-400"></i>
-                        <span class="text-white" id="uploadStatus">Uploading to PDFHost.io...</span>
-                    </div>
-                    <div class="w-full bg-gray-700/50 rounded-full h-3 overflow-hidden">
-                        <div class="bg-gradient-to-r from-primary-500 to-purple-500 h-full rounded-full transition-all duration-300" id="progressBar" style="width: 0%"></div>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2" id="uploadPercent">0%</p>
-                </div>
-                
-                <!-- Upload Success -->
-                <div id="uploadSuccess" class="hidden mb-4">
-                    <div class="glass-card p-4 bg-green-500/10 border-green-500/30 text-center">
-                        <i class="fas fa-check-circle text-3xl text-green-400 mb-2"></i>
-                        <p class="text-white font-semibold">PDF Uploaded Successfully!</p>
-                        <p class="text-sm text-gray-400" id="uploadedFileName"></p>
-                    </div>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-shield-alt"></i><span>SYF Admin</span></div>
+        <nav>
+            <a href="#" data-page="chapters" class="active"><i class="fas fa-list-ol"></i><span>Chapters</span></a>
+            <a href="#" data-page="notes"><i class="fas fa-file-pdf"></i><span>PDF Notes</span></a>
+            <a href="#" data-page="cbt"><i class="fas fa-tasks"></i><span>CBT Exams</span></a>
+            <a href="#" data-page="images"><i class="fas fa-images"></i><span>Class Images</span></a>
+        </nav>
+    </div>
+
+    <div class="main" id="alertContainer">
+
+        <!-- Chapters Page -->
+        <div class="page active" id="page-chapters">
+            <h2><i class="fas fa-list-ol"></i> Manage Chapters</h2>
+            <div class="card">
+                <h3 id="chapterFormTitle">Add New Chapter</h3>
+                <input type="hidden" id="chapterId">
+                <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Number System"></div>
+                <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description..."></textarea></div>
+                <div class="form-group"><label>Order Number</label><input type="number" id="chapterOrder" value="1" min="1"></div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save Chapter</button>
+                    <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()"><i class="fas fa-times"></i> Cancel</button>
                 </div>
             </div>
-            
-            <!-- Direct Link Input Section -->
-            <div id="directLinkSection" class="hidden">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-white font-medium mb-2">
-                            <i class="fas fa-link text-primary-400 mr-2"></i>PDFHost.io Link
-                        </label>
-                        <input type="url" id="directPdfLink" 
-                               placeholder="https://pdfhost.io/v/your-file.pdf" 
-                               class="w-full bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-white font-medium mb-2">
-                            <i class="fas fa-tag text-primary-400 mr-2"></i>PDF Title
-                        </label>
-                        <input type="text" id="directPdfTitle" 
-                               placeholder="e.g., Digital Sum Complete Notes" 
-                               class="w-full bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all">
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-white font-medium mb-2">
-                                <i class="fas fa-book text-primary-400 mr-2"></i>Subject
-                            </label>
-                            <select id="directPdfSubject" class="w-full bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-3 text-white focus:border-primary-500 focus:outline-none transition-all">
-                                <option value="">Select Subject</option>
-                                <option value="mathematics">📘 Mathematics</option>
-                                <option value="reasoning">🧠 Reasoning</option>
-                                <option value="english">🇬🇧 English</option>
-                                <option value="gk-gs">🌍 GK / GS</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-white font-medium mb-2">
-                                <i class="fas fa-folder text-primary-400 mr-2"></i>Chapter
-                            </label>
-                            <input type="text" id="directPdfChapter" 
-                                   placeholder="e.g., digital-sum" 
-                                   class="w-full bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all">
-                        </div>
-                    </div>
-                    
-                    <button onclick="savePdfLink()" class="w-full bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 rounded-xl text-white font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all">
-                        <i class="fas fa-save mr-2"></i>Save PDF Link
-                    </button>
+            <div class="card"><h3>All Chapters</h3><div style="overflow-x:auto;"><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Order</th><th>Notes</th><th>CBT</th><th>Images</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+        </div>
+
+        <!-- Notes Page (PDFhost Link System) -->
+        <div class="page" id="page-notes">
+            <h2><i class="fas fa-file-pdf"></i> Manage PDF Notes (PDFhost)</h2>
+            <div class="card">
+                <h3>Add New PDF Note</h3>
+                <p class="help-text" style="margin-bottom:15px;">
+                    📌 <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> par PDF upload karein → link copy karein → yahan paste karein
+                </p>
+                <div class="form-group"><label>Select Chapter *</label><select id="noteChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>Note Title *</label><input type="text" id="noteTitle" placeholder="e.g., Number System Full Notes"></div>
+                <div class="form-group">
+                    <label>PDF Link * (PDFhost.io se)</label>
+                    <input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/xxxxx.pdf">
+                    <p class="help-text">PDFhost.io se puri link copy karein</p>
                 </div>
+                <button class="btn btn-primary" onclick="saveNote()"><i class="fas fa-save"></i> Save Note</button>
             </div>
-            
-            <!-- Uploaded PDFs List -->
-            <div class="mt-6 border-t border-gray-700/50 pt-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-white font-semibold text-lg">
-                        <i class="fas fa-history text-primary-400 mr-2"></i>Recently Uploaded PDFs
-                    </h3>
-                    <span class="text-xs text-gray-400 bg-gray-800 px-3 py-1 rounded-full" id="pdfCount">0 PDFs</span>
+            <div class="card"><h3>All Notes</h3><div style="overflow-x:auto;"><table id="notesTable"><thead><tr><th>Chapter</th><th>Title</th><th>PDF Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+        </div>
+
+        <!-- CBT Page -->
+        <div class="page" id="page-cbt">
+            <h2><i class="fas fa-tasks"></i> CBT Exam Management</h2>
+            <div class="card">
+                <h3>Add/Update CBT Exam</h3>
+                <div class="form-group"><label>Select Chapter *</label><select id="cbtChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group">
+                    <label>CBT Filename *</label>
+                    <input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html">
+                    <p class="help-text">📁 File <code>cbt/</code> folder mein honi chahiye</p>
                 </div>
-                
-                <div id="uploadedPdfsList" class="space-y-2 max-h-60 overflow-y-auto">
-                    <!-- Dynamic list rendered by JavaScript -->
-                </div>
+                <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
             </div>
-            
-            <!-- Modal Footer -->
-            <div class="flex gap-3 mt-6">
-                <button onclick="closeAdminModal()" class="flex-1 glass-card px-6 py-3 text-gray-400 hover:text-white transition-all text-center">
-                    <i class="fas fa-times mr-2"></i>Close
-                </button>
+            <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Filename</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+        </div>
+
+        <!-- Images Page -->
+        <div class="page" id="page-images">
+            <h2><i class="fas fa-images"></i> Class Images (ImgBB)</h2>
+            <div class="card">
+                <h3>Upload New Image</h3>
+                <div class="form-group"><label>Select Chapter *</label><select id="imageChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>Image Title</label><input type="text" id="imageTitle" placeholder="Optional title"></div>
+                <div class="form-group"><label>Choose Image *</label><input type="file" id="imageFile" accept="image/*"></div>
+                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload via ImgBB</button>
             </div>
+            <div class="card"><h3>Uploaded Images</h3><div style="overflow-x:auto;"><table id="imagesTable"><thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
     </div>
-    
-    <!-- ============================================
-         PDF VIEWER MODAL
-         ============================================ -->
-    <div id="pdfViewerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm">
-        <div class="w-full h-full max-w-7xl mx-auto p-4 flex flex-col">
-            <!-- PDF Viewer Header -->
-            <div class="flex items-center justify-between mb-4 flex-shrink-0">
-                <div class="flex items-center gap-3 min-w-0">
-                    <i class="fas fa-file-pdf text-red-400 text-2xl flex-shrink-0"></i>
-                    <h3 class="text-white text-lg md:text-xl font-semibold truncate" id="pdfViewerTitle">PDF Viewer</h3>
-                </div>
-                <div class="flex gap-2 md:gap-3 flex-shrink-0">
-                    <button onclick="downloadCurrentPdf()" class="glass-card px-3 md:px-4 py-2 text-white hover:text-primary-400 transition-all flex items-center gap-2 text-sm">
-                        <i class="fas fa-download"></i>
-                        <span class="hidden sm:inline">Download</span>
-                    </button>
-                    <button onclick="shareCurrentPdf()" class="glass-card px-3 md:px-4 py-2 text-white hover:text-primary-400 transition-all flex items-center gap-2 text-sm">
-                        <i class="fas fa-share-alt"></i>
-                        <span class="hidden sm:inline">Share</span>
-                    </button>
-                    <button onclick="closePdfViewer()" class="glass-card px-3 md:px-4 py-2 text-white hover:text-red-400 hover:border-red-500/50 transition-all flex items-center gap-2 text-sm">
-                        <i class="fas fa-times"></i>
-                        <span class="hidden sm:inline">Close</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- PDF Frame -->
-            <div class="flex-1 pdf-container rounded-2xl overflow-hidden shadow-2xl">
-                <iframe id="pdfViewerFrame" src="" allowfullscreen 
-                        class="w-full h-full border-0"
-                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-            </div>
-            
-            <!-- PDF Footer Info -->
-            <div class="flex items-center justify-between mt-4 flex-shrink-0 text-sm text-gray-400">
-                <span>Powered by <span class="text-primary-400 font-semibold">PDFHost.io</span></span>
-                <span id="pdfSourceInfo"></span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ============================================
-         MAIN APPLICATION CONTAINER
-         ============================================ -->
-    <div class="relative z-10 flex min-h-screen">
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="sidebar fixed lg:relative z-40 w-72 lg:w-80 h-screen glass-nav overflow-y-auto transition-transform duration-300 flex-shrink-0">
-            <div class="p-6">
-                <!-- Logo Section -->
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/25 flex-shrink-0">
-                        <span class="text-2xl font-black text-white font-jakarta">SYF</span>
-                    </div>
-                    <div class="min-w-0">
-                        <h1 class="text-lg font-bold text-white font-jakarta leading-tight">Secure Your Future</h1>
-                        <p class="text-xs text-gray-400">Practice Today, Secure Tomorrow</p>
-                    </div>
-                </div>
-                
-                <!-- User Stats Card -->
-                <div class="glass-card p-4 mb-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-sm font-semibold text-white truncate">Student Name</p>
-                            <p class="text-xs text-gray-400">Premium Member</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 text-center">
-                        <div class="bg-primary-500/10 rounded-lg p-2">
-                            <p class="text-lg font-bold text-primary-400">127</p>
-                            <p class="text-xs text-gray-400">Day Streak 🔥</p>
-                        </div>
-                        <div class="bg-gold-500/10 rounded-lg p-2">
-                            <p class="text-lg font-bold text-gold-400">8,450</p>
-                            <p class="text-xs text-gray-400">XP Points ⭐</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation Menu -->
-                <nav class="space-y-1">
-                    <div onclick="navigateTo('dashboard')" class="flex items-center gap-3 px-3 py-3 text-primary-400 bg-primary-500/10 rounded-xl cursor-pointer transition-all hover:bg-primary-500/20">
-                        <i class="fas fa-home w-5 text-center"></i>
-                        <span class="font-medium">Dashboard</span>
-                    </div>
-                    
-                    <!-- Dynamic Subject Navigation -->
-                    <div class="mt-4 space-y-1" id="subjectNav">
-                        <!-- Rendered by JavaScript -->
-                    </div>
-                    
-                    <div class="border-t border-gray-700/50 my-4 pt-4 space-y-1">
-                        <button onclick="openAdminModal()" class="w-full flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
-                            <i class="fas fa-cloud-upload-alt w-5 text-center"></i>
-                            <span>Upload PDF</span>
-                            <span class="ml-auto text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">New</span>
-                        </button>
-                        
-                        <a href="#" class="flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
-                            <i class="fas fa-robot w-5 text-center"></i>
-                            <span>AI Assistant</span>
-                        </a>
-                        
-                        <a href="#" class="flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
-                            <i class="fas fa-trophy w-5 text-center"></i>
-                            <span>Leaderboard</span>
-                        </a>
-                        
-                        <a href="#" class="flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
-                            <i class="fas fa-calendar-alt w-5 text-center"></i>
-                            <span>Calendar</span>
-                        </a>
-                        
-                        <a href="#" class="flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
-                            <i class="fas fa-cog w-5 text-center"></i>
-                            <span>Settings</span>
-                        </a>
-                    </div>
-                </nav>
-            </div>
-        </aside>
-        
-        <!-- Mobile Sidebar Overlay -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden backdrop-blur-sm" onclick="toggleSidebar()"></div>
-        
-        <!-- Main Content Area -->
-        <main class="flex-1 p-4 lg:p-8 overflow-y-auto pb-20 lg:pb-8">
-            <!-- Top Bar -->
-            <div class="flex items-center justify-between mb-8 sticky top-0 z-20 glass-nav -mx-4 lg:-mx-8 px-4 lg:px-8 py-3 -mt-4 lg:-mt-8 backdrop-blur-xl">
-                <button class="lg:hidden text-white p-2 glass-card hover:bg-white/10" onclick="toggleSidebar()">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                
-                <div class="flex items-center gap-4 ml-auto">
-                    <!-- PDF Upload Quick Button -->
-                    <button onclick="openAdminModal()" class="hidden sm:flex glass-card px-4 py-2 text-gray-400 hover:text-white items-center gap-2 transition-all">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>Upload PDF</span>
-                    </button>
-                    
-                    <!-- Notifications -->
-                    <button class="relative p-2 glass-card text-gray-400 hover:text-white transition-all">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center animate-pulse">3</span>
-                    </button>
-                    
-                    <!-- Coins -->
-                    <div class="flex items-center gap-2 glass-card px-4 py-2">
-                        <i class="fas fa-coins text-gold-400"></i>
-                        <span class="font-semibold text-white">2,450</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Dynamic Content Area -->
-            <div id="mainContent">
-                <!-- Rendered by JavaScript -->
-            </div>
-        </main>
-    </div>
-    
-    <!-- ============================================
-         MOBILE BOTTOM NAVIGATION
-         ============================================ -->
-    <nav class="fixed bottom-0 left-0 right-0 glass-nav lg:hidden z-50 px-2 py-2 safe-area-bottom">
-        <div class="flex justify-around items-center">
-            <button onclick="navigateTo('dashboard')" class="flex flex-col items-center text-primary-400 p-2">
-                <i class="fas fa-home text-xl"></i>
-                <span class="text-xs mt-1">Home</span>
-            </button>
-            
-            <button onclick="navigateTo('subjects')" class="flex flex-col items-center text-gray-400 p-2">
-                <i class="fas fa-book text-xl"></i>
-                <span class="text-xs mt-1">Subjects</span>
-            </button>
-            
-            <button onclick="openAdminModal()" class="flex flex-col items-center text-gray-400 p-2 relative">
-                <div class="absolute -top-8 w-14 h-14 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/25 animate-float">
-                    <i class="fas fa-cloud-upload-alt text-white text-xl"></i>
-                </div>
-                <span class="text-xs mt-6">Upload</span>
-            </button>
-            
-            <button class="flex flex-col items-center text-gray-400 p-2">
-                <i class="fas fa-chart-bar text-xl"></i>
-                <span class="text-xs mt-1">Analytics</span>
-            </button>
-            
-            <button class="flex flex-col items-center text-gray-400 p-2">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-xs mt-1">Profile</span>
-            </button>
-        </div>
-    </nav>
-    
-    <!-- ============================================
-         SCRIPTS
-         ============================================ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
+
     <script>
-        // ============================================
-        // SYF - Secure Your Future
-        // Production-Ready Application
-        // PDFHost.io Integration
-        // Version: 2.0.0
-        // ============================================
-        
-        'use strict';
-        
-        // ============================================
-        // PDF DATABASE (LocalStorage + Future Firebase)
-        // ============================================
-        const PDF_DATABASE = {
-            STORAGE_KEY: 'syf_pdf_database',
-            
-            getPdfs() {
-                try {
-                    return JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-                } catch {
-                    return [];
+        // =============================================
+        // FIREBASE CONFIG
+        // =============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+            authDomain: "starlet-registor.firebaseapp.com",
+            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
+            projectId: "starlet-registor",
+            storageBucket: "starlet-registor.firebasestorage.app",
+            messagingSenderId: "904193225045",
+            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+            measurementId: "G-1NLM1F0262"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // =============================================
+        // IMGBB API KEY
+        // =============================================
+        const IMGBB_API_KEY = "53fb01955a45c5462724b8f7d238500a";
+
+        // =============================================
+        // SIDEBAR NAVIGATION
+        // =============================================
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.dataset.page;
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(`page-${page}`).classList.add('active');
+                document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+                link.classList.add('active');
+                if (page === 'chapters') loadChaptersTable();
+                if (page === 'notes') { loadChapterDropdown('noteChapterSelect'); loadNotesTable(); }
+                if (page === 'cbt') { loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); }
+                if (page === 'images') { loadChapterDropdown('imageChapterSelect'); loadImagesTable(); }
+            });
+        });
+
+        // =============================================
+        // ALERT SYSTEM
+        // =============================================
+        function showAlert(msg, type = 'success') {
+            const container = document.getElementById('alertContainer');
+            container.querySelectorAll('.alert').forEach(a => a.remove());
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
+            container.insertBefore(alertDiv, container.firstChild);
+            setTimeout(() => alertDiv.remove(), 4000);
+        }
+
+        // =============================================
+        // CHAPTERS CRUD
+        // =============================================
+        function loadChaptersTable() {
+            db.ref('chapters').on('value', snap => {
+                const tbody = document.querySelector('#chaptersTable tbody');
+                tbody.innerHTML = '';
+                if (snap.exists()) {
+                    const chapters = [];
+                    snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
+                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
+                    chapters.forEach(ch => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${ch.order || '-'}</td>
+                                <td><strong>${ch.title}</strong></td>
+                                <td>${ch.order}</td>
+                                <td>${ch.notesCount || 0}</td>
+                                <td>${ch.hasCBT ? '✅' : '❌'}</td>
+                                <td>${ch.imagesCount || 0}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>`;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
                 }
-            },
-            
-            savePdfs(pdfs) {
-                try {
-                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(pdfs));
-                    return true;
-                } catch (e) {
-                    console.error('Storage full or unavailable:', e);
-                    return false;
-                }
-            },
-            
-            addPdf(pdfData) {
-                const pdfs = this.getPdfs();
-                const newPdf = {
-                    id: 'pdf_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-                    title: pdfData.title || 'Untitled PDF',
-                    url: pdfData.url,
-                    fileName: pdfData.fileName || 'document.pdf',
-                    fileSize: pdfData.fileSize || 'Unknown',
-                    subject: pdfData.subject || 'mathematics',
-                    chapter: pdfData.chapter || 'general',
-                    uploadedAt: new Date().toISOString(),
-                    views: 0,
-                    downloads: 0
-                };
-                pdfs.unshift(newPdf);
-                this.savePdfs(pdfs);
-                return newPdf;
-            },
-            
-            updatePdf(pdfId, updates) {
-                const pdfs = this.getPdfs();
-                const index = pdfs.findIndex(p => p.id === pdfId);
-                if (index !== -1) {
-                    pdfs[index] = { ...pdfs[index], ...updates };
-                    this.savePdfs(pdfs);
-                    return pdfs[index];
-                }
-                return null;
-            },
-            
-            deletePdf(pdfId) {
-                const pdfs = this.getPdfs();
-                const filtered = pdfs.filter(p => p.id !== pdfId);
-                this.savePdfs(filtered);
-                return filtered;
-            },
-            
-            getPdfsBySubject(subjectId) {
-                return this.getPdfs().filter(p => p.subject === subjectId);
-            },
-            
-            getPdfsByChapter(subjectId, chapterId) {
-                return this.getPdfs().filter(p => p.subject === subjectId && p.chapter === chapterId);
-            },
-            
-            getRecentPdfs(limit = 6) {
-                return this.getPdfs().slice(0, limit);
-            },
-            
-            getTotalCount() {
-                return this.getPdfs().length;
-            },
-            
-            incrementViews(pdfId) {
-                const pdf = this.getPdfs().find(p => p.id === pdfId);
-                if (pdf) {
-                    pdf.views = (pdf.views || 0) + 1;
-                    this.updatePdf(pdfId, { views: pdf.views });
-                }
-            },
-            
-            incrementDownloads(pdfId) {
-                const pdf = this.getPdfs().find(p => p.id === pdfId);
-                if (pdf) {
-                    pdf.downloads = (pdf.downloads || 0) + 1;
-                    this.updatePdf(pdfId, { downloads: pdf.downloads });
-                }
+            });
+        }
+
+        window.editChapter = function(id) {
+            db.ref(`chapters/${id}`).once('value', snap => {
+                const ch = snap.val();
+                document.getElementById('chapterId').value = id;
+                document.getElementById('chapterTitle').value = ch.title || '';
+                document.getElementById('chapterDesc').value = ch.description || '';
+                document.getElementById('chapterOrder').value = ch.order || 1;
+                document.getElementById('chapterFormTitle').textContent = 'Edit Chapter';
+                document.getElementById('cancelChapterBtn').style.display = 'inline-flex';
+                document.querySelector('#page-chapters .card').scrollIntoView({ behavior: 'smooth' });
+            });
+        };
+
+        window.deleteChapter = function(id) {
+            if (confirm('⚠️ Delete this chapter and ALL its data?')) {
+                db.ref(`chapters/${id}`).remove()
+                    .then(() => showAlert('Chapter deleted!'))
+                    .catch(err => showAlert('Error: ' + err.message, 'error'));
             }
         };
-        
-        // ============================================
-        // APPLICATION DATA
-        // ============================================
-        const APP_DATA = {
-            subjects: [
-                {
-                    id: 'mathematics',
-                    name: 'Mathematics',
-                    icon: 'fa-calculator',
-                    color: 'blue',
-                    gradient: 'from-blue-500 to-blue-600',
-                    chapters: [
-                        { id: 'digital-sum', name: 'Digital Sum', progress: 60 },
-                        { id: 'number-system', name: 'Number System', progress: 75 },
-                        { id: 'percentage', name: 'Percentage', progress: 40 },
-                        { id: 'profit-loss', name: 'Profit & Loss', progress: 25 },
-                        { id: 'average', name: 'Average', progress: 90 },
-                        { id: 'ratio', name: 'Ratio & Proportion', progress: 55 }
-                    ]
-                },
-                {
-                    id: 'reasoning',
-                    name: 'Reasoning',
-                    icon: 'fa-brain',
-                    color: 'purple',
-                    gradient: 'from-purple-500 to-purple-600',
-                    chapters: [
-                        { id: 'analogy', name: 'Analogy', progress: 45 },
-                        { id: 'classification', name: 'Classification', progress: 70 },
-                        { id: 'series', name: 'Series', progress: 30 },
-                        { id: 'coding-decoding', name: 'Coding-Decoding', progress: 80 }
-                    ]
-                },
-                {
-                    id: 'english',
-                    name: 'English',
-                    icon: 'fa-language',
-                    color: 'green',
-                    gradient: 'from-green-500 to-green-600',
-                    chapters: [
-                        { id: 'grammar', name: 'Grammar', progress: 65 },
-                        { id: 'vocabulary', name: 'Vocabulary', progress: 50 },
-                        { id: 'comprehension', name: 'Comprehension', progress: 35 }
-                    ]
-                },
-                {
-                    id: 'gk-gs',
-                    name: 'GK / GS',
-                    icon: 'fa-globe',
-                    color: 'orange',
-                    gradient: 'from-orange-500 to-orange-600',
-                    chapters: [
-                        { id: 'indian-history', name: 'Indian History', progress: 30 },
-                        { id: 'geography', name: 'Geography', progress: 55 },
-                        { id: 'polity', name: 'Indian Polity', progress: 40 },
-                        { id: 'science', name: 'General Science', progress: 70 }
-                    ]
-                }
-            ],
-            currentView: 'dashboard',
-            currentPdfUrl: null,
-            currentPdfId: null
+
+        function resetChapterForm() {
+            document.getElementById('chapterId').value = '';
+            document.getElementById('chapterTitle').value = '';
+            document.getElementById('chapterDesc').value = '';
+            document.getElementById('chapterOrder').value = 1;
+            document.getElementById('chapterFormTitle').textContent = 'Add New Chapter';
+            document.getElementById('cancelChapterBtn').style.display = 'none';
+        }
+
+        window.saveChapter = function() {
+            const id = document.getElementById('chapterId').value;
+            const title = document.getElementById('chapterTitle').value.trim();
+            const desc = document.getElementById('chapterDesc').value.trim();
+            const order = parseInt(document.getElementById('chapterOrder').value) || 1;
+            if (!title) return showAlert('Chapter title is required!', 'error');
+            const chapterData = { title, description: desc, order, updatedAt: Date.now() };
+            if (id) {
+                db.ref(`chapters/${id}`).update(chapterData)
+                    .then(() => showAlert('Chapter updated! ✅'))
+                    .catch(err => showAlert('Error: ' + err.message, 'error'));
+            } else {
+                chapterData.createdAt = Date.now();
+                db.ref('chapters').push(chapterData)
+                    .then(() => showAlert('Chapter added! 🎉'))
+                    .catch(err => showAlert('Error: ' + err.message, 'error'));
+            }
+            resetChapterForm();
         };
-        
-        // ============================================
-        // PARTICLE BACKGROUND SYSTEM
-        // ============================================
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                if (!this.canvas) return;
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.mouse = { x: -1000, y: -1000 };
-                this.init();
-            }
-            
-            init() {
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-                window.addEventListener('mousemove', (e) => {
-                    this.mouse.x = e.clientX;
-                    this.mouse.y = e.clientY;
-                });
-                window.addEventListener('touchmove', (e) => {
-                    this.mouse.x = e.touches[0].clientX;
-                    this.mouse.y = e.touches[0].clientY;
-                });
-                
-                for (let i = 0; i < 40; i++) {
-                    this.particles.push(this.createParticle());
+
+        // =============================================
+        // CHAPTER DROPDOWN HELPER
+        // =============================================
+        function loadChapterDropdown(selectId) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            db.ref('chapters').on('value', snap => {
+                select.innerHTML = '<option value="">-- Choose Chapter --</option>';
+                if (snap.exists()) {
+                    const chapters = [];
+                    snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
+                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
+                    chapters.forEach(ch => {
+                        select.innerHTML += `<option value="${ch.id}">${ch.order || '?'}. ${ch.title}</option>`;
+                    });
                 }
-                
-                this.animate();
+            });
+        }
+
+        // =============================================
+        // NOTES CRUD (PDFhost Link System)
+        // =============================================
+        window.saveNote = function() {
+            const chapterId = document.getElementById('noteChapterSelect').value;
+            const title = document.getElementById('noteTitle').value.trim();
+            const pdfUrl = document.getElementById('notePdfUrl').value.trim();
+
+            if (!chapterId) return showAlert('Please select a chapter!', 'error');
+            if (!title) return showAlert('Please enter note title!', 'error');
+            if (!pdfUrl) return showAlert('Please paste PDFhost link!', 'error');
+            if (!pdfUrl.startsWith('http')) return showAlert('Please enter a valid URL!', 'error');
+
+            const noteData = {
+                title: title,
+                pdfUrl: pdfUrl,
+                uploadedAt: Date.now(),
+                source: 'pdfhost'
+            };
+
+            db.ref(`chapters/${chapterId}/notes`).push(noteData)
+                .then(() => {
+                    showAlert('✅ Note saved successfully!');
+                    document.getElementById('noteTitle').value = '';
+                    document.getElementById('notePdfUrl').value = '';
+                    loadNotesTable();
+                })
+                .catch(err => showAlert('Error: ' + err.message, 'error'));
+        };
+
+        function loadNotesTable() {
+            const tbody = document.querySelector('#notesTable tbody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
+            db.ref('chapters').once('value', chaptersSnap => {
+                tbody.innerHTML = '';
+                if (!chaptersSnap.exists()) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
+                    return;
+                }
+                let hasNotes = false;
+                const promises = [];
+                chaptersSnap.forEach(chapter => {
+                    const chapterTitle = chapter.val().title;
+                    const promise = db.ref(`chapters/${chapter.key}/notes`).once('value', notesSnap => {
+                        if (notesSnap.exists()) {
+                            hasNotes = true;
+                            notesSnap.forEach(note => {
+                                const n = note.val();
+                                tbody.innerHTML += `
+                                    <tr>
+                                        <td>${chapterTitle}</td>
+                                        <td><strong>${n.title}</strong></td>
+                                        <td><a href="${n.pdfUrl}" target="_blank" style="color:var(--primary);">📄 View PDF</a></td>
+                                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote('${chapter.key}','${note.key}')"><i class="fas fa-trash"></i></button></td>
+                                    </tr>`;
+                            });
+                        }
+                    });
+                    promises.push(promise);
+                });
+                Promise.all(promises).then(() => {
+                    if (!hasNotes) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No notes yet.</td></tr>';
+                });
+            });
+        }
+
+        window.deleteNote = function(chapterId, noteId) {
+            if (confirm('Delete this note?')) {
+                db.ref(`chapters/${chapterId}/notes/${noteId}`).remove()
+                    .then(() => { showAlert('Note deleted!'); loadNotesTable(); })
+                    .catch(err => showAlert('Error: ' + err.message, 'error'));
             }
-            
-            createParticle() {
-                return {
-                    x: Math.random() * this.canvas.width,
-                    y: Math.random() * this.canvas.height,
-                    size: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                    opacity: Math.random() * 0.5 + 0.2,
-                    pulse: Math.random() * Math.PI * 2
-                };
-            }
-            
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            animate() {
-                if (!this.ctx) return;
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(particle => {
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-                    particle.pulse += 0.02;
-                    
-                    if (particle.x < -10) particle.x = this.canvas.width + 10;
-                    if (particle.x > this.canvas.width + 10) particle.x = -10;
-                    if (particle.y < -10) particle.y = this.canvas.height + 10;
-                    if (particle.y > this.canvas.height + 10) particle.y = -10;
-                    
-                    const dx = this.mouse.x - particle.x;
-                    const dy = this.mouse.y - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 200) {
-                        particle.x -= dx * 0.002;
-                        particle.y -= dy * 0.002;
-                    }
-                    
-                    const pulseOpacity = particle.opacity + Math.sin(particle.pulse) * 0.1;
-                    
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `rgba(99, 102, 241, ${pulseOpacity})`;
-                    this.ctx.fill();
-                    
-                    this.particles.forEach(other => {
-                        const dx2 = particle.x - other.x;
-                        const dy2 = particle.y - other.y;
-                        const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-                        
-                        if (dist2 < 100) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(particle.x, particle.y);
-                            this.ctx.lineTo(other.x, other.y);
-                            this.ctx.strokeStyle = `rgba(99, 102, 241, ${0.1 * (1 - dist2 / 100)})`;
-                            this.ctx.lineWidth = 0.5;
-                            this.ctx.stroke();
+        };
+
+        // =============================================
+        // CBT EXAM MANAGEMENT
+        // =============================================
+        window.saveCBT = function() {
+            const chapterId = document.getElementById('cbtChapterSelect').value;
+            const filename = document.getElementById('cbtFilename').value.trim();
+
+            if (!chapterId) return showAlert('Please select a chapter!', 'error');
+            if (!filename) return showAlert('Please enter CBT filename!', 'error');
+            if (!filename.endsWith('.html')) return showAlert('Filename must end with .html!', 'error');
+
+            const cbtData = {
+                filename: filename,
+                cbtUrl: 'cbt/' + filename,
+                updatedAt: Date.now()
+            };
+
+            db.ref(`chapters/${chapterId}/cbt`).set(cbtData)
+                .then(() => {
+                    db.ref(`chapters/${chapterId}/hasCBT`).set(true);
+                    showAlert('✅ CBT saved! File: cbt/' + filename);
+                    document.getElementById('cbtFilename').value = '';
+                    loadCBTTable();
+                })
+                .catch(err => showAlert('Error: ' + err.message, 'error'));
+        };
+
+        function loadCBTTable() {
+            const tbody = document.querySelector('#cbtTable tbody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
+            db.ref('chapters').once('value', chaptersSnap => {
+                tbody.innerHTML = '';
+                if (!chaptersSnap.exists()) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
+                    return;
+                }
+                let hasCBT = false;
+                chaptersSnap.forEach(chapter => {
+                    db.ref(`chapters/${chapter.key}/cbt`).once('value', cbtSnap => {
+                        if (cbtSnap.exists()) {
+                            hasCBT = true;
+                            const cbt = cbtSnap.val();
+                            const date = cbt.updatedAt ? new Date(cbt.updatedAt).toLocaleString('hi-IN') : 'Unknown';
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>${chapter.val().title}</td>
+                                    <td><code style="background:#f0f0f0; padding:4px 8px; border-radius:4px;">${cbt.filename}</code></td>
+                                    <td>${date}</td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${chapter.key}')"><i class="fas fa-trash"></i> Remove</button></td>
+                                </tr>`;
                         }
                     });
                 });
-                
-                requestAnimationFrame(() => this.animate());
+                setTimeout(() => {
+                    if (!hasCBT) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No CBT exams yet.</td></tr>';
+                }, 500);
+            });
+        }
+
+        window.deleteCBT = function(chapterId) {
+            if (confirm('Remove CBT exam from this chapter?')) {
+                db.ref(`chapters/${chapterId}/cbt`).remove();
+                db.ref(`chapters/${chapterId}/hasCBT`).set(false);
+                showAlert('CBT removed!');
+                loadCBTTable();
             }
-        }
-        
-        // ============================================
-        // UI RENDERING FUNCTIONS
-        // ============================================
-        
-        function calculateSubjectProgress(subject) {
-            const total = subject.chapters.reduce((sum, ch) => sum + ch.progress, 0);
-            return Math.round(total / subject.chapters.length);
-        }
-        
-        function renderDashboard() {
-            const mainContent = document.getElementById('mainContent');
-            const recentPdfs = PDF_DATABASE.getRecentPdfs(6);
-            
-            mainContent.innerHTML = `
-                <!-- Welcome Section -->
-                <div class="mb-8 animate-slide-up">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white font-jakarta mb-2">
-                        Welcome Back, <span class="bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Champion!</span>
-                    </h2>
-                    <p class="text-gray-400">Access your study materials, PDFs, and practice tests.</p>
-                </div>
-                
-                <!-- Quick Stats -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-file-pdf text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white" id="totalPdfs">${PDF_DATABASE.getTotalCount()}</p>
-                                <p class="text-xs text-gray-400">PDFs Available</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-check-circle text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">85%</p>
-                                <p class="text-xs text-gray-400">Accuracy</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-clock text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">12.5h</p>
-                                <p class="text-xs text-gray-400">Study Time</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-medal text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">#42</p>
-                                <p class="text-xs text-gray-400">Rank</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Subject Cards -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">📚 Your Subjects</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8" id="subjectCards">
-                    ${APP_DATA.subjects.map(subject => `
-                        <div class="glass-card p-6 cursor-pointer group relative overflow-hidden" onclick="openSubject('${subject.id}')">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${subject.gradient} opacity-10 rounded-full -mr-16 -mt-16 group-hover:opacity-20 transition-all duration-500"></div>
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="w-14 h-14 bg-gradient-to-br ${subject.gradient} rounded-2xl flex items-center justify-center shadow-lg">
-                                    <i class="fas ${subject.icon} text-white text-2xl"></i>
-                                </div>
-                                <div class="flex items-center gap-1 text-xs text-gray-400">
-                                    <i class="fas fa-file-pdf text-red-400"></i>
-                                    <span>${PDF_DATABASE.getPdfsBySubject(subject.id).length} PDFs</span>
-                                </div>
-                            </div>
-                            <h3 class="text-xl font-bold text-white font-jakarta mb-3">${subject.name}</h3>
-                            <div class="w-full bg-gray-700/50 rounded-full h-2 mb-2">
-                                <div class="bg-gradient-to-r ${subject.gradient} h-2 rounded-full" style="width: ${calculateSubjectProgress(subject)}%"></div>
-                            </div>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-gray-400">Progress</span>
-                                <span class="text-white font-semibold">${calculateSubjectProgress(subject)}%</span>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <!-- Recent PDFs -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">📄 Recent Study Materials</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" id="recentPdfs">
-                    ${recentPdfs.length > 0 ? recentPdfs.map(pdf => `
-                        <div class="glass-card p-4 cursor-pointer hover:border-red-500/50 transition-all group" onclick="viewPdf('${pdf.url}', '${pdf.title}', '${pdf.id}')">
-                            <div class="flex items-start gap-3">
-                                <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/30 transition-all">
-                                    <i class="fas fa-file-pdf text-red-400 text-xl"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="text-white font-semibold text-sm truncate">${pdf.title}</h4>
-                                    <p class="text-xs text-gray-400 mt-1">${pdf.fileSize}</p>
-                                    <p class="text-xs text-gray-500 mt-1">${new Date(pdf.uploadedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-                                </div>
-                            </div>
-                            <div class="mt-3 flex gap-2">
-                                <span class="text-xs bg-primary-500/20 text-primary-400 px-2 py-1 rounded">${pdf.subject}</span>
-                                <span class="text-xs bg-gray-500/20 text-gray-400 px-2 py-1 rounded truncate">${pdf.chapter}</span>
-                            </div>
-                        </div>
-                    `).join('') : `
-                        <div class="col-span-full glass-card p-8 text-center">
-                            <i class="fas fa-file-pdf text-5xl text-gray-600 mb-3"></i>
-                            <p class="text-gray-400 text-lg">No PDFs uploaded yet</p>
-                            <p class="text-gray-500 text-sm mt-2">Click "Upload PDF" to add study materials</p>
-                            <button onclick="openAdminModal()" class="mt-4 bg-primary-500/20 text-primary-400 px-6 py-2 rounded-xl hover:bg-primary-500/30 transition-all">
-                                <i class="fas fa-cloud-upload-alt mr-2"></i>Upload Your First PDF
-                            </button>
-                        </div>
-                    `}
-                </div>
-                
-                <!-- Continue Learning -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">🎯 Continue Learning</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div class="glass-card p-4 cursor-pointer hover:border-primary-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-calculator text-blue-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Digital Sum</p>
-                                <p class="text-xs text-gray-400">Chapter 1 • 60% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 cursor-pointer hover:border-purple-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-brain text-purple-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Analogy</p>
-                                <p class="text-xs text-gray-400">Chapter 3 • 45% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: 45%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 cursor-pointer hover:border-green-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-globe text-green-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Indian History</p>
-                                <p class="text-xs text-gray-400">Chapter 5 • 30% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style="width: 30%"></div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Animate elements
-            setTimeout(() => {
-                gsap.from('.animate-slide-up', {
-                    duration: 0.6,
-                    y: 30,
-                    opacity: 0,
-                    stagger: 0.1,
-                    ease: 'power3.out'
-                });
-            }, 100);
-        }
-        
-        function renderSubjectNav() {
-            const container = document.getElementById('subjectNav');
-            container.innerHTML = APP_DATA.subjects.map(subject => `
-                <button onclick="openSubject('${subject.id}')" class="w-full flex items-center gap-3 px-3 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all group">
-                    <i class="fas ${subject.icon} w-5 text-center text-${subject.color}-400"></i>
-                    <span class="font-medium text-sm">${subject.name}</span>
-                    <span class="ml-auto text-xs bg-primary-500/20 text-primary-400 px-2 py-0.5 rounded-full">${PDF_DATABASE.getPdfsBySubject(subject.id).length}</span>
-                </button>
-            `).join('');
-        }
-        
-        function openSubject(subjectId) {
-            const subject = APP_DATA.subjects.find(s => s.id === subjectId);
-            if (!subject) return;
-            
-            const subjectPdfs = PDF_DATABASE.getPdfsBySubject(subjectId);
-            APP_DATA.currentView = 'subject';
-            
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="animate-slide-up">
-                    <button class="glass-card px-4 py-2 text-gray-400 hover:text-white mb-6 flex items-center gap-2 transition-all" onclick="renderDashboard(); renderSubjectNav();">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back to Dashboard</span>
-                    </button>
-                    
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
-                        <div class="w-16 h-16 bg-gradient-to-br ${subject.gradient} rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
-                            <i class="fas ${subject.icon} text-white text-3xl"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-bold text-white font-jakarta">${subject.name}</h2>
-                            <p class="text-gray-400">${subject.chapters.length} Chapters • ${subjectPdfs.length} PDFs Available</p>
-                        </div>
-                        <button onclick="openAdminModal()" class="sm:ml-auto glass-card px-4 py-2 text-primary-400 hover:text-white flex items-center gap-2 transition-all">
-                            <i class="fas fa-plus"></i>
-                            <span>Add PDF</span>
-                        </button>
-                    </div>
-                    
-                    ${subjectPdfs.length > 0 ? `
-                        <h3 class="text-xl font-bold text-white mb-4">📄 Study Materials (PDFs)</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                            ${subjectPdfs.map(pdf => `
-                                <div class="glass-card p-4 cursor-pointer hover:border-red-500/50 transition-all" onclick="viewPdf('${pdf.url}', '${pdf.title}', '${pdf.id}')">
-                                    <i class="fas fa-file-pdf text-4xl text-red-400 mb-3"></i>
-                                    <h4 class="text-white font-semibold truncate">${pdf.title}</h4>
-                                    <p class="text-sm text-gray-400">${pdf.fileSize}</p>
-                                    <p class="text-xs text-gray-500 mt-1">${new Date(pdf.uploadedAt).toLocaleDateString('en-IN')}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-                    
-                    <h3 class="text-xl font-bold text-white mb-4">📖 Chapters</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        ${subject.chapters.map(chapter => {
-                            const chapterPdfs = PDF_DATABASE.getPdfsByChapter(subjectId, chapter.id);
-                            return `
-                                <div class="glass-card p-4 cursor-pointer hover:border-${subject.color}-500/50 transition-all" onclick="openChapter('${subject.id}', '${chapter.id}')">
-                                    <div class="flex items-center justify-between mb-3">
-                                        <h4 class="font-semibold text-white">${chapter.name}</h4>
-                                        <div class="flex items-center gap-2">
-                                            ${chapterPdfs.length > 0 ? `<span class="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">${chapterPdfs.length} PDF</span>` : ''}
-                                            <span class="text-sm text-gray-400">${chapter.progress}%</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full bg-gray-700/50 rounded-full h-2 mb-3">
-                                        <div class="bg-gradient-to-r ${subject.gradient} h-2 rounded-full" style="width: ${chapter.progress}%"></div>
-                                    </div>
-                                    <div class="flex gap-2 flex-wrap">
-                                        <span class="text-xs bg-${subject.color}-500/20 text-${subject.color}-400 px-3 py-1 rounded-lg">Notes</span>
-                                        <span class="text-xs bg-${subject.color}-500/20 text-${subject.color}-400 px-3 py-1 rounded-lg">CBT PYQ</span>
-                                        ${chapterPdfs.length > 0 ? `
-                                            <span class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded-lg cursor-pointer" onclick="event.stopPropagation(); viewChapterPdfs('${subject.id}', '${chapter.id}')">
-                                                <i class="fas fa-file-pdf mr-1"></i>PDFs
-                                            </span>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                </div>
-            `;
-        }
-        
-        function openChapter(subjectId, chapterId) {
-            const subject = APP_DATA.subjects.find(s => s.id === subjectId);
-            const chapter = subject?.chapters.find(c => c.id === chapterId);
-            if (!chapter) return;
-            
-            const chapterPdfs = PDF_DATABASE.getPdfsByChapter(subjectId, chapterId);
-            APP_DATA.currentView = 'chapter';
-            
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="animate-slide-up">
-                    <button class="glass-card px-4 py-2 text-gray-400 hover:text-white mb-6 flex items-center gap-2" onclick="openSubject('${subjectId}')">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back to ${subject?.name}</span>
-                    </button>
-                    
-                    <div class="glass-card p-6 mb-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-2xl font-bold text-white font-jakarta">${chapterId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h2>
-                            <button onclick="openAdminModal()" class="glass-card px-4 py-2 text-primary-400 hover:text-white flex items-center gap-2 text-sm">
-                                <i class="fas fa-upload"></i>
-                                <span>Add PDF</span>
-                            </button>
-                        </div>
-                        
-                        ${chapterPdfs.length > 0 ? `
-                            <h4 class="text-white font-semibold mb-3">📄 Chapter PDFs (${chapterPdfs.length})</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                                ${chapterPdfs.map(pdf => `
-                                    <div class="glass-card p-3 flex items-center gap-3 cursor-pointer hover:border-red-500/50 transition-all" onclick="viewPdf('${pdf.url}', '${pdf.title}', '${pdf.id}')">
-                                        <i class="fas fa-file-pdf text-red-400 text-2xl flex-shrink-0"></i>
-                                        <div class="min-w-0">
-                                            <p class="text-white text-sm truncate">${pdf.title}</p>
-                                            <p class="text-xs text-gray-400">${pdf.fileSize} • ${new Date(pdf.uploadedAt).toLocaleDateString('en-IN')}</p>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : `
-                            <div class="text-center py-8 mb-6">
-                                <i class="fas fa-file-pdf text-5xl text-gray-600 mb-3"></i>
-                                <p class="text-gray-400">No PDFs available for this chapter</p>
-                                <button onclick="openAdminModal()" class="mt-3 text-primary-400 hover:text-primary-300">
-                                    <i class="fas fa-upload mr-2"></i>Upload PDF
-                                </button>
-                            </div>
-                        `}
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-desktop text-2xl text-primary-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">CBT Mock Test</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-book-open text-2xl text-green-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Notes</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-pencil-alt text-2xl text-purple-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Practice</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-calculator text-2xl text-gold-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Formula Sheet</p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function viewChapterPdfs(subjectId, chapterId) {
-            const pdfs = PDF_DATABASE.getPdfsByChapter(subjectId, chapterId);
-            if (pdfs.length > 0) {
-                viewPdf(pdfs[0].url, pdfs[0].title, pdfs[0].id);
+        };
+
+        // =============================================
+        // IMGBB IMAGE UPLOAD
+        // =============================================
+        window.uploadImage = async function() {
+            const chapterId = document.getElementById('imageChapterSelect').value;
+            const title = document.getElementById('imageTitle').value.trim() || 'Class Image';
+            const file = document.getElementById('imageFile').files[0];
+            if (!chapterId) return showAlert('Please select a chapter!', 'error');
+            if (!file) return showAlert('Please choose an image!', 'error');
+            const btn = document.getElementById('uploadImageBtn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Uploading to ImgBB...';
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('key', IMGBB_API_KEY);
+            try {
+                const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.error?.message || 'ImgBB upload failed');
+                const imageUrl = data.data.url;
+                await db.ref(`chapters/${chapterId}/images`).push({ title, url: imageUrl, uploadedAt: Date.now(), source: 'imgbb' });
+                showAlert('✅ Image uploaded!');
+                document.getElementById('imageTitle').value = '';
+                document.getElementById('imageFile').value = '';
+                loadImagesTable();
+            } catch (err) {
+                console.error('ImgBB Error:', err);
+                showAlert('Upload failed: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
             }
-        }
-        
-        // ============================================
-        // PDF VIEWER FUNCTIONS
-        // ============================================
-        
-        function viewPdf(url, title, pdfId) {
-            APP_DATA.currentPdfUrl = url;
-            APP_DATA.currentPdfId = pdfId;
-            
-            document.getElementById('pdfViewerFrame').src = url;
-            document.getElementById('pdfViewerTitle').textContent = title || 'PDF Viewer';
-            document.getElementById('pdfSourceInfo').textContent = 'PDFHost.io';
-            
-            const modal = document.getElementById('pdfViewerModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-            
-            // Track view
-            if (pdfId) {
-                PDF_DATABASE.incrementViews(pdfId);
-            }
-        }
-        
-        function closePdfViewer() {
-            const modal = document.getElementById('pdfViewerModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.getElementById('pdfViewerFrame').src = '';
-            document.body.style.overflow = 'auto';
-            APP_DATA.currentPdfUrl = null;
-            APP_DATA.currentPdfId = null;
-        }
-        
-        function downloadCurrentPdf() {
-            if (APP_DATA.currentPdfUrl) {
-                window.open(APP_DATA.currentPdfUrl, '_blank');
-                if (APP_DATA.currentPdfId) {
-                    PDF_DATABASE.incrementDownloads(APP_DATA.currentPdfId);
+        };
+
+        function loadImagesTable() {
+            const tbody = document.querySelector('#imagesTable tbody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
+            db.ref('chapters').once('value', chaptersSnap => {
+                tbody.innerHTML = '';
+                if (!chaptersSnap.exists()) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
+                    return;
                 }
-            }
-        }
-        
-        function shareCurrentPdf() {
-            if (APP_DATA.currentPdfUrl) {
-                if (navigator.share) {
-                    navigator.share({
-                        title: document.getElementById('pdfViewerTitle').textContent,
-                        url: APP_DATA.currentPdfUrl
-                    }).catch(() => {});
-                } else {
-                    navigator.clipboard.writeText(APP_DATA.currentPdfUrl).then(() => {
-                        alert('✅ PDF link copied to clipboard!');
+                let hasImages = false;
+                const promises = [];
+                chaptersSnap.forEach(chapter => {
+                    const chapterTitle = chapter.val().title;
+                    const promise = db.ref(`chapters/${chapter.key}/images`).once('value', imgsSnap => {
+                        if (imgsSnap.exists()) {
+                            hasImages = true;
+                            imgsSnap.forEach(img => {
+                                const i = img.val();
+                                tbody.innerHTML += `
+                                    <tr>
+                                        <td>${chapterTitle}</td>
+                                        <td><img src="${i.url}" class="img-preview" onclick="window.open('${i.url}','_blank')"></td>
+                                        <td>${i.title}</td>
+                                        <td><button class="btn btn-danger btn-sm" onclick="deleteImage('${chapter.key}','${img.key}')"><i class="fas fa-trash"></i></button></td>
+                                    </tr>`;
+                            });
+                        }
                     });
-                }
-            }
-        }
-        
-        // ============================================
-        // ADMIN UPLOAD FUNCTIONS
-        // ============================================
-        
-        function openAdminModal() {
-            const modal = document.getElementById('adminUploadModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.getElementById('uploadSection').classList.add('hidden');
-            document.getElementById('directLinkSection').classList.add('hidden');
-            document.getElementById('uploadProgress').classList.add('hidden');
-            document.getElementById('uploadSuccess').classList.add('hidden');
-            renderUploadedPdfs();
-            setupDragDrop();
-        }
-        
-        function closeAdminModal() {
-            const modal = document.getElementById('adminUploadModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            
-            // Refresh dashboard if needed
-            if (APP_DATA.currentView === 'dashboard') {
-                renderDashboard();
-                renderSubjectNav();
-            }
-        }
-        
-        function showUploadArea() {
-            document.getElementById('uploadSection').classList.remove('hidden');
-            document.getElementById('directLinkSection').classList.add('hidden');
-            setupDragDrop();
-        }
-        
-        function showDirectLinkInput() {
-            document.getElementById('directLinkSection').classList.remove('hidden');
-            document.getElementById('uploadSection').classList.add('hidden');
-        }
-        
-        function setupDragDrop() {
-            const dropZone = document.getElementById('dropZone');
-            if (!dropZone) return;
-            
-            dropZone.onclick = () => document.getElementById('pdfFileInput').click();
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-            
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                const file = e.dataTransfer.files[0];
-                if (file && file.type === 'application/pdf') {
-                    uploadToPdfHost(file);
-                } else {
-                    alert('❌ Please upload a PDF file only!');
-                }
-            });
-        }
-        
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                uploadToPdfHost(file);
-            }
-        }
-        
-        async function uploadToPdfHost(file) {
-            if (file.size > 50 * 1024 * 1024) {
-                alert('❌ File size must be less than 50MB');
-                return;
-            }
-            
-            const progressDiv = document.getElementById('uploadProgress');
-            const progressBar = document.getElementById('progressBar');
-            const uploadStatus = document.getElementById('uploadStatus');
-            const uploadPercent = document.getElementById('uploadPercent');
-            const uploadSuccess = document.getElementById('uploadSuccess');
-            const uploadedFileName = document.getElementById('uploadedFileName');
-            
-            progressDiv.classList.remove('hidden');
-            uploadSuccess.classList.add('hidden');
-            
-            // Simulated upload progress
-            for (let i = 0; i <= 100; i += 5) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                progressBar.style.width = i + '%';
-                uploadPercent.textContent = i + '%';
-                uploadStatus.textContent = i < 100 ? 'Uploading to PDFHost.io...' : 'Processing...';
-            }
-            
-            // Generate PDFHost.io link
-            const sanitizedName = file.name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase().replace(/--+/g, '-');
-            const pdfHostUrl = `https://pdfhost.io/v/${sanitizedName}`;
-            
-            // Save to database
-            const pdfData = {
-                title: file.name.replace('.pdf', ''),
-                url: pdfHostUrl,
-                fileName: file.name,
-                fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB',
-                subject: 'mathematics',
-                chapter: 'general'
-            };
-            
-            PDF_DATABASE.addPdf(pdfData);
-            
-            progressDiv.classList.add('hidden');
-            uploadSuccess.classList.remove('hidden');
-            uploadedFileName.textContent = file.name;
-            
-            renderUploadedPdfs();
-            updatePdfCount();
-            
-            // Reset file input
-            document.getElementById('pdfFileInput').value = '';
-            
-            // Auto-hide success message
-            setTimeout(() => {
-                uploadSuccess.classList.add('hidden');
-            }, 3000);
-        }
-        
-        function savePdfLink() {
-            const directLink = document.getElementById('directPdfLink')?.value.trim();
-            const directTitle = document.getElementById('directPdfTitle')?.value.trim();
-            const directSubject = document.getElementById('directPdfSubject')?.value;
-            const directChapter = document.getElementById('directPdfChapter')?.value.trim();
-            
-            if (!directLink || !directTitle) {
-                alert('❌ Please fill in the PDF link and title!');
-                return;
-            }
-            
-            if (!directLink.includes('pdfhost.io')) {
-                alert('⚠️ Please enter a valid PDFHost.io link!');
-                return;
-            }
-            
-            const pdfData = {
-                title: directTitle,
-                url: directLink,
-                fileName: directTitle + '.pdf',
-                fileSize: 'Unknown',
-                subject: directSubject || 'mathematics',
-                chapter: directChapter || 'general'
-            };
-            
-            PDF_DATABASE.addPdf(pdfData);
-            
-            alert('✅ PDF link saved successfully!');
-            renderUploadedPdfs();
-            updatePdfCount();
-            
-            // Clear inputs
-            document.getElementById('directPdfLink').value = '';
-            document.getElementById('directPdfTitle').value = '';
-            document.getElementById('directPdfSubject').value = '';
-            document.getElementById('directPdfChapter').value = '';
-        }
-        
-        function deletePdf(pdfId) {
-            if (confirm('⚠️ Are you sure you want to delete this PDF?')) {
-                PDF_DATABASE.deletePdf(pdfId);
-                renderUploadedPdfs();
-                updatePdfCount();
-                
-                // Refresh current view
-                if (APP_DATA.currentView === 'dashboard') {
-                    renderDashboard();
-                    renderSubjectNav();
-                }
-            }
-        }
-        
-        function renderUploadedPdfs() {
-            const container = document.getElementById('uploadedPdfsList');
-            const pdfs = PDF_DATABASE.getRecentPdfs(20);
-            
-            if (pdfs.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8">
-                        <i class="fas fa-inbox text-4xl text-gray-600 mb-3"></i>
-                        <p class="text-gray-500">No PDFs uploaded yet</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = pdfs.map(pdf => `
-                <div class="glass-card p-3 flex items-center justify-between group">
-                    <div class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer" onclick="viewPdf('${pdf.url}', '${pdf.title}', '${pdf.id}')">
-                        <i class="fas fa-file-pdf text-red-400 text-xl flex-shrink-0"></i>
-                        <div class="min-w-0">
-                            <p class="text-white text-sm truncate group-hover:text-primary-400 transition-colors">${pdf.title}</p>
-                            <p class="text-xs text-gray-400">${pdf.fileSize} • ${new Date(pdf.uploadedAt).toLocaleDateString('en-IN')}</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-1 flex-shrink-0">
-                        <button onclick="event.stopPropagation(); viewPdf('${pdf.url}', '${pdf.title}', '${pdf.id}')" class="text-primary-400 hover:text-primary-300 p-2 text-sm">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button onclick="event.stopPropagation(); deletePdf('${pdf.id}')" class="text-red-400 hover:text-red-300 p-2 text-sm">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function updatePdfCount() {
-            const countElement = document.getElementById('pdfCount');
-            if (countElement) {
-                countElement.textContent = PDF_DATABASE.getTotalCount() + ' PDFs';
-            }
-            
-            const totalElement = document.getElementById('totalPdfs');
-            if (totalElement) {
-                totalElement.textContent = PDF_DATABASE.getTotalCount();
-            }
-        }
-        
-        // ============================================
-        // NAVIGATION FUNCTIONS
-        // ============================================
-        
-        function navigateTo(view) {
-            APP_DATA.currentView = view;
-            
-            switch(view) {
-                case 'dashboard':
-                    renderDashboard();
-                    renderSubjectNav();
-                    break;
-                case 'subjects':
-                    openSubject(APP_DATA.subjects[0].id);
-                    break;
-                default:
-                    renderDashboard();
-                    renderSubjectNav();
-            }
-            
-            // Close sidebar on mobile
-            if (window.innerWidth < 1024) {
-                toggleSidebar();
-            }
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                overlay.classList.add('hidden');
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.remove('hidden');
-            }
-        }
-        
-        // ============================================
-        // KEYBOARD SHORTCUTS
-        // ============================================
-        
-        document.addEventListener('keydown', (e) => {
-            // Close modals with Escape
-            if (e.key === 'Escape') {
-                const pdfModal = document.getElementById('pdfViewerModal');
-                const adminModal = document.getElementById('adminUploadModal');
-                
-                if (!pdfModal.classList.contains('hidden')) {
-                    closePdfViewer();
-                } else if (!adminModal.classList.contains('hidden')) {
-                    closeAdminModal();
-                }
-            }
-        });
-        
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        
-        function initApp() {
-            // Initialize particle system
-            new ParticleSystem();
-            
-            // Add sample PDFs if database is empty
-            if (PDF_DATABASE.getTotalCount() === 0) {
-                const samplePdfs = [
-                    {
-                        title: 'Digital Sum Complete Notes',
-                        url: 'https://pdfhost.io/v/digital-sum-notes.pdf',
-                        fileName: 'digital-sum-notes.pdf',
-                        fileSize: '2.4 MB',
-                        subject: 'mathematics',
-                        chapter: 'digital-sum'
-                    },
-                    {
-                        title: 'Percentage Short Tricks & Formulas',
-                        url: 'https://pdfhost.io/v/percentage-tricks.pdf',
-                        fileName: 'percentage-tricks.pdf',
-                        fileSize: '1.8 MB',
-                        subject: 'mathematics',
-                        chapter: 'percentage'
-                    },
-                    {
-                        title: 'Indian History Timeline 1857-1947',
-                        url: 'https://pdfhost.io/v/indian-history-timeline.pdf',
-                        fileName: 'indian-history-timeline.pdf',
-                        fileSize: '3.2 MB',
-                        subject: 'gk-gs',
-                        chapter: 'indian-history'
-                    },
-                    {
-                        title: 'Analogy & Classification Tricks',
-                        url: 'https://pdfhost.io/v/analogy-classification.pdf',
-                        fileName: 'analogy-classification.pdf',
-                        fileSize: '1.5 MB',
-                        subject: 'reasoning',
-                        chapter: 'analogy'
-                    }
-                ];
-                
-                samplePdfs.forEach(pdf => PDF_DATABASE.addPdf(pdf));
-            }
-            
-            // Render initial view
-            renderDashboard();
-            renderSubjectNav();
-            updatePdfCount();
-        }
-        
-        // Start application when DOM is ready
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        // ============================================
-        // EXPORT FUNCTIONS TO GLOBAL SCOPE
-        // ============================================
-        
-        window.openAdminModal = openAdminModal;
-        window.closeAdminModal = closeAdminModal;
-        window.showUploadArea = showUploadArea;
-        window.showDirectLinkInput = showDirectLinkInput;
-        window.handleFileSelect = handleFileSelect;
-        window.savePdfLink = savePdfLink;
-        window.deletePdf = deletePdf;
-        window.viewPdf = viewPdf;
-        window.closePdfViewer = closePdfViewer;
-        window.downloadCurrentPdf = downloadCurrentPdf;
-        window.shareCurrentPdf = shareCurrentPdf;
-        window.viewChapterPdfs = viewChapterPdfs;
-        window.openSubject = openSubject;
-        window.openChapter = openChapter;
-        window.navigateTo = navigateTo;
-        window.toggleSidebar = toggleSidebar;
-        window.renderDashboard = renderDashboard;
-        window.renderSubjectNav = renderSubjectNav;
-        
-        // ============================================
-        // PWA SERVICE WORKER REGISTRATION
-        // ============================================
-        
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('✅ ServiceWorker registered:', registration.scope);
-                }).catch(error => {
-                    console.log('⚠️ ServiceWorker registration failed:', error);
+                    promises.push(promise);
+                });
+                Promise.all(promises).then(() => {
+                    if (!hasImages) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No images yet.</td></tr>';
                 });
             });
         }
-        
-        console.log('🚀 SYF - Secure Your Future Platform Initialized');
-        console.log('📚 PDFHost.io Integration Active');
-        console.log('💾 Database:', PDF_DATABASE.getTotalCount(), 'PDFs loaded');
+
+        window.deleteImage = function(chapterId, imgId) {
+            if (confirm('Delete this image?')) {
+                db.ref(`chapters/${chapterId}/images/${imgId}`).remove()
+                    .then(() => { showAlert('Image deleted!'); loadImagesTable(); })
+                    .catch(err => showAlert('Error: ' + err.message, 'error'));
+            }
+        };
+
+        // =============================================
+        // INITIAL LOAD
+        // =============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadChaptersTable();
+        });
     </script>
 </body>
 </html>
