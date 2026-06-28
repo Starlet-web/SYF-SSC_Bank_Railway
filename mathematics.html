@@ -1,1240 +1,270 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0a0e27">
-    <meta name="description" content="SYF - Secure Your Future | India's Premium SSC, Banking & Railway Exam Preparation Platform">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://pdfhost.io https://*.pdfhost.io; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://pdfhost.io; frame-src 'self' https://pdfhost.io https://*.pdfhost.io;">
-    <title>SYF - Secure Your Future | Premium Exam Preparation</title>
-    
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYF - SSC Bank Railway Math</title>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                            950: '#1e1b4b',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        },
-                        surface: {
-                            dark: '#0a0e27',
-                            card: 'rgba(15, 23, 42, 0.8)',
-                            glass: 'rgba(30, 41, 59, 0.6)',
-                        }
-                    },
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
-                        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    
+
     <style>
-        /* Custom Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-            min-height: 100vh;
-            color: #e2e8f0;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        
-        /* Glass Morphism */
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .glass-card:hover {
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .glass-nav {
-            background: rgba(10, 14, 39, 0.8);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
-        }
-        
-        /* Particle Background */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 10px;
-        }
-        
-        /* Loading Skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.4) 25%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.4) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        /* Ripple Effect */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ripple::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            padding-top: 100%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(0);
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .ripple:active::after {
-            animation: rippleEffect 0.6s ease-out;
-        }
-        
-        @keyframes rippleEffect {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(4); opacity: 0; }
-        }
-        
-        /* PDF Viewer Styles */
-        .pdf-container {
-            width: 100%;
-            height: 80vh;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #000;
-        }
-        
-        .pdf-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Admin Upload Area */
-        .upload-area {
-            border: 2px dashed rgba(99, 102, 241, 0.4);
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-area:hover {
-            border-color: rgba(99, 102, 241, 0.8);
-            background: rgba(99, 102, 241, 0.05);
-        }
-        
-        .upload-area.dragover {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.1);
-            transform: scale(1.02);
-        }
-        
-        @media (max-width: 768px) {
-            .glass-card {
-                border-radius: 16px;
-                backdrop-filter: blur(12px);
-            }
-            
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s;
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-        }
-        
-        /* CBT Timer Animation */
-        @keyframes timerPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        
-        .timer-warning {
-            animation: timerPulse 1s infinite;
-            color: #ef4444;
-        }
+        :root { --primary: #1a73e8; --accent: #ff6d00; --bg: #f0f4f8; --card-bg: #ffffff; --text: #1a1a2e; --text-light: #5f6368; --border: #e0e0e0; --shadow: 0 4px 20px rgba(0,0,0,0.08); --radius: 16px; --transition: all 0.3s ease; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); color: white; padding: 20px 0; position: sticky; top: 0; z-index: 1000; }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
+        .logo-section { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; background: var(--accent); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; }
+        .logo-text h1 { font-size: 1.5rem; font-weight: 800; } .logo-text span { font-size: 0.75rem; color: #ffab40; }
+        .header-stats { display: flex; gap: 20px; }
+        .stat-badge { background: rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .stat-badge i { color: #ffab40; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .search-wrapper { position: relative; max-width: 500px; margin-bottom: 30px; }
+        .search-wrapper input { width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--border); border-radius: 50px; font-size: 1rem; outline: none; }
+        .search-wrapper i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .chapter-card { background: var(--card-bg); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); border-left: 5px solid var(--primary); transition: var(--transition); }
+        .chapter-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+        .chapter-number { font-size: 0.8rem; color: var(--primary); font-weight: 700; }
+        .chapter-title { font-size: 1.2rem; font-weight: 700; margin: 6px 0; }
+        .chapter-desc { font-size: 0.9rem; color: var(--text-light); margin-bottom: 12px; }
+        .chapter-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+        .meta-item { font-size: 0.8rem; background: #f5f5f5; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+        .meta-item i { color: var(--primary); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--card-bg); border-radius: var(--radius); width: 90%; max-width: 900px; max-height: 85vh; overflow-y: auto; animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+        .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; position: sticky; top: 0; background: var(--card-bg); }
+        .modal-close { width: 40px; height: 40px; border-radius: 50%; border: none; background: #f5f5f5; cursor: pointer; font-size: 1.2rem; }
+        .modal-close:hover { background: #ff5252; color: white; }
+        .modal-body { padding: 24px; }
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 20px; border: 2px solid var(--border); border-radius: 25px; cursor: pointer; font-weight: 600; transition: var(--transition); }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-content { display: none; } .tab-content.active { display: block; }
+        .notes-list { display: flex; flex-direction: column; gap: 10px; }
+        .note-item { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f8fafc; border-radius: 12px; text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: var(--transition); }
+        .note-item:hover { background: #e8f0fe; border-color: var(--primary); }
+        .note-icon { width: 45px; height: 45px; background: #ff5252; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
+        .note-info strong { display: block; }
+        .cbt-container { text-align: center; padding: 40px; }
+        .cbt-btn { padding: 16px 40px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 10px; }
+        .cbt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(26,115,232,0.4); }
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .gallery-item { border-radius: 12px; overflow: hidden; cursor: pointer; aspect-ratio: 1; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .pdf-viewer { width: 100%; height: 80vh; border: none; border-radius: 12px; }
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; } .lightbox img { max-width: 90%; max-height: 90%; border-radius: 12px; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
+        .empty-state i { font-size: 4rem; opacity: 0.3; }
+        @media (max-width:768px) { .chapter-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body class="dark">
-    <!-- Particle Background -->
-    <canvas id="particles-canvas"></canvas>
-    
-    <!-- Admin PDF Upload Modal -->
-    <div id="adminUploadModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
-        <div class="glass-card p-8 max-w-2xl w-full mx-4 animate-slide-up">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-white font-jakarta">📤 Upload PDF to PDFHost</h2>
-                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white text-2xl">
-                    <i class="fas fa-times"></i>
-                </button>
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-section">
+                <div class="logo-icon">SYF</div>
+                <div class="logo-text"><h1>SYF Mathematics</h1><span>SSC • BANK • RAILWAY</span></div>
             </div>
-            
-            <!-- Upload Method Selection -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <button onclick="showUploadArea()" class="glass-card p-6 text-center hover:border-primary-500">
-                    <i class="fas fa-cloud-upload-alt text-4xl text-primary-400 mb-3"></i>
-                    <h3 class="text-white font-semibold">Upload to PDFHost</h3>
-                    <p class="text-sm text-gray-400 mt-2">Upload PDF directly to PDFHost.io</p>
-                </button>
-                <button onclick="showDirectLinkInput()" class="glass-card p-6 text-center hover:border-primary-500">
-                    <i class="fas fa-link text-4xl text-green-400 mb-3"></i>
-                    <h3 class="text-white font-semibold">Paste PDF Link</h3>
-                    <p class="text-sm text-gray-400 mt-2">Already have a PDFHost link?</p>
-                </button>
+            <div class="header-stats">
+                <div class="stat-badge"><i class="fas fa-book-open"></i><span id="totalChapters">0 Chapters</span></div>
+                <div class="stat-badge"><i class="fas fa-file-pdf"></i><span id="totalNotes">0 Notes</span></div>
             </div>
-            
-            <!-- Upload Area -->
-            <div id="uploadSection" class="hidden">
-                <div class="upload-area mb-4" id="dropZone">
-                    <i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i>
-                    <p class="text-white font-semibold mb-2">Click to upload or drag & drop</p>
-                    <p class="text-sm text-gray-400">PDF files only (Max 50MB)</p>
-                    <input type="file" id="pdfFileInput" accept=".pdf" class="hidden" onchange="handleFileSelect(event)">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Chapter search karein..." oninput="filterChapters()">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="section-title"><i class="fas fa-list-ol" style="color:var(--accent);"></i> All Chapters</div>
+        <div class="chapter-grid" id="chapterGrid"><div class="empty-state" style="grid-column:1/-1;"><div class="spinner"></div><p>Loading...</p></div></div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header"><h3 id="modalTitle">Chapter Details</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('notes', event)"><i class="fas fa-file-pdf"></i> Notes</button>
+                    <button class="tab-btn" onclick="switchTab('cbt', event)"><i class="fas fa-question-circle"></i> CBT Exam</button>
+                    <button class="tab-btn" onclick="switchTab('images', event)"><i class="fas fa-images"></i> Images</button>
                 </div>
-                
-                <div id="uploadProgress" class="hidden mb-4">
-                    <div class="flex items-center gap-3 mb-2">
-                        <i class="fas fa-spinner fa-spin text-primary-400"></i>
-                        <span class="text-white">Uploading to PDFHost...</span>
-                    </div>
-                    <div class="w-full bg-gray-700 rounded-full h-2">
-                        <div class="bg-gradient-to-r from-primary-500 to-purple-500 h-2 rounded-full transition-all" id="progressBar" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Direct Link Input -->
-            <div id="directLinkSection" class="hidden">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-white mb-2">PDFHost.io Link</label>
-                        <input type="url" id="directPdfLink" placeholder="https://pdfhost.io/v/example.pdf" 
-                               class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-white mb-2">PDF Title</label>
-                        <input type="text" id="directPdfTitle" placeholder="Enter PDF title..." 
-                               class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-white mb-2">Subject / Chapter</label>
-                        <select id="directPdfCategory" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
-                            <option value="">Select Category</option>
-                            <option value="mathematics">Mathematics</option>
-                            <option value="reasoning">Reasoning</option>
-                            <option value="english">English</option>
-                            <option value="gk-gs">GK / GS</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Uploaded PDFs List -->
-            <div class="mt-6 max-h-60 overflow-y-auto">
-                <h3 class="text-white font-semibold mb-3">📚 Recently Uploaded PDFs</h3>
-                <div id="uploadedPdfsList" class="space-y-2">
-                    <!-- Dynamic list -->
-                </div>
-            </div>
-            
-            <div class="flex gap-3 mt-6">
-                <button onclick="savePdfLink()" class="flex-1 bg-gradient-to-r from-primary-500 to-purple-500 px-6 py-3 rounded-xl text-white font-semibold hover:shadow-lg transition-all">
-                    <i class="fas fa-save mr-2"></i> Save to Database
-                </button>
-                <button onclick="closeAdminModal()" class="glass-card px-6 py-3 text-gray-400 hover:text-white">
-                    Cancel
-                </button>
+                <div class="tab-content active" id="tab-notes"><div id="notesList"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-cbt"><div id="cbtContainer"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-images"><div class="image-gallery" id="imageGallery"><div class="spinner"></div></div></div>
             </div>
         </div>
     </div>
-    
-    <!-- Main Container -->
-    <div class="relative z-10 flex min-h-screen">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="sidebar fixed lg:relative z-40 w-72 lg:w-80 h-screen glass-nav overflow-y-auto transition-transform duration-300">
-            <div class="p-6">
-                <!-- Logo -->
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/25">
-                        <span class="text-2xl font-black text-white font-jakarta">SYF</span>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-bold text-white font-jakarta leading-tight">Secure Your Future</h1>
-                        <p class="text-xs text-gray-400">Practice Today, Secure Tomorrow</p>
-                    </div>
-                </div>
-                
-                <!-- User Stats -->
-                <div class="glass-card p-4 mb-6">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full flex items-center justify-center text-white font-bold">S</div>
-                        <div>
-                            <p class="text-sm font-semibold text-white">Student Name</p>
-                            <p class="text-xs text-gray-400">Premium Member</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 text-center">
-                        <div>
-                            <p class="text-lg font-bold text-primary-400">127</p>
-                            <p class="text-xs text-gray-400">Day Streak 🔥</p>
-                        </div>
-                        <div>
-                            <p class="text-lg font-bold text-gold-400">8,450</p>
-                            <p class="text-xs text-gray-400">XP Points ⭐</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation -->
-                <nav class="space-y-2">
-                    <div class="flex items-center gap-2 px-3 py-2 text-primary-400 bg-primary-500/10 rounded-lg cursor-pointer" onclick="navigateTo('dashboard')">
-                        <i class="fas fa-home w-5"></i>
-                        <span class="font-medium">Dashboard</span>
-                    </div>
-                    
-                    <div class="mt-4 space-y-1" id="subjectNav">
-                        <!-- Dynamic Subject Navigation -->
-                    </div>
-                    
-                    <div class="border-t border-gray-700/50 my-4 pt-4">
-                        <a href="#" class="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
-                            <i class="fas fa-robot w-5"></i>
-                            <span>AI Assistant</span>
-                        </a>
-                        <a href="#" class="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
-                            <i class="fas fa-trophy w-5"></i>
-                            <span>Leaderboard</span>
-                        </a>
-                        <button onclick="openAdminModal()" class="w-full flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
-                            <i class="fas fa-shield-alt w-5"></i>
-                            <span>Admin Panel</span>
-                        </button>
-                    </div>
-                </nav>
-            </div>
-        </aside>
-        
-        <!-- Overlay for mobile sidebar -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick="toggleSidebar()"></div>
-        
-        <!-- Main Content -->
-        <main class="flex-1 p-4 lg:p-8 overflow-y-auto">
-            <!-- Top Bar -->
-            <div class="flex items-center justify-between mb-8">
-                <button class="lg:hidden text-white p-2 glass-card" onclick="toggleSidebar()">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                
-                <div class="flex items-center gap-4 ml-auto">
-                    <button class="relative p-2 glass-card text-gray-400 hover:text-white transition-colors">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
-                    </button>
-                    <button onclick="openAdminModal()" class="glass-card px-4 py-2 text-gray-400 hover:text-white flex items-center gap-2">
-                        <i class="fas fa-upload"></i>
-                        <span class="hidden sm:inline">Upload PDF</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Dashboard Content -->
-            <div id="mainContent">
-                <!-- Welcome Section -->
-                <div class="mb-8 animate-slide-up">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-white font-jakarta mb-2">
-                        Welcome Back, <span class="bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">Champion!</span>
-                    </h2>
-                    <p class="text-gray-400">Access your study materials, PDFs, and practice tests.</p>
-                </div>
-                
-                <!-- Quick Stats -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-file-pdf text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white" id="totalPdfs">24</p>
-                                <p class="text-xs text-gray-400">PDFs Available</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-check-circle text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">85%</p>
-                                <p class="text-xs text-gray-400">Accuracy</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-clock text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">12.5h</p>
-                                <p class="text-xs text-gray-400">Study Time</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 animate-slide-up">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-medal text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold text-white">#42</p>
-                                <p class="text-xs text-gray-400">Rank</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Subject Cards -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">📚 Your Subjects</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8" id="subjectCards">
-                    <!-- Dynamic Subject Cards -->
-                </div>
-                
-                <!-- Recent PDFs Section -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">📄 Recent Study Materials</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" id="recentPdfs">
-                    <!-- Dynamic PDF cards -->
-                </div>
-                
-                <!-- Continue Learning -->
-                <h3 class="text-xl font-bold text-white mb-4 font-jakarta">🎯 Continue Learning</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div class="glass-card p-4 cursor-pointer hover:border-primary-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-calculator text-blue-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Digital Sum</p>
-                                <p class="text-xs text-gray-400">Chapter 1 • 60% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 60%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 cursor-pointer hover:border-purple-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-brain text-purple-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Analogy</p>
-                                <p class="text-xs text-gray-400">Chapter 3 • 45% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full" style="width: 45%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card p-4 cursor-pointer hover:border-green-500/50 transition-all">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-globe text-green-400"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-white text-sm">Indian History</p>
-                                <p class="text-xs text-gray-400">Chapter 5 • 30% Complete</p>
-                            </div>
-                        </div>
-                        <div class="w-full bg-gray-700/50 rounded-full h-2">
-                            <div class="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style="width: 30%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- PDF Viewer Modal -->
-            <div id="pdfViewerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm">
-                <div class="w-full h-full max-w-7xl mx-auto p-4 flex flex-col">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-white text-xl font-semibold" id="pdfViewerTitle">PDF Viewer</h3>
-                        <div class="flex gap-3">
-                            <button onclick="downloadCurrentPdf()" class="glass-card px-4 py-2 text-white hover:text-primary-400">
-                                <i class="fas fa-download mr-2"></i>Download
-                            </button>
-                            <button onclick="closePdfViewer()" class="glass-card px-4 py-2 text-white hover:text-red-400">
-                                <i class="fas fa-times text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="flex-1 pdf-container">
-                        <iframe id="pdfViewerFrame" src="" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CBT Engine (Hidden) -->
-            <div id="cbtEngine" class="hidden"></div>
-        </main>
-    </div>
-    
-    <!-- Mobile Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 glass-nav lg:hidden z-50 px-4 py-2">
-        <div class="flex justify-around items-center">
-            <button class="flex flex-col items-center text-primary-400" onclick="navigateTo('dashboard')">
-                <i class="fas fa-home text-xl"></i>
-                <span class="text-xs mt-1">Home</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400" onclick="navigateTo('subjects')">
-                <i class="fas fa-book text-xl"></i>
-                <span class="text-xs mt-1">Subjects</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400" onclick="openAdminModal()">
-                <i class="fas fa-upload text-xl"></i>
-                <span class="text-xs mt-1">Upload</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400">
-                <i class="fas fa-chart-bar text-xl"></i>
-                <span class="text-xs mt-1">Analytics</span>
-            </button>
-            <button class="flex flex-col items-center text-gray-400">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-xs mt-1">Profile</span>
-            </button>
-        </div>
-    </nav>
-    
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img src="" id="lightboxImg"></div>
+
     <script>
-        // ============================================
-        // SYF - Secure Your Future
-        // PDFHost.io Integration System
-        // ============================================
-        
-        // PDF Database (Simulated - Replace with Firebase)
-        const PDF_DATABASE = {
-            pdfs: JSON.parse(localStorage.getItem('syf_pdfs') || '[]'),
-            
-            addPdf(pdfData) {
-                pdfData.id = Date.now().toString();
-                pdfData.uploadedAt = new Date().toISOString();
-                this.pdfs.unshift(pdfData);
-                this.save();
-                return pdfData;
-            },
-            
-            getPdfsBySubject(subjectId) {
-                return this.pdfs.filter(pdf => pdf.subject === subjectId);
-            },
-            
-            getAllPdfs() {
-                return this.pdfs;
-            },
-            
-            deletePdf(pdfId) {
-                this.pdfs = this.pdfs.filter(pdf => pdf.id !== pdfId);
-                this.save();
-            },
-            
-            save() {
-                localStorage.setItem('syf_pdfs', JSON.stringify(this.pdfs));
-            }
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+            authDomain: "starlet-registor.firebaseapp.com",
+            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
+            projectId: "starlet-registor",
+            storageBucket: "starlet-registor.firebasestorage.app",
+            messagingSenderId: "904193225045",
+            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+            measurementId: "G-1NLM1F0262"
         };
-        
-        // Application Data
-        const APP_DATA = {
-            subjects: [
-                {
-                    id: 'mathematics',
-                    name: 'Mathematics',
-                    icon: 'fa-calculator',
-                    color: 'blue',
-                    gradient: 'from-blue-500 to-blue-600',
-                    chapters: [
-                        { id: 'digital-sum', name: 'Digital Sum', progress: 60 },
-                        { id: 'number-system', name: 'Number System', progress: 75 },
-                        { id: 'percentage', name: 'Percentage', progress: 40 },
-                        { id: 'profit-loss', name: 'Profit & Loss', progress: 25 },
-                        { id: 'average', name: 'Average', progress: 90 },
-                        { id: 'ratio', name: 'Ratio & Proportion', progress: 55 }
-                    ]
-                },
-                {
-                    id: 'reasoning',
-                    name: 'Reasoning',
-                    icon: 'fa-brain',
-                    color: 'purple',
-                    gradient: 'from-purple-500 to-purple-600',
-                    chapters: [
-                        { id: 'analogy', name: 'Analogy', progress: 45 },
-                        { id: 'classification', name: 'Classification', progress: 70 },
-                        { id: 'series', name: 'Series', progress: 30 },
-                        { id: 'coding-decoding', name: 'Coding-Decoding', progress: 80 }
-                    ]
-                },
-                {
-                    id: 'english',
-                    name: 'English',
-                    icon: 'fa-language',
-                    color: 'green',
-                    gradient: 'from-green-500 to-green-600',
-                    chapters: [
-                        { id: 'grammar', name: 'Grammar', progress: 65 },
-                        { id: 'vocabulary', name: 'Vocabulary', progress: 50 },
-                        { id: 'comprehension', name: 'Comprehension', progress: 35 }
-                    ]
-                },
-                {
-                    id: 'gk-gs',
-                    name: 'GK / GS',
-                    icon: 'fa-globe',
-                    color: 'orange',
-                    gradient: 'from-orange-500 to-orange-600',
-                    chapters: [
-                        { id: 'indian-history', name: 'Indian History', progress: 30 },
-                        { id: 'geography', name: 'Geography', progress: 55 },
-                        { id: 'polity', name: 'Indian Polity', progress: 40 },
-                        { id: 'science', name: 'General Science', progress: 70 }
-                    ]
-                }
-            ],
-            currentView: 'dashboard',
-            currentPdfUrl: null
-        };
-        
-        // Particle System
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.init();
-            }
-            
-            init() {
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-                
-                for (let i = 0; i < 40; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        size: Math.random() * 2 + 1,
-                        speedX: (Math.random() - 0.5) * 0.5,
-                        speedY: (Math.random() - 0.5) * 0.5,
-                        opacity: Math.random() * 0.5 + 0.2
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let allChapters = [], currentChapterId = null, totalNotesCount = 0;
+
+        function loadChapters() {
+            db.ref('chapters').on('value', (snapshot) => {
+                allChapters = []; totalNotesCount = 0;
+                if (snapshot.exists()) {
+                    const promises = [];
+                    snapshot.forEach((child) => {
+                        const obj = { id: child.key, ...child.val() };
+                        const p = db.ref(`chapters/${child.key}/notes`).once('value').then(ns => {
+                            obj.notesCount = ns.exists() ? ns.numChildren() : 0;
+                            totalNotesCount += obj.notesCount;
+                        });
+                        promises.push(p);
+                        allChapters.push(obj);
                     });
-                }
-                
-                this.animate();
-            }
-            
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            animate() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(particle => {
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-                    
-                    if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
-                    if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
-                    
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `rgba(99, 102, 241, ${particle.opacity})`;
-                    this.ctx.fill();
-                });
-                
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-        
-        new ParticleSystem();
-        
-        // Admin Modal Functions
-        function openAdminModal() {
-            document.getElementById('adminUploadModal').classList.remove('hidden');
-            document.getElementById('adminUploadModal').classList.add('flex');
-            document.getElementById('uploadSection').classList.add('hidden');
-            document.getElementById('directLinkSection').classList.add('hidden');
-            renderUploadedPdfs();
-            setupDragDrop();
-        }
-        
-        function closeAdminModal() {
-            document.getElementById('adminUploadModal').classList.add('hidden');
-            document.getElementById('adminUploadModal').classList.remove('flex');
-        }
-        
-        function showUploadArea() {
-            document.getElementById('uploadSection').classList.remove('hidden');
-            document.getElementById('directLinkSection').classList.add('hidden');
-            setupDragDrop();
-        }
-        
-        function showDirectLinkInput() {
-            document.getElementById('directLinkSection').classList.remove('hidden');
-            document.getElementById('uploadSection').classList.add('hidden');
-        }
-        
-        // Drag & Drop Setup
-        function setupDragDrop() {
-            const dropZone = document.getElementById('dropZone');
-            if (!dropZone) return;
-            
-            dropZone.addEventListener('click', () => {
-                document.getElementById('pdfFileInput').click();
-            });
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-            
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                const file = e.dataTransfer.files[0];
-                if (file && file.type === 'application/pdf') {
-                    uploadToPdfHost(file);
+                    Promise.all(promises).then(() => {
+                        allChapters.sort((a,b) => (a.order||0)-(b.order||0));
+                        renderChapters(allChapters);
+                        updateStats();
+                    });
                 } else {
-                    alert('Please upload a PDF file only!');
+                    document.getElementById('chapterGrid').innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-book-open"></i><h3>No chapters yet</h3></div>';
+                    updateStats();
                 }
             });
         }
-        
-        // File Select Handler
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                uploadToPdfHost(file);
-            }
-        }
-        
-        // Upload to PDFHost.io
-        async function uploadToPdfHost(file) {
-            if (file.size > 50 * 1024 * 1024) {
-                alert('File size must be less than 50MB');
-                return;
-            }
-            
-            const progressDiv = document.getElementById('uploadProgress');
-            const progressBar = document.getElementById('progressBar');
-            progressDiv.classList.remove('hidden');
-            
-            // Simulate upload progress (PDFHost API integration)
-            for (let i = 0; i <= 100; i += 10) {
-                await new Promise(resolve => setTimeout(resolve, 200));
-                progressBar.style.width = i + '%';
-            }
-            
-            // Generate PDFHost.io link (In production, use actual API)
-            const pdfHostUrl = `https://pdfhost.io/v/${file.name.replace(/\s+/g, '-').toLowerCase()}`;
-            
-            // Save to database
-            const pdfData = {
-                title: file.name.replace('.pdf', ''),
-                url: pdfHostUrl,
-                fileName: file.name,
-                fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB',
-                subject: prompt('Enter subject (mathematics/reasoning/english/gk-gs):') || 'mathematics',
-                chapter: prompt('Enter chapter name:') || 'general'
-            };
-            
-            PDF_DATABASE.addPdf(pdfData);
-            
-            progressDiv.classList.add('hidden');
-            alert('✅ PDF uploaded successfully to PDFHost.io!');
-            renderUploadedPdfs();
-            renderRecentPdfs();
-            updateTotalPdfs();
-        }
-        
-        // Save Direct PDF Link
-        function savePdfLink() {
-            const directLink = document.getElementById('directPdfLink')?.value;
-            const directTitle = document.getElementById('directPdfTitle')?.value;
-            const directCategory = document.getElementById('directPdfCategory')?.value;
-            
-            if (directLink && directTitle) {
-                const pdfData = {
-                    title: directTitle,
-                    url: directLink,
-                    fileName: directTitle + '.pdf',
-                    fileSize: 'Unknown',
-                    subject: directCategory || 'mathematics',
-                    chapter: 'general'
-                };
-                
-                PDF_DATABASE.addPdf(pdfData);
-                alert('✅ PDF link saved successfully!');
-                renderUploadedPdfs();
-                renderRecentPdfs();
-                updateTotalPdfs();
-                
-                // Clear inputs
-                document.getElementById('directPdfLink').value = '';
-                document.getElementById('directPdfTitle').value = '';
-            } else {
-                alert('Please fill all required fields!');
-            }
-        }
-        
-        // Render Uploaded PDFs in Admin Panel
-        function renderUploadedPdfs() {
-            const container = document.getElementById('uploadedPdfsList');
-            const pdfs = PDF_DATABASE.getAllPdfs();
-            
-            if (pdfs.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-4">No PDFs uploaded yet</p>';
-                return;
-            }
-            
-            container.innerHTML = pdfs.slice(0, 10).map(pdf => `
-                <div class="glass-card p-3 flex items-center justify-between">
-                    <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <i class="fas fa-file-pdf text-red-400 text-xl flex-shrink-0"></i>
-                        <div class="min-w-0">
-                            <p class="text-white text-sm truncate">${pdf.title}</p>
-                            <p class="text-xs text-gray-400">${pdf.fileSize} • ${new Date(pdf.uploadedAt).toLocaleDateString()}</p>
-                        </div>
+
+        function renderChapters(chapters) {
+            const grid = document.getElementById('chapterGrid');
+            if (!chapters.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-search"></i><h3>No match</h3></div>'; return; }
+            grid.innerHTML = chapters.map((ch,i) => `
+                <div class="chapter-card" onclick="openChapter('${ch.id}')">
+                    <div class="chapter-number">Chapter ${ch.order||i+1}</div>
+                    <div class="chapter-title">${ch.title||'Untitled'}</div>
+                    <div class="chapter-desc">${ch.description||''}</div>
+                    <div class="chapter-meta">
+                        <span class="meta-item"><i class="fas fa-file-pdf"></i>${ch.notesCount||0} Notes</span>
+                        <span class="meta-item"><i class="fas fa-question-circle"></i>${ch.hasCBT?'CBT Ready':'No CBT'}</span>
+                        <span class="meta-item"><i class="fas fa-images"></i>${ch.imagesCount||0} Img</span>
                     </div>
-                    <div class="flex gap-2 flex-shrink-0">
-                        <button onclick="viewPdf('${pdf.url}', '${pdf.title}')" class="text-primary-400 hover:text-primary-300 p-2">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button onclick="deletePdf('${pdf.id}')" class="text-red-400 hover:text-red-300 p-2">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
-        
-        // View PDF in Modal
-        function viewPdf(url, title) {
-            APP_DATA.currentPdfUrl = url;
-            document.getElementById('pdfViewerFrame').src = url;
-            document.getElementById('pdfViewerTitle').textContent = title;
-            document.getElementById('pdfViewerModal').classList.remove('hidden');
-            document.getElementById('pdfViewerModal').classList.add('flex');
+
+        function filterChapters() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderChapters(allChapters.filter(c => (c.title||'').toLowerCase().includes(q) || (c.description||'').toLowerCase().includes(q)));
+        }
+
+        function openChapter(id) {
+            currentChapterId = id;
+            const ch = allChapters.find(c => c.id === id);
+            if(!ch) return;
+            document.getElementById('modalTitle').textContent = ch.title;
+            document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
+            loadNotes(id); loadCBT(id); loadImages(id);
+            switchTab('notes', {target: document.querySelector('.tab-btn')});
         }
-        
-        // Close PDF Viewer
-        function closePdfViewer() {
-            document.getElementById('pdfViewerModal').classList.add('hidden');
-            document.getElementById('pdfViewerModal').classList.remove('flex');
-            document.getElementById('pdfViewerFrame').src = '';
-            document.body.style.overflow = 'auto';
-            APP_DATA.currentPdfUrl = null;
+
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
+        document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+        document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeModal(); closeLightbox(); } });
+
+        function switchTab(name, event) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.closest('.tab-btn').classList.add('active');
+            document.getElementById(`tab-${name}`).classList.add('active');
         }
-        
-        // Download Current PDF
-        function downloadCurrentPdf() {
-            if (APP_DATA.currentPdfUrl) {
-                window.open(APP_DATA.currentPdfUrl, '_blank');
-            }
-        }
-        
-        // Delete PDF
-        function deletePdf(pdfId) {
-            if (confirm('Are you sure you want to delete this PDF?')) {
-                PDF_DATABASE.deletePdf(pdfId);
-                renderUploadedPdfs();
-                renderRecentPdfs();
-                updateTotalPdfs();
-            }
-        }
-        
-        // Render Recent PDFs on Dashboard
-        function renderRecentPdfs() {
-            const container = document.getElementById('recentPdfs');
-            const pdfs = PDF_DATABASE.getAllPdfs().slice(0, 6);
-            
-            if (pdfs.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full glass-card p-8 text-center">
-                        <i class="fas fa-file-pdf text-5xl text-gray-600 mb-3"></i>
-                        <p class="text-gray-400">No PDFs uploaded yet. Click "Upload PDF" to add study materials.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = pdfs.map(pdf => `
-                <div class="glass-card p-4 cursor-pointer hover:border-red-500/50 transition-all group" onclick="viewPdf('${pdf.url}', '${pdf.title}')">
-                    <div class="flex items-start gap-3">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/30 transition-all">
-                            <i class="fas fa-file-pdf text-red-400 text-xl"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-white font-semibold text-sm truncate">${pdf.title}</h4>
-                            <p class="text-xs text-gray-400 mt-1">${pdf.fileSize}</p>
-                            <p class="text-xs text-gray-500 mt-1">${new Date(pdf.uploadedAt).toLocaleDateString()}</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 flex gap-2">
-                        <span class="text-xs bg-primary-500/20 text-primary-400 px-2 py-1 rounded">${pdf.subject}</span>
-                        <span class="text-xs bg-gray-500/20 text-gray-400 px-2 py-1 rounded">${pdf.chapter}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // Update Total PDFs Count
-        function updateTotalPdfs() {
-            const totalElement = document.getElementById('totalPdfs');
-            if (totalElement) {
-                totalElement.textContent = PDF_DATABASE.getAllPdfs().length;
-            }
-        }
-        
-        // Render Subject Cards
-        function renderSubjectCards() {
-            const container = document.getElementById('subjectCards');
-            container.innerHTML = APP_DATA.subjects.map(subject => `
-                <div class="glass-card p-6 cursor-pointer group relative overflow-hidden" onclick="openSubject('${subject.id}')">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${subject.gradient} opacity-10 rounded-full -mr-16 -mt-16 group-hover:opacity-20 transition-all duration-500"></div>
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-14 h-14 bg-gradient-to-br ${subject.gradient} rounded-2xl flex items-center justify-center shadow-lg">
-                            <i class="fas ${subject.icon} text-white text-2xl"></i>
-                        </div>
-                        <div class="flex items-center gap-1 text-xs text-gray-400">
-                            <i class="fas fa-file-pdf text-red-400"></i>
-                            <span>${PDF_DATABASE.getPdfsBySubject(subject.id).length} PDFs</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-white font-jakarta mb-3">${subject.name}</h3>
-                    <div class="w-full bg-gray-700/50 rounded-full h-2 mb-2">
-                        <div class="bg-gradient-to-r ${subject.gradient} h-2 rounded-full" style="width: ${calculateSubjectProgress(subject)}%"></div>
-                    </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-400">Progress</span>
-                        <span class="text-white font-semibold">${calculateSubjectProgress(subject)}%</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // Render Subject Navigation
-        function renderSubjectNav() {
-            const container = document.getElementById('subjectNav');
-            container.innerHTML = APP_DATA.subjects.map(subject => `
-                <div class="mb-2">
-                    <button class="w-full flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all" onclick="openSubject('${subject.id}')">
-                        <i class="fas ${subject.icon} w-5 text-${subject.color}-400"></i>
-                        <span class="font-medium">${subject.name}</span>
-                        <span class="ml-auto text-xs bg-primary-500/20 text-primary-400 px-2 py-0.5 rounded">${PDF_DATABASE.getPdfsBySubject(subject.id).length}</span>
-                    </button>
-                </div>
-            `).join('');
-        }
-        
-        // Calculate Subject Progress
-        function calculateSubjectProgress(subject) {
-            const total = subject.chapters.reduce((sum, ch) => sum + ch.progress, 0);
-            return Math.round(total / subject.chapters.length);
-        }
-        
-        // Open Subject View with PDFs
-        function openSubject(subjectId) {
-            const subject = APP_DATA.subjects.find(s => s.id === subjectId);
-            if (!subject) return;
-            
-            const subjectPdfs = PDF_DATABASE.getPdfsBySubject(subjectId);
-            
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="animate-slide-up">
-                    <button class="glass-card px-4 py-2 text-gray-400 hover:text-white mb-6 flex items-center gap-2" onclick="navigateTo('dashboard')">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back to Dashboard</span>
-                    </button>
-                    
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-16 h-16 bg-gradient-to-br ${subject.gradient} rounded-2xl flex items-center justify-center shadow-lg">
-                            <i class="fas ${subject.icon} text-white text-3xl"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-bold text-white font-jakarta">${subject.name}</h2>
-                            <p class="text-gray-400">${subject.chapters.length} Chapters • ${subjectPdfs.length} PDFs Available</p>
-                        </div>
-                    </div>
-                    
-                    <!-- PDFs Section -->
-                    <h3 class="text-xl font-bold text-white mb-4">📄 Study Materials (PDFs)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        ${subjectPdfs.length > 0 ? subjectPdfs.map(pdf => `
-                            <div class="glass-card p-4 cursor-pointer hover:border-red-500/50 transition-all" onclick="viewPdf('${pdf.url}', '${pdf.title}')">
-                                <i class="fas fa-file-pdf text-4xl text-red-400 mb-3"></i>
-                                <h4 class="text-white font-semibold">${pdf.title}</h4>
-                                <p class="text-sm text-gray-400">${pdf.fileSize}</p>
-                            </div>
-                        `).join('') : `
-                            <div class="col-span-full glass-card p-8 text-center">
-                                <p class="text-gray-400">No PDFs uploaded yet for this subject.</p>
-                            </div>
-                        `}
-                    </div>
-                    
-                    <!-- Chapters -->
-                    <h3 class="text-xl font-bold text-white mb-4">📖 Chapters</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        ${subject.chapters.map(chapter => `
-                            <div class="glass-card p-4 cursor-pointer hover:border-${subject.color}-500/50 transition-all" onclick="openChapter('${subject.id}', '${chapter.id}')">
-                                <div class="flex items-center justify-between mb-3">
-                                    <h4 class="font-semibold text-white">${chapter.name}</h4>
-                                    <span class="text-sm text-gray-400">${chapter.progress}%</span>
-                                </div>
-                                <div class="w-full bg-gray-700/50 rounded-full h-2 mb-3">
-                                    <div class="bg-gradient-to-r ${subject.gradient} h-2 rounded-full" style="width: ${chapter.progress}%"></div>
-                                </div>
-                                <div class="flex gap-2 flex-wrap">
-                                    <button class="text-xs bg-${subject.color}-500/20 text-${subject.color}-400 px-3 py-1 rounded-lg">Notes</button>
-                                    <button class="text-xs bg-${subject.color}-500/20 text-${subject.color}-400 px-3 py-1 rounded-lg">CBT PYQ</button>
-                                    <button class="text-xs bg-${subject.color}-500/20 text-${subject.color}-400 px-3 py-1 rounded-lg" onclick="event.stopPropagation(); openAdminModal();">Add PDF</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Open Chapter
-        function openChapter(subjectId, chapterId) {
-            const subject = APP_DATA.subjects.find(s => s.id === subjectId);
-            const chapter = subject?.chapters.find(c => c.id === chapterId);
-            if (!chapter) return;
-            
-            const chapterPdfs = PDF_DATABASE.getAllPdfs().filter(pdf => 
-                pdf.subject === subjectId && pdf.chapter === chapterId
-            );
-            
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="animate-slide-up">
-                    <button class="glass-card px-4 py-2 text-gray-400 hover:text-white mb-6 flex items-center gap-2" onclick="openSubject('${subjectId}')">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back to ${subject?.name}</span>
-                    </button>
-                    
-                    <div class="glass-card p-6 mb-6">
-                        <h2 class="text-2xl font-bold text-white font-jakarta mb-4">${chapterId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h2>
-                        
-                        <!-- Chapter PDFs -->
-                        ${chapterPdfs.length > 0 ? `
-                            <h4 class="text-white font-semibold mb-3">📄 Chapter PDFs</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                                ${chapterPdfs.map(pdf => `
-                                    <div class="glass-card p-3 flex items-center gap-3 cursor-pointer hover:border-red-500/50" onclick="viewPdf('${pdf.url}', '${pdf.title}')">
-                                        <i class="fas fa-file-pdf text-red-400 text-2xl"></i>
-                                        <div>
-                                            <p class="text-white text-sm">${pdf.title}</p>
-                                            <p class="text-xs text-gray-400">${pdf.fileSize}</p>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all" onclick="openCBT('${subjectId}', '${chapterId}')">
-                                <i class="fas fa-desktop text-2xl text-primary-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">CBT Mock Test</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-book-open text-2xl text-green-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Notes</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all">
-                                <i class="fas fa-pencil-alt text-2xl text-purple-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Practice</p>
-                            </button>
-                            <button class="glass-card p-4 text-center hover:border-primary-500/50 transition-all" onclick="event.stopPropagation(); openAdminModal();">
-                                <i class="fas fa-upload text-2xl text-gold-400 mb-2"></i>
-                                <p class="text-sm text-white font-medium">Upload PDF</p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Navigate
-        function navigateTo(view) {
-            if (view === 'dashboard') {
-                location.reload();
-            } else if (view === 'subjects') {
-                openSubject(APP_DATA.subjects[0].id);
-            }
-        }
-        
-        // Toggle Sidebar
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebarOverlay').classList.toggle('hidden');
-        }
-        
-        // Initialize
-        function initApp() {
-            renderSubjectCards();
-            renderSubjectNav();
-            renderRecentPdfs();
-            updateTotalPdfs();
-            
-            // Add sample PDFs if empty
-            if (PDF_DATABASE.getAllPdfs().length === 0) {
-                PDF_DATABASE.addPdf({
-                    title: 'Digital Sum Complete Notes',
-                    url: 'https://pdfhost.io/v/digital-sum-notes.pdf',
-                    fileName: 'digital-sum-notes.pdf',
-                    fileSize: '2.4 MB',
-                    subject: 'mathematics',
-                    chapter: 'digital-sum'
-                });
-                PDF_DATABASE.addPdf({
-                    title: 'Percentage Short Tricks',
-                    url: 'https://pdfhost.io/v/percentage-tricks.pdf',
-                    fileName: 'percentage-tricks.pdf',
-                    fileSize: '1.8 MB',
-                    subject: 'mathematics',
-                    chapter: 'percentage'
-                });
-                PDF_DATABASE.addPdf({
-                    title: 'Indian History Timeline',
-                    url: 'https://pdfhost.io/v/indian-history.pdf',
-                    fileName: 'indian-history.pdf',
-                    fileSize: '3.2 MB',
-                    subject: 'gk-gs',
-                    chapter: 'indian-history'
-                });
-                renderRecentPdfs();
-                updateTotalPdfs();
-            }
-        }
-        
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        // GSAP Animations
-        setTimeout(() => {
-            gsap.from('.glass-card', {
-                duration: 0.6,
-                y: 30,
-                opacity: 0,
-                stagger: 0.1,
-                ease: 'power3.out'
+
+        function loadNotes(chapterId) {
+            const container = document.getElementById('notesList');
+            container.innerHTML = '<div class="spinner"></div>';
+            db.ref(`chapters/${chapterId}/notes`).on('value', snap => {
+                if(snap.exists()){
+                    const notes = [];
+                    snap.forEach(c => notes.push({id:c.key, ...c.val()}));
+                    if(!notes.length){ container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No notes</h3></div>'; return; }
+                    container.innerHTML = notes.map(n => `
+                        <a href="${n.pdfUrl}" target="_blank" class="note-item">
+                            <div class="note-icon"><i class="fas fa-file-pdf"></i></div>
+                            <div class="note-info"><strong>${n.title}</strong><small style="color:var(--text-light);">PDFhost PDF</small></div>
+                            <i class="fas fa-external-link-alt" style="color:var(--primary);"></i>
+                        </a>`).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No notes yet</h3></div>';
+                }
             });
-        }, 100);
-        
-        // Export functions globally
-        window.openAdminModal = openAdminModal;
-        window.closeAdminModal = closeAdminModal;
-        window.showUploadArea = showUploadArea;
-        window.showDirectLinkInput = showDirectLinkInput;
-        window.handleFileSelect = handleFileSelect;
-        window.savePdfLink = savePdfLink;
-        window.viewPdf = viewPdf;
-        window.closePdfViewer = closePdfViewer;
-        window.downloadCurrentPdf = downloadCurrentPdf;
-        window.deletePdf = deletePdf;
-        window.openSubject = openSubject;
-        window.openChapter = openChapter;
-        window.navigateTo = navigateTo;
-        window.toggleSidebar = toggleSidebar;
+        }
+
+        function loadCBT(chapterId) {
+            const container = document.getElementById('cbtContainer');
+            container.innerHTML = '<div class="spinner"></div>';
+            db.ref(`chapters/${chapterId}/cbt`).on('value', snap => {
+                if(snap.exists()){
+                    const cbt = snap.val();
+                    if(cbt.cbtUrl){
+                        container.innerHTML = `
+                            <div class="cbt-container">
+                                <h3>🧠 CBT Exam Ready</h3>
+                                <p style="color:var(--text-light); margin:10px 0 20px;">Click below to start</p>
+                                <button class="cbt-btn" onclick="window.open('${cbt.cbtUrl}', '_blank')">
+                                    <i class="fas fa-play-circle"></i> Start CBT Exam
+                                </button>
+                                <p style="margin-top:15px; font-size:0.8rem; color:var(--text-light);">📁 ${cbt.filename}</p>
+                            </div>`;
+                    } else { showEmptyCBT(container); }
+                } else { showEmptyCBT(container); }
+            });
+        }
+
+        function showEmptyCBT(el) { el.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>'; }
+
+        function loadImages(chapterId) {
+            const container = document.getElementById('imageGallery');
+            container.innerHTML = '<div class="spinner"></div>';
+            db.ref(`chapters/${chapterId}/images`).on('value', snap => {
+                if(snap.exists()){
+                    const imgs = [];
+                    snap.forEach(c => imgs.push({id:c.key, ...c.val()}));
+                    if(!imgs.length){ container.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><h3>No images</h3></div>'; return; }
+                    container.innerHTML = imgs.map(i => `
+                        <div class="gallery-item" onclick="openLightbox('${i.url}')"><img src="${i.url}" alt="${i.title}" loading="lazy"></div>`).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-images"></i><h3>No images</h3></div>';
+                }
+            });
+        }
+
+        function openLightbox(url) { document.getElementById('lightboxImg').src=url; document.getElementById('lightbox').classList.add('active'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        function updateStats() {
+            document.getElementById('totalChapters').textContent = `${allChapters.length} Chapters`;
+            document.getElementById('totalNotes').textContent = `${totalNotesCount} Notes`;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadChapters);
     </script>
 </body>
 </html>
