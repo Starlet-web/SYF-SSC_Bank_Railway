@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYF - SSC Bank Railway Math</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --accent: #ff6d00;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #5f6368;
+            --border: #e0e0e0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 109, 0, 0.4);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: #ffab40;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .stat-badge i {
+            color: #ffab40;
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* ========== SEARCH BAR ========== */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 500px;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .search-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* ========== CHAPTER GRID ========== */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .chapter-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px 0 0 5px;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .chapter-card .chapter-number {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .chapter-card .chapter-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .chapter-card .chapter-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .chapter-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .meta-item i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            z-index: 10;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: #ff5252;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ========== NOTES SECTION ========== */
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .note-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .note-item:hover {
+            background: #e8f0fe;
+            border-color: var(--primary);
+        }
+
+        .note-icon {
+            width: 45px;
+            height: 45px;
+            background: #ff5252;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .note-info {
+            flex: 1;
+        }
+
+        .note-info strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .note-info small {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .download-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* ========== CBT SECTION ========== */
+        .cbt-container {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+        }
+
+        .cbt-container iframe {
+            width: 100%;
+            min-height: 500px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* ========== IMAGE GALLERY ========== */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            aspect-ratio: 1;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--primary);
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* ========== LOADING & EMPTY ========== */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e0e0e0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .chapter-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                width: 95%;
+                max-height: 90vh;
+            }
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-section">
+                <div class="logo-icon">SYF</div>
+                <div class="logo-text">
+                    <h1>SYF Mathematics</h1>
+                    <span>SSC • BANK • RAILWAY</span>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge">
+                    <i class="fas fa-book-open"></i>
+                    <span id="totalChapters">0 Chapters</span>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="totalNotes">0 Notes</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== MAIN CONTAINER ========== -->
+    <div class="container">
+        <!-- Search -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Chapter search karein..." oninput="filterChapters()">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <!-- Chapter Grid -->
+        <div class="section-title">
+            <i class="fas fa-list-ol"></i> All Chapters
+        </div>
+        <div class="chapter-grid" id="chapterGrid">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Chapters load ho rahe hain...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== CHAPTER DETAIL MODAL ========== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Chapter Details</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <!-- Tabs -->
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('notes', event)">
+                        <i class="fas fa-file-pdf"></i> Notes (PDF)
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('cbt', event)">
+                        <i class="fas fa-question-circle"></i> CBT Exam
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('images', event)">
+                        <i class="fas fa-images"></i> Class Images
+                    </button>
+                </div>
+
+                <!-- Notes Tab -->
+                <div class="tab-content active" id="tab-notes">
+                    <div class="notes-list" id="notesList">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CBT Tab -->
+                <div class="tab-content" id="tab-cbt">
+                    <div class="cbt-container" id="cbtContainer">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images Tab -->
+                <div class="tab-content" id="tab-images">
+                    <div class="image-gallery" id="imageGallery">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== LIGHTBOX FOR IMAGES ========== -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Full Size" id="lightboxImg">
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        // ========== FIREBASE CONFIG ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+            authDomain: "starlet-registor.firebaseapp.com",
+            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
+            projectId: "starlet-registor",
+            storageBucket: "starlet-registor.firebasestorage.app",
+            messagingSenderId: "904193225045",
+            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+            measurementId: "G-1NLM1F0262"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ========== CLOUDINARY CONFIG ==========
+        const CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME"; // Apna cloud name daalein
+        // API Key: 725355116398541 (ye aapne diya tha - iska secret public nahi karna)
+
+        // ========== GLOBAL VARIABLES ==========
+        let allChapters = [];
+        let currentChapterId = null;
+        let totalNotesCount = 0;
+
+        // ========== LOAD CHAPTERS ==========
+        function loadChapters() {
+            const grid = document.getElementById('chapterGrid');
+            
+            db.ref('chapters').on('value', (snapshot) => {
+                allChapters = [];
+                totalNotesCount = 0;
+                
+                if (snapshot.exists()) {
+                    const promises = [];
+                    
+                    snapshot.forEach((child) => {
+                        const chapterData = child.val();
+                        const chapterObj = {
+                            id: child.key,
+                            ...chapterData
+                        };
+                        
+                        // Count notes for each chapter
+                        const notePromise = db.ref(`chapters/${child.key}/notes`).once('value')
+                            .then(noteSnap => {
+                                const count = noteSnap.exists() ? noteSnap.numChildren() : 0;
+                                chapterObj.notesCount = count;
+                                totalNotesCount += count;
+                                return count;
+                            });
+                        
+                        promises.push(notePromise);
+                        allChapters.push(chapterObj);
+                    });
+                    
+                    // Wait for all note counts
+                    Promise.all(promises).then(() => {
+                        allChapters.sort((a, b) => (a.order || 0) - (b.order || 0));
+                        renderChapters(allChapters);
+                        updateStats();
+                    });
+                    
+                } else {
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Abhi koi chapter nahi hai</h3>
+                            <p>Teacher jald hi chapters add karenge</p>
+                        </div>`;
+                    updateStats();
+                }
+            }, (error) => {
+                console.error('Error loading chapters:', error);
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error loading chapters</h3>
+                        <p>Please try again later</p>
+                    </div>`;
+            });
+        }
+
+        // ========== RENDER CHAPTERS ==========
+        function renderChapters(chapters) {
+            const grid = document.getElementById('chapterGrid');
+            
+            if (chapters.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-search"></i>
+                        <h3>Koi chapter nahi mila</h3>
+                        <p>Kuch aur search karke dekhein</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = chapters.map((ch, index) => `
+                <div class="chapter-card" onclick="openChapter('${ch.id}')">
+                    <div class="chapter-number">Chapter ${ch.order || index + 1}</div>
+                    <div class="chapter-title">${ch.title || 'Untitled Chapter'}</div>
+                    <div class="chapter-desc">${ch.description || 'No description'}</div>
+                    <div class="chapter-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-file-pdf"></i> ${ch.notesCount || 0} Notes
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-question-circle"></i> ${ch.hasCBT ? 'CBT Ready' : 'No CBT'}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-images"></i> ${ch.imagesCount || 0} Images
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== FILTER CHAPTERS ==========
+        function filterChapters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allChapters.filter(ch => 
+                (ch.title || '').toLowerCase().includes(query) ||
+                (ch.description || '').toLowerCase().includes(query)
+            );
+            renderChapters(filtered);
+        }
+
+        // ========== OPEN CHAPTER MODAL ==========
+        function openChapter(chapterId) {
+            currentChapterId = chapterId;
+            const chapter = allChapters.find(ch => ch.id === chapterId);
+            
+            if (!chapter) return;
+            
+            document.getElementById('modalTitle').textContent = chapter.title || 'Chapter Details';
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Load all tab data
+            loadNotes(chapterId);
+            loadCBT(chapterId);
+            loadImages(chapterId);
+            
+            // Reset to notes tab
+            switchTab('notes', { target: document.querySelector('.tab-btn') });
+        }
+
+        // ========== CLOSE MODAL ==========
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            currentChapterId = null;
+        }
+
+        // Close on overlay click
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ========== SWITCH TABS ==========
+        function switchTab(tabName, event) {
+            const clickedBtn = event.target.closest('.tab-btn');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            if (clickedBtn) clickedBtn.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // ========== LOAD NOTES (Cloudinary PDFs) ==========
+        function loadNotes(chapterId) {
+            const notesList = document.getElementById('notesList');
+            notesList.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            
+            db.ref(`chapters/${chapterId}/notes`).on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    let notes = [];
+                    snapshot.forEach((child) => {
+                        notes.push({ id: child.key, ...child.val() });
+                    });
+                    
+                    if (notes.length === 0) {
+                        notesList.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-file-pdf"></i>
+                                <h3>No notes available</h3>
+                                <p>Teacher ne abhi tak PDF upload nahi ki</p>
+                            </div>`;
+                        return;
+                    }
+                    
+                    notesList.innerHTML = notes.map(note => `
+                        <a href="${note.pdfUrl}" target="_blank" class="note-item" title="Click to open PDF">
+                            <div class="note-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="note-info">
+                                <strong>${note.title || 'PDF Note'}</strong>
+                                <small>Click to view • Cloudinary PDF</small>
+                            </div>
+                            <i class="fas fa-external-link-alt download-icon"></i>
+                        </a>
+                    `).join('');
+                } else {
+                    notesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-pdf"></i>
+                            <h3>No notes yet</h3>
+                            <p>Teacher jald hi notes upload karenge</p>
+                        </div>`;
+                }
+            }, (error) => {
+                console.error('Error loading notes:', error);
+                notesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error loading notes</h3>
+                        <p>Please try again</p>
+                    </div>`;
+            });
+        }
+
+        // ========== LOAD CBT ==========
+        function loadCBT(chapterId) {
+            const cbtContainer = document.getElementById('cbtContainer');
+            cbtContainer.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            
+            db.ref(`chapters/${chapterId}/cbt`).on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    const cbtData = snapshot.val();
+                    if (cbtData.htmlCode) {
+                        // Display embedded HTML
+                        cbtContainer.innerHTML = `
+                            <div style="width:100%; background:white; border-radius:12px; overflow:hidden;">
+                                ${cbtData.htmlCode}
+                            </div>`;
+                    } else if (cbtData.url) {
+                        // Display as iframe
+                        cbtContainer.innerHTML = `
+                            <iframe src="${cbtData.url}" 
+                                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                    style="width:100%; min-height:500px; border:none; border-radius:12px;">
+                            </iframe>`;
+                    } else {
+                        showEmptyCBT();
+                    }
+                } else {
+                    showEmptyCBT();
+                }
+            }, (error) => {
+                console.error('Error loading CBT:', error);
+                showEmptyCBT('Error loading. Try again.');
+            });
+        }
+
+        function showEmptyCBT(msg = 'CBT exam abhi available nahi hai') {
+            document.getElementById('cbtContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-hourglass-half"></i>
+                    <h3>Coming Soon</h3>
+                    <p>${msg}</p>
+                </div>`;
+        }
+
+        // ========== LOAD IMAGES (ImgBB) ==========
+        function loadImages(chapterId) {
+            const imageGallery = document.getElementById('imageGallery');
+            imageGallery.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            
+            db.ref(`chapters/${chapterId}/images`).on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    let images = [];
+                    snapshot.forEach((child) => {
+                        images.push({ id: child.key, ...child.val() });
+                    });
+                    
+                    if (images.length === 0) {
+                        imageGallery.innerHTML = `
+                            <div class="empty-state" style="grid-column: 1/-1;">
+                                <i class="fas fa-images"></i>
+                                <h3>No images available</h3>
+                                <p>Teacher ne abhi tak class images upload nahi ki</p>
+                            </div>`;
+                        return;
+                    }
+                    
+                    imageGallery.innerHTML = images.map(img => `
+                        <div class="gallery-item" onclick="openLightbox('${img.url}')" title="${img.title || 'Class Image'}">
+                            <img src="${img.url}" alt="${img.title || 'Class Image'}" loading="lazy">
+                        </div>
+                    `).join('');
+                } else {
+                    imageGallery.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <i class="fas fa-images"></i>
+                            <h3>No images yet</h3>
+                            <p>Teacher jald hi class images upload karenge</p>
+                        </div>`;
+                }
+            }, (error) => {
+                console.error('Error loading images:', error);
+                imageGallery.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error loading images</h3>
+                        <p>Please try again</p>
+                    </div>`;
+            });
+        }
+
+        // ========== LIGHTBOX ==========
+        function openLightbox(url) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeModal();
+            }
+        });
+
+        // ========== UPDATE STATS ==========
+        function updateStats() {
+            document.getElementById('totalChapters').textContent = `${allChapters.length} Chapters`;
+            document.getElementById('totalNotes').textContent = `${totalNotesCount} Notes`;
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            loadChapters();
+        });
+    </script>
+</body>
+</html>
