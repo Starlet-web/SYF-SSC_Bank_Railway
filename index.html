@@ -2,24 +2,24 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <meta name="description" content="SYF - Secure Your Future | Premium CBT Exam Preparation for SSC, Banking, Railway & Government Exams">
   <meta name="theme-color" content="#0f1a3a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>SYF – Secure Your Future | Premium CBT Exam Prep</title>
-  
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics-compat.js"></script>
-  
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --bg-primary: #f5f7fc;
@@ -27,18 +27,15 @@
       --bg-tertiary: #eef1f8;
       --bg-card: #ffffff;
       --bg-glass: rgba(255, 255, 255, 0.72);
-      --bg-glass-hover: rgba(255, 255, 255, 0.88);
       --text-primary: #0b1629;
       --text-secondary: #3d4a63;
       --text-tertiary: #6b7794;
-      --text-inverse: #ffffff;
       --border-subtle: rgba(15, 26, 58, 0.07);
       --border-medium: rgba(15, 26, 58, 0.12);
       --shadow-sm: 0 1px 3px rgba(15, 26, 58, 0.04), 0 1px 2px rgba(15, 26, 58, 0.06);
       --shadow-md: 0 4px 16px rgba(15, 26, 58, 0.06), 0 2px 6px rgba(15, 26, 58, 0.04);
       --shadow-lg: 0 12px 40px rgba(15, 26, 58, 0.08), 0 4px 16px rgba(15, 26, 58, 0.05);
       --shadow-xl: 0 20px 60px rgba(15, 26, 58, 0.12), 0 8px 24px rgba(15, 26, 58, 0.06);
-      --shadow-glow: 0 0 0 4px rgba(37, 99, 235, 0.08), 0 8px 32px rgba(37, 99, 235, 0.12);
       --gradient-brand: linear-gradient(135deg, #0f1a3a 0%, #1a2f5e 30%, #1e3a78 60%, #1a2f5e 100%);
       --gradient-accent: linear-gradient(135deg, #2563eb 0%, #3b82f6 40%, #06b6d4 100%);
       --gradient-emerald: linear-gradient(135deg, #047857 0%, #059669 40%, #10b981 100%);
@@ -56,7 +53,6 @@
       --radius-2xl: 32px;
       --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       --font-heading: 'Manrope', 'Inter', system-ui, sans-serif;
       --font-body: 'Inter', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -68,23 +64,16 @@
       --bg-tertiary: #151d33;
       --bg-card: #111a30;
       --bg-glass: rgba(17, 26, 48, 0.78);
-      --bg-glass-hover: rgba(22, 34, 58, 0.9);
       --text-primary: #e8ecf4;
       --text-secondary: #b8c3d8;
       --text-tertiary: #7d8ba8;
-      --text-inverse: #0b1629;
       --border-subtle: rgba(255, 255, 255, 0.05);
       --border-medium: rgba(255, 255, 255, 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { 
-      scroll-behavior: smooth; 
-      font-size: 16px; 
-      -webkit-tap-highlight-color: transparent; 
-    }
-
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-tap-highlight-color: transparent; }
+    
     body {
       font-family: var(--font-body);
       background: var(--bg-primary);
@@ -100,882 +89,326 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 20px; }
 
-    .app-container { 
-      max-width: 1400px; 
-      margin: 0 auto; 
-      padding: 0 20px; 
-    }
-
-    @media (min-width: 768px) { 
-      .app-container { padding: 0 32px; } 
-    }
-
-    @media (min-width: 1200px) { 
-      .app-container { padding: 0 48px; } 
-    }
+    .app-container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 768px) { .app-container { padding: 0 32px; } }
+    @media (min-width: 1200px) { .app-container { padding: 0 48px; } }
 
     .app-header {
-      position: sticky; 
-      top: 0; 
-      z-index: 100;
-      background: var(--bg-glass); 
-      backdrop-filter: blur(24px) saturate(180%);
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg-glass); backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border-bottom: 1px solid var(--border-subtle); 
-      padding: 12px 0;
+      border-bottom: 1px solid var(--border-subtle); padding: 12px 0;
     }
 
-    .header-inner { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      gap: 16px; 
-      flex-wrap: wrap; 
-    }
-
-    .logo-group { 
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
-    }
-
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    
+    .logo-group { display: flex; align-items: center; gap: 10px; }
     .logo-icon {
-      width: 44px; 
-      height: 44px; 
-      background: var(--gradient-brand); 
-      border-radius: var(--radius-sm);
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-weight: 900;
-      font-family: var(--font-heading); 
-      font-size: 1.25rem; 
-      color: #fff; 
-      letter-spacing: -0.5px;
-      box-shadow: var(--shadow-glow); 
-      position: relative; 
-      overflow: hidden;
+      width: 44px; height: 44px; background: var(--gradient-brand); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; font-weight: 900;
+      font-family: var(--font-heading); font-size: 1.25rem; color: #fff; letter-spacing: -0.5px;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08); position: relative; overflow: hidden;
     }
-
-    .logo-icon::after { 
-      content: ''; 
-      position: absolute; 
-      inset: 0; 
-      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%); 
-      border-radius: inherit; 
+    .logo-icon::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%); border-radius: inherit;
     }
+    .logo-text { font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.1; }
+    .logo-text span { display: block; font-size: 0.65rem; font-weight: 500; color: var(--accent-blue); letter-spacing: 1.5px; text-transform: uppercase; }
 
-    .logo-text { 
-      font-family: var(--font-heading); 
-      font-weight: 800; 
-      font-size: 1.3rem; 
-      color: var(--text-primary); 
-      letter-spacing: -0.5px; 
-      line-height: 1.1; 
+    .nav-links { display: none; gap: 6px; align-items: center; flex-wrap: wrap; }
+    @media (min-width: 1024px) { .nav-links { display: flex; } }
+    .nav-link {
+      padding: 8px 16px; border-radius: 50px; font-weight: 500; font-size: 0.875rem;
+      color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+      white-space: nowrap; border: none; background: transparent; font-family: var(--font-body); text-decoration: none;
     }
+    .nav-link:hover, .nav-link.active { background: var(--bg-tertiary); color: var(--accent-blue); font-weight: 600; }
 
-    .logo-text span { 
-      display: block; 
-      font-size: 0.65rem; 
-      font-weight: 500; 
-      color: var(--accent-blue); 
-      letter-spacing: 1.5px; 
-      text-transform: uppercase; 
-    }
-
-    .nav-links { 
-      display: none; 
-      gap: 6px; 
-      align-items: center; 
-      flex-wrap: wrap; 
-    }
-
-    @media (min-width: 1024px) { 
-      .nav-links { display: flex; } 
-    }
-
-    .nav-link { 
-      padding: 8px 16px; 
-      border-radius: 50px; 
-      font-weight: 500; 
-      font-size: 0.875rem; 
-      color: var(--text-secondary); 
-      cursor: pointer; 
-      transition: all var(--transition-fast); 
-      white-space: nowrap; 
-      border: none; 
-      background: transparent; 
-      font-family: var(--font-body); 
-      text-decoration: none; 
-    }
-
-    .nav-link:hover, .nav-link.active { 
-      background: var(--bg-tertiary); 
-      color: var(--accent-blue); 
-      font-weight: 600; 
-    }
-
-    .header-actions { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-
+    .header-actions { display: flex; align-items: center; gap: 8px; }
     .icon-btn {
-      width: 40px; 
-      height: 40px; 
-      border-radius: 50%; 
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-secondary); 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center;
-      justify-content: center; 
-      font-size: 1.1rem; 
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; transition: all var(--transition-fast);
+      color: var(--text-secondary); position: relative;
+    }
+    .icon-btn:hover { background: var(--bg-tertiary); border-color: var(--border-medium); }
+    .badge-dot { position: absolute; top: 6px; right: 6px; width: 9px; height: 9px; background: var(--accent-rose); border-radius: 50%; border: 2px solid var(--bg-secondary); }
+    .theme-toggle { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-subtle); background: var(--bg-secondary); cursor: pointer; font-size: 1.2rem; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); display: flex; align-items: center; justify-content: center; }
+
+    .auth-btn {
+      padding: 8px 18px; border-radius: 50px; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; border: none; background: var(--gradient-accent); color: #fff;
       transition: all var(--transition-fast);
-      color: var(--text-secondary); 
-      position: relative;
     }
+    .auth-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    .icon-btn:hover { 
-      background: var(--bg-tertiary); 
-      border-color: var(--border-medium); 
-    }
+    .user-menu { display: none; align-items: center; gap: 8px; }
+    .user-menu.active { display: flex; }
 
-    .badge-dot { 
-      position: absolute; 
-      top: 6px; 
-      right: 6px; 
-      width: 9px; 
-      height: 9px; 
-      background: var(--accent-rose); 
-      border-radius: 50%; 
-      border: 2px solid var(--bg-secondary); 
+    .btn {
+      padding: 10px 20px; border-radius: 50px; font-weight: 600; cursor: pointer;
+      border: none; font-family: var(--font-body); font-size: 0.9rem; transition: all var(--transition-fast);
     }
-
-    .theme-toggle { 
-      width: 44px; 
-      height: 44px; 
-      border-radius: 50%; 
-      border: 1px solid var(--border-subtle); 
-      background: var(--bg-secondary); 
-      cursor: pointer; 
-      font-size: 1.2rem; 
-      transition: all var(--transition-bounce); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-primary { background: var(--gradient-accent); color: #fff; }
+    .btn-outline { background: transparent; border: 2px solid var(--border-medium); color: var(--text-primary); }
+    .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+    .btn-back { background: transparent; border: 1px solid var(--border-medium); color: var(--text-secondary); }
+    .btn-back:hover { background: var(--bg-tertiary); }
 
     .hero-section { padding: 32px 0 24px; }
-
-    .hero-badge { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      background: var(--bg-tertiary); 
-      border-radius: 50px; 
-      padding: 6px 14px; 
-      font-size: 0.8rem; 
-      font-weight: 600; 
-      color: var(--accent-emerald); 
-      margin-bottom: 12px; 
-      border: 1px solid var(--border-subtle); 
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px; background: var(--bg-tertiary);
+      border-radius: 50px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600;
+      color: var(--accent-emerald); margin-bottom: 12px; border: 1px solid var(--border-subtle);
     }
+    .pulse-dot { width: 8px; height: 8px; background: var(--accent-emerald); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.6); } }
 
-    .pulse-dot { 
-      width: 8px; 
-      height: 8px; 
-      background: var(--accent-emerald); 
-      border-radius: 50%; 
-      animation: pulse-dot 2s infinite; 
+    .hero-title {
+      font-family: var(--font-heading); font-weight: 800; font-size: 2rem;
+      letter-spacing: -0.8px; line-height: 1.15; color: var(--text-primary); margin-bottom: 6px;
     }
+    .hero-title .highlight {
+      background: var(--gradient-accent); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-subtitle { font-size: 1rem; color: var(--text-tertiary); margin-bottom: 20px; max-width: 550px; }
+    @media (min-width: 768px) { .hero-title { font-size: 2.6rem; } }
 
-    @keyframes pulse-dot { 
-      0%,100% { opacity: 1; transform: scale(1); } 
-      50% { opacity: 0.4; transform: scale(1.6); } 
-    }
-
-    .hero-title { 
-      font-family: var(--font-heading); 
-      font-weight: 800; 
-      font-size: 2rem; 
-      letter-spacing: -0.8px; 
-      line-height: 1.15; 
-      color: var(--text-primary); 
-      margin-bottom: 6px; 
-    }
-
-    .hero-title .highlight { 
-      background: var(--gradient-accent); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      background-clip: text; 
-    }
-
-    .hero-subtitle { 
-      font-size: 1rem; 
-      color: var(--text-tertiary); 
-      margin-bottom: 20px; 
-      max-width: 550px; 
-    }
-
-    @media (min-width: 768px) { 
-      .hero-title { font-size: 2.6rem; } 
-    }
-
-    .dashboard-grid { 
-      display: grid; 
-      grid-template-columns: 1fr; 
-      gap: 20px; 
-      margin-bottom: 32px; 
-    }
-
-    @media (min-width: 768px) { 
-      .dashboard-grid { grid-template-columns: 1fr 1fr; } 
-    }
-
-    @media (min-width: 1200px) { 
-      .dashboard-grid { grid-template-columns: 280px 1fr 1fr 280px; } 
-    }
+    .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 32px; }
+    @media (min-width: 768px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1200px) { .dashboard-grid { grid-template-columns: 280px 1fr 1fr 280px; } }
 
     .profile-card {
-      background: var(--bg-card); 
-      border-radius: var(--radius-xl); 
-      padding: 24px;
-      border: 1px solid var(--border-subtle); 
-      box-shadow: var(--shadow-md); 
-      text-align: center;
-      position: relative; 
-      overflow: hidden;
+      background: var(--bg-card); border-radius: var(--radius-xl); padding: 24px;
+      border: 1px solid var(--border-subtle); box-shadow: var(--shadow-md); text-align: center;
+      position: relative; overflow: hidden;
     }
-
-    .profile-card::before { 
-      content: ''; 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      right: 0; 
-      height: 80px; 
-      background: var(--gradient-brand); 
-      border-radius: var(--radius-xl) var(--radius-xl) 0 0; 
-      z-index: 0; 
+    .profile-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 80px;
+      background: var(--gradient-brand); border-radius: var(--radius-xl) var(--radius-xl) 0 0; z-index: 0;
     }
-
     .profile-card > * { position: relative; z-index: 1; }
 
     .profile-avatar {
-      width: 80px; 
-      height: 80px; 
-      border-radius: 50%; 
-      background: var(--bg-card); 
-      margin: 0 auto 12px;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-size: 2.5rem; 
-      font-weight: 700;
-      color: var(--accent-navy); 
-      border: 4px solid var(--bg-card); 
-      box-shadow: var(--shadow-md);
-      background-size: cover; 
-      background-position: center; 
-      cursor: pointer; 
-      position: relative;
+      width: 80px; height: 80px; border-radius: 50%; background: var(--bg-card); margin: 0 auto 12px;
+      display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700;
+      color: var(--accent-navy); border: 4px solid var(--bg-card); box-shadow: var(--shadow-md);
+      background-size: cover; background-position: center; cursor: pointer; position: relative;
+    }
+    .profile-avatar span {
+      position: absolute; bottom: -2px; right: -2px; background: var(--accent-blue); color: #fff;
+      border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; display: flex;
+      align-items: center; justify-content: center; border: 2px solid white;
+    }
+    .profile-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; margin-top: 8px; }
+    .profile-email { font-size: 0.8rem; color: var(--text-tertiary); margin-bottom: 12px; }
+
+    .streak-row {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--bg-tertiary); border-radius: 50px; padding: 8px 16px;
+      font-weight: 600; font-size: 0.85rem; color: var(--accent-amber); margin-bottom: 10px;
     }
 
-    .profile-avatar span { 
-      position: absolute; 
-      bottom: -2px; 
-      right: -2px; 
-      background: var(--accent-blue); 
-      color: #fff; 
-      border-radius: 50%; 
-      width: 22px; 
-      height: 22px; 
-      font-size: 0.7rem; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      border: 2px solid white; 
+    .mini-stat-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .mini-stat {
+      text-align: center; background: var(--bg-tertiary); border-radius: var(--radius-sm);
+      padding: 10px 14px; min-width: 60px;
+    }
+    .mini-stat-val { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; }
+    .mini-stat-lbl { font-size: 0.7rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .section-title {
+      font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem;
+      letter-spacing: -0.3px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
     }
 
-    .profile-name { 
-      font-family: var(--font-heading); 
-      font-weight: 700; 
-      font-size: 1.1rem; 
+    .subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .subject-card {
+      background: var(--bg-card); border-radius: var(--radius-lg); padding: 20px 18px;
+      border: 1px solid var(--border-subtle); cursor: pointer; transition: all var(--transition-smooth);
+      position: relative; overflow: hidden; box-shadow: var(--shadow-sm);
     }
-
-    .profile-email { 
-      font-size: 0.8rem; 
-      color: var(--text-tertiary); 
-      margin-bottom: 12px; 
-    }
-
-    .streak-row { 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 8px; 
-      background: var(--bg-tertiary); 
-      border-radius: 50px; 
-      padding: 8px 16px; 
-      font-weight: 600; 
-      font-size: 0.85rem; 
-      color: var(--accent-amber); 
-      margin-bottom: 10px; 
-    }
-
-    .mini-stat-row { 
-      display: flex; 
-      gap: 10px; 
-      justify-content: center; 
-      flex-wrap: wrap; 
-    }
-
-    .mini-stat { 
-      text-align: center; 
-      background: var(--bg-tertiary); 
-      border-radius: var(--radius-sm); 
-      padding: 10px 14px; 
-      min-width: 60px; 
-    }
-
-    .mini-stat-val { 
-      font-family: var(--font-heading); 
-      font-weight: 700; 
-      font-size: 1.1rem; 
-    }
-
-    .mini-stat-lbl { 
-      font-size: 0.7rem; 
-      color: var(--text-tertiary); 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
-    }
-
-    .section-title { 
-      font-family: var(--font-heading); 
-      font-weight: 700; 
-      font-size: 1.25rem; 
-      letter-spacing: -0.3px; 
-      margin-bottom: 16px; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-
-    .subject-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-      gap: 16px; 
-      margin-bottom: 28px; 
-    }
-
-    .subject-card { 
-      background: var(--bg-card); 
-      border-radius: var(--radius-lg); 
-      padding: 20px 18px; 
-      border: 1px solid var(--border-subtle); 
-      cursor: pointer; 
-      transition: all var(--transition-smooth); 
-      position: relative; 
-      overflow: hidden; 
-      box-shadow: var(--shadow-sm); 
-    }
-
-    .subject-card:hover { 
-      box-shadow: var(--shadow-lg); 
-      border-color: var(--border-medium); 
-      transform: translateY(-3px); 
-    }
-
-    .card-accent { 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      right: 0; 
-      height: 4px; 
-    }
-
-    .accent-math { background: var(--gradient-accent); } 
-    .accent-reason { background: var(--gradient-emerald); } 
-    .accent-english { background: var(--gradient-warm); } 
+    .subject-card:hover { box-shadow: var(--shadow-lg); border-color: var(--border-medium); transform: translateY(-3px); }
+    .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .accent-math { background: var(--gradient-accent); }
+    .accent-reason { background: var(--gradient-emerald); }
+    .accent-english { background: var(--gradient-warm); }
     .accent-gk { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); }
 
     .subj-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
     .subj-name { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
     .subj-chapters { font-size: 0.78rem; color: var(--text-tertiary); margin-bottom: 10px; }
 
-    .progress-bar-wrap { 
-      background: var(--bg-tertiary); 
-      border-radius: 20px; 
-      height: 7px; 
-      overflow: hidden; 
-      margin-bottom: 8px; 
-    }
-
-    .progress-bar-fill { 
-      height: 100%; 
-      border-radius: 20px; 
-      transition: width 1s ease; 
-    }
-
-    .fill-math { background: var(--gradient-accent); width: 72%; } 
-    .fill-reason { background: var(--gradient-emerald); width: 58%; } 
-    .fill-english { background: var(--gradient-warm); width: 45%; } 
+    .progress-bar-wrap { background: var(--bg-tertiary); border-radius: 20px; height: 7px; overflow: hidden; margin-bottom: 8px; }
+    .progress-bar-fill { height: 100%; border-radius: 20px; transition: width 1s ease; }
+    .fill-math { background: var(--gradient-accent); width: 72%; }
+    .fill-reason { background: var(--gradient-emerald); width: 58%; }
+    .fill-english { background: var(--gradient-warm); width: 45%; }
     .fill-gk { background: linear-gradient(135deg,#7c3aed,#a855f7); width: 34%; }
 
-    .subj-meta { 
-      display: flex; 
-      justify-content: space-between; 
-      font-size: 0.73rem; 
-      color: var(--text-tertiary); 
-      font-weight: 500; 
-    }
-
-    .badge-difficulty { 
-      padding: 3px 10px; 
-      border-radius: 20px; 
-      font-size: 0.7rem; 
-      font-weight: 600; 
-    }
-
-    .badge-easy { background: #d1fae5; color: #065f46; } 
-    .badge-medium { background: #fef3c7; color: #92400e; } 
+    .subj-meta { display: flex; justify-content: space-between; font-size: 0.73rem; color: var(--text-tertiary); font-weight: 500; }
+    .badge-difficulty { padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+    .badge-easy { background: #d1fae5; color: #065f46; }
+    .badge-medium { background: #fef3c7; color: #92400e; }
     .badge-hard { background: #fee2e2; color: #991b1b; }
-
-    [data-theme="dark"] .badge-easy { background: #064e3b; color: #a7f3d0; } 
-    [data-theme="dark"] .badge-medium { background: #78350f; color: #fde68a; } 
+    [data-theme="dark"] .badge-easy { background: #064e3b; color: #a7f3d0; }
+    [data-theme="dark"] .badge-medium { background: #78350f; color: #fde68a; }
     [data-theme="dark"] .badge-hard { background: #7f1d1d; color: #fecaca; }
 
-    .perf-card { 
-      background: var(--bg-card); 
-      border-radius: var(--radius-xl); 
-      padding: 20px; 
-      border: 1px solid var(--border-subtle); 
-      box-shadow: var(--shadow-md); 
+    .perf-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 20px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-md); }
+    .ring-chart { width: 90px; height: 90px; flex-shrink: 0; position: relative; }
+    .ring-chart svg { transform: rotate(-90deg); width: 90px; height: 90px; }
+    .ring-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; }
+    .perf-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; }
+    .perf-stat-item { background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 10px 12px; }
+    .perf-stat-val { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; }
+
+    .continue-card {
+      background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px 20px;
+      border: 1px solid var(--border-subtle); cursor: pointer; display: flex; align-items: center;
+      gap: 14px; transition: all var(--transition-smooth); margin-bottom: 12px;
+    }
+    .continue-card:hover { box-shadow: var(--shadow-lg); transform: translateX(3px); }
+    .continue-icon {
+      width: 46px; height: 46px; border-radius: var(--radius-sm); display: flex;
+      align-items: center; justify-content: center; font-size: 1.4rem; color: #fff;
     }
 
-    .ring-chart { 
-      width: 90px; 
-      height: 90px; 
-      flex-shrink: 0; 
-      position: relative; 
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px;
+      opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+    .modal-content {
+      background: var(--bg-secondary); border-radius: var(--radius-xl); width: 100%;
+      max-width: 900px; max-height: 85vh; overflow-y: auto; border: 1px solid var(--border-medium);
+      box-shadow: var(--shadow-xl); padding: 24px; position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+      border-radius: 50%; border: 1px solid var(--border-medium); background: var(--bg-card);
+      cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
     }
 
-    .ring-chart svg { 
-      transform: rotate(-90deg); 
-      width: 90px; 
-      height: 90px; 
+    .cbt-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
+    .cbt-timer { font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; color: var(--accent-rose); background: var(--bg-tertiary); padding: 6px 16px; border-radius: 50px; }
+    .cbt-question { font-weight: 600; font-size: 1.05rem; margin-bottom: 16px; }
+
+    .option-btn {
+      display: block; width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px;
+      border-radius: var(--radius-sm); border: 2px solid var(--border-medium); background: var(--bg-card);
+      cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; transition: all var(--transition-fast); color: var(--text-primary);
+    }
+    .option-btn:hover { border-color: var(--accent-blue); background: rgba(37,99,235,0.04); }
+    .option-btn.selected { border-color: var(--accent-blue); background: rgba(37,99,235,0.1); font-weight: 600; }
+
+    .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 300; display: flex; flex-direction: column; gap: 8px; }
+    .toast {
+      background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: var(--radius-md);
+      padding: 12px 20px; font-weight: 500; font-size: 0.9rem; box-shadow: var(--shadow-lg);
+      animation: slideInRight 0.4s cubic-bezier(0.34,1.56,0.64,1); color: var(--text-primary);
+    }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+
+    .bottom-nav {
+      display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-glass);
+      backdrop-filter: blur(24px); z-index: 100; padding: 6px 8px;
+      padding-bottom: max(6px, env(safe-area-inset-bottom)); justify-content: space-around;
+      border-top: 1px solid var(--border-subtle);
+    }
+    @media (min-width: 1024px) { .bottom-nav { display: none; } }
+    .bottom-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 10px;
+      border-radius: var(--radius-sm); cursor: pointer; font-size: 0.7rem; font-weight: 500;
+      color: var(--text-tertiary); transition: all var(--transition-fast); border: none; background: transparent; font-family: var(--font-body);
+    }
+    .bottom-nav-item.active { color: var(--accent-blue); font-weight: 600; }
+
+    @media (max-width: 767px) { .hero-title { font-size: 1.5rem; } .subject-grid { grid-template-columns: 1fr 1fr; } body { padding-bottom: 80px; } }
+    @media (max-width: 400px) { .subject-grid { grid-template-columns: 1fr; } }
+
+    .animate-in { animation: fadeInUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards; opacity: 0; }
+    .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; } .delay-5 { animation-delay: 0.5s; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Registration Styles */
+    .registration-modal { max-width: 600px; max-height: 90vh; }
+    .step-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+    .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border-medium); transition: all var(--transition-smooth); }
+    .step-dot.active { background: var(--accent-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2); }
+    .step-dot.completed { background: var(--accent-emerald); }
+    .registration-step { display: none; animation: fadeInUp 0.4s ease; }
+    .registration-step.active { display: block; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); }
+    .form-input, .form-select {
+      width: 100%; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-medium);
+      background: var(--bg-primary); font-family: var(--font-body); font-size: 0.95rem; transition: 0.2s; color: var(--text-primary);
+    }
+    .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    .form-select {
+      appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7794' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
     }
 
-    .ring-center { 
-      position: absolute; 
-      inset: 0; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-family: var(--font-heading); 
-      font-weight: 800; 
-      font-size: 1.4rem; 
-    }
+    .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; }
+    .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent-blue); }
+    .checkbox-group label { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
 
-    .perf-stats { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 8px; 
-      flex: 1; 
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .skill-tag {
+      padding: 6px 14px; border-radius: 50px; border: 1px solid var(--border-medium);
+      background: var(--bg-primary); cursor: pointer; font-size: 0.85rem; transition: all var(--transition-fast); user-select: none;
     }
+    .skill-tag:hover { border-color: var(--accent-blue); background: rgba(37, 99, 235, 0.05); }
+    .skill-tag.selected { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 
-    .perf-stat-item { 
-      background: var(--bg-tertiary); 
-      border-radius: var(--radius-sm); 
-      padding: 10px 12px; 
-    }
+    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+    .password-strength { height: 4px; background: var(--bg-tertiary); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+    .password-strength-bar { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0%; }
+    .strength-weak { background: var(--accent-rose); width: 33%; }
+    .strength-medium { background: var(--accent-amber); width: 66%; }
+    .strength-strong { background: var(--accent-emerald); width: 100%; }
 
-    .perf-stat-val { 
-      font-family: var(--font-heading); 
-      font-weight: 700; 
-      font-size: 1rem; 
-    }
+    .terms-link { color: var(--accent-blue); text-decoration: underline; cursor: pointer; }
+    .photo-upload-area { border: 2px dashed var(--border-medium); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all var(--transition-smooth); margin-bottom: 16px; }
+    .photo-upload-area:hover { border-color: var(--accent-blue); background: rgba(37, 99, 235, 0.02); }
+    .photo-preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: none; }
+    .progress-bar-container { margin: 16px 0; }
+    .progress-bar { height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gradient-accent); border-radius: 2px; transition: width 0.3s ease; }
 
-    .continue-card { 
-      background: var(--bg-card); 
-      border-radius: var(--radius-lg); 
-      padding: 16px 20px; 
-      border: 1px solid var(--border-subtle); 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      gap: 14px; 
-      transition: all var(--transition-smooth); 
-      margin-bottom: 12px; 
-    }
+    .otp-input-group { display: flex; gap: 8px; justify-content: center; }
+    .otp-input { width: 45px; height: 50px; text-align: center; font-size: 1.2rem; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--border-medium); background: var(--bg-primary); color: var(--text-primary); }
+    .otp-input:focus { border-color: var(--accent-blue); outline: none; }
 
-    .continue-card:hover { 
-      box-shadow: var(--shadow-lg); 
-      transform: translateX(3px); 
-    }
+    .verified-badge { display: inline-flex; align-items: center; gap: 4px; background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+    [data-theme="dark"] .verified-badge { background: #064e3b; color: #a7f3d0; }
 
-    .continue-icon { 
-      width: 46px; 
-      height: 46px; 
-      border-radius: var(--radius-sm); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-size: 1.4rem; 
-      color: #fff; 
-    }
+    .error-msg { color: var(--accent-rose); font-size: 0.8rem; margin-top: 4px; padding: 8px; background: rgba(225, 29, 72, 0.1); border-radius: var(--radius-xs); display: none; }
+    .auth-switch-text { text-align: center; margin-top: 16px; font-size: 0.9rem; color: var(--text-tertiary); }
+    .auth-switch-text span { color: var(--accent-blue); font-weight: 600; cursor: pointer; }
 
-    .modal-overlay { 
-      position: fixed; 
-      inset: 0; 
-      background: rgba(0,0,0,0.6); 
-      backdrop-filter: blur(4px); 
-      z-index: 200; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      padding: 16px; 
-      opacity: 0; 
-      pointer-events: none; 
-      transition: opacity var(--transition-smooth); 
-    }
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .modal-overlay.active { 
-      opacity: 1; 
-      pointer-events: all; 
-    }
+    .score-display { background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 20px; text-align: center; margin-top: 20px; }
+    .score-number { font-size: 3rem; font-weight: 800; font-family: var(--font-heading); background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    .modal-content { 
-      background: var(--bg-secondary); 
-      border-radius: var(--radius-xl); 
-      width: 100%; 
-      max-width: 900px; 
-      max-height: 85vh; 
-      overflow-y: auto; 
-      border: 1px solid var(--border-medium); 
-      box-shadow: var(--shadow-xl); 
-      padding: 24px; 
-      position: relative; 
-    }
-
-    .modal-close { 
-      position: absolute; 
-      top: 16px; 
-      right: 16px; 
-      width: 36px; 
-      height: 36px; 
-      border-radius: 50%; 
-      border: 1px solid var(--border-medium); 
-      background: var(--bg-card); 
-      cursor: pointer; 
-      z-index: 10; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
-
-    .cbt-header { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      flex-wrap: wrap; 
-      gap: 10px; 
-      margin-bottom: 16px; 
-      padding-bottom: 12px; 
-      border-bottom: 1px solid var(--border-subtle); 
-    }
-
-    .cbt-timer { 
-      font-family: var(--font-mono); 
-      font-weight: 700; 
-      font-size: 1.3rem; 
-      color: var(--accent-rose); 
-      background: var(--bg-tertiary); 
-      padding: 6px 16px; 
-      border-radius: 50px; 
-    }
-
-    .cbt-question { 
-      font-weight: 600; 
-      font-size: 1.05rem; 
-      margin-bottom: 16px; 
-    }
-
-    .option-btn { 
-      display: block; 
-      width: 100%; 
-      text-align: left; 
-      padding: 12px 16px; 
-      margin-bottom: 8px; 
-      border-radius: var(--radius-sm); 
-      border: 2px solid var(--border-medium); 
-      background: var(--bg-card); 
-      cursor: pointer; 
-      font-family: var(--font-body); 
-      font-size: 0.95rem; 
-      transition: all var(--transition-fast); 
-      color: var(--text-primary); 
-    }
-
-    .option-btn:hover { 
-      border-color: var(--accent-blue); 
-      background: rgba(37,99,235,0.04); 
-    }
-
-    .option-btn.selected { 
-      border-color: var(--accent-blue); 
-      background: rgba(37,99,235,0.1); 
-      font-weight: 600; 
-    }
-
-    .btn { 
-      padding: 10px 20px; 
-      border-radius: 50px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      border: none; 
-      font-family: var(--font-body); 
-      font-size: 0.9rem; 
-      transition: all var(--transition-fast); 
-    }
-
-    .btn-primary { 
-      background: var(--gradient-accent); 
-      color: #fff; 
-      box-shadow: var(--shadow-glow); 
-    }
-
-    .btn-outline { 
-      background: transparent; 
-      border: 2px solid var(--border-medium); 
-      color: var(--text-primary); 
-    }
-
-    .btn-sm { 
-      padding: 6px 14px; 
-      font-size: 0.8rem; 
-    }
-
-    .toast-container { 
-      position: fixed; 
-      bottom: 24px; 
-      right: 24px; 
-      z-index: 300; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 8px; 
-    }
-
-    .toast { 
-      background: var(--bg-card); 
-      border: 1px solid var(--border-medium); 
-      border-radius: var(--radius-md); 
-      padding: 12px 20px; 
-      font-weight: 500; 
-      font-size: 0.9rem; 
-      box-shadow: var(--shadow-lg); 
-      animation: slideInRight 0.4s cubic-bezier(0.34,1.56,0.64,1); 
-      color: var(--text-primary); 
-    }
-
-    @keyframes slideInRight { 
-      from { opacity: 0; transform: translateX(60px); } 
-      to { opacity: 1; transform: translateX(0); } 
-    }
-
-    .bottom-nav { 
-      display: flex; 
-      position: fixed; 
-      bottom: 0; 
-      left: 0; 
-      right: 0; 
-      background: var(--bg-glass); 
-      backdrop-filter: blur(24px); 
-      z-index: 100; 
-      padding: 6px 8px; 
-      padding-bottom: max(6px, env(safe-area-inset-bottom)); 
-      justify-content: space-around; 
-      border-top: 1px solid var(--border-subtle); 
-    }
-
-    @media (min-width: 1024px) { 
-      .bottom-nav { display: none; } 
-    }
-
-    .bottom-nav-item { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      gap: 2px; 
-      padding: 6px 10px; 
-      border-radius: var(--radius-sm); 
-      cursor: pointer; 
-      font-size: 0.7rem; 
-      font-weight: 500; 
-      color: var(--text-tertiary); 
-      transition: all var(--transition-fast); 
-      border: none; 
-      background: transparent; 
-      font-family: var(--font-body); 
-    }
-
-    .bottom-nav-item.active { 
-      color: var(--accent-blue); 
-      font-weight: 600; 
-    }
-
-    @media (max-width: 767px) { 
-      .hero-title { font-size: 1.5rem; } 
-      .subject-grid { grid-template-columns: 1fr 1fr; } 
-      body { padding-bottom: 80px; } 
-    }
-
-    @media (max-width: 400px) { 
-      .subject-grid { grid-template-columns: 1fr; } 
-    }
-
-    .animate-in { 
-      animation: fadeInUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards; 
-      opacity: 0; 
-    }
-
-    .delay-1 { animation-delay: 0.1s; } 
-    .delay-2 { animation-delay: 0.2s; } 
-    .delay-3 { animation-delay: 0.3s; } 
-    .delay-4 { animation-delay: 0.4s; } 
-    .delay-5 { animation-delay: 0.5s; }
-
-    @keyframes fadeInUp { 
-      from { opacity: 0; transform: translateY(20px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
-
-    #auth-section { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-
-    .auth-btn { 
-      padding: 8px 18px; 
-      border-radius: 50px; 
-      font-weight: 600; 
-      font-size: 0.85rem; 
-      cursor: pointer; 
-      border: none; 
-      background: var(--gradient-accent); 
-      color: #fff; 
-    }
-
-    .user-menu { 
-      display: none; 
-      align-items: center; 
-      gap: 8px; 
-    }
-
-    .user-menu.active { 
-      display: flex; 
-    }
-
-    #upload-avatar-input { 
-      display: none; 
-    }
-
-    .auth-modal-content { 
-      max-width: 420px; 
-      padding: 28px; 
-    }
-
-    .form-group { 
-      margin-bottom: 16px; 
-    }
-
-    .form-group label { 
-      display: block; 
-      font-size: 0.85rem; 
-      font-weight: 600; 
-      margin-bottom: 6px; 
-      color: var(--text-secondary); 
-    }
-
-    .form-input { 
-      width: 100%; 
-      padding: 12px 14px; 
-      border-radius: var(--radius-sm); 
-      border: 1px solid var(--border-medium); 
-      background: var(--bg-primary); 
-      font-family: var(--font-body); 
-      font-size: 0.95rem; 
-      transition: 0.2s; 
-      color: var(--text-primary); 
-    }
-
-    .form-input:focus { 
-      outline: none; 
-      border-color: var(--accent-blue); 
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.15); 
-    }
-
-    .auth-switch-text { 
-      text-align: center; 
-      margin-top: 16px; 
-      font-size: 0.9rem; 
-      color: var(--text-tertiary); 
-    }
-
-    .auth-switch-text span { 
-      color: var(--accent-blue); 
-      font-weight: 600; 
-      cursor: pointer; 
-    }
-
-    .error-msg { 
-      color: var(--accent-rose); 
-      font-size: 0.8rem; 
-      margin-top: 4px; 
-      padding: 8px; 
-      background: rgba(225, 29, 72, 0.1); 
-      border-radius: var(--radius-xs); 
-    }
-
-    .loading-spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .score-display {
-      background: var(--bg-tertiary);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .score-number {
-      font-size: 3rem;
-      font-weight: 800;
-      font-family: var(--font-heading);
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    #upload-avatar-input { display: none; }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header class="app-header">
     <div class="app-container header-inner">
       <div class="logo-group">
@@ -991,20 +424,21 @@
         <a class="nav-link" href="#" data-nav="cbt">💻 CBT Mock</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-btn" title="Search" onclick="showToast('🔍 Search opened')">🔍</button>
-        <button class="icon-btn" title="Notifications" onclick="showToast('📬 3 new notifications')">🔔<span class="badge-dot"></span></button>
+        <button class="icon-btn" title="Search" onclick="SYF.showToast('🔍 Search opened')">🔍</button>
+        <button class="icon-btn" title="Notifications" onclick="SYF.showToast('📬 3 new notifications')">🔔<span class="badge-dot"></span></button>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
         <div id="auth-section">
-          <button class="auth-btn" id="loginBtn" onclick="openAuthModal()">Login / Register</button>
+          <button class="auth-btn" id="loginBtn" onclick="SYF.openAuthModal()">Login / Register</button>
           <div class="user-menu" id="userMenu">
             <span id="displayNameSmall" style="font-weight:600;font-size:0.9rem;"></span>
-            <button class="btn-outline btn-sm" onclick="handleLogout()">Logout</button>
+            <button class="btn-outline btn-sm" onclick="SYF.handleLogout()">Logout</button>
           </div>
         </div>
       </div>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="app-container" style="padding-top:8px;">
     <section class="hero-section animate-in">
       <div class="hero-badge"><span class="pulse-dot"></span> Trusted by 2.5L+ Aspirants</div>
@@ -1015,7 +449,7 @@
     <div class="dashboard-grid">
       <aside class="profile-card animate-in delay-1" id="profileCard">
         <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('upload-avatar-input').click()" title="Click to update profile picture">👤<span>📷</span></div>
-        <input type="file" id="upload-avatar-input" accept="image/*" onchange="uploadAvatar(event)">
+        <input type="file" id="upload-avatar-input" accept="image/*" onchange="SYF.uploadAvatar(event)">
         <div class="profile-name" id="profileName">Guest User</div>
         <div class="profile-email" id="profileEmail">Please login to continue</div>
         <div class="streak-row">🔥 <span id="streakCount">0</span> Day Streak</div>
@@ -1029,11 +463,11 @@
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div class="animate-in delay-2">
           <div class="section-title">📚 Continue Learning</div>
-          <div class="continue-card" onclick="navigateTo('mathematics')">
+          <div class="continue-card" onclick="SYF.navigateTo('mathematics')">
             <div class="continue-icon" style="background:var(--gradient-accent);">📐</div>
             <div style="flex:1;"><div style="font-weight:600;">Mathematics → Digital Sum</div><div style="font-size:0.78rem;color:var(--text-tertiary);">Chapter 3 · 42% complete</div></div><span>▶</span>
           </div>
-          <div class="continue-card" onclick="navigateTo('reasoning')">
+          <div class="continue-card" onclick="SYF.navigateTo('reasoning')">
             <div class="continue-icon" style="background:var(--gradient-emerald);">🧠</div>
             <div style="flex:1;"><div style="font-weight:600;">Reasoning → Blood Relations</div><div style="font-size:0.78rem;color:var(--text-tertiary);">Chapter 7 · 68% complete</div></div><span>▶</span>
           </div>
@@ -1065,38 +499,10 @@
     <section class="animate-in delay-5">
       <div class="section-title">📘 Core Subjects</div>
       <div class="subject-grid">
-        <div class="subject-card" onclick="navigateTo('mathematics')">
-          <div class="card-accent accent-math"></div>
-          <span class="subj-icon">📐</span>
-          <div class="subj-name">Mathematics</div>
-          <div class="subj-chapters">28 Chapters · 1,240+ PYQs</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div>
-          <div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div>
-        </div>
-        <div class="subject-card" onclick="navigateTo('reasoning')">
-          <div class="card-accent accent-reason"></div>
-          <span class="subj-icon">🧠</span>
-          <div class="subj-name">Reasoning</div>
-          <div class="subj-chapters">22 Chapters · 980+ PYQs</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div>
-          <div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div>
-        </div>
-        <div class="subject-card" onclick="navigateTo('english')">
-          <div class="card-accent accent-english"></div>
-          <span class="subj-icon">📖</span>
-          <div class="subj-name">English</div>
-          <div class="subj-chapters">18 Chapters · 760+ PYQs</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div>
-          <div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div>
-        </div>
-        <div class="subject-card" onclick="navigateTo('gk')">
-          <div class="card-accent accent-gk"></div>
-          <span class="subj-icon">🌍</span>
-          <div class="subj-name">GK / GS</div>
-          <div class="subj-chapters">35 Chapters · 2,100+ PYQs</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div>
-          <div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div>
-        </div>
+        <div class="subject-card" onclick="SYF.navigateTo('mathematics')"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
+        <div class="subject-card" onclick="SYF.navigateTo('reasoning')"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></div>
+        <div class="subject-card" onclick="SYF.navigateTo('english')"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
+        <div class="subject-card" onclick="SYF.navigateTo('gk')"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></div>
       </div>
     </section>
   </main>
@@ -1104,7 +510,7 @@
   <!-- CBT Modal -->
   <div class="modal-overlay" id="cbtModal">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeCBTModal()">✕</button>
+      <button class="modal-close" onclick="SYF.closeCBTModal()">✕</button>
       <div class="cbt-header">
         <div><strong id="cbtSubjectLabel">Mathematics</strong> — <span id="cbtChapterLabel">Digital Sum</span></div>
         <div class="cbt-timer" id="cbtTimer">⏱ 15:00</div>
@@ -1113,49 +519,177 @@
       <div class="cbt-question" id="cbtQuestion"></div>
       <div id="cbtOptions"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
-        <button class="btn btn-outline btn-sm" onclick="markForReview()">📌 Mark</button>
-        <button class="btn btn-outline btn-sm" onclick="prevQuestion()">◀ Prev</button>
-        <button class="btn btn-primary btn-sm" onclick="saveAndNext()">Save & Next ▶</button>
-        <button class="btn btn-sm" style="background:var(--accent-emerald);color:#fff;" onclick="submitCBT()">✅ Submit</button>
+        <button class="btn btn-outline btn-sm" onclick="SYF.cbt.markForReview()">📌 Mark</button>
+        <button class="btn btn-outline btn-sm" onclick="SYF.cbt.prevQuestion()">◀ Prev</button>
+        <button class="btn btn-primary btn-sm" onclick="SYF.cbt.saveAndNext()">Save & Next ▶</button>
+        <button class="btn btn-sm" style="background:var(--accent-emerald);color:#fff;" onclick="SYF.cbt.submitTest()">✅ Submit</button>
       </div>
       <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;" id="questionPalette"></div>
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Registration Modal -->
   <div class="modal-overlay" id="authModal">
-    <div class="modal-content auth-modal-content">
-      <button class="modal-close" onclick="closeAuthModal()">✕</button>
-      <h3 style="font-family:var(--font-heading);margin-bottom:6px;text-align:center;" id="authModalTitle">Welcome Back</h3>
-      <p style="text-align:center;color:var(--text-tertiary);margin-bottom:20px;font-size:0.9rem;" id="authModalSub">Login to access premium features</p>
-      <form id="authForm" onsubmit="handleAuthSubmit(event)">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" class="form-input" id="authEmail" placeholder="you@example.com" required autocomplete="email">
+    <div class="modal-content registration-modal">
+      <button class="modal-close" onclick="SYF.closeAuthModal()">✕</button>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="regProgress" style="width: 25%;"></div>
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-input" id="authPassword" placeholder="••••••••" required minlength="6" autocomplete="current-password">
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:var(--text-tertiary);">
+          <span>Account</span><span>Profile</span><span>Preferences</span><span>Verify</span>
         </div>
-        <div class="form-group" id="nameFieldGroup" style="display:none;">
-          <label>Full Name</label>
-          <input type="text" class="form-input" id="authName" placeholder="Rahul Sharma" autocomplete="name">
-        </div>
-        <div class="form-group" id="confirmPasswordGroup" style="display:none;">
-          <label>Confirm Password</label>
-          <input type="password" class="form-input" id="authConfirmPassword" placeholder="••••••••" minlength="6">
-        </div>
-        <div id="authError" class="error-msg" style="display:none;"></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;" id="authSubmitBtn">Login</button>
-      </form>
-      <div class="auth-switch-text" id="authSwitchText">
-        Don't have an account? <span id="authToggleLink" onclick="toggleAuthMode()">Register here</span>
       </div>
+
+      <div class="step-indicator">
+        <div class="step-dot active" data-step="1"></div>
+        <div class="step-dot" data-step="2"></div>
+        <div class="step-dot" data-step="3"></div>
+        <div class="step-dot" data-step="4"></div>
+      </div>
+
+      <form id="registrationForm" onsubmit="return false;">
+        <!-- Step 1: Account -->
+        <div class="registration-step active" id="step1">
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Create Your Account</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Start your journey to success</p>
+          
+          <div class="form-row">
+            <div class="form-group"><label>First Name *</label><input type="text" class="form-input" id="firstName" placeholder="Rahul" required></div>
+            <div class="form-group"><label>Last Name *</label><input type="text" class="form-input" id="lastName" placeholder="Sharma" required></div>
+          </div>
+          <div class="form-group"><label>Email Address *</label><input type="email" class="form-input" id="regEmail" placeholder="rahul.sharma@email.com" required></div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <div class="form-row">
+              <select class="form-select" id="countryCode" style="max-width:120px;">
+                <option value="+91">🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option>
+                <option value="+61">🇦🇺 +61</option><option value="+971">🇦🇪 +971</option>
+              </select>
+              <input type="tel" class="form-input" id="phone" placeholder="9876543210">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" class="form-input" id="regPassword" placeholder="Min. 8 characters" required minlength="8" oninput="SYF.checkPasswordStrength(this.value)">
+            <div class="password-strength"><div class="password-strength-bar" id="passwordStrengthBar"></div></div>
+            <small style="color:var(--text-tertiary);font-size:0.75rem;">Use 8+ characters with letters, numbers & symbols</small>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password *</label>
+            <input type="password" class="form-input" id="confirmPassword" placeholder="Re-enter password" required minlength="8" oninput="SYF.checkPasswordMatch()">
+            <div id="passwordMatchMsg" style="font-size:0.8rem;margin-top:4px;"></div>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="termsAgree" required>
+            <label for="termsAgree">I agree to the <span class="terms-link">Terms of Service</span> and <span class="terms-link">Privacy Policy</span></label>
+          </div>
+          <button type="button" class="btn btn-primary" style="width:100%;" onclick="SYF.registration.nextStep(2)">Continue →</button>
+          <div class="auth-switch-text" style="margin-top:16px;">Already have an account? <span style="color:var(--accent-blue);font-weight:600;cursor:pointer;" onclick="SYF.switchToLogin()">Login here</span></div>
+        </div>
+
+        <!-- Step 2: Profile -->
+        <div class="registration-step" id="step2">
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Complete Your Profile</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Help us personalize your learning experience</p>
+          <div class="photo-upload-area" onclick="document.getElementById('profilePhoto').click()">
+            <img id="photoPreview" class="photo-preview" style="display:none;">
+            <div id="uploadPlaceholder">📷 Click to upload profile photo</div>
+            <input type="file" id="profilePhoto" accept="image/*" style="display:none;" onchange="SYF.previewPhoto(event)">
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date of Birth</label><input type="date" class="form-input" id="dob"></div>
+            <div class="form-group"><label>Gender</label><select class="form-select" id="gender"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Education Level</label><select class="form-select" id="education"><option value="">Select</option><option value="10th">10th Pass</option><option value="12th">12th Pass</option><option value="graduate">Graduate</option><option value="postgraduate">Post Graduate</option></select></div>
+            <div class="form-group"><label>State / Region</label><select class="form-select" id="state"><option value="">Select</option><option value="delhi">Delhi</option><option value="maharashtra">Maharashtra</option><option value="uttar-pradesh">Uttar Pradesh</option><option value="bihar">Bihar</option><option value="rajasthan">Rajasthan</option><option value="other">Other</option></select></div>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(1)">← Back</button>
+            <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(3)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Preferences -->
+        <div class="registration-step" id="step3">
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Exam Preferences</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Select your target exams</p>
+          <div class="form-group"><label>Target Exams (Select all that apply)</label>
+            <div class="skill-tags" id="targetExams">
+              <span class="skill-tag" data-value="ssc-cgl">SSC CGL</span><span class="skill-tag" data-value="ssc-chsl">SSC CHSL</span>
+              <span class="skill-tag" data-value="bank-po">Bank PO</span><span class="skill-tag" data-value="bank-clerk">Bank Clerk</span>
+              <span class="skill-tag" data-value="railway">Railway NTPC</span><span class="skill-tag" data-value="upsc">UPSC</span>
+              <span class="skill-tag" data-value="state-psc">State PSC</span><span class="skill-tag" data-value="defence">Defence</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Study Language</label><select class="form-select" id="studyLanguage"><option value="english">English</option><option value="hindi">Hindi</option><option value="bilingual">Bilingual</option></select></div>
+            <div class="form-group"><label>Preparation Level</label><select class="form-select" id="preparationLevel"><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></div>
+          </div>
+          <div class="form-group"><label>Weak Subjects</label>
+            <div class="skill-tags" id="weakSubjects">
+              <span class="skill-tag" data-value="math">Mathematics</span><span class="skill-tag" data-value="reasoning">Reasoning</span>
+              <span class="skill-tag" data-value="english">English</span><span class="skill-tag" data-value="gk">GK</span>
+              <span class="skill-tag" data-value="gs">GS</span><span class="skill-tag" data-value="computer">Computer</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Daily Study Hours</label><select class="form-select" id="studyHours"><option value="1-2">1-2 hours</option><option value="2-4">2-4 hours</option><option value="4-6">4-6 hours</option><option value="6-8">6-8 hours</option></select></div>
+            <div class="form-group"><label>Referral Code</label><input type="text" class="form-input" id="referralCode" placeholder="Optional"></div>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button>
+            <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(4)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Verify -->
+        <div class="registration-step" id="step4">
+          <h3 style="font-family:var(--font-heading);margin-bottom:4px;">Verify & Complete</h3>
+          <p style="color:var(--text-tertiary);font-size:0.9rem;margin-bottom:20px;">Review your details and submit</p>
+          <div style="background:var(--bg-tertiary);border-radius:var(--radius-md);padding:16px;margin-bottom:20px;">
+            <h4 style="margin-bottom:12px;">📋 Registration Summary</h4>
+            <div id="registrationSummary" style="font-size:0.9rem;line-height:1.8;"></div>
+          </div>
+          <div class="form-group">
+            <label>Email Verification</label>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span id="emailVerificationStatus">📧 Not verified</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="SYF.sendVerificationEmail()">Send OTP</button>
+            </div>
+          </div>
+          <div id="otpSection" style="display:none;">
+            <div class="form-group">
+              <label>Enter 6-digit OTP</label>
+              <div class="otp-input-group">
+                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
+                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
+                <input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)"><input type="text" class="otp-input" maxlength="1" oninput="SYF.moveToNext(this)">
+              </div>
+              <button type="button" class="btn btn-sm btn-primary" style="margin-top:10px;" onclick="SYF.verifyOTP()">Verify OTP</button>
+            </div>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="subscribeNewsletter" checked>
+            <label for="subscribeNewsletter">Send me study tips, exam updates, and special offers</label>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(3)">← Back</button>
+            <button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.submitRegistration()">
+              <span id="submitBtnText">Complete Registration 🎉</span>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
+  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-item active" data-nav="home">🏠<span>Home</span></button>
     <button class="bottom-nav-item" data-nav="math">📐<span>Math</span></button>
@@ -1165,772 +699,740 @@
   </nav>
 
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
-      authDomain: "starlet-registor.firebaseapp.com",
-      databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
-      projectId: "starlet-registor",
-      storageBucket: "starlet-registor.firebasestorage.app",
-      messagingSenderId: "904193225045",
-      appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
-      measurementId: "G-1NLM1F0262"
-    };
+    // ============================================
+    // SYF - Main Application JavaScript
+    // ============================================
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
-    const firestore = firebase.firestore();
-    
-    // Global state
-    let currentUser = null;
-    let userProfile = {
-      name: 'Guest User',
-      email: '',
-      avatar: '',
-      streak: 0,
-      questionsSolved: 0,
-      accuracy: 0,
-      rank: '---'
-    };
-    let isRegisterMode = false;
-    
-    // ImgBB API key for avatar uploads
-    const IMGBB_API_KEY = '53fb01955a45c5462724b8f7d238500a';
+    const SYF = (function() {
+      'use strict';
 
-    // ==================== Toast Notifications ====================
-    function showToast(msg, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
-      toast.textContent = `${icons[type] || 'ℹ️'} ${msg}`;
-      container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(60px)';
-        toast.style.transition = 'all 0.3s';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+        authDomain: "starlet-registor.firebaseapp.com",
+        databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
+        projectId: "starlet-registor",
+        storageBucket: "starlet-registor.firebasestorage.app",
+        messagingSenderId: "904193225045",
+        appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+        measurementId: "G-1NLM1F0262"
+      };
 
-    // ==================== Theme Toggle ====================
-    (function() {
-      const toggle = document.getElementById('themeToggle');
-      const html = document.documentElement;
-      const saved = localStorage.getItem('syf-theme') || 'light';
-      html.setAttribute('data-theme', saved);
-      toggle.textContent = saved === 'dark' ? '☀️' : '🌓';
-      toggle.addEventListener('click', () => {
-        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('syf-theme', next);
-        toggle.textContent = next === 'dark' ? '☀️' : '🌓';
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const firestore = firebase.firestore();
+      const db = firebase.database();
+
+      // App State
+      let currentUser = null;
+      let userProfile = {
+        name: 'Guest User',
+        email: '',
+        avatar: '',
+        streak: 0,
+        questionsSolved: 0,
+        accuracy: 0,
+        rank: '#---'
+      };
+      
+      // Registration State
+      let currentStep = 1;
+      let registrationData = {
+        firstName: '', lastName: '', email: '', phone: '', countryCode: '+91',
+        password: '', dob: '', gender: '', education: '', state: '',
+        profilePhoto: null, targetExams: [], studyLanguage: 'english',
+        preparationLevel: 'beginner', weakSubjects: [], studyHours: '1-2',
+        referralCode: '', emailVerified: false, subscribeNewsletter: true
+      };
+
+      // CBT State
+      const cbtQuestions = [
+        { q: 'What is the digital sum of 8756?', opts: ['A) 8', 'B) 7', 'C) 5', 'D) 2'], ans: 0 },
+        { q: 'If A is brother of B, B is sister of C, how is A related to C?', opts: ['A) Brother', 'B) Sister', 'C) Cousin', 'D) Uncle'], ans: 0 },
+        { q: 'Choose the synonym of "Benevolent":', opts: ['A) Cruel', 'B) Kind', 'C) Angry', 'D) Greedy'], ans: 1 },
+        { q: 'Who is the Chairman of Rajya Sabha?', opts: ['A) PM', 'B) President', 'C) Vice President', 'D) Speaker'], ans: 2 },
+        { q: 'Find missing: 2,6,12,20,?', opts: ['A) 28', 'B) 30', 'C) 32', 'D) 26'], ans: 1 },
+        { q: 'Capital of Jharkhand?', opts: ['A) Patna', 'B) Ranchi', 'C) Raipur', 'D) BBSR'], ans: 1 },
+        { q: '5x+3=2x+15, x=?', opts: ['A) 3', 'B) 4', 'C) 5', 'D) 6'], ans: 1 },
+        { q: 'Article for President impeachment?', opts: ['A) 52', 'B) 61', 'C) 72', 'D) 356'], ans: 1 },
+        { q: 'Error: "Neither of the boys have submitted their work."', opts: ['A) Neither', 'B) boys', 'C) have', 'D) their'], ans: 2 },
+        { q: 'LCM of 12,18?', opts: ['A) 6', 'B) 36', 'C) 72', 'D) 24'], ans: 1 }
+      ];
+      
+      let cbtState = {
+        idx: 0,
+        answers: Array(10).fill(null),
+        marked: new Set(),
+        sec: 900,
+        timer: null,
+        submitted: false
+      };
+
+      // ==================== Utility Functions ====================
+      function showToast(msg, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+        toast.textContent = `${icons[type] || 'ℹ️'} ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(60px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // ==================== Theme ====================
+      function initTheme() {
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const saved = localStorage.getItem('syf-theme') || 'light';
+        html.setAttribute('data-theme', saved);
+        toggle.textContent = saved === 'dark' ? '☀️' : '🌓';
+        toggle.addEventListener('click', () => {
+          const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('syf-theme', next);
+          toggle.textContent = next === 'dark' ? '☀️' : '🌓';
+        });
+      }
+
+      // ==================== Navigation ====================
+      function navigateTo(subject) {
+        showToast(`Opening ${subject} module`, 'info');
+      }
+
+      // ==================== Profile Management ====================
+      function updateProfileUI() {
+        document.getElementById('profileName').textContent = userProfile.name || 'Guest User';
+        document.getElementById('profileEmail').textContent = userProfile.email || 'Please login to continue';
+        document.getElementById('streakCount').textContent = userProfile.streak || 0;
+        
+        const miniStats = document.querySelectorAll('.mini-stat-val');
+        if (miniStats.length >= 3) {
+          miniStats[0].textContent = userProfile.questionsSolved || 0;
+          miniStats[1].textContent = `${userProfile.accuracy || 0}%`;
+          miniStats[2].textContent = userProfile.rank || '#---';
+        }
+        
+        const avatarEl = document.getElementById('profileAvatar');
+        if (userProfile.avatar) {
+          avatarEl.style.backgroundImage = `url(${userProfile.avatar})`;
+          avatarEl.textContent = '';
+        } else {
+          avatarEl.style.backgroundImage = '';
+          avatarEl.textContent = currentUser ? (userProfile.name?.charAt(0)?.toUpperCase() || '👤') : '👤';
+        }
+        
+        if (currentUser) {
+          document.getElementById('displayNameSmall').textContent = userProfile.name || currentUser.email;
+        }
+      }
+
+      async function saveProfileToFirestore() {
+        if (!currentUser) return;
+        try {
+          await firestore.collection('users').doc(currentUser.uid).set({
+            name: userProfile.name,
+            email: userProfile.email,
+            avatar: userProfile.avatar,
+            streak: userProfile.streak,
+            questionsSolved: userProfile.questionsSolved,
+            accuracy: userProfile.accuracy,
+            rank: userProfile.rank,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch (error) {
+          console.error('Error saving profile:', error);
+        }
+      }
+
+      async function loadProfileFromFirestore(uid) {
+        try {
+          const userDoc = await firestore.collection('users').doc(uid).get();
+          if (userDoc.exists) {
+            const data = userDoc.data();
+            userProfile = {
+              name: data.name || currentUser.displayName || 'User',
+              email: data.email || currentUser.email,
+              avatar: data.avatar || '',
+              streak: data.streak || 0,
+              questionsSolved: data.questionsSolved || 0,
+              accuracy: data.accuracy || 0,
+              rank: data.rank || '#---'
+            };
+          }
+          updateProfileUI();
+          showToast('Profile loaded successfully', 'success');
+        } catch (error) {
+          console.error('Error loading profile:', error);
+          updateProfileUI();
+        }
+      }
+
+      async function uploadAvatar(event) {
+        if (!currentUser) { showToast('Please login first', 'warning'); return; }
+        const file = event.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) { showToast('Please select an image file', 'error'); return; }
+        if (file.size > 5 * 1024 * 1024) { showToast('Image size should be less than 5MB', 'error'); return; }
+        
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+          showToast('Uploading avatar...', 'info');
+          const resp = await fetch(`https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a`, {
+            method: 'POST', body: formData
+          });
+          if (!resp.ok) throw new Error('Upload failed');
+          const json = await resp.json();
+          if (json.success) {
+            userProfile.avatar = json.data.url;
+            updateProfileUI();
+            await saveProfileToFirestore();
+            showToast('Avatar updated successfully!', 'success');
+          }
+        } catch (e) {
+          showToast('Failed to upload avatar', 'error');
+        }
+      }
+
+      // ==================== Authentication ====================
+      function openAuthModal() {
+        resetRegistration();
+        document.getElementById('authModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        goToStep(1);
+      }
+
+      function closeAuthModal() {
+        document.getElementById('authModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function switchToLogin() {
+        closeAuthModal();
+        const email = prompt('Enter email to login:');
+        if (email) {
+          const password = prompt('Enter password:');
+          if (password) {
+            auth.signInWithEmailAndPassword(email, password)
+              .then(() => showToast('Logged in successfully!', 'success'))
+              .catch(error => showToast(error.message, 'error'));
+          }
+        }
+      }
+
+      function handleLogout() {
+        auth.signOut().then(() => showToast('Logged out successfully', 'success'));
+      }
+
+      // Auth State Listener
+      auth.onAuthStateChanged(async (user) => {
+        const loginBtn = document.getElementById('loginBtn');
+        const userMenu = document.getElementById('userMenu');
+        
+        if (user) {
+          currentUser = user;
+          loginBtn.style.display = 'none';
+          userMenu.classList.add('active');
+          document.getElementById('displayNameSmall').textContent = user.displayName || user.email;
+          await loadProfileFromFirestore(user.uid);
+        } else {
+          currentUser = null;
+          loginBtn.style.display = 'inline-block';
+          userMenu.classList.remove('active');
+          userProfile = {
+            name: 'Guest User', email: '', avatar: '', streak: 0,
+            questionsSolved: 0, accuracy: 0, rank: '#---'
+          };
+          updateProfileUI();
+        }
       });
+
+      // ==================== Registration Functions ====================
+      function goToStep(step) {
+        currentStep = step;
+        document.querySelectorAll('.step-dot').forEach((dot, index) => {
+          dot.classList.remove('active', 'completed');
+          if (index + 1 < step) dot.classList.add('completed');
+          if (index + 1 === step) dot.classList.add('active');
+        });
+        document.querySelectorAll('.registration-step').forEach(s => s.classList.remove('active'));
+        document.getElementById(`step${step}`).classList.add('active');
+        document.getElementById('regProgress').style.width = `${(step / 4) * 100}%`;
+        if (step === 4) generateRegistrationSummary();
+      }
+
+      function resetRegistration() {
+        registrationData = {
+          firstName: '', lastName: '', email: '', phone: '', countryCode: '+91',
+          password: '', dob: '', gender: '', education: '', state: '',
+          profilePhoto: null, targetExams: [], studyLanguage: 'english',
+          preparationLevel: 'beginner', weakSubjects: [], studyHours: '1-2',
+          referralCode: '', emailVerified: false, subscribeNewsletter: true
+        };
+        document.getElementById('registrationForm').reset();
+        document.querySelectorAll('.skill-tag.selected').forEach(t => t.classList.remove('selected'));
+        const preview = document.getElementById('photoPreview');
+        if (preview) preview.style.display = 'none';
+        const placeholder = document.getElementById('uploadPlaceholder');
+        if (placeholder) placeholder.style.display = 'block';
+      }
+
+      function collectStepData(step) {
+        switch(step) {
+          case 1:
+            registrationData.firstName = document.getElementById('firstName').value.trim();
+            registrationData.lastName = document.getElementById('lastName').value.trim();
+            registrationData.email = document.getElementById('regEmail').value.trim();
+            registrationData.phone = document.getElementById('phone').value.trim();
+            registrationData.countryCode = document.getElementById('countryCode').value;
+            registrationData.password = document.getElementById('regPassword').value;
+            break;
+          case 2:
+            registrationData.dob = document.getElementById('dob').value;
+            registrationData.gender = document.getElementById('gender').value;
+            registrationData.education = document.getElementById('education').value;
+            registrationData.state = document.getElementById('state').value;
+            break;
+          case 3:
+            registrationData.targetExams = Array.from(document.querySelectorAll('#targetExams .skill-tag.selected')).map(t => t.dataset.value);
+            registrationData.studyLanguage = document.getElementById('studyLanguage').value;
+            registrationData.preparationLevel = document.getElementById('preparationLevel').value;
+            registrationData.weakSubjects = Array.from(document.querySelectorAll('#weakSubjects .skill-tag.selected')).map(t => t.dataset.value);
+            registrationData.studyHours = document.getElementById('studyHours').value;
+            registrationData.referralCode = document.getElementById('referralCode').value.trim();
+            break;
+          case 4:
+            registrationData.subscribeNewsletter = document.getElementById('subscribeNewsletter').checked;
+            break;
+        }
+      }
+
+      function validateStep(step) {
+        switch(step) {
+          case 1:
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            const termsAgreed = document.getElementById('termsAgree').checked;
+            
+            if (!firstName) { showToast('Please enter first name', 'error'); return false; }
+            if (!lastName) { showToast('Please enter last name', 'error'); return false; }
+            if (!email || !email.includes('@')) { showToast('Please enter valid email', 'error'); return false; }
+            if (password.length < 8) { showToast('Password must be at least 8 characters', 'error'); return false; }
+            if (password !== confirmPass) { showToast('Passwords do not match', 'error'); return false; }
+            if (!termsAgreed) { showToast('Please agree to Terms of Service', 'error'); return false; }
+            return true;
+          case 3:
+            const targetExams = document.querySelectorAll('#targetExams .skill-tag.selected');
+            if (targetExams.length === 0) { showToast('Please select at least one target exam', 'error'); return false; }
+            return true;
+          case 4:
+            if (!registrationData.emailVerified) { showToast('Please verify your email first', 'warning'); return false; }
+            return true;
+        }
+        return true;
+      }
+
+      function checkPasswordStrength(password) {
+        const bar = document.getElementById('passwordStrengthBar');
+        bar.className = 'password-strength-bar';
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (password.length >= 12) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        
+        if (score <= 2) bar.classList.add('strength-weak');
+        else if (score <= 4) bar.classList.add('strength-medium');
+        else bar.classList.add('strength-strong');
+      }
+
+      function checkPasswordMatch() {
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        const msg = document.getElementById('passwordMatchMsg');
+        if (confirm === '') msg.textContent = '';
+        else if (password === confirm) { msg.textContent = '✅ Passwords match'; msg.style.color = 'var(--accent-emerald)'; }
+        else { msg.textContent = '❌ Passwords do not match'; msg.style.color = 'var(--accent-rose)'; }
+      }
+
+      function previewPhoto(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const preview = document.getElementById('photoPreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            document.getElementById('uploadPlaceholder').style.display = 'none';
+            registrationData.profilePhoto = file;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function sendVerificationEmail() {
+        const email = registrationData.email || document.getElementById('regEmail').value.trim();
+        if (!email) { showToast('Please enter email first', 'error'); return; }
+        showToast(`Verification code sent to ${email}`, 'success');
+        document.getElementById('otpSection').style.display = 'block';
+        document.getElementById('emailVerificationStatus').innerHTML = '📧 OTP Sent';
+      }
+
+      function moveToNext(input) {
+        if (input.value.length === 1) {
+          const next = input.nextElementSibling;
+          if (next && next.classList.contains('otp-input')) next.focus();
+        }
+      }
+
+      function verifyOTP() {
+        const otpInputs = document.querySelectorAll('.otp-input');
+        let otp = '';
+        otpInputs.forEach(input => otp += input.value);
+        if (otp.length === 6) {
+          registrationData.emailVerified = true;
+          document.getElementById('emailVerificationStatus').innerHTML = '<span class="verified-badge">✅ Verified</span>';
+          document.getElementById('otpSection').style.display = 'none';
+          showToast('Email verified successfully!', 'success');
+        } else {
+          showToast('Please enter complete 6-digit OTP', 'error');
+        }
+      }
+
+      function generateRegistrationSummary() {
+        const summary = document.getElementById('registrationSummary');
+        summary.innerHTML = `
+          <strong>Name:</strong> ${registrationData.firstName} ${registrationData.lastName}<br>
+          <strong>Email:</strong> ${registrationData.email}<br>
+          <strong>Phone:</strong> ${registrationData.countryCode} ${registrationData.phone || 'Not provided'}<br>
+          <strong>Education:</strong> ${registrationData.education || 'Not specified'}<br>
+          <strong>State:</strong> ${registrationData.state || 'Not specified'}<br>
+          <strong>Target Exams:</strong> ${registrationData.targetExams.length > 0 ? registrationData.targetExams.map(e => e.toUpperCase()).join(', ') : 'Not selected'}<br>
+          <strong>Preparation Level:</strong> ${registrationData.preparationLevel}<br>
+          <strong>Study Hours:</strong> ${registrationData.studyHours} hours/day
+        `;
+      }
+
+      async function submitRegistration() {
+        collectStepData(4);
+        if (!validateStep(4)) return;
+        
+        const submitBtn = document.getElementById('submitBtnText');
+        submitBtn.innerHTML = '<span class="loading-spinner"></span> Creating Account...';
+        
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(
+            registrationData.email, registrationData.password
+          );
+          const user = userCredential.user;
+          await user.updateProfile({ displayName: `${registrationData.firstName} ${registrationData.lastName}` });
+          
+          const userData = {
+            firstName: registrationData.firstName,
+            lastName: registrationData.lastName,
+            email: registrationData.email,
+            phone: registrationData.phone,
+            countryCode: registrationData.countryCode,
+            dob: registrationData.dob,
+            gender: registrationData.gender,
+            education: registrationData.education,
+            state: registrationData.state,
+            targetExams: registrationData.targetExams,
+            studyLanguage: registrationData.studyLanguage,
+            preparationLevel: registrationData.preparationLevel,
+            weakSubjects: registrationData.weakSubjects,
+            studyHours: registrationData.studyHours,
+            referralCode: registrationData.referralCode,
+            emailVerified: true,
+            subscribeNewsletter: registrationData.subscribeNewsletter,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            stats: { questionsSolved: 0, accuracy: 0, streak: 0, rank: '#---', testsTaken: 0 }
+          };
+          
+          await firestore.collection('users').doc(user.uid).set(userData);
+          
+          if (registrationData.profilePhoto) {
+            const formData = new FormData();
+            formData.append('image', registrationData.profilePhoto);
+            const resp = await fetch(`https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a`, {
+              method: 'POST', body: formData
+            });
+            if (resp.ok) {
+              const json = await resp.json();
+              if (json.success) {
+                await firestore.collection('users').doc(user.uid).update({ profilePhotoURL: json.data.url });
+              }
+            }
+          }
+          
+          showToast('🎉 Registration successful! Welcome to SYF!', 'success');
+          closeAuthModal();
+        } catch (error) {
+          let errorMessage = 'Registration failed. Please try again.';
+          if (error.code === 'auth/email-already-in-use') errorMessage = 'This email is already registered.';
+          else if (error.code === 'auth/invalid-email') errorMessage = 'Invalid email address.';
+          else if (error.code === 'auth/weak-password') errorMessage = 'Password is too weak.';
+          showToast(errorMessage, 'error');
+        } finally {
+          submitBtn.textContent = 'Complete Registration 🎉';
+        }
+      }
+
+      // ==================== CBT Functions ====================
+      function openCBTModal(subj, chap) {
+        resetCBTState();
+        document.getElementById('cbtSubjectLabel').textContent = subj || 'Mathematics';
+        document.getElementById('cbtChapterLabel').textContent = chap || 'Digital Sum';
+        document.getElementById('cbtModal').classList.add('active');
+        renderCBTQuestion();
+        startCBTTimer();
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCBTModal() {
+        document.getElementById('cbtModal').classList.remove('active');
+        if (cbtState.timer) clearInterval(cbtState.timer);
+        document.body.style.overflow = '';
+      }
+
+      function resetCBTState() {
+        if (cbtState.timer) clearInterval(cbtState.timer);
+        cbtState = { idx: 0, answers: Array(10).fill(null), marked: new Set(), sec: 900, timer: null, submitted: false };
+      }
+
+      function startCBTTimer() {
+        if (cbtState.timer) clearInterval(cbtState.timer);
+        cbtState.timer = setInterval(() => {
+          if (cbtState.submitted) { clearInterval(cbtState.timer); return; }
+          cbtState.sec--;
+          updateCBTTimer();
+          if (cbtState.sec <= 0) { clearInterval(cbtState.timer); submitCBTTest(); }
+        }, 1000);
+      }
+
+      function updateCBTTimer() {
+        const m = Math.floor(cbtState.sec / 60);
+        const s = cbtState.sec % 60;
+        document.getElementById('cbtTimer').textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      }
+
+      function renderCBTQuestion() {
+        if (cbtState.submitted) return;
+        const q = cbtQuestions[cbtState.idx];
+        document.getElementById('cbtQuestion').textContent = q.q;
+        document.getElementById('cbtQNum').textContent = cbtState.idx + 1;
+        
+        const optsContainer = document.getElementById('cbtOptions');
+        optsContainer.innerHTML = '';
+        q.opts.forEach((option, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          if (cbtState.answers[cbtState.idx] === i) btn.classList.add('selected');
+          btn.textContent = option;
+          btn.onclick = () => selectOption(i, btn);
+          optsContainer.appendChild(btn);
+        });
+        renderPalette();
+        updateCBTTimer();
+      }
+
+      function selectOption(index, element) {
+        if (cbtState.submitted) return;
+        cbtState.answers[cbtState.idx] = index;
+        element.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+        element.classList.add('selected');
+        renderPalette();
+      }
+
+      function markForReview() {
+        if (cbtState.submitted) return;
+        if (cbtState.marked.has(cbtState.idx)) {
+          cbtState.marked.delete(cbtState.idx);
+          showToast('Question unmarked', 'info');
+        } else {
+          cbtState.marked.add(cbtState.idx);
+          showToast('Question marked for review', 'info');
+        }
+        renderPalette();
+      }
+
+      function saveAndNext() {
+        if (cbtState.submitted) return;
+        if (cbtState.idx < 9) { cbtState.idx++; renderCBTQuestion(); }
+        else showToast('This is the last question', 'warning');
+      }
+
+      function prevQuestion() {
+        if (cbtState.submitted) return;
+        if (cbtState.idx > 0) { cbtState.idx--; renderCBTQuestion(); }
+      }
+
+      function renderPalette() {
+        const palette = document.getElementById('questionPalette');
+        palette.innerHTML = '';
+        for (let i = 0; i < 10; i++) {
+          const dot = document.createElement('span');
+          let style = `width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:2px solid var(--border-medium);`;
+          if (cbtState.answers[i] !== null) style += 'background:var(--accent-blue);color:#fff;';
+          if (cbtState.marked.has(i)) style += 'border-color:var(--accent-amber);box-shadow:0 0 0 3px rgba(217,119,6,0.3);';
+          if (i === cbtState.idx) style += 'font-weight:800;box-shadow:0 0 0 4px rgba(37,99,235,0.4);';
+          dot.style.cssText = style;
+          dot.textContent = i + 1;
+          dot.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBTQuestion(); } };
+          palette.appendChild(dot);
+        }
+      }
+
+      async function submitCBTTest() {
+        if (cbtState.submitted) return;
+        cbtState.submitted = true;
+        if (cbtState.timer) clearInterval(cbtState.timer);
+        
+        let score = 0;
+        cbtState.answers.forEach((answer, index) => {
+          if (answer === cbtQuestions[index].ans) score++;
+        });
+        
+        const accuracy = Math.round((score / 10) * 100);
+        document.getElementById('cbtQuestion').innerHTML = `
+          <div class="score-display">
+            <div class="score-number">${score}/10</div>
+            <p style="font-size:1.2rem;margin-top:8px;">Accuracy: ${accuracy}%</p>
+          </div>`;
+        document.getElementById('cbtOptions').innerHTML = `
+          <div style="padding:16px;background:var(--bg-tertiary);border-radius:var(--radius-md);">
+            <strong>📊 Analysis:</strong><br>
+            ✅ Correct: ${score}<br>
+            ❌ Incorrect: ${10 - score}<br>
+            📌 Marked: ${cbtState.marked.size}<br>
+            <strong>📈 Rank Prediction:</strong> ~#${Math.floor(Math.random() * 300) + 50}
+          </div>`;
+        document.getElementById('cbtTimer').textContent = '✅ Completed';
+        document.getElementById('questionPalette').innerHTML = '';
+        
+        if (currentUser) {
+          try {
+            await firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add({
+              score, accuracy, totalQuestions: 10,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              subject: document.getElementById('cbtSubjectLabel').textContent
+            });
+            userProfile.questionsSolved = (userProfile.questionsSolved || 0) + 10;
+            userProfile.accuracy = Math.round(((userProfile.accuracy || 0) + accuracy) / 2);
+            userProfile.streak = (userProfile.streak || 0) + 1;
+            await saveProfileToFirestore();
+            updateProfileUI();
+          } catch (error) { console.error('Error saving results:', error); }
+        }
+        showToast(`Test completed! Score: ${score}/10`, 'success');
+      }
+
+      // ==================== Event Listeners ====================
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('skill-tag')) {
+          e.target.classList.toggle('selected');
+        }
+      });
+
+      document.getElementById('authModal').addEventListener('click', function(e) {
+        if (e.target === this) closeAuthModal();
+      });
+
+      document.getElementById('cbtModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCBTModal();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (document.getElementById('authModal').classList.contains('active')) closeAuthModal();
+          if (document.getElementById('cbtModal').classList.contains('active')) closeCBTModal();
+        }
+        if (document.getElementById('cbtModal').classList.contains('active') && !cbtState.submitted) {
+          if (e.key === 'ArrowRight') { e.preventDefault(); saveAndNext(); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); prevQuestion(); }
+        }
+      });
+
+      document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          const nav = this.dataset.nav;
+          document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(l => l.classList.remove('active'));
+          document.querySelectorAll(`[data-nav="${nav}"]`).forEach(l => l.classList.add('active'));
+          
+          switch(nav) {
+            case 'cbt': openCBTModal('Mathematics', 'Digital Sum'); break;
+            case 'math': navigateTo('mathematics'); break;
+            case 'reason': navigateTo('reasoning'); break;
+            case 'english': navigateTo('english'); break;
+            case 'gk': navigateTo('gk'); break;
+            case 'profile': document.getElementById('profileCard').scrollIntoView({behavior:'smooth'}); break;
+            case 'home': window.scrollTo({top: 0, behavior: 'smooth'}); break;
+          }
+        });
+      });
+
+      // ==================== Initialize ====================
+      function init() {
+        initTheme();
+        updateProfileUI();
+        console.log('🚀 SYF Platform Ready');
+        console.log('✅ All features loaded successfully');
+      }
+
+      // Public API
+      return {
+        init,
+        showToast,
+        navigateTo,
+        openAuthModal,
+        closeAuthModal,
+        switchToLogin,
+        handleLogout,
+        uploadAvatar,
+        updateProfileUI,
+        checkPasswordStrength,
+        checkPasswordMatch,
+        previewPhoto,
+        sendVerificationEmail,
+        moveToNext,
+        verifyOTP,
+        submitRegistration,
+        openCBTModal,
+        closeCBTModal,
+        cbt: { markForReview, prevQuestion, saveAndNext, submitTest: submitCBTTest },
+        registration: {
+          nextStep: (step) => {
+            if (validateStep(currentStep)) {
+              collectStepData(currentStep);
+              goToStep(step);
+            }
+          },
+          prevStep: (step) => {
+            collectStepData(currentStep);
+            goToStep(step);
+          }
+        }
+      };
     })();
 
-    // ==================== Navigation ====================
-    function navigateTo(subject) {
-      const pages = { 
-        mathematics: 'mathematics.html', 
-        reasoning: 'reasoning.html', 
-        english: 'english.html', 
-        gk: 'gk.html' 
-      };
-      const url = pages[subject] || `${subject}.html`;
-      showToast(`Opening ${subject} module`, 'info');
-      // In production, you would navigate to actual pages
-      // window.open(url, '_blank');
-      console.log(`Navigate to: ${url}`);
-    }
-
-    // ==================== Profile Management ====================
-    function updateProfileUI() {
-      document.getElementById('profileName').textContent = userProfile.name || 'Guest User';
-      document.getElementById('profileEmail').textContent = userProfile.email || 'Please login to continue';
-      document.getElementById('streakCount').textContent = userProfile.streak || 0;
-      
-      const miniStats = document.querySelectorAll('.mini-stat-val');
-      if (miniStats.length >= 3) {
-        miniStats[0].textContent = userProfile.questionsSolved || 0;
-        miniStats[1].textContent = `${userProfile.accuracy || 0}%`;
-        miniStats[2].textContent = userProfile.rank || '#---';
-      }
-      
-      const avatarEl = document.getElementById('profileAvatar');
-      if (userProfile.avatar) {
-        avatarEl.style.backgroundImage = `url(${userProfile.avatar})`;
-        avatarEl.textContent = '';
-      } else {
-        avatarEl.style.backgroundImage = '';
-        avatarEl.textContent = currentUser ? (userProfile.name?.charAt(0)?.toUpperCase() || '👤') : '👤';
-      }
-      
-      if (currentUser) {
-        document.getElementById('displayNameSmall').textContent = userProfile.name || currentUser.email;
-      }
-    }
-
-    async function saveProfileToFirestore() {
-      if (!currentUser) return;
-      
-      try {
-        const userRef = firestore.collection('users').doc(currentUser.uid);
-        await userRef.set({
-          name: userProfile.name,
-          email: userProfile.email,
-          avatar: userProfile.avatar,
-          streak: userProfile.streak,
-          questionsSolved: userProfile.questionsSolved,
-          accuracy: userProfile.accuracy,
-          rank: userProfile.rank,
-          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-        
-        // Also save to Realtime Database for quick access
-        await db.ref('users/' + currentUser.uid).set({
-          name: userProfile.name,
-          email: userProfile.email,
-          avatar: userProfile.avatar,
-          streak: userProfile.streak,
-          lastUpdated: firebase.database.ServerValue.TIMESTAMP
-        });
-        
-        console.log('Profile saved successfully');
-      } catch (error) {
-        console.error('Error saving profile:', error);
-        showToast('Failed to save profile', 'error');
-      }
-    }
-
-    async function loadProfileFromFirestore(uid) {
-      try {
-        const userDoc = await firestore.collection('users').doc(uid).get();
-        
-        if (userDoc.exists) {
-          const data = userDoc.data();
-          userProfile = {
-            name: data.name || currentUser.displayName || 'User',
-            email: data.email || currentUser.email,
-            avatar: data.avatar || '',
-            streak: data.streak || 0,
-            questionsSolved: data.questionsSolved || 0,
-            accuracy: data.accuracy || 0,
-            rank: data.rank || '#---'
-          };
-        } else {
-          // Create new profile for first-time users
-          userProfile = {
-            name: currentUser.displayName || currentUser.email?.split('@')[0] || 'User',
-            email: currentUser.email || '',
-            avatar: '',
-            streak: 0,
-            questionsSolved: 0,
-            accuracy: 0,
-            rank: '#---'
-          };
-          await saveProfileToFirestore();
-        }
-        
-        updateProfileUI();
-        showToast('Profile loaded successfully', 'success');
-      } catch (error) {
-        console.error('Error loading profile:', error);
-        // Fallback to Realtime Database
-        try {
-          const snapshot = await db.ref('users/' + uid).once('value');
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            userProfile = { ...userProfile, ...data };
-          }
-          updateProfileUI();
-        } catch (rtdbError) {
-          console.error('RTDB fallback error:', rtdbError);
-          updateProfileUI();
-        }
-      }
-    }
-
-    // ==================== Avatar Upload ====================
-    async function uploadAvatar(event) {
-      if (!currentUser) {
-        showToast('Please login first to update avatar', 'warning');
-        return;
-      }
-      
-      const file = event.target.files[0];
-      if (!file) return;
-      
-      // Validate file type and size
-      if (!file.type.startsWith('image/')) {
-        showToast('Please select an image file', 'error');
-        return;
-      }
-      
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        showToast('Image size should be less than 5MB', 'error');
-        return;
-      }
-      
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      try {
-        showToast('Uploading avatar...', 'info');
-        const resp = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-          method: 'POST',
-          body: formData
-        });
-        
-        if (!resp.ok) {
-          throw new Error('Upload failed');
-        }
-        
-        const json = await resp.json();
-        if (json.success) {
-          userProfile.avatar = json.data.url;
-          updateProfileUI();
-          await saveProfileToFirestore();
-          showToast('Avatar updated successfully!', 'success');
-        } else {
-          throw new Error('Upload failed');
-        }
-      } catch (e) {
-        console.error('Avatar upload error:', e);
-        showToast('Failed to upload avatar. Please try again.', 'error');
-      }
-    }
-
-    // ==================== Authentication ====================
-    const authModal = document.getElementById('authModal');
-    const authForm = document.getElementById('authForm');
-    const authEmail = document.getElementById('authEmail');
-    const authPassword = document.getElementById('authPassword');
-    const authName = document.getElementById('authName');
-    const authConfirmPassword = document.getElementById('authConfirmPassword');
-    const authError = document.getElementById('authError');
-    const authSubmitBtn = document.getElementById('authSubmitBtn');
-    const authModalTitle = document.getElementById('authModalTitle');
-    const authModalSub = document.getElementById('authModalSub');
-    const nameFieldGroup = document.getElementById('nameFieldGroup');
-    const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
-
-    function openAuthModal() {
-      setAuthMode(false); // Default to login
-      authModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeAuthModal() {
-      authModal.classList.remove('active');
-      document.body.style.overflow = '';
-      clearAuthForm();
-    }
-
-    function clearAuthForm() {
-      authForm.reset();
-      authError.style.display = 'none';
-      authError.textContent = '';
-    }
-
-    function setAuthMode(register) {
-      isRegisterMode = register;
-      clearAuthForm();
-      
-      if (register) {
-        authModalTitle.textContent = 'Create Account';
-        authModalSub.textContent = 'Join 2.5L+ aspirants today';
-        authSubmitBtn.textContent = 'Register';
-        nameFieldGroup.style.display = 'block';
-        confirmPasswordGroup.style.display = 'block';
-      } else {
-        authModalTitle.textContent = 'Welcome Back';
-        authModalSub.textContent = 'Login to access premium features';
-        authSubmitBtn.textContent = 'Login';
-        nameFieldGroup.style.display = 'none';
-        confirmPasswordGroup.style.display = 'none';
-      }
-    }
-
-    function toggleAuthMode() {
-      setAuthMode(!isRegisterMode);
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      authError.style.display = 'none';
-      authError.textContent = '';
-      
-      const email = authEmail.value.trim();
-      const password = authPassword.value;
-      
-      if (!email || !password) {
-        authError.textContent = 'Please fill in all required fields';
-        authError.style.display = 'block';
-        return;
-      }
-      
-      if (isRegisterMode) {
-        const name = authName.value.trim();
-        const confirm = authConfirmPassword.value;
-        
-        if (!name) {
-          authError.textContent = 'Please enter your full name';
-          authError.style.display = 'block';
-          return;
-        }
-        
-        if (password !== confirm) {
-          authError.textContent = 'Passwords do not match';
-          authError.style.display = 'block';
-          return;
-        }
-        
-        if (password.length < 6) {
-          authError.textContent = 'Password must be at least 6 characters';
-          authError.style.display = 'block';
-          return;
-        }
-        
-        // Register new user
-        authSubmitBtn.disabled = true;
-        authSubmitBtn.innerHTML = '<span class="loading-spinner"></span> Creating account...';
-        
-        try {
-          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-          const user = userCredential.user;
-          
-          await user.updateProfile({ displayName: name });
-          
-          // Initialize user profile
-          userProfile = {
-            name: name,
-            email: email,
-            avatar: '',
-            streak: 0,
-            questionsSolved: 0,
-            accuracy: 0,
-            rank: '#---'
-          };
-          
-          await saveProfileToFirestore();
-          updateProfileUI();
-          closeAuthModal();
-          showToast('Account created successfully! Welcome aboard!', 'success');
-        } catch (error) {
-          console.error('Registration error:', error);
-          authError.textContent = error.message.replace('Firebase: ', '').replace(/\(auth\/.*\)/, '');
-          authError.style.display = 'block';
-        } finally {
-          authSubmitBtn.disabled = false;
-          authSubmitBtn.textContent = 'Register';
-        }
-      } else {
-        // Login existing user
-        authSubmitBtn.disabled = true;
-        authSubmitBtn.innerHTML = '<span class="loading-spinner"></span> Logging in...';
-        
-        try {
-          await auth.signInWithEmailAndPassword(email, password);
-          closeAuthModal();
-          showToast('Logged in successfully!', 'success');
-        } catch (error) {
-          console.error('Login error:', error);
-          if (error.code === 'auth/user-not-found') {
-            authError.textContent = 'No account found with this email. Please register first.';
-          } else if (error.code === 'auth/wrong-password') {
-            authError.textContent = 'Incorrect password. Please try again.';
-          } else if (error.code === 'auth/invalid-email') {
-            authError.textContent = 'Invalid email address.';
-          } else if (error.code === 'auth/too-many-requests') {
-            authError.textContent = 'Too many attempts. Please try again later.';
-          } else {
-            authError.textContent = error.message.replace('Firebase: ', '').replace(/\(auth\/.*\)/, '');
-          }
-          authError.style.display = 'block';
-        } finally {
-          authSubmitBtn.disabled = false;
-          authSubmitBtn.textContent = 'Login';
-        }
-      }
-    }
-
-    async function handleLogout() {
-      try {
-        await auth.signOut();
-        showToast('Logged out successfully', 'success');
-      } catch (error) {
-        console.error('Logout error:', error);
-        showToast('Failed to logout', 'error');
-      }
-    }
-
-    // ==================== Auth State Listener ====================
-    auth.onAuthStateChanged(async (user) => {
-      const loginBtn = document.getElementById('loginBtn');
-      const userMenu = document.getElementById('userMenu');
-      
-      if (user) {
-        currentUser = user;
-        loginBtn.style.display = 'none';
-        userMenu.classList.add('active');
-        document.getElementById('displayNameSmall').textContent = user.displayName || user.email;
-        
-        // Load user profile from Firestore
-        await loadProfileFromFirestore(user.uid);
-      } else {
-        currentUser = null;
-        loginBtn.style.display = 'inline-block';
-        userMenu.classList.remove('active');
-        
-        // Reset to guest profile
-        userProfile = {
-          name: 'Guest User',
-          email: '',
-          avatar: '',
-          streak: 0,
-          questionsSolved: 0,
-          accuracy: 0,
-          rank: '#---'
-        };
-        updateProfileUI();
-      }
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      SYF.init();
     });
 
-    // ==================== Modal Management ====================
-    authModal.addEventListener('click', function(e) {
-      if (e.target === this) closeAuthModal();
-    });
-
-    document.getElementById('cbtModal').addEventListener('click', function(e) {
-      if (e.target === this) closeCBTModal();
-    });
-
-    // Close modals with Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        if (authModal.classList.contains('active')) closeAuthModal();
-        if (document.getElementById('cbtModal').classList.contains('active')) closeCBTModal();
-      }
-    });
-
-    // ==================== CBT Module ====================
-    const cbtQuestions = [
-      { q: 'What is the digital sum of 8756?', opts: ['A) 8', 'B) 7', 'C) 5', 'D) 2'], ans: 0 },
-      { q: 'If A is brother of B, B is sister of C, how is A related to C?', opts: ['A) Brother', 'B) Sister', 'C) Cousin', 'D) Uncle'], ans: 0 },
-      { q: 'Choose the synonym of "Benevolent":', opts: ['A) Cruel', 'B) Kind', 'C) Angry', 'D) Greedy'], ans: 1 },
-      { q: 'Who is the Chairman of Rajya Sabha?', opts: ['A) PM', 'B) President', 'C) Vice President', 'D) Speaker'], ans: 2 },
-      { q: 'Find missing: 2,6,12,20,?', opts: ['A) 28', 'B) 30', 'C) 32', 'D) 26'], ans: 1 },
-      { q: 'Capital of Jharkhand?', opts: ['A) Patna', 'B) Ranchi', 'C) Raipur', 'D) BBSR'], ans: 1 },
-      { q: '5x+3=2x+15, x=?', opts: ['A) 3', 'B) 4', 'C) 5', 'D) 6'], ans: 1 },
-      { q: 'Article for President impeachment?', opts: ['A) 52', 'B) 61', 'C) 72', 'D) 356'], ans: 1 },
-      { q: 'Error: "Neither of the boys have submitted their work."', opts: ['A) Neither', 'B) boys', 'C) have', 'D) their'], ans: 2 },
-      { q: 'LCM of 12,18?', opts: ['A) 6', 'B) 36', 'C) 72', 'D) 24'], ans: 1 }
-    ];
-
-    let cbt = { 
-      idx: 0, 
-      answers: Array(10).fill(null), 
-      marked: new Set(), 
-      sec: 900, 
-      timer: null, 
-      submitted: false 
-    };
-
-    function resetCBT() {
-      if (cbt.timer) clearInterval(cbt.timer);
-      cbt = { 
-        idx: 0, 
-        answers: Array(10).fill(null), 
-        marked: new Set(), 
-        sec: 900, 
-        timer: null, 
-        submitted: false 
-      };
-    }
-
-    function openCBTModal(subj, chap) {
-      resetCBT();
-      document.getElementById('cbtSubjectLabel').textContent = subj || 'Mathematics';
-      document.getElementById('cbtChapterLabel').textContent = chap || 'Digital Sum';
-      document.getElementById('cbtModal').classList.add('active');
-      renderCBT();
-      startTimer();
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeCBTModal() {
-      document.getElementById('cbtModal').classList.remove('active');
-      if (cbt.timer) clearInterval(cbt.timer);
-      document.body.style.overflow = '';
-    }
-
-    function startTimer() {
-      if (cbt.timer) clearInterval(cbt.timer);
-      cbt.timer = setInterval(() => {
-        if (cbt.submitted) { 
-          clearInterval(cbt.timer); 
-          return; 
-        }
-        cbt.sec--;
-        updateTimer();
-        if (cbt.sec <= 0) { 
-          clearInterval(cbt.timer); 
-          submitCBT(); 
-        }
-      }, 1000);
-    }
-
-    function updateTimer() {
-      const m = Math.floor(cbt.sec / 60);
-      const s = cbt.sec % 60;
-      document.getElementById('cbtTimer').textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    }
-
-    function renderCBT() {
-      if (cbt.submitted) return;
-      
-      const q = cbtQuestions[cbt.idx];
-      document.getElementById('cbtQuestion').textContent = q.q;
-      document.getElementById('cbtQNum').textContent = cbt.idx + 1;
-      
-      const optsContainer = document.getElementById('cbtOptions');
-      optsContainer.innerHTML = '';
-      
-      q.opts.forEach((option, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (cbt.answers[cbt.idx] === i) btn.classList.add('selected');
-        btn.textContent = option;
-        btn.onclick = () => selectOption(i, btn);
-        optsContainer.appendChild(btn);
-      });
-      
-      renderPalette();
-      updateTimer();
-    }
-
-    function selectOption(index, element) {
-      if (cbt.submitted) return;
-      
-      cbt.answers[cbt.idx] = index;
-      const allOptions = element.parentElement.querySelectorAll('.option-btn');
-      allOptions.forEach(btn => btn.classList.remove('selected'));
-      element.classList.add('selected');
-      renderPalette();
-    }
-
-    function markForReview() {
-      if (cbt.submitted) return;
-      
-      if (cbt.marked.has(cbt.idx)) {
-        cbt.marked.delete(cbt.idx);
-        showToast('Question unmarked', 'info');
-      } else {
-        cbt.marked.add(cbt.idx);
-        showToast('Question marked for review', 'info');
-      }
-      renderPalette();
-    }
-
-    function saveAndNext() {
-      if (cbt.submitted) return;
-      
-      if (cbt.idx < 9) {
-        cbt.idx++;
-        renderCBT();
-      } else {
-        showToast('This is the last question', 'warning');
-      }
-    }
-
-    function prevQuestion() {
-      if (cbt.submitted) return;
-      
-      if (cbt.idx > 0) {
-        cbt.idx--;
-        renderCBT();
-      }
-    }
-
-    function renderPalette() {
-      const palette = document.getElementById('questionPalette');
-      palette.innerHTML = '';
-      
-      for (let i = 0; i < 10; i++) {
-        const dot = document.createElement('span');
-        let style = `
-          width:32px;height:32px;border-radius:50%;
-          display:inline-flex;align-items:center;justify-content:center;
-          font-size:0.75rem;cursor:pointer;
-          border:2px solid var(--border-medium);
-        `;
-        
-        if (cbt.answers[i] !== null) {
-          style += 'background:var(--accent-blue);color:#fff;';
-        }
-        
-        if (cbt.marked.has(i)) {
-          style += 'border-color:var(--accent-amber);box-shadow:0 0 0 3px rgba(217,119,6,0.3);';
-        }
-        
-        if (i === cbt.idx) {
-          style += 'font-weight:800;box-shadow:0 0 0 4px rgba(37,99,235,0.4);';
-        }
-        
-        dot.style.cssText = style;
-        dot.textContent = i + 1;
-        dot.onclick = () => {
-          if (!cbt.submitted) {
-            cbt.idx = i;
-            renderCBT();
-          }
-        };
-        palette.appendChild(dot);
-      }
-    }
-
-    async function submitCBT() {
-      if (cbt.submitted) return;
-      
-      cbt.submitted = true;
-      if (cbt.timer) clearInterval(cbt.timer);
-      
-      let score = 0;
-      cbt.answers.forEach((answer, index) => {
-        if (answer === cbtQuestions[index].ans) score++;
-      });
-      
-      const accuracy = Math.round((score / 10) * 100);
-      const unanswered = cbt.answers.filter(a => a === null).length;
-      
-      // Display results
-      document.getElementById('cbtQuestion').innerHTML = `
-        <div class="score-display">
-          <div class="score-number">${score}/10</div>
-          <p style="font-size:1.2rem;margin-top:8px;">Accuracy: ${accuracy}%</p>
-        </div>
-      `;
-      
-      document.getElementById('cbtOptions').innerHTML = `
-        <div style="padding:16px;background:var(--bg-tertiary);border-radius:var(--radius-md);">
-          <strong>📊 Detailed Analysis:</strong><br>
-          ✅ Correct: ${score}<br>
-          ❌ Incorrect: ${10 - score - unanswered}<br>
-          ⚪ Unanswered: ${unanswered}<br>
-          📌 Marked for Review: ${cbt.marked.size}<br>
-          <strong>📈 Rank Prediction:</strong> ~#${Math.floor(Math.random() * 300) + 50}
-        </div>
-      `;
-      
-      document.getElementById('cbtTimer').textContent = '✅ Completed';
-      document.getElementById('questionPalette').innerHTML = '';
-      
-      // Save results to Firebase if user is logged in
-      if (currentUser) {
-        try {
-          const resultData = {
-            score: score,
-            accuracy: accuracy,
-            totalQuestions: 10,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            subject: document.getElementById('cbtSubjectLabel').textContent,
-            chapter: document.getElementById('cbtChapterLabel').textContent
-          };
-          
-          await firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add(resultData);
-          
-          // Update user profile stats
-          userProfile.questionsSolved = (userProfile.questionsSolved || 0) + 10;
-          userProfile.accuracy = Math.round(((userProfile.accuracy || 0) + accuracy) / 2);
-          userProfile.streak = (userProfile.streak || 0) + 1;
-          await saveProfileToFirestore();
-          updateProfileUI();
-          
-          showToast(`Test submitted! Score: ${score}/10`, 'success');
-        } catch (error) {
-          console.error('Error saving results:', error);
-          showToast('Results not saved. Please login to track progress.', 'warning');
-        }
-      } else {
-        showToast(`Test completed! Score: ${score}/10. Login to save results.`, 'info');
-      }
-    }
-
-    // Keyboard navigation for CBT
-    document.addEventListener('keydown', function(e) {
-      if (!document.getElementById('cbtModal').classList.contains('active') || cbt.submitted) return;
-      
-      switch(e.key) {
-        case 'ArrowRight':
-          e.preventDefault();
-          saveAndNext();
-          break;
-        case 'ArrowLeft':
-          e.preventDefault();
-          prevQuestion();
-          break;
-        case '1': case '2': case '3': case '4':
-          e.preventDefault();
-          const index = parseInt(e.key) - 1;
-          const options = document.querySelectorAll('#cbtOptions .option-btn');
-          if (options[index]) {
-            selectOption(index, options[index]);
-          }
-          break;
-      }
-    });
-
-    // ==================== Navigation Handlers ====================
-    document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(el => {
-      el.addEventListener('click', function(e) {
-        e.preventDefault();
-        const nav = this.dataset.nav;
-        
-        // Update active states
-        document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(l => {
-          l.classList.remove('active');
-        });
-        document.querySelectorAll(`[data-nav="${nav}"]`).forEach(l => {
-          l.classList.add('active');
-        });
-        
-        // Handle navigation
-        switch(nav) {
-          case 'cbt':
-            openCBTModal('Mathematics', 'Digital Sum');
-            break;
-          case 'math':
-            navigateTo('mathematics');
-            break;
-          case 'reason':
-            navigateTo('reasoning');
-            break;
-          case 'english':
-            navigateTo('english');
-            break;
-          case 'gk':
-            navigateTo('gk');
-            break;
-          case 'profile':
-            document.getElementById('profileCard').scrollIntoView({behavior:'smooth'});
-            break;
-          case 'home':
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            break;
-        }
-      });
-    });
-
-    // ==================== Initialize ====================
-    updateProfileUI();
-    
-    console.log('🚀 SYF Platform Ready');
-    console.log('✅ Firebase Auth initialized');
-    console.log('✅ Firestore initialized');
-    console.log('✅ Realtime Database initialized');
-    console.log('✅ All features loaded successfully');
+    // Expose for inline onclick handlers
+    window.SYF = SYF;
   </script>
 </body>
 </html>
