@@ -16,356 +16,68 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
         :root {
-            --bg: #f5f6fa;
-            --sidebar-bg: #1e272e;
-            --primary: #0fb9b1;
-            --primary-hover: #0a9e98;
-            --danger: #e84118;
-            --warning: #fbc531;
-            --text: #2f3640;
-            --card: #ffffff;
-            --border: #dcdde1;
-            --shadow: 0 2px 12px rgba(0,0,0,0.08);
-            --radius: 12px;
+            --bg: #f5f6fa; --sidebar-bg: #1e272e; --primary: #0fb9b1;
+            --primary-hover: #0a9e98; --danger: #e84118; --warning: #fbc531;
+            --text: #2f3640; --card: #ffffff; --border: #dcdde1;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px;
             --transition: 0.2s ease;
         }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: var(--sidebar-bg);
-            color: white;
-            padding: 25px 0;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow-y: auto;
-        }
-        .sidebar .logo {
-            padding: 0 20px 30px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        .sidebar .logo i {
-            color: var(--primary);
-            margin-right: 8px;
-        }
-        .sidebar nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-        .sidebar nav a:hover,
-        .sidebar nav a.active {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-left: 4px solid var(--primary);
-        }
-        .sidebar nav a i {
-            width: 20px;
-        }
-
-        /* Main Content */
-        .main {
-            margin-left: 250px;
-            flex: 1;
-            padding: 30px;
-        }
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
-
-        h2 {
-            margin-bottom: 25px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h2 i {
-            color: var(--primary);
-        }
-
-        /* Cards */
-        .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
-        }
-        .card h3 {
-            margin-bottom: 18px;
-            color: var(--text);
-        }
-
-        /* Forms */
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text);
-            font-size: 0.9rem;
-        }
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(15, 185, 177, 0.1);
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .btn {
-            padding: 10px 22px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        .btn-danger:hover {
-            opacity: 0.9;
-        }
-        .btn-outline {
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-warning {
-            background: var(--warning);
-            color: var(--text);
-        }
-        .btn-sm {
-            padding: 6px 14px;
-            font-size: 0.8rem;
-        }
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th,
-        td {
-            padding: 12px 10px;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-        }
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text);
-        }
-        td {
-            font-size: 0.9rem;
-        }
-        .img-preview {
-            max-width: 60px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* Alert */
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-weight: 500;
-            animation: slideDown 0.3s ease;
-        }
-        @keyframes slideDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        /* Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Cloudinary Widget Custom Button */
-        .cloudinary-btn {
-            background: #3448c5;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-        }
-        .cloudinary-btn:hover {
-            background: #2b3aa0;
-        }
-        .cloudinary-btn i {
-            font-size: 1.1rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 200px;
-            }
-            .main {
-                margin-left: 200px;
-                padding: 20px;
-            }
-            table {
-                font-size: 0.8rem;
-            }
-            th,
-            td {
-                padding: 8px 6px;
-            }
-        }
-        @media (max-width: 600px) {
-            .sidebar {
-                width: 60px;
-            }
-            .sidebar .logo span,
-            .sidebar nav a span {
-                display: none;
-            }
-            .sidebar nav a {
-                justify-content: center;
-                padding: 15px;
-            }
-            .sidebar nav a i {
-                margin: 0;
-                font-size: 1.2rem;
-            }
-            .main {
-                margin-left: 60px;
-                padding: 15px;
-            }
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: var(--sidebar-bg); color: white; padding: 25px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; }
+        .sidebar .logo { padding: 0 20px 30px; font-size: 1.4rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .sidebar .logo i { color: var(--primary); margin-right: 8px; }
+        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); font-weight: 500; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--primary); }
+        .sidebar nav a i { width: 20px; }
+        .main { margin-left: 250px; flex: 1; padding: 30px; }
+        .page { display: none; } .page.active { display: block; }
+        h2 { margin-bottom: 25px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        h2 i { color: var(--primary); }
+        .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 25px; }
+        .card h3 { margin-bottom: 18px; color: var(--text); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.9rem; }
+        input, textarea, select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; transition: var(--transition); font-family: inherit; }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(15,185,177,0.1); }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn { padding: 10px 22px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover { background: var(--primary-hover); }
+        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { opacity: 0.9; }
+        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); } .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { background: #f8f9fa; font-weight: 600; font-size: 0.85rem; color: var(--text); }
+        td { font-size: 0.9rem; }
+        .img-preview { max-width: 60px; border-radius: 6px; cursor: pointer; }
+        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 15px; font-weight: 500; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .alert-success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .alert-error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .cloudinary-btn { background: #3448c5; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); }
+        .cloudinary-btn:hover { background: #2b3aa0; }
+        .cloudinary-btn i { font-size: 1.1rem; }
+        @media (max-width: 768px) { .sidebar { width: 200px; } .main { margin-left: 200px; padding: 20px; } table { font-size: 0.8rem; } th, td { padding: 8px 6px; } }
+        @media (max-width: 600px) { .sidebar { width: 60px; } .sidebar .logo span, .sidebar nav a span { display: none; } .sidebar nav a { justify-content: center; padding: 15px; } .sidebar nav a i { margin: 0; font-size: 1.2rem; } .main { margin-left: 60px; padding: 15px; } }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <div class="logo">
-            <i class="fas fa-shield-alt"></i>
-            <span>SYF Admin</span>
-        </div>
+        <div class="logo"><i class="fas fa-shield-alt"></i><span>SYF Admin</span></div>
         <nav>
-            <a href="#" data-page="chapters" class="active">
-                <i class="fas fa-list-ol"></i> <span>Chapters</span>
-            </a>
-            <a href="#" data-page="notes">
-                <i class="fas fa-file-pdf"></i> <span>PDF Notes</span>
-            </a>
-            <a href="#" data-page="cbt">
-                <i class="fas fa-tasks"></i> <span>CBT Exams</span>
-            </a>
-            <a href="#" data-page="images">
-                <i class="fas fa-images"></i> <span>Class Images</span>
-            </a>
+            <a href="#" data-page="chapters" class="active"><i class="fas fa-list-ol"></i><span>Chapters</span></a>
+            <a href="#" data-page="notes"><i class="fas fa-file-pdf"></i><span>PDF Notes</span></a>
+            <a href="#" data-page="cbt"><i class="fas fa-tasks"></i><span>CBT Exams</span></a>
+            <a href="#" data-page="images"><i class="fas fa-images"></i><span>Class Images</span></a>
         </nav>
     </div>
 
-    <!-- Main Content -->
     <div class="main" id="alertContainer">
 
         <!-- Chapters Page -->
@@ -374,46 +86,15 @@
             <div class="card">
                 <h3 id="chapterFormTitle">Add New Chapter</h3>
                 <input type="hidden" id="chapterId">
-                <div class="form-group">
-                    <label>Chapter Title *</label>
-                    <input type="text" id="chapterTitle" placeholder="e.g., Number System, Percentage...">
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="chapterDesc" placeholder="Short description about this chapter..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Order Number</label>
-                    <input type="number" id="chapterOrder" value="1" min="1">
-                </div>
+                <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Number System, Percentage..."></div>
+                <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description about this chapter..."></textarea></div>
+                <div class="form-group"><label>Order Number</label><input type="number" id="chapterOrder" value="1" min="1"></div>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="saveChapter()">
-                        <i class="fas fa-save"></i> Save Chapter
-                    </button>
-                    <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
+                    <button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save Chapter</button>
+                    <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()"><i class="fas fa-times"></i> Cancel</button>
                 </div>
             </div>
-            <div class="card">
-                <h3>All Chapters</h3>
-                <div style="overflow-x:auto;">
-                    <table id="chaptersTable">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Order</th>
-                                <th>Notes</th>
-                                <th>CBT</th>
-                                <th>Images</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="card"><h3>All Chapters</h3><div style="overflow-x:auto;"><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Order</th><th>Notes</th><th>CBT</th><th>Images</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
         <!-- Notes Page -->
@@ -421,47 +102,17 @@
             <h2><i class="fas fa-file-pdf"></i> Manage PDF Notes (Cloudinary)</h2>
             <div class="card">
                 <h3>Upload New PDF Note</h3>
-                <div class="form-group">
-                    <label>Select Chapter *</label>
-                    <select id="noteChapterSelect">
-                        <option value="">-- Choose Chapter --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Note Title *</label>
-                    <input type="text" id="noteTitle" placeholder="e.g., Number System Full Notes">
-                </div>
+                <div class="form-group"><label>Select Chapter *</label><select id="noteChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>Note Title *</label><input type="text" id="noteTitle" placeholder="e.g., Number System Full Notes"></div>
                 <div class="form-group">
                     <label>Upload PDF via Cloudinary</label>
-                    <button class="cloudinary-btn" onclick="openCloudinaryWidget()">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload PDF to Cloudinary
-                    </button>
-                    <small style="display:block; margin-top:8px; color:#666;">
-                        Selected file: <span id="cloudinaryFileName">None</span>
-                    </small>
-                    <input type="hidden" id="cloudinaryPdfUrl">
-                    <input type="hidden" id="cloudinaryPdfName">
+                    <button class="cloudinary-btn" onclick="openCloudinaryWidget()"><i class="fas fa-cloud-upload-alt"></i> Upload PDF to Cloudinary</button>
+                    <small style="display:block; margin-top:8px; color:#666;">Selected file: <span id="cloudinaryFileName">None</span></small>
+                    <input type="hidden" id="cloudinaryPdfUrl"><input type="hidden" id="cloudinaryPdfName">
                 </div>
-                <button class="btn btn-primary" onclick="saveNoteToFirebase()">
-                    <i class="fas fa-save"></i> Save Note to Database
-                </button>
+                <button class="btn btn-primary" onclick="saveNoteToFirebase()"><i class="fas fa-save"></i> Save Note to Database</button>
             </div>
-            <div class="card">
-                <h3>All Notes</h3>
-                <div style="overflow-x:auto;">
-                    <table id="notesTable">
-                        <thead>
-                            <tr>
-                                <th>Chapter</th>
-                                <th>Title</th>
-                                <th>PDF Link</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="card"><h3>All Notes</h3><div style="overflow-x:auto;"><table id="notesTable"><thead><tr><th>Chapter</th><th>Title</th><th>PDF Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
         <!-- CBT Page -->
@@ -469,36 +120,11 @@
             <h2><i class="fas fa-tasks"></i> CBT Exam Management</h2>
             <div class="card">
                 <h3>Add/Update CBT Exam</h3>
-                <div class="form-group">
-                    <label>Select Chapter *</label>
-                    <select id="cbtChapterSelect">
-                        <option value="">-- Choose Chapter --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>HTML Code (embed your quiz/test)</label>
-                    <textarea id="cbtHtml" rows="8" placeholder="Paste your full HTML/CSS/JS code here..."></textarea>
-                </div>
-                <button class="btn btn-primary" onclick="saveCBT()">
-                    <i class="fas fa-save"></i> Save CBT
-                </button>
+                <div class="form-group"><label>Select Chapter *</label><select id="cbtChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>HTML Code (embed your quiz/test)</label><textarea id="cbtHtml" rows="8" placeholder="Paste your full HTML/CSS/JS code here..."></textarea></div>
+                <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
             </div>
-            <div class="card">
-                <h3>Existing CBT Exams</h3>
-                <div style="overflow-x:auto;">
-                    <table id="cbtTable">
-                        <thead>
-                            <tr>
-                                <th>Chapter</th>
-                                <th>Status</th>
-                                <th>Last Updated</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Status</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
         <!-- Images Page -->
@@ -506,46 +132,18 @@
             <h2><i class="fas fa-images"></i> Class Images (ImgBB)</h2>
             <div class="card">
                 <h3>Upload New Image</h3>
-                <div class="form-group">
-                    <label>Select Chapter *</label>
-                    <select id="imageChapterSelect">
-                        <option value="">-- Choose Chapter --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Image Title</label>
-                    <input type="text" id="imageTitle" placeholder="Optional title for this image">
-                </div>
-                <div class="form-group">
-                    <label>Choose Image *</label>
-                    <input type="file" id="imageFile" accept="image/*">
-                </div>
-                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()">
-                    <i class="fas fa-cloud-upload-alt"></i> Upload via ImgBB
-                </button>
+                <div class="form-group"><label>Select Chapter *</label><select id="imageChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>Image Title</label><input type="text" id="imageTitle" placeholder="Optional title for this image"></div>
+                <div class="form-group"><label>Choose Image *</label><input type="file" id="imageFile" accept="image/*"></div>
+                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload via ImgBB</button>
             </div>
-            <div class="card">
-                <h3>Uploaded Images</h3>
-                <div style="overflow-x:auto;">
-                    <table id="imagesTable">
-                        <thead>
-                            <tr>
-                                <th>Chapter</th>
-                                <th>Preview</th>
-                                <th>Title</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="card"><h3>Uploaded Images</h3><div style="overflow-x:auto;"><table id="imagesTable"><thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
     </div>
 
     <script>
         // =============================================
-        // FIREBASE CONFIG (Aapki di hui config)
+        // FIREBASE CONFIG
         // =============================================
         const firebaseConfig = {
             apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
@@ -562,14 +160,14 @@
         const db = firebase.database();
 
         // =============================================
-        // CLOUDINARY CONFIG (Aapki API key)
+        // CLOUDINARY CONFIG
         // =============================================
-        const CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME"; // <-- Apna Cloudinary Cloud Name yahan daalein
-        const CLOUDINARY_API_KEY = "725355116398541"; // Aapki di hui API key
-        const CLOUDINARY_UPLOAD_PRESET = "syf_pdf_upload"; // Cloudinary dashboard mein unsigned upload preset banana
+        const CLOUDINARY_CLOUD_NAME = "dtr00rajz"; // Aapka cloud name
+        const CLOUDINARY_API_KEY = "725355116398541";
+        const CLOUDINARY_UPLOAD_PRESET = "syf_pdf_upload";
 
         // =============================================
-        // IMGBB API KEY (Aapki di hui key)
+        // IMGBB API KEY
         // =============================================
         const IMGBB_API_KEY = "53fb01955a45c5462724b8f7d238500a";
 
@@ -580,23 +178,14 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const page = link.dataset.page;
-
-                // Show correct page
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById(`page-${page}`).classList.add('active');
-
-                // Update active link
                 document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
                 link.classList.add('active');
-
-                // Load data for that page
                 if (page === 'chapters') loadChaptersTable();
-                if (page === 'notes') { loadChapterDropdown('noteChapterSelect');
-                    loadNotesTable(); }
-                if (page === 'cbt') { loadChapterDropdown('cbtChapterSelect');
-                    loadCBTTable(); }
-                if (page === 'images') { loadChapterDropdown('imageChapterSelect');
-                    loadImagesTable(); }
+                if (page === 'notes') { loadChapterDropdown('noteChapterSelect'); loadNotesTable(); }
+                if (page === 'cbt') { loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); }
+                if (page === 'images') { loadChapterDropdown('imageChapterSelect'); loadImagesTable(); }
             });
         });
 
@@ -605,9 +194,7 @@
         // =============================================
         function showAlert(msg, type = 'success') {
             const container = document.getElementById('alertContainer');
-            const existingAlerts = container.querySelectorAll('.alert');
-            existingAlerts.forEach(a => a.remove());
-
+            container.querySelectorAll('.alert').forEach(a => a.remove());
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type}`;
             alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
@@ -624,33 +211,25 @@
                 tbody.innerHTML = '';
                 if (snap.exists()) {
                     const chapters = [];
-                    snap.forEach(child => {
-                        chapters.push({ id: child.key, ...child.val() });
-                    });
+                    snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
                     chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
-
                     chapters.forEach(ch => {
                         tbody.innerHTML += `
                             <tr>
                                 <td>${ch.order || '-'}</td>
                                 <td><strong>${ch.title}</strong></td>
                                 <td>${ch.order}</td>
-                                <td><span class="badge">${ch.notesCount || 0}</span></td>
+                                <td>${ch.notesCount || 0}</td>
                                 <td>${ch.hasCBT ? '✅' : '❌'}</td>
                                 <td>${ch.imagesCount || 0}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>`;
                     });
                 } else {
-                    tbody.innerHTML =
-                        '<tr><td colspan="7" style="text-align:center; padding:30px;">No chapters yet. Create your first chapter!</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
                 }
             });
         }
@@ -669,11 +248,9 @@
         };
 
         window.deleteChapter = function(id) {
-            if (confirm(
-                    '⚠️ Are you sure? This will delete the chapter and ALL its notes, CBT, and images. This cannot be undone!'
-                    )) {
+            if (confirm('⚠️ Delete this chapter and ALL its data?')) {
                 db.ref(`chapters/${id}`).remove()
-                    .then(() => showAlert('Chapter deleted successfully!'))
+                    .then(() => showAlert('Chapter deleted!'))
                     .catch(err => showAlert('Error: ' + err.message, 'error'));
             }
         };
@@ -692,23 +269,13 @@
             const title = document.getElementById('chapterTitle').value.trim();
             const desc = document.getElementById('chapterDesc').value.trim();
             const order = parseInt(document.getElementById('chapterOrder').value) || 1;
-
             if (!title) return showAlert('Chapter title is required!', 'error');
-
-            const chapterData = {
-                title,
-                description: desc,
-                order,
-                updatedAt: Date.now()
-            };
-
+            const chapterData = { title, description: desc, order, updatedAt: Date.now() };
             if (id) {
-                // Update existing
                 db.ref(`chapters/${id}`).update(chapterData)
                     .then(() => showAlert('Chapter updated! ✅'))
                     .catch(err => showAlert('Error: ' + err.message, 'error'));
             } else {
-                // Add new
                 chapterData.createdAt = Date.now();
                 db.ref('chapters').push(chapterData)
                     .then(() => showAlert('Chapter added! 🎉'))
@@ -730,15 +297,14 @@
                     snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
                     chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
                     chapters.forEach(ch => {
-                        select.innerHTML +=
-                            `<option value="${ch.id}">${ch.order || '?'}. ${ch.title}</option>`;
+                        select.innerHTML += `<option value="${ch.id}">${ch.order || '?'}. ${ch.title}</option>`;
                     });
                 }
             });
         }
 
         // =============================================
-        // CLOUDINARY PDF UPLOAD WIDGET
+        // CLOUDINARY PDF UPLOAD WIDGET (FIXED)
         // =============================================
         function openCloudinaryWidget() {
             const widget = cloudinary.createUploadWidget({
@@ -750,22 +316,13 @@
                 maxFiles: 1,
                 resourceType: 'auto',
                 clientAllowedFormats: ['pdf'],
-                maxFileSize: 50000000, // 50MB
+                maxFileSize: 50000000,
                 styles: {
                     palette: {
-                        window: "#FFFFFF",
-                        windowBorder: "#0fb9b1",
-                        tabIcon: "#0fb9b1",
-                        menuIcons: "#2f3640",
-                        textDark: "#000000",
-                        textLight: "#FFFFFF",
-                        link: "#0fb9b1",
-                        action: "#0fb9b1",
-                        inactiveTabIcon: "#8B9DC3",
-                        error: "#e84118",
-                        inProgress: "#0fb9b1",
-                        complete: "#28a745",
-                        sourceBg: "#f5f6fa"
+                        window: "#FFFFFF", windowBorder: "#0fb9b1", tabIcon: "#0fb9b1",
+                        menuIcons: "#2f3640", textDark: "#000000", textLight: "#FFFFFF",
+                        link: "#0fb9b1", action: "#0fb9b1", inactiveTabIcon: "#8B9DC3",
+                        error: "#e84118", inProgress: "#0fb9b1", complete: "#28a745", sourceBg: "#f5f6fa"
                     }
                 }
             }, (error, result) => {
@@ -776,7 +333,10 @@
                 }
 
                 if (result && result.event === "success") {
-                    const pdfUrl = result.info.secure_url;
+                    // ✅ FIX: /image/upload/ → /raw/upload/fl_attachment/
+                    let pdfUrl = result.info.secure_url;
+                    pdfUrl = pdfUrl.replace('/image/upload/', '/raw/upload/fl_attachment/');
+
                     const pdfName = result.info.original_filename + '.pdf';
 
                     document.getElementById('cloudinaryPdfUrl').value = pdfUrl;
@@ -785,7 +345,7 @@
                     document.getElementById('cloudinaryFileName').style.color = '#28a745';
                     document.getElementById('cloudinaryFileName').style.fontWeight = '600';
 
-                    showAlert('✅ PDF uploaded to Cloudinary! Now click "Save Note to Database"');
+                    showAlert('✅ PDF uploaded! Now click "Save Note to Database"');
                 }
             });
 
@@ -793,7 +353,7 @@
         }
 
         // =============================================
-        // SAVE NOTE TO FIREBASE DATABASE
+        // SAVE NOTE TO FIREBASE
         // =============================================
         window.saveNoteToFirebase = function() {
             const chapterId = document.getElementById('noteChapterSelect').value;
@@ -804,17 +364,11 @@
             if (!title) return showAlert('Please enter a note title!', 'error');
             if (!pdfUrl) return showAlert('Please upload a PDF first!', 'error');
 
-            const noteData = {
-                title: title,
-                pdfUrl: pdfUrl,
-                uploadedAt: Date.now(),
-                source: 'cloudinary'
-            };
+            const noteData = { title, pdfUrl, uploadedAt: Date.now(), source: 'cloudinary' };
 
             db.ref(`chapters/${chapterId}/notes`).push(noteData)
                 .then(() => {
-                    showAlert('✅ Note saved to database successfully!');
-                    // Clear form
+                    showAlert('✅ Note saved to database!');
                     document.getElementById('noteTitle').value = '';
                     document.getElementById('cloudinaryPdfUrl').value = '';
                     document.getElementById('cloudinaryPdfName').value = '';
@@ -829,22 +383,17 @@
         function loadNotesTable() {
             const tbody = document.querySelector('#notesTable tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-
             db.ref('chapters').once('value', chaptersSnap => {
                 tbody.innerHTML = '';
                 if (!chaptersSnap.exists()) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters exist yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters exist yet.</td></tr>';
                     return;
                 }
-
                 let hasNotes = false;
                 const promises = [];
-
                 chaptersSnap.forEach(chapter => {
                     const chapterTitle = chapter.val().title;
-                    const promise = db.ref(`chapters/${chapter.key}/notes`).once('value',
-                    notesSnap => {
+                    const promise = db.ref(`chapters/${chapter.key}/notes`).once('value', notesSnap => {
                         if (notesSnap.exists()) {
                             hasNotes = true;
                             notesSnap.forEach(note => {
@@ -854,34 +403,23 @@
                                         <td>${chapterTitle}</td>
                                         <td><strong>${n.title}</strong></td>
                                         <td><a href="${n.pdfUrl}" target="_blank" style="color:var(--primary);">📄 View PDF</a></td>
-                                        <td>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteNote('${chapter.key}','${note.key}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
+                                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote('${chapter.key}','${note.key}')"><i class="fas fa-trash"></i></button></td>
                                     </tr>`;
                             });
                         }
                     });
                     promises.push(promise);
                 });
-
                 Promise.all(promises).then(() => {
-                    if (!hasNotes) {
-                        tbody.innerHTML =
-                            '<tr><td colspan="4" style="text-align:center; padding:30px;">No notes uploaded yet.</td></tr>';
-                    }
+                    if (!hasNotes) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No notes yet.</td></tr>';
                 });
             });
         }
 
         window.deleteNote = function(chapterId, noteId) {
-            if (confirm('Delete this note? The PDF will remain on Cloudinary but will be removed from here.')) {
+            if (confirm('Delete this note?')) {
                 db.ref(`chapters/${chapterId}/notes/${noteId}`).remove()
-                    .then(() => {
-                        showAlert('Note deleted!');
-                        loadNotesTable();
-                    })
+                    .then(() => { showAlert('Note deleted!'); loadNotesTable(); })
                     .catch(err => showAlert('Error: ' + err.message, 'error'));
             }
         };
@@ -892,20 +430,13 @@
         window.saveCBT = function() {
             const chapterId = document.getElementById('cbtChapterSelect').value;
             const html = document.getElementById('cbtHtml').value.trim();
-
             if (!chapterId) return showAlert('Please select a chapter!', 'error');
-            if (!html) return showAlert('Please paste the CBT HTML code!', 'error');
-
-            const cbtData = {
-                htmlCode: html,
-                updatedAt: Date.now()
-            };
-
+            if (!html) return showAlert('Please paste CBT HTML code!', 'error');
+            const cbtData = { htmlCode: html, updatedAt: Date.now() };
             db.ref(`chapters/${chapterId}/cbt`).set(cbtData)
                 .then(() => {
-                    // Update chapter's hasCBT flag
                     db.ref(`chapters/${chapterId}/hasCBT`).set(true);
-                    showAlert('✅ CBT exam saved successfully!');
+                    showAlert('✅ CBT exam saved!');
                     document.getElementById('cbtHtml').value = '';
                     loadCBTTable();
                 })
@@ -915,43 +446,31 @@
         function loadCBTTable() {
             const tbody = document.querySelector('#cbtTable tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-
             db.ref('chapters').once('value', chaptersSnap => {
                 tbody.innerHTML = '';
                 if (!chaptersSnap.exists()) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters exist yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
                     return;
                 }
-
                 let hasCBT = false;
                 chaptersSnap.forEach(chapter => {
                     db.ref(`chapters/${chapter.key}/cbt`).once('value', cbtSnap => {
                         if (cbtSnap.exists()) {
                             hasCBT = true;
                             const cbt = cbtSnap.val();
-                            const date = cbt.updatedAt ? new Date(cbt.updatedAt)
-                                .toLocaleString('hi-IN') : 'Unknown';
+                            const date = cbt.updatedAt ? new Date(cbt.updatedAt).toLocaleString('hi-IN') : 'Unknown';
                             tbody.innerHTML += `
                                 <tr>
                                     <td>${chapter.val().title}</td>
                                     <td>✅ Active</td>
                                     <td>${date}</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm" onclick="deleteCBT('${chapter.key}')">
-                                            <i class="fas fa-trash"></i> Remove
-                                        </button>
-                                    </td>
+                                    <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${chapter.key}')"><i class="fas fa-trash"></i> Remove</button></td>
                                 </tr>`;
                         }
                     });
                 });
-
                 setTimeout(() => {
-                    if (!hasCBT) {
-                        tbody.innerHTML =
-                            '<tr><td colspan="4" style="text-align:center; padding:30px;">No CBT exams created yet.</td></tr>';
-                    }
+                    if (!hasCBT) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No CBT exams yet.</td></tr>';
                 }, 500);
             });
         }
@@ -972,42 +491,22 @@
             const chapterId = document.getElementById('imageChapterSelect').value;
             const title = document.getElementById('imageTitle').value.trim() || 'Class Image';
             const file = document.getElementById('imageFile').files[0];
-
             if (!chapterId) return showAlert('Please select a chapter!', 'error');
             if (!file) return showAlert('Please choose an image file!', 'error');
-
             const btn = document.getElementById('uploadImageBtn');
             const originalHTML = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Uploading to ImgBB...';
-
             const formData = new FormData();
             formData.append('image', file);
             formData.append('key', IMGBB_API_KEY);
-
             try {
-                const res = await fetch('https://api.imgbb.com/1/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
+                const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
                 const data = await res.json();
-
-                if (!data.success) {
-                    throw new Error(data.error?.message || 'ImgBB upload failed');
-                }
-
+                if (!data.success) throw new Error(data.error?.message || 'ImgBB upload failed');
                 const imageUrl = data.data.url;
-
-                // Save to Firebase
-                await db.ref(`chapters/${chapterId}/images`).push({
-                    title: title,
-                    url: imageUrl,
-                    uploadedAt: Date.now(),
-                    source: 'imgbb'
-                });
-
-                showAlert('✅ Image uploaded successfully via ImgBB!');
+                await db.ref(`chapters/${chapterId}/images`).push({ title, url: imageUrl, uploadedAt: Date.now(), source: 'imgbb' });
+                showAlert('✅ Image uploaded via ImgBB!');
                 document.getElementById('imageTitle').value = '';
                 document.getElementById('imageFile').value = '';
                 loadImagesTable();
@@ -1023,22 +522,17 @@
         function loadImagesTable() {
             const tbody = document.querySelector('#imagesTable tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-
             db.ref('chapters').once('value', chaptersSnap => {
                 tbody.innerHTML = '';
                 if (!chaptersSnap.exists()) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters exist yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
                     return;
                 }
-
                 let hasImages = false;
                 const promises = [];
-
                 chaptersSnap.forEach(chapter => {
                     const chapterTitle = chapter.val().title;
-                    const promise = db.ref(`chapters/${chapter.key}/images`).once('value',
-                    imgsSnap => {
+                    const promise = db.ref(`chapters/${chapter.key}/images`).once('value', imgsSnap => {
                         if (imgsSnap.exists()) {
                             hasImages = true;
                             imgsSnap.forEach(img => {
@@ -1048,23 +542,15 @@
                                         <td>${chapterTitle}</td>
                                         <td><img src="${i.url}" class="img-preview" onclick="window.open('${i.url}','_blank')" title="Click to enlarge"></td>
                                         <td>${i.title}</td>
-                                        <td>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteImage('${chapter.key}','${img.key}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
+                                        <td><button class="btn btn-danger btn-sm" onclick="deleteImage('${chapter.key}','${img.key}')"><i class="fas fa-trash"></i></button></td>
                                     </tr>`;
                             });
                         }
                     });
                     promises.push(promise);
                 });
-
                 Promise.all(promises).then(() => {
-                    if (!hasImages) {
-                        tbody.innerHTML =
-                            '<tr><td colspan="4" style="text-align:center; padding:30px;">No images uploaded yet.</td></tr>';
-                    }
+                    if (!hasImages) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No images yet.</td></tr>';
                 });
             });
         }
@@ -1072,10 +558,7 @@
         window.deleteImage = function(chapterId, imgId) {
             if (confirm('Delete this image?')) {
                 db.ref(`chapters/${chapterId}/images/${imgId}`).remove()
-                    .then(() => {
-                        showAlert('Image deleted!');
-                        loadImagesTable();
-                    })
+                    .then(() => { showAlert('Image deleted!'); loadImagesTable(); })
                     .catch(err => showAlert('Error: ' + err.message, 'error'));
             }
         };
