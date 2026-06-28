@@ -62,6 +62,8 @@
         .cloudinary-btn { background: #3448c5; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); }
         .cloudinary-btn:hover { background: #2b3aa0; }
         .cloudinary-btn i { font-size: 1.1rem; }
+        .help-text { font-size: 0.8rem; color: #666; margin-top: 5px; }
+        .help-text code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; }
         @media (max-width: 768px) { .sidebar { width: 200px; } .main { margin-left: 200px; padding: 20px; } table { font-size: 0.8rem; } th, td { padding: 8px 6px; } }
         @media (max-width: 600px) { .sidebar { width: 60px; } .sidebar .logo span, .sidebar nav a span { display: none; } .sidebar nav a { justify-content: center; padding: 15px; } .sidebar nav a i { margin: 0; font-size: 1.2rem; } .main { margin-left: 60px; padding: 15px; } }
     </style>
@@ -86,8 +88,8 @@
             <div class="card">
                 <h3 id="chapterFormTitle">Add New Chapter</h3>
                 <input type="hidden" id="chapterId">
-                <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Number System, Percentage..."></div>
-                <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description about this chapter..."></textarea></div>
+                <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Number System"></div>
+                <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description..."></textarea></div>
                 <div class="form-group"><label>Order Number</label><input type="number" id="chapterOrder" value="1" min="1"></div>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
                     <button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save Chapter</button>
@@ -121,10 +123,14 @@
             <div class="card">
                 <h3>Add/Update CBT Exam</h3>
                 <div class="form-group"><label>Select Chapter *</label><select id="cbtChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>HTML Code (embed your quiz/test)</label><textarea id="cbtHtml" rows="8" placeholder="Paste your full HTML/CSS/JS code here..."></textarea></div>
+                <div class="form-group">
+                    <label>CBT Filename *</label>
+                    <input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html">
+                    <p class="help-text">📁 File <code>cbt/</code> folder mein honi chahiye. Bas naam daalein, extension ke saath.</p>
+                </div>
                 <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
             </div>
-            <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Status</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Filename</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
         <!-- Images Page -->
@@ -133,7 +139,7 @@
             <div class="card">
                 <h3>Upload New Image</h3>
                 <div class="form-group"><label>Select Chapter *</label><select id="imageChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>Image Title</label><input type="text" id="imageTitle" placeholder="Optional title for this image"></div>
+                <div class="form-group"><label>Image Title</label><input type="text" id="imageTitle" placeholder="Optional title"></div>
                 <div class="form-group"><label>Choose Image *</label><input type="file" id="imageFile" accept="image/*"></div>
                 <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload via ImgBB</button>
             </div>
@@ -162,7 +168,7 @@
         // =============================================
         // CLOUDINARY CONFIG
         // =============================================
-        const CLOUDINARY_CLOUD_NAME = "dtr00rajz"; // Aapka cloud name
+        const CLOUDINARY_CLOUD_NAME = "dtr00rajz";
         const CLOUDINARY_API_KEY = "725355116398541";
         const CLOUDINARY_UPLOAD_PRESET = "syf_pdf_upload";
 
@@ -333,9 +339,9 @@
                 }
 
                 if (result && result.event === "success") {
-                    // ✅ FIX: /image/upload/ → /raw/upload/fl_attachment/
+                    // FIX: /image/upload/ → /image/upload/fl_attachment/ for PDF download
                     let pdfUrl = result.info.secure_url;
-                    pdfUrl = pdfUrl.replace('/image/upload/', '/raw/upload/fl_attachment/');
+                    pdfUrl = pdfUrl.replace('/image/upload/', '/image/upload/fl_attachment/');
 
                     const pdfName = result.info.original_filename + '.pdf';
 
@@ -386,7 +392,7 @@
             db.ref('chapters').once('value', chaptersSnap => {
                 tbody.innerHTML = '';
                 if (!chaptersSnap.exists()) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters exist yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
                     return;
                 }
                 let hasNotes = false;
@@ -425,19 +431,27 @@
         };
 
         // =============================================
-        // CBT EXAM MANAGEMENT
+        // CBT EXAM MANAGEMENT (FILENAME SYSTEM)
         // =============================================
         window.saveCBT = function() {
             const chapterId = document.getElementById('cbtChapterSelect').value;
-            const html = document.getElementById('cbtHtml').value.trim();
+            const filename = document.getElementById('cbtFilename').value.trim();
+
             if (!chapterId) return showAlert('Please select a chapter!', 'error');
-            if (!html) return showAlert('Please paste CBT HTML code!', 'error');
-            const cbtData = { htmlCode: html, updatedAt: Date.now() };
+            if (!filename) return showAlert('Please enter CBT filename!', 'error');
+            if (!filename.endsWith('.html')) return showAlert('Filename must end with .html!', 'error');
+
+            const cbtData = {
+                filename: filename,
+                cbtUrl: 'cbt/' + filename,
+                updatedAt: Date.now()
+            };
+
             db.ref(`chapters/${chapterId}/cbt`).set(cbtData)
                 .then(() => {
                     db.ref(`chapters/${chapterId}/hasCBT`).set(true);
-                    showAlert('✅ CBT exam saved!');
-                    document.getElementById('cbtHtml').value = '';
+                    showAlert('✅ CBT exam saved! Upload <code>' + filename + '</code> to <code>cbt/</code> folder.');
+                    document.getElementById('cbtFilename').value = '';
                     loadCBTTable();
                 })
                 .catch(err => showAlert('Error: ' + err.message, 'error'));
@@ -462,7 +476,7 @@
                             tbody.innerHTML += `
                                 <tr>
                                     <td>${chapter.val().title}</td>
-                                    <td>✅ Active</td>
+                                    <td><code style="background:#f0f0f0; padding:4px 8px; border-radius:4px;">${cbt.filename}</code></td>
                                     <td>${date}</td>
                                     <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${chapter.key}')"><i class="fas fa-trash"></i> Remove</button></td>
                                 </tr>`;
