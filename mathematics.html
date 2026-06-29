@@ -164,35 +164,30 @@
 
         function loadChapters() {
             db.ref('chapters').on('value', (snapshot) => {
-                allChapters = []; 
-                totalNotesCount = 0; 
-                totalLecturesCount = 0;
+                allChapters = []; totalNotesCount = 0; totalLecturesCount = 0;
+                const grid = document.getElementById('chapterGrid');
                 
                 if (snapshot.exists()) {
                     const promises = [];
                     snapshot.forEach((child) => {
                         const obj = { id: child.key, ...child.val() };
-                        
                         promises.push(db.ref(`chapters/${child.key}/notes`).once('value').then(ns => {
                             obj.notesCount = ns.exists() ? ns.numChildren() : 0;
                             totalNotesCount += obj.notesCount;
                         }));
-                        
                         promises.push(db.ref(`chapters/${child.key}/lectures`).once('value').then(ls => {
                             obj.lecturesCount = ls.exists() ? ls.numChildren() : 0;
                             totalLecturesCount += obj.lecturesCount;
                         }));
-                        
                         allChapters.push(obj);
                     });
-                    
                     Promise.all(promises).then(() => {
                         allChapters.sort((a,b) => (a.order||0)-(b.order||0));
                         renderChapters(allChapters);
                         updateStats();
                     });
                 } else {
-                    document.getElementById('chapterGrid').innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3></div>';
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3></div>';
                     updateStats();
                 }
             });
@@ -212,7 +207,7 @@
                     <div class="chapter-meta">
                         <span class="meta-item"><i class="fas fa-play-circle"></i>${ch.lecturesCount||0} Lectures</span>
                         <span class="meta-item"><i class="fas fa-file-pdf"></i>${ch.notesCount||0} Notes</span>
-                        <span class="meta-item"><i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT Available' : 'No CBT'}</span>
+                        <span class="meta-item"><i class="fas fa-question-circle"></i>${ch.hasCBT?'CBT':'No CBT'}</span>
                     </div>
                 </div>`).join('');
         }
@@ -226,16 +221,13 @@
             currentChapterId = id;
             const ch = allChapters.find(c => c.id === id);
             if(!ch) return;
-            
             document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
             loadLectures(id);
             loadNotes(id);
             loadCBT(id);
             loadImages(id);
-            
             const firstTab = document.querySelector('.tab-btn');
             if(firstTab) switchTab('lectures', {target: firstTab});
         }
@@ -245,7 +237,6 @@
             document.body.style.overflow = '';
             currentChapterId = null;
         }
-
         document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
         document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeModal(); closeLightbox(); } });
 
@@ -264,28 +255,29 @@
             const container = document.getElementById('lecturesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/lectures`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/lectures`).off();
+            db.ref(`chapters/${chapterId}/lectures`).on('value', snap => {
                 if(snap.exists()){
                     const lectures = [];
-                    snap.forEach(c => lectures.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => lectures.push({id:c.key, ...c.val()}));
+                    lectures.reverse();
                     
                     if(!lectures.length){
-                        container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3></div>';
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures</h3></div>';
                         return;
                     }
                     
-                    container.innerHTML = lectures.map((l, i) => {
+                    container.innerHTML = lectures.map((l,i) => {
                         const videoId = extractYouTubeID(l.youtubeUrl);
                         const thumb = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
-                        
                         return `
-                        <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title || 'Lecture ' + (i+1)).replace(/'/g, "\\'")}')">
-                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" alt="Thumbnail" onerror="this.style.display='none'">` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;"><i class="fas fa-play"></i></div>'}
+                        <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title||'Lecture '+(i+1)).replace(/'/g, "\\'")}')">
+                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" onerror="this.style.display='none'">` : ''}
                             <div class="list-info">
-                                <strong>${escapeHTML(l.title || 'Lecture ' + (i+1))}</strong>
-                                <small>${escapeHTML(l.description || 'Click to watch lecture')}</small>
+                                <strong>${escapeHTML(l.title||'Lecture '+(i+1))}</strong>
+                                <small>${escapeHTML(l.description||'')}</small>
                             </div>
-                            <div class="list-arrow"><i class="fas fa-play-circle fa-2x"></i></div>
+                            <div class="list-arrow"><i class="fas fa-play-circle"></i></div>
                         </div>`;
                     }).join('');
                 } else {
@@ -302,16 +294,13 @@
 
         function playLecture(videoId, title) {
             if(!videoId) return;
-            
             const container = document.getElementById('lecturesList');
             _lecturesBackup = container.innerHTML;
-            
             container.innerHTML = `
-                <button class="back-btn" onclick="backToLectures()"><i class="fas fa-arrow-left"></i> Back to Lectures</button>
+                <button class="back-btn" onclick="backToLectures()"><i class="fas fa-arrow-left"></i> Back</button>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                 <h4 style="margin-top:10px;">▶ ${title}</h4>`;
-            
-            document.getElementById('modalTitle').textContent = '🎥 ' + title;
+            document.getElementById('modalTitle').textContent = '🎥 '+title;
         }
 
         function backToLectures() {
@@ -320,7 +309,7 @@
                 _lecturesBackup = null;
             }
             const ch = allChapters.find(c => c.id === currentChapterId);
-            if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+            if(ch) document.getElementById('modalTitle').textContent = ch.title||'Chapter';
         }
 
         // ============ NOTES ============
@@ -328,24 +317,22 @@
             const container = document.getElementById('notesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/notes`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/notes`).off();
+            db.ref(`chapters/${chapterId}/notes`).on('value', snap => {
                 if(snap.exists()){
                     const notes = [];
-                    snap.forEach(c => notes.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => notes.push({id:c.key, ...c.val()}));
                     
                     if(!notes.length){
-                        container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>';
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes</h3></div>';
                         return;
                     }
                     
                     container.innerHTML = notes.map(n => `
                         <div class="list-item" onclick="openPdf('${n.pdfUrl}', '${escapeHTML(n.title).replace(/'/g, "\\'")}')">
                             <div class="list-icon pdf"><i class="fas fa-file-pdf"></i></div>
-                            <div class="list-info">
-                                <strong>${escapeHTML(n.title)}</strong>
-                                <small>Click to view PDF</small>
-                            </div>
-                            <div class="list-arrow"><i class="fas fa-eye fa-lg"></i></div>
+                            <div class="list-info"><strong>${escapeHTML(n.title)}</strong><small>Click to view</small></div>
+                            <div class="list-arrow"><i class="fas fa-eye"></i></div>
                         </div>`).join('');
                 } else {
                     container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>';
@@ -356,13 +343,11 @@
         function openPdf(pdfUrl, title) {
             const container = document.getElementById('notesList');
             _notesBackup = container.innerHTML;
-            
             container.innerHTML = `
-                <button class="back-btn" onclick="backToNotes()"><i class="fas fa-arrow-left"></i> Back to Notes</button>
-                <div class="pdf-wrapper"><iframe src="${pdfUrl}" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
-                <p style="text-align:center;margin-top:12px;"><a href="${pdfUrl}" target="_blank" style="color:var(--primary);text-decoration:none;"><i class="fas fa-external-link-alt"></i> Open PDF in new tab</a></p>`;
-            
-            document.getElementById('modalTitle').textContent = '📄 ' + title;
+                <button class="back-btn" onclick="backToNotes()"><i class="fas fa-arrow-left"></i> Back</button>
+                <div class="pdf-wrapper"><iframe src="${pdfUrl}" sandbox="allow-scripts allow-same-origin"></iframe></div>
+                <p style="text-align:center;margin-top:8px;"><a href="${pdfUrl}" target="_blank" style="color:var(--primary);">Open in new tab</a></p>`;
+            document.getElementById('modalTitle').textContent = '📄 '+title;
         }
 
         function backToNotes() {
@@ -371,15 +356,14 @@
                 _notesBackup = null;
             }
             const ch = allChapters.find(c => c.id === currentChapterId);
-            if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+            if(ch) document.getElementById('modalTitle').textContent = ch.title||'Chapter';
         }
 
         // ============ CBT ============
         function loadCBT(chapterId) {
             const container = document.getElementById('cbtContainer');
             container.innerHTML = '<div class="spinner"></div>';
-            
-            db.ref(`chapters/${chapterId}/cbt`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/cbt`).on('value', snap => {
                 if(snap.exists()){
                     const cbt = snap.val();
                     if(cbt.cbtUrl){
@@ -387,9 +371,9 @@
                             <div class="cbt-box">
                                 <i class="fas fa-brain" style="font-size:3rem;color:var(--primary);margin-bottom:12px;"></i>
                                 <h3>CBT Exam Ready</h3>
-                                <p style="color:var(--text-light);margin:8px 0 20px;">Test your knowledge with this Computer Based Test</p>
+                                <p style="color:var(--text-light);margin:8px 0 20px;">Test your knowledge</p>
                                 <button class="cbt-btn" onclick="window.open('${cbt.cbtUrl}','_blank')"><i class="fas fa-play-circle"></i> Start Exam</button>
-                                <p style="margin-top:12px;font-size:0.75rem;color:var(--text-light);">📁 ${cbt.filename || 'Exam file'}</p>
+                                <p style="margin-top:12px;font-size:0.75rem;color:var(--text-light);">📁 ${cbt.filename||''}</p>
                             </div>`;
                     } else {
                         container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>';
@@ -405,22 +389,23 @@
             const container = document.getElementById('imageGallery');
             container.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
             
-            db.ref(`chapters/${chapterId}/images`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/images`).off();
+            db.ref(`chapters/${chapterId}/images`).on('value', snap => {
                 if(snap.exists()){
                     const imgs = [];
-                    snap.forEach(c => imgs.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => imgs.push({id:c.key, ...c.val()}));
                     
                     if(!imgs.length){
-                        container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images Yet</h3></div>';
+                        container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
                         return;
                     }
                     
                     container.innerHTML = imgs.map(i => `
                         <div class="gallery-item" onclick="openLightbox('${i.url}')">
-                            <img src="${i.url}" alt="${escapeHTML(i.title || 'Image')}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>Error</text></svg>'">
+                            <img src="${i.url}" alt="${escapeHTML(i.title||'Image')}" loading="lazy">
                         </div>`).join('');
                 } else {
-                    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images Yet</h3></div>';
+                    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
                 }
             });
         }
@@ -429,16 +414,15 @@
             document.getElementById('lightboxImg').src = url;
             document.getElementById('lightbox').classList.add('active');
         }
-
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
         }
 
         function escapeHTML(str) {
             if(!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
         }
 
         function updateStats() {
