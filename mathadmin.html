@@ -5,22 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYF Admin Panel</title>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        :root {
-            --bg: #f5f6fa; --sidebar-bg: #1e272e; --primary: #0fb9b1;
-            --primary-hover: #0a9e98; --danger: #e84118; --warning: #fbc531;
-            --text: #2f3640; --card: #ffffff; --border: #dcdde1;
-            --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px;
-            --transition: 0.2s ease;
-        }
+        :root { --bg: #f5f6fa; --sidebar-bg: #1e272e; --primary: #0fb9b1; --primary-hover: #0a9e98; --danger: #e84118; --text: #2f3640; --card: #ffffff; --border: #dcdde1; --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px; --transition: 0.2s ease; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
         .sidebar { width: 250px; background: var(--sidebar-bg); color: white; padding: 25px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; }
         .sidebar .logo { padding: 0 20px 30px; font-size: 1.4rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
@@ -30,8 +21,7 @@
         .sidebar nav a i { width: 20px; }
         .main { margin-left: 250px; flex: 1; padding: 30px; }
         .page { display: none; } .page.active { display: block; }
-        h2 { margin-bottom: 25px; color: var(--text); display: flex; align-items: center; gap: 10px; }
-        h2 i { color: var(--primary); }
+        h2 { margin-bottom: 25px; color: var(--text); display: flex; align-items: center; gap: 10px; } h2 i { color: var(--primary); }
         .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 25px; }
         .card h3 { margin-bottom: 18px; color: var(--text); }
         .form-group { margin-bottom: 15px; }
@@ -44,22 +34,20 @@
         .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { opacity: 0.9; }
         .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); } .btn-outline:hover { background: var(--primary); color: white; }
         .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; }
-        th { background: #f8f9fa; font-weight: 600; font-size: 0.85rem; color: var(--text); }
+        th { background: #f8f9fa; font-weight: 600; font-size: 0.85rem; }
         td { font-size: 0.9rem; }
         .img-preview { max-width: 60px; border-radius: 6px; cursor: pointer; }
         .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 15px; font-weight: 500; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .alert-success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
         .alert-error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
         .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .help-text { font-size: 0.8rem; color: #666; margin-top: 5px; }
-        .help-text a { color: var(--primary); }
-        @media (max-width: 768px) { .sidebar { width: 200px; } .main { margin-left: 200px; padding: 20px; } table { font-size: 0.8rem; } th, td { padding: 8px 6px; } }
-        @media (max-width: 600px) { .sidebar { width: 60px; } .sidebar .logo span, .sidebar nav a span { display: none; } .sidebar nav a { justify-content: center; padding: 15px; } .sidebar nav a i { margin: 0; font-size: 1.2rem; } .main { margin-left: 60px; padding: 15px; } }
+        @media (max-width:768px) { .sidebar { width:200px; } .main { margin-left:200px; padding:20px; } }
+        @media (max-width:600px) { .sidebar { width:60px; } .sidebar .logo span, .sidebar nav a span { display:none; } .sidebar nav a { justify-content:center; padding:15px; } .main { margin-left:60px; padding:15px; } }
     </style>
 </head>
 <body>
@@ -68,6 +56,7 @@
         <div class="logo"><i class="fas fa-shield-alt"></i><span>SYF Admin</span></div>
         <nav>
             <a href="#" data-page="chapters" class="active"><i class="fas fa-list-ol"></i><span>Chapters</span></a>
+            <a href="#" data-page="lectures"><i class="fas fa-play-circle"></i><span>Lectures</span></a>
             <a href="#" data-page="notes"><i class="fas fa-file-pdf"></i><span>PDF Notes</span></a>
             <a href="#" data-page="cbt"><i class="fas fa-tasks"></i><span>CBT Exams</span></a>
             <a href="#" data-page="images"><i class="fas fa-images"></i><span>Class Images</span></a>
@@ -90,24 +79,36 @@
                     <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()"><i class="fas fa-times"></i> Cancel</button>
                 </div>
             </div>
-            <div class="card"><h3>All Chapters</h3><div style="overflow-x:auto;"><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Order</th><th>Notes</th><th>CBT</th><th>Images</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All Chapters</h3><div style="overflow-x:auto;"><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Order</th><th>Lectures</th><th>Notes</th><th>CBT</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
         </div>
 
-        <!-- Notes Page (PDFhost Link System) -->
+        <!-- Lectures Page -->
+        <div class="page" id="page-lectures">
+            <h2><i class="fas fa-play-circle"></i> Manage YouTube Lectures</h2>
+            <div class="card">
+                <h3>Add New Lecture</h3>
+                <div class="form-group"><label>Select Chapter *</label><select id="lectureChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
+                <div class="form-group"><label>Lecture Title *</label><input type="text" id="lectureTitle" placeholder="e.g., Number System Part 1"></div>
+                <div class="form-group"><label>Description</label><input type="text" id="lectureDesc" placeholder="Short description..."></div>
+                <div class="form-group">
+                    <label>YouTube Link *</label>
+                    <input type="url" id="lectureUrl" placeholder="https://youtu.be/xxxxx or https://www.youtube.com/watch?v=xxxxx">
+                    <p class="help-text">Any YouTube URL format accepted</p>
+                </div>
+                <button class="btn btn-primary" onclick="saveLecture()"><i class="fas fa-save"></i> Save Lecture</button>
+            </div>
+            <div class="card"><h3>All Lectures</h3><div style="overflow-x:auto;"><table id="lecturesTable"><thead><tr><th>Chapter</th><th>Title</th><th>YouTube Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+        </div>
+
+        <!-- Notes Page -->
         <div class="page" id="page-notes">
             <h2><i class="fas fa-file-pdf"></i> Manage PDF Notes (PDFhost)</h2>
             <div class="card">
                 <h3>Add New PDF Note</h3>
-                <p class="help-text" style="margin-bottom:15px;">
-                    📌 <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> par PDF upload karein → link copy karein → yahan paste karein
-                </p>
+                <p class="help-text" style="margin-bottom:15px;">📌 <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> par upload karein → link yahan paste karein</p>
                 <div class="form-group"><label>Select Chapter *</label><select id="noteChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
                 <div class="form-group"><label>Note Title *</label><input type="text" id="noteTitle" placeholder="e.g., Number System Full Notes"></div>
-                <div class="form-group">
-                    <label>PDF Link * (PDFhost.io se)</label>
-                    <input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/xxxxx.pdf">
-                    <p class="help-text">PDFhost.io se puri link copy karein</p>
-                </div>
+                <div class="form-group"><label>PDF Link *</label><input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/xxxxx.pdf"></div>
                 <button class="btn btn-primary" onclick="saveNote()"><i class="fas fa-save"></i> Save Note</button>
             </div>
             <div class="card"><h3>All Notes</h3><div style="overflow-x:auto;"><table id="notesTable"><thead><tr><th>Chapter</th><th>Title</th><th>PDF Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
@@ -119,11 +120,7 @@
             <div class="card">
                 <h3>Add/Update CBT Exam</h3>
                 <div class="form-group"><label>Select Chapter *</label><select id="cbtChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group">
-                    <label>CBT Filename *</label>
-                    <input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html">
-                    <p class="help-text">📁 File <code>cbt/</code> folder mein honi chahiye</p>
-                </div>
+                <div class="form-group"><label>CBT Filename *</label><input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html"><p class="help-text">📁 File <code>cbt/</code> folder mein honi chahiye</p></div>
                 <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
             </div>
             <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Filename</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
@@ -144,9 +141,6 @@
     </div>
 
     <script>
-        // =============================================
-        // FIREBASE CONFIG
-        // =============================================
         const firebaseConfig = {
             apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
             authDomain: "starlet-registor.firebaseapp.com",
@@ -157,18 +151,11 @@
             appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
             measurementId: "G-1NLM1F0262"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
-        // =============================================
-        // IMGBB API KEY
-        // =============================================
         const IMGBB_API_KEY = "53fb01955a45c5462724b8f7d238500a";
 
-        // =============================================
-        // SIDEBAR NAVIGATION
-        // =============================================
+        // Sidebar Navigation
         document.querySelectorAll('.sidebar nav a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -177,354 +164,254 @@
                 document.getElementById(`page-${page}`).classList.add('active');
                 document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
                 link.classList.add('active');
-                if (page === 'chapters') loadChaptersTable();
-                if (page === 'notes') { loadChapterDropdown('noteChapterSelect'); loadNotesTable(); }
-                if (page === 'cbt') { loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); }
-                if (page === 'images') { loadChapterDropdown('imageChapterSelect'); loadImagesTable(); }
+                if(page==='chapters') loadChaptersTable();
+                if(page==='lectures'){ loadChapterDropdown('lectureChapterSelect'); loadLecturesTable(); }
+                if(page==='notes'){ loadChapterDropdown('noteChapterSelect'); loadNotesTable(); }
+                if(page==='cbt'){ loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); }
+                if(page==='images'){ loadChapterDropdown('imageChapterSelect'); loadImagesTable(); }
             });
         });
 
-        // =============================================
-        // ALERT SYSTEM
-        // =============================================
-        function showAlert(msg, type = 'success') {
+        function showAlert(msg, type='success'){
             const container = document.getElementById('alertContainer');
-            container.querySelectorAll('.alert').forEach(a => a.remove());
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
-            container.insertBefore(alertDiv, container.firstChild);
-            setTimeout(() => alertDiv.remove(), 4000);
+            container.querySelectorAll('.alert').forEach(a=>a.remove());
+            const d = document.createElement('div');
+            d.className=`alert alert-${type}`;
+            d.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+            container.insertBefore(d, container.firstChild);
+            setTimeout(()=>d.remove(), 4000);
         }
 
-        // =============================================
-        // CHAPTERS CRUD
-        // =============================================
-        function loadChaptersTable() {
+        function loadChapterDropdown(selectId){
+            const select = document.getElementById(selectId);
+            if(!select) return;
             db.ref('chapters').on('value', snap => {
-                const tbody = document.querySelector('#chaptersTable tbody');
-                tbody.innerHTML = '';
-                if (snap.exists()) {
-                    const chapters = [];
-                    snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
-                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
-                    chapters.forEach(ch => {
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>${ch.order || '-'}</td>
-                                <td><strong>${ch.title}</strong></td>
-                                <td>${ch.order}</td>
-                                <td>${ch.notesCount || 0}</td>
-                                <td>${ch.hasCBT ? '✅' : '❌'}</td>
-                                <td>${ch.imagesCount || 0}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>`;
-                    });
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
+                select.innerHTML='<option value="">-- Choose Chapter --</option>';
+                if(snap.exists()){
+                    const chapters=[];
+                    snap.forEach(c=>chapters.push({id:c.key,...c.val()}));
+                    chapters.sort((a,b)=>(a.order||0)-(b.order||0));
+                    chapters.forEach(c=>select.innerHTML+=`<option value="${c.id}">${c.order||'?'}. ${c.title}</option>`);
                 }
             });
         }
 
-        window.editChapter = function(id) {
-            db.ref(`chapters/${id}`).once('value', snap => {
-                const ch = snap.val();
-                document.getElementById('chapterId').value = id;
-                document.getElementById('chapterTitle').value = ch.title || '';
-                document.getElementById('chapterDesc').value = ch.description || '';
-                document.getElementById('chapterOrder').value = ch.order || 1;
-                document.getElementById('chapterFormTitle').textContent = 'Edit Chapter';
-                document.getElementById('cancelChapterBtn').style.display = 'inline-flex';
-                document.querySelector('#page-chapters .card').scrollIntoView({ behavior: 'smooth' });
+        // ===== CHAPTERS =====
+        function loadChaptersTable(){
+            db.ref('chapters').on('value', snap => {
+                const tbody=document.querySelector('#chaptersTable tbody');
+                tbody.innerHTML='';
+                if(snap.exists()){
+                    const chapters=[];
+                    snap.forEach(c=>chapters.push({id:c.key,...c.val()}));
+                    chapters.sort((a,b)=>(a.order||0)-(b.order||0));
+                    chapters.forEach(ch=>{
+                        tbody.innerHTML+=`<tr><td>${ch.order||'-'}</td><td><strong>${ch.title}</strong></td><td>${ch.order}</td><td>${ch.lecturesCount||0}</td><td>${ch.notesCount||0}</td><td>${ch.hasCBT?'✅':'❌'}</td>
+                        <td><button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                    });
+                } else tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;">No chapters yet.</td></tr>';
+            });
+        }
+        window.editChapter=function(id){
+            db.ref(`chapters/${id}`).once('value',snap=>{
+                const ch=snap.val();
+                document.getElementById('chapterId').value=id;
+                document.getElementById('chapterTitle').value=ch.title||'';
+                document.getElementById('chapterDesc').value=ch.description||'';
+                document.getElementById('chapterOrder').value=ch.order||1;
+                document.getElementById('chapterFormTitle').textContent='Edit Chapter';
+                document.getElementById('cancelChapterBtn').style.display='inline-flex';
             });
         };
-
-        window.deleteChapter = function(id) {
-            if (confirm('⚠️ Delete this chapter and ALL its data?')) {
-                db.ref(`chapters/${id}`).remove()
-                    .then(() => showAlert('Chapter deleted!'))
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
+        window.deleteChapter=function(id){
+            if(confirm('Delete chapter and ALL data?')){
+                db.ref(`chapters/${id}`).remove().then(()=>showAlert('Deleted!'));
             }
         };
-
-        function resetChapterForm() {
-            document.getElementById('chapterId').value = '';
-            document.getElementById('chapterTitle').value = '';
-            document.getElementById('chapterDesc').value = '';
-            document.getElementById('chapterOrder').value = 1;
-            document.getElementById('chapterFormTitle').textContent = 'Add New Chapter';
-            document.getElementById('cancelChapterBtn').style.display = 'none';
+        function resetChapterForm(){
+            document.getElementById('chapterId').value='';
+            document.getElementById('chapterTitle').value='';
+            document.getElementById('chapterDesc').value='';
+            document.getElementById('chapterOrder').value=1;
+            document.getElementById('chapterFormTitle').textContent='Add New Chapter';
+            document.getElementById('cancelChapterBtn').style.display='none';
         }
-
-        window.saveChapter = function() {
-            const id = document.getElementById('chapterId').value;
-            const title = document.getElementById('chapterTitle').value.trim();
-            const desc = document.getElementById('chapterDesc').value.trim();
-            const order = parseInt(document.getElementById('chapterOrder').value) || 1;
-            if (!title) return showAlert('Chapter title is required!', 'error');
-            const chapterData = { title, description: desc, order, updatedAt: Date.now() };
-            if (id) {
-                db.ref(`chapters/${id}`).update(chapterData)
-                    .then(() => showAlert('Chapter updated! ✅'))
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
-            } else {
-                chapterData.createdAt = Date.now();
-                db.ref('chapters').push(chapterData)
-                    .then(() => showAlert('Chapter added! 🎉'))
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
-            }
+        window.saveChapter=function(){
+            const id=document.getElementById('chapterId').value;
+            const title=document.getElementById('chapterTitle').value.trim();
+            const desc=document.getElementById('chapterDesc').value.trim();
+            const order=parseInt(document.getElementById('chapterOrder').value)||1;
+            if(!title) return showAlert('Title required!','error');
+            const data={title,description:desc,order,updatedAt:Date.now()};
+            if(id){ db.ref(`chapters/${id}`).update(data).then(()=>showAlert('Updated!')); }
+            else { data.createdAt=Date.now(); db.ref('chapters').push(data).then(()=>showAlert('Added!')); }
             resetChapterForm();
         };
 
-        // =============================================
-        // CHAPTER DROPDOWN HELPER
-        // =============================================
-        function loadChapterDropdown(selectId) {
-            const select = document.getElementById(selectId);
-            if (!select) return;
-            db.ref('chapters').on('value', snap => {
-                select.innerHTML = '<option value="">-- Choose Chapter --</option>';
-                if (snap.exists()) {
-                    const chapters = [];
-                    snap.forEach(child => chapters.push({ id: child.key, ...child.val() }));
-                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
-                    chapters.forEach(ch => {
-                        select.innerHTML += `<option value="${ch.id}">${ch.order || '?'}. ${ch.title}</option>`;
+        // ===== LECTURES =====
+        window.saveLecture=function(){
+            const chapterId=document.getElementById('lectureChapterSelect').value;
+            const title=document.getElementById('lectureTitle').value.trim();
+            const desc=document.getElementById('lectureDesc').value.trim();
+            const url=document.getElementById('lectureUrl').value.trim();
+            if(!chapterId||!title||!url) return showAlert('All fields required!','error');
+            db.ref(`chapters/${chapterId}/lectures`).push({title,description:desc,youtubeUrl:url,uploadedAt:Date.now()})
+                .then(()=>{
+                    showAlert('✅ Lecture saved!');
+                    document.getElementById('lectureTitle').value='';
+                    document.getElementById('lectureDesc').value='';
+                    document.getElementById('lectureUrl').value='';
+                    loadLecturesTable();
+                });
+        };
+        function loadLecturesTable(){
+            const tbody=document.querySelector('#lecturesTable tbody');
+            tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
+            db.ref('chapters').once('value',chSnap=>{
+                tbody.innerHTML='';
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
+                let has=false;
+                chSnap.forEach(ch=>{
+                    db.ref(`chapters/${ch.key}/lectures`).once('value',lSnap=>{
+                        if(lSnap.exists()){ has=true;
+                            lSnap.forEach(l=>{
+                                const d=l.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.youtubeUrl}" target="_blank">Watch</a></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteLecture('${ch.key}','${l.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                            });
+                        }
                     });
-                }
+                });
+                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No lectures.</td></tr>'; },500);
             });
         }
+        window.deleteLecture=function(chId,lId){
+            if(confirm('Delete lecture?')){ db.ref(`chapters/${chId}/lectures/${lId}`).remove().then(()=>{showAlert('Deleted!');loadLecturesTable();}); }
+        };
 
-        // =============================================
-        // NOTES CRUD (PDFhost Link System)
-        // =============================================
-        window.saveNote = function() {
-            const chapterId = document.getElementById('noteChapterSelect').value;
-            const title = document.getElementById('noteTitle').value.trim();
-            const pdfUrl = document.getElementById('notePdfUrl').value.trim();
-
-            if (!chapterId) return showAlert('Please select a chapter!', 'error');
-            if (!title) return showAlert('Please enter note title!', 'error');
-            if (!pdfUrl) return showAlert('Please paste PDFhost link!', 'error');
-            if (!pdfUrl.startsWith('http')) return showAlert('Please enter a valid URL!', 'error');
-
-            const noteData = {
-                title: title,
-                pdfUrl: pdfUrl,
-                uploadedAt: Date.now(),
-                source: 'pdfhost'
-            };
-
-            db.ref(`chapters/${chapterId}/notes`).push(noteData)
-                .then(() => {
-                    showAlert('✅ Note saved successfully!');
-                    document.getElementById('noteTitle').value = '';
-                    document.getElementById('notePdfUrl').value = '';
+        // ===== NOTES =====
+        window.saveNote=function(){
+            const chapterId=document.getElementById('noteChapterSelect').value;
+            const title=document.getElementById('noteTitle').value.trim();
+            const pdfUrl=document.getElementById('notePdfUrl').value.trim();
+            if(!chapterId||!title||!pdfUrl) return showAlert('All fields required!','error');
+            db.ref(`chapters/${chapterId}/notes`).push({title,pdfUrl,uploadedAt:Date.now(),source:'pdfhost'})
+                .then(()=>{
+                    showAlert('✅ Note saved!');
+                    document.getElementById('noteTitle').value='';
+                    document.getElementById('notePdfUrl').value='';
                     loadNotesTable();
-                })
-                .catch(err => showAlert('Error: ' + err.message, 'error'));
+                });
         };
-
-        function loadNotesTable() {
-            const tbody = document.querySelector('#notesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-            db.ref('chapters').once('value', chaptersSnap => {
-                tbody.innerHTML = '';
-                if (!chaptersSnap.exists()) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
-                    return;
-                }
-                let hasNotes = false;
-                const promises = [];
-                chaptersSnap.forEach(chapter => {
-                    const chapterTitle = chapter.val().title;
-                    const promise = db.ref(`chapters/${chapter.key}/notes`).once('value', notesSnap => {
-                        if (notesSnap.exists()) {
-                            hasNotes = true;
-                            notesSnap.forEach(note => {
-                                const n = note.val();
-                                tbody.innerHTML += `
-                                    <tr>
-                                        <td>${chapterTitle}</td>
-                                        <td><strong>${n.title}</strong></td>
-                                        <td><a href="${n.pdfUrl}" target="_blank" style="color:var(--primary);">📄 View PDF</a></td>
-                                        <td><button class="btn btn-danger btn-sm" onclick="deleteNote('${chapter.key}','${note.key}')"><i class="fas fa-trash"></i></button></td>
-                                    </tr>`;
+        function loadNotesTable(){
+            const tbody=document.querySelector('#notesTable tbody');
+            tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
+            db.ref('chapters').once('value',chSnap=>{
+                tbody.innerHTML='';
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
+                let has=false;
+                chSnap.forEach(ch=>{
+                    db.ref(`chapters/${ch.key}/notes`).once('value',nSnap=>{
+                        if(nSnap.exists()){ has=true;
+                            nSnap.forEach(n=>{
+                                const d=n.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.pdfUrl}" target="_blank">View PDF</a></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteNote('${ch.key}','${n.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
                     });
-                    promises.push(promise);
                 });
-                Promise.all(promises).then(() => {
-                    if (!hasNotes) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No notes yet.</td></tr>';
-                });
+                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No notes.</td></tr>'; },500);
             });
         }
-
-        window.deleteNote = function(chapterId, noteId) {
-            if (confirm('Delete this note?')) {
-                db.ref(`chapters/${chapterId}/notes/${noteId}`).remove()
-                    .then(() => { showAlert('Note deleted!'); loadNotesTable(); })
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
-            }
+        window.deleteNote=function(chId,nId){
+            if(confirm('Delete note?')){ db.ref(`chapters/${chId}/notes/${nId}`).remove().then(()=>{showAlert('Deleted!');loadNotesTable();}); }
         };
 
-        // =============================================
-        // CBT EXAM MANAGEMENT
-        // =============================================
-        window.saveCBT = function() {
-            const chapterId = document.getElementById('cbtChapterSelect').value;
-            const filename = document.getElementById('cbtFilename').value.trim();
-
-            if (!chapterId) return showAlert('Please select a chapter!', 'error');
-            if (!filename) return showAlert('Please enter CBT filename!', 'error');
-            if (!filename.endsWith('.html')) return showAlert('Filename must end with .html!', 'error');
-
-            const cbtData = {
-                filename: filename,
-                cbtUrl: 'cbt/' + filename,
-                updatedAt: Date.now()
-            };
-
-            db.ref(`chapters/${chapterId}/cbt`).set(cbtData)
-                .then(() => {
-                    db.ref(`chapters/${chapterId}/hasCBT`).set(true);
-                    showAlert('✅ CBT saved! File: cbt/' + filename);
-                    document.getElementById('cbtFilename').value = '';
-                    loadCBTTable();
-                })
-                .catch(err => showAlert('Error: ' + err.message, 'error'));
+        // ===== CBT =====
+        window.saveCBT=function(){
+            const chapterId=document.getElementById('cbtChapterSelect').value;
+            const filename=document.getElementById('cbtFilename').value.trim();
+            if(!chapterId||!filename) return showAlert('All fields required!','error');
+            if(!filename.endsWith('.html')) return showAlert('Must be .html!','error');
+            db.ref(`chapters/${chapterId}/cbt`).set({filename,cbtUrl:'cbt/'+filename,updatedAt:Date.now()});
+            db.ref(`chapters/${chapterId}/hasCBT`).set(true);
+            showAlert('✅ CBT saved!');
+            document.getElementById('cbtFilename').value='';
+            loadCBTTable();
         };
-
-        function loadCBTTable() {
-            const tbody = document.querySelector('#cbtTable tbody');
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-            db.ref('chapters').once('value', chaptersSnap => {
-                tbody.innerHTML = '';
-                if (!chaptersSnap.exists()) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
-                    return;
-                }
-                let hasCBT = false;
-                chaptersSnap.forEach(chapter => {
-                    db.ref(`chapters/${chapter.key}/cbt`).once('value', cbtSnap => {
-                        if (cbtSnap.exists()) {
-                            hasCBT = true;
-                            const cbt = cbtSnap.val();
-                            const date = cbt.updatedAt ? new Date(cbt.updatedAt).toLocaleString('hi-IN') : 'Unknown';
-                            tbody.innerHTML += `
-                                <tr>
-                                    <td>${chapter.val().title}</td>
-                                    <td><code style="background:#f0f0f0; padding:4px 8px; border-radius:4px;">${cbt.filename}</code></td>
-                                    <td>${date}</td>
-                                    <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${chapter.key}')"><i class="fas fa-trash"></i> Remove</button></td>
-                                </tr>`;
+        function loadCBTTable(){
+            const tbody=document.querySelector('#cbtTable tbody');
+            tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
+            db.ref('chapters').once('value',chSnap=>{
+                tbody.innerHTML='';
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
+                let has=false;
+                chSnap.forEach(ch=>{
+                    db.ref(`chapters/${ch.key}/cbt`).once('value',cSnap=>{
+                        if(cSnap.exists()){ has=true;
+                            const d=cSnap.val();
+                            const date=d.updatedAt?new Date(d.updatedAt).toLocaleString('hi-IN'):'Unknown';
+                            tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><code>${d.filename}</code></td><td>${date}</td>
+                            <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${ch.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                         }
                     });
                 });
-                setTimeout(() => {
-                    if (!hasCBT) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No CBT exams yet.</td></tr>';
-                }, 500);
+                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No CBT.</td></tr>'; },500);
             });
         }
-
-        window.deleteCBT = function(chapterId) {
-            if (confirm('Remove CBT exam from this chapter?')) {
-                db.ref(`chapters/${chapterId}/cbt`).remove();
-                db.ref(`chapters/${chapterId}/hasCBT`).set(false);
-                showAlert('CBT removed!');
-                loadCBTTable();
-            }
+        window.deleteCBT=function(chId){
+            if(confirm('Remove CBT?')){ db.ref(`chapters/${chId}/cbt`).remove(); db.ref(`chapters/${chId}/hasCBT`).set(false); showAlert('Removed!'); loadCBTTable(); }
         };
 
-        // =============================================
-        // IMGBB IMAGE UPLOAD
-        // =============================================
-        window.uploadImage = async function() {
-            const chapterId = document.getElementById('imageChapterSelect').value;
-            const title = document.getElementById('imageTitle').value.trim() || 'Class Image';
-            const file = document.getElementById('imageFile').files[0];
-            if (!chapterId) return showAlert('Please select a chapter!', 'error');
-            if (!file) return showAlert('Please choose an image!', 'error');
-            const btn = document.getElementById('uploadImageBtn');
-            const originalHTML = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Uploading to ImgBB...';
-            const formData = new FormData();
-            formData.append('image', file);
-            formData.append('key', IMGBB_API_KEY);
-            try {
-                const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
-                const data = await res.json();
-                if (!data.success) throw new Error(data.error?.message || 'ImgBB upload failed');
-                const imageUrl = data.data.url;
-                await db.ref(`chapters/${chapterId}/images`).push({ title, url: imageUrl, uploadedAt: Date.now(), source: 'imgbb' });
-                showAlert('✅ Image uploaded!');
-                document.getElementById('imageTitle').value = '';
-                document.getElementById('imageFile').value = '';
+        // ===== IMAGES =====
+        window.uploadImage=async function(){
+            const chapterId=document.getElementById('imageChapterSelect').value;
+            const title=document.getElementById('imageTitle').value.trim()||'Class Image';
+            const file=document.getElementById('imageFile').files[0];
+            if(!chapterId||!file) return showAlert('Chapter and image required!','error');
+            const btn=document.getElementById('uploadImageBtn');
+            const orig=btn.innerHTML;
+            btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Uploading...';
+            const fd=new FormData(); fd.append('image',file); fd.append('key',IMGBB_API_KEY);
+            try{
+                const res=await fetch('https://api.imgbb.com/1/upload',{method:'POST',body:fd});
+                const data=await res.json();
+                if(!data.success) throw new Error(data.error?.message||'Failed');
+                await db.ref(`chapters/${chapterId}/images`).push({title,url:data.data.url,uploadedAt:Date.now(),source:'imgbb'});
+                showAlert('✅ Uploaded!');
+                document.getElementById('imageTitle').value=''; document.getElementById('imageFile').value='';
                 loadImagesTable();
-            } catch (err) {
-                console.error('ImgBB Error:', err);
-                showAlert('Upload failed: ' + err.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalHTML;
-            }
+            }catch(e){ showAlert(e.message,'error'); }
+            finally{ btn.disabled=false; btn.innerHTML=orig; }
         };
-
-        function loadImagesTable() {
-            const tbody = document.querySelector('#imagesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading...</td></tr>';
-            db.ref('chapters').once('value', chaptersSnap => {
-                tbody.innerHTML = '';
-                if (!chaptersSnap.exists()) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No chapters yet.</td></tr>';
-                    return;
-                }
-                let hasImages = false;
-                const promises = [];
-                chaptersSnap.forEach(chapter => {
-                    const chapterTitle = chapter.val().title;
-                    const promise = db.ref(`chapters/${chapter.key}/images`).once('value', imgsSnap => {
-                        if (imgsSnap.exists()) {
-                            hasImages = true;
-                            imgsSnap.forEach(img => {
-                                const i = img.val();
-                                tbody.innerHTML += `
-                                    <tr>
-                                        <td>${chapterTitle}</td>
-                                        <td><img src="${i.url}" class="img-preview" onclick="window.open('${i.url}','_blank')"></td>
-                                        <td>${i.title}</td>
-                                        <td><button class="btn btn-danger btn-sm" onclick="deleteImage('${chapter.key}','${img.key}')"><i class="fas fa-trash"></i></button></td>
-                                    </tr>`;
+        function loadImagesTable(){
+            const tbody=document.querySelector('#imagesTable tbody');
+            tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
+            db.ref('chapters').once('value',chSnap=>{
+                tbody.innerHTML='';
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
+                let has=false;
+                chSnap.forEach(ch=>{
+                    db.ref(`chapters/${ch.key}/images`).once('value',iSnap=>{
+                        if(iSnap.exists()){ has=true;
+                            iSnap.forEach(i=>{
+                                const d=i.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><img src="${d.url}" class="img-preview" onclick="window.open('${d.url}','_blank')"></td><td>${d.title}</td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteImage('${ch.key}','${i.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
                     });
-                    promises.push(promise);
                 });
-                Promise.all(promises).then(() => {
-                    if (!hasImages) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px;">No images yet.</td></tr>';
-                });
+                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No images.</td></tr>'; },500);
             });
         }
-
-        window.deleteImage = function(chapterId, imgId) {
-            if (confirm('Delete this image?')) {
-                db.ref(`chapters/${chapterId}/images/${imgId}`).remove()
-                    .then(() => { showAlert('Image deleted!'); loadImagesTable(); })
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
-            }
+        window.deleteImage=function(chId,iId){
+            if(confirm('Delete image?')){ db.ref(`chapters/${chId}/images/${iId}`).remove().then(()=>{showAlert('Deleted!');loadImagesTable();}); }
         };
 
-        // =============================================
-        // INITIAL LOAD
-        // =============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            loadChaptersTable();
-        });
+        document.addEventListener('DOMContentLoaded', ()=>{ loadChaptersTable(); });
     </script>
 </body>
 </html>
