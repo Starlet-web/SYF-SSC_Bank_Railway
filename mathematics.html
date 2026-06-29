@@ -1,121 +1,500 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SYF - SSC Bank Railway Math | Learning Platform</title>
-<meta name="description" content="SYF Mathematics - SSC, Bank, Railway exam preparation">
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-:root{--p:#2563eb;--pd:#1d4ed8;--a:#f97316;--b:#f1f5f9;--c:#ffffff;--t:#0f172a;--tl:#64748b;--br:#e2e8f0;--s:0 4px 6px -1px rgba(0,0,0,0.07);--r:12px;--rl:16px;--tr:all 0.25s ease}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--b);color:var(--t);min-height:100vh}
-._h{background:linear-gradient(135deg,#0f172a,#1e293b,#1e3a5f);color:white;padding:16px 0;position:sticky;top:0;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-._hi{max-width:1300px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-._ls{display:flex;align-items:center;gap:12px}
-._li{width:48px;height:48px;background:var(--a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900}
-._lt h1{font-size:1.4rem;font-weight:800}
-._lt span{font-size:0.7rem;color:#fb923c;letter-spacing:1.5px}
-._hs{display:flex;gap:12px}
-._sb{background:rgba(255,255,255,0.1);padding:10px 16px;border-radius:10px;display:flex;align-items:center;gap:6px;font-size:0.82rem}
-._sb i{color:#fb923c}
-._co{max-width:1300px;margin:0 auto;padding:28px 24px}
-._sw{position:relative;max-width:480px;margin-bottom:28px}
-._sw input{width:100%;padding:14px 50px 14px 20px;border:2px solid var(--br);border-radius:50px;font-size:0.95rem;outline:none;background:var(--c)}
-._sw input:focus{border-color:var(--p)}
-._sw i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--tl)}
-._st{font-size:1.4rem;font-weight:700;margin-bottom:20px}
-._cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;margin-bottom:40px}
-._cc{background:var(--c);border-radius:var(--rl);padding:24px;box-shadow:var(--s);cursor:pointer;border:1px solid var(--br);border-left:4px solid var(--p);transition:var(--tr)}
-._cc:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(0,0,0,0.12)}
-._cn{font-size:0.73rem;color:var(--p);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-._ct{font-size:1.15rem;font-weight:700;margin-bottom:6px}
-._cd{font-size:0.85rem;color:var(--tl);margin-bottom:14px}
-._cm{display:flex;gap:8px;flex-wrap:wrap}
-._mi{font-size:0.75rem;background:#f8fafc;padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:5px}
-._mo{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-._mo._a{display:flex}
-._md{background:var(--c);border-radius:var(--rl);width:95%;max-width:1000px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;animation:_mi 0.3s ease}
-@keyframes _mi{from{opacity:0;transform:scale(0.93)}to{opacity:1;transform:scale(1)}}
-._mh{padding:18px 24px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-._mc{width:36px;height:36px;border-radius:50%;border:none;background:#f1f5f9;cursor:pointer;font-size:1.1rem;transition:var(--tr)}
-._mc:hover{background:#ef4444;color:white}
-._mb{padding:20px 24px;overflow-y:auto;flex:1}
-._tb{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
-._tbb{padding:9px 16px;border:2px solid var(--br);background:white;border-radius:22px;cursor:pointer;font-weight:600;font-size:0.8rem;transition:var(--tr);white-space:nowrap}
-._tbb._a{background:var(--p);color:white;border-color:var(--p)}
-._tc{display:none}
-._tc._a{display:block}
-._lc{display:flex;flex-direction:column;gap:8px}
-._lci{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#f8fafc;border-radius:10px;cursor:pointer;border:1px solid var(--br);transition:var(--tr)}
-._lci:hover{background:#eff6ff;border-color:var(--p)}
-._licn{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;flex-shrink:0}
-._licn._pdf{background:#ef4444}
-._licn._vid{background:red}
-._lin{flex:1}
-._lin strong{display:block;font-size:0.9rem}
-._lin small{font-size:0.78rem;color:var(--tl)}
-._lar{color:var(--p)}
-._lth{width:120px;height:68px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#1e293b}
-._vw{position:relative;width:100%;padding-bottom:56.25%;border-radius:10px;overflow:hidden}
-._vw iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
-._pw{width:100%;height:65vh;border-radius:10px;overflow:hidden;background:#fff;border:1px solid var(--br)}
-._pw iframe{width:100%;height:100%;border:none}
-._cb{text-align:center;padding:40px}
-._cbtb{padding:16px 36px;background:var(--p);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:8px}
-._cbtb:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,0.4)}
-._ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
-._gi{border-radius:10px;overflow:hidden;cursor:pointer;aspect-ratio:1;border:2px solid transparent;transition:var(--tr)}
-._gi:hover{border-color:var(--p)}
-._gi img{width:100%;height:100%;object-fit:cover}
-._bb{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--p);color:white;border:none;border-radius:20px;cursor:pointer;margin-bottom:12px;font-weight:600;font-size:0.82rem}
-._bb:hover{background:var(--pd)}
-._lb{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:3000;display:none;align-items:center;justify-content:center}
-._lb._a{display:flex}
-._lb img{max-width:90%;max-height:90%;border-radius:10px}
-._lbc{position:absolute;top:20px;right:30px;color:white;font-size:2rem;cursor:pointer}
-._sp{width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:var(--p);border-radius:50%;animation:_spn 0.7s linear infinite;margin:30px auto}
-@keyframes _spn{to{transform:rotate(360deg)}}
-._es{text-align:center;padding:40px;color:var(--tl)}
-._es i{font-size:3rem;opacity:0.25;margin-bottom:12px}
-@media(max-width:768px){._cg{grid-template-columns:1fr}._md{width:98%;max-height:93vh}._lth{width:90px;height:50px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYF - SSC Bank Railway Math | Learning Platform</title>
+    <meta name="description" content="SYF Mathematics - SSC, Bank, Railway exam preparation">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb; --primary-dark: #1d4ed8; --accent: #f97316;
+            --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; --text-light: #64748b;
+            --border: #e2e8f0; --shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
+            --radius: 12px; --radius-lg: 16px; --transition: all 0.25s ease;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        .header { background: linear-gradient(135deg, #0f172a, #1e293b, #1e3a5f); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .header-inner { max-width: 1300px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .logo-section { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; }
+        .logo-text h1 { font-size: 1.4rem; font-weight: 800; } .logo-text span { font-size: 0.7rem; color: #fb923c; letter-spacing: 1.5px; }
+        .header-stats { display: flex; gap: 12px; }
+        .stat-badge { background: rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 10px; display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+        .stat-badge i { color: #fb923c; }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+        .search-wrapper { position: relative; max-width: 480px; margin-bottom: 28px; }
+        .search-wrapper input { width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--border); border-radius: 50px; font-size: 0.95rem; outline: none; background: var(--card-bg); }
+        .search-wrapper input:focus { border-color: var(--primary); }
+        .search-wrapper i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+        
+        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; margin-bottom: 40px; }
+        .chapter-card { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); border-left: 4px solid var(--primary); transition: var(--transition); }
+        .chapter-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.12); }
+        .chapter-number { font-size: 0.73rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .chapter-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+        .chapter-desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 14px; }
+        .chapter-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+        .meta-item { font-size: 0.75rem; background: #f8fafc; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--card-bg); border-radius: var(--radius-lg); width: 95%; max-width: 1000px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity:0; transform: scale(0.93); } to { opacity:1; transform: scale(1); } }
+        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #f1f5f9; cursor: pointer; font-size: 1.1rem; transition: var(--transition); }
+        .modal-close:hover { background: #ef4444; color: white; }
+        .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+
+        .tab-buttons { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+        .tab-btn { padding: 9px 16px; border: 2px solid var(--border); background: white; border-radius: 22px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: var(--transition); white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-content { display: none; } .tab-content.active { display: block; }
+
+        .list-container { display: flex; flex-direction: column; gap: 8px; }
+        .list-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #f8fafc; border-radius: 10px; cursor: pointer; border: 1px solid var(--border); transition: var(--transition); }
+        .list-item:hover { background: #eff6ff; border-color: var(--primary); }
+        .list-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; }
+        .list-icon.pdf { background: #ef4444; } .list-icon.video { background: #ff0000; }
+        .list-info { flex: 1; } .list-info strong { display: block; font-size: 0.9rem; } .list-info small { font-size: 0.78rem; color: var(--text-light); }
+        .list-arrow { color: var(--primary); }
+
+        .lecture-thumb { width: 120px; height: 68px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #1e293b; }
+        
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 10px; overflow: hidden; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .pdf-wrapper { width: 100%; height: 65vh; border-radius: 10px; overflow: hidden; background: #fff; border: 1px solid var(--border); }
+        .pdf-wrapper iframe { width: 100%; height: 100%; border: none; }
+        
+        .cbt-box { text-align: center; padding: 40px; }
+        .cbt-btn { padding: 16px 36px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .cbt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.4); }
+        
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+        .gallery-item { border-radius: 10px; overflow: hidden; cursor: pointer; aspect-ratio: 1; border: 2px solid transparent; transition: var(--transition); }
+        .gallery-item:hover { border-color: var(--primary); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 20px; cursor: pointer; margin-bottom: 12px; font-weight: 600; font-size: 0.82rem; }
+        .back-btn:hover { background: var(--primary-dark); }
+        
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; } .lightbox img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer; }
+        
+        .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 30px auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .empty-state { text-align: center; padding: 40px; color: var(--text-light); }
+        .empty-state i { font-size: 3rem; opacity: 0.25; margin-bottom: 12px; }
+        
+        @media (max-width:768px) { .chapter-grid { grid-template-columns: 1fr; } .modal { width: 98%; max-height: 93vh; } .lecture-thumb { width: 90px; height: 50px; } }
+    </style>
 </head>
 <body>
-<header class="_h"><div class="_hi"><div class="_ls"><div class="_li">SYF</div><div class="_lt"><h1>SYF Mathematics</h1><span>SSC • BANK • RAILWAY</span></div></div><div class="_hs"><div class="_sb"><i class="fas fa-book-open"></i><span id="tC">0</span> Ch</div><div class="_sb"><i class="fas fa-play-circle"></i><span id="tL">0</span> Lec</div><div class="_sb"><i class="fas fa-file-pdf"></i><span id="tN">0</span> PDF</div></div></div></header>
-<div class="_co"><div class="_sw"><input type="text" id="sI" placeholder="Search chapters..." oninput="fC()"><i class="fas fa-search"></i></div><div class="_st"><i class="fas fa-list-ol" style="color:var(--a);"></i> All Chapters</div><div class="_cg" id="cG"><div class="_sp"></div></div></div>
-<div class="_mo" id="mO"><div class="_md"><div class="_mh"><h3 id="mT">Chapter Details</h3><button class="_mc" onclick="cM()">✕</button></div><div class="_mb"><div class="_tb"><button class="_tbb _a" onclick="sT('lectures',event)"><i class="fas fa-play-circle"></i> Lectures</button><button class="_tbb" onclick="sT('notes',event)"><i class="fas fa-file-pdf"></i> Notes</button><button class="_tbb" onclick="sT('cbt',event)"><i class="fas fa-question-circle"></i> CBT</button><button class="_tbb" onclick="sT('images',event)"><i class="fas fa-images"></i> Images</button></div><div class="_tc _a" id="tLec"><div id="lL"><div class="_sp"></div></div></div><div class="_tc" id="tNot"><div id="nL"><div class="_sp"></div></div></div><div class="_tc" id="tCbt"><div id="cC"><div class="_sp"></div></div></div><div class="_tc" id="tImg"><div class="_ig" id="iG"></div></div></div></div></div>
-<div class="_lb" id="lB" onclick="cLb()"><span class="_lbc">&times;</span><img src="" id="lI"></div>
-<script>
-const _f={apiKey:"AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",authDomain:"starlet-registor.firebaseapp.com",databaseURL:"https://starlet-registor-default-rtdb.firebaseio.com",projectId:"starlet-registor",storageBucket:"starlet-registor.firebasestorage.app",messagingSenderId:"904193225045",appId:"1:904193225045:web:0c9ed3f3d7251862ff7fdc",measurementId:"G-1NLM1F0262"};
-firebase.initializeApp(_f);
-const _d=firebase.database();
-let _aC=[],_cI=null,_tNC=0,_tLC=0,_lBk=null,_nBk=null;
-const _e=(s)=>{if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML};
-const _exY=(u)=>{if(!u)return null;const m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]{11})/);return m?m[1]:null};
-(function(){const _p=['o','n','C','L','G','n','e','L','N','t','e','c','a','t','d','l','s','o','I','a','r','t','T','l','o','m','i','_','n','b','B','e','L','k','T','N','C','L','a','c','C','s','c','e','o','t'];let _r='';for(let i=0;i<_p.length;i+=2){_r+=_p[i];}return _r;})();
-function _lC(){const g=document.getElementById('cG');g.innerHTML='<div class="_sp"></div>';_d.ref('chapters').on('value',(s)=>{_aC=[];_tNC=0;_tLC=0;if(s.exists()){const p=[];s.forEach((c)=>{const d=c.val(),id=c.key,o={id,...d,notesCount:0,lecturesCount:0};const lp=_d.ref(`chapters/${id}/lectures`).once('value').then(ls=>{if(ls.exists()){o.lecturesCount=ls.numChildren();_tLC+=o.lecturesCount}});const np=_d.ref(`chapters/${id}/notes`).once('value').then(ns=>{if(ns.exists()){o.notesCount=ns.numChildren();_tNC+=o.notesCount}});p.push(lp,np);_aC.push(o)});Promise.all(p).then(()=>{_aC.sort((a,b)=>(a.order||0)-(b.order||0));_rC(_aC);_uS()}).catch(()=>{_rC(_aC);_uS()})}else{g.innerHTML='<div class="_es"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3></div>';_uS()}})}
-function _rC(c){const g=document.getElementById('cG');if(!c.length){g.innerHTML='<div class="_es"><i class="fas fa-search"></i><h3>No Match</h3></div>';return}g.innerHTML=c.map((c,i)=>`<div class="_cc" onclick="_oC('${c.id}')"><div class="_cn">Chapter ${c.order||i+1}</div><div class="_ct">${_e(c.title||'Untitled')}</div><div class="_cd">${_e(c.description||'Explore lectures, notes & more')}</div><div class="_cm"><span class="_mi"><i class="fas fa-play-circle"></i>${c.lecturesCount||0} Lectures</span><span class="_mi"><i class="fas fa-file-pdf"></i>${c.notesCount||0} Notes</span><span class="_mi"><i class="fas fa-question-circle"></i>${c.hasCBT?'CBT Available':'No CBT'}</span></div></div>`).join('')}
-function fC(){const q=document.getElementById('sI').value.toLowerCase();_rC(_aC.filter(c=>(c.title||'').toLowerCase().includes(q)||(c.description||'').toLowerCase().includes(q)))}
-function _oC(id){_cI=id;const c=_aC.find(c=>c.id===id);if(!c)return;document.getElementById('mT').textContent=c.title||'Chapter';document.getElementById('mO').classList.add('_a');document.body.style.overflow='hidden';_lLec(id);_lNot(id);_lCbt(id);_lImg(id);const ft=document.querySelector('._tbb');if(ft)sT('lectures',{target:ft})}
-function cM(){document.getElementById('mO').classList.remove('_a');document.body.style.overflow='';_cI=null}
-document.getElementById('mO').addEventListener('click',e=>{if(e.target===e.currentTarget)cM()})
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){cM();cLb()}})
-function sT(n,e){const b=e.target.closest('._tbb');if(!b)return;document.querySelectorAll('._tbb').forEach(b=>b.classList.remove('_a'));document.querySelectorAll('._tc').forEach(t=>t.classList.remove('_a'));b.classList.add('_a');const t=document.getElementById(`t${n.charAt(0).toUpperCase()+n.slice(1)}`);if(t)t.classList.add('_a')}
-function _lLec(id){const c=document.getElementById('lL');c.innerHTML='<div class="_sp"></div>';_d.ref(`chapters/${id}/lectures`).on('value',(s)=>{if(s.exists()){const l=[];s.forEach(c=>l.push({id:c.key,...c.val()}));if(!l.length){c.innerHTML='<div class="_es"><i class="fas fa-play-circle"></i><h3>No Lectures</h3></div>';return}c.innerHTML=l.map((l,i)=>{const v=_exY(l.youtubeUrl),t=v?`https://img.youtube.com/vi/${v}/mqdefault.jpg`:'';return`<div class="_lci" onclick="_pLec('${v}','${_e(l.title||'Lecture '+(i+1)).replace(/'/g,"\\'")}')">${t?`<img class="_lth" src="${t}" onerror="this.style.display='none'">`:''}<div class="_lin"><strong>${_e(l.title||'Lecture '+(i+1))}</strong><small>${_e(l.description||'')}</small></div><div class="_lar"><i class="fas fa-play-circle"></i></div></div>`}).join('')}else{c.innerHTML='<div class="_es"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3></div>'}})}
-function _pLec(v,t){if(!v)return;const c=document.getElementById('lL');_lBk=c.innerHTML;c.innerHTML=`<button class="_bb" onclick="_bLec()"><i class="fas fa-arrow-left"></i> Back</button><div class="_vw"><iframe src="https://www.youtube.com/embed/${v}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><h4 style="margin-top:10px;">▶ ${t}</h4>`;document.getElementById('mT').textContent='🎥 '+t}
-function _bLec(){if(_lBk){document.getElementById('lL').innerHTML=_lBk;_lBk=null}const c=_aC.find(c=>c.id===_cI);if(c)document.getElementById('mT').textContent=c.title||'Chapter'}
-function _lNot(id){const c=document.getElementById('nL');c.innerHTML='<div class="_sp"></div>';_d.ref(`chapters/${id}/notes`).on('value',(s)=>{if(s.exists()){const n=[];s.forEach(c=>n.push({id:c.key,...c.val()}));if(!n.length){c.innerHTML='<div class="_es"><i class="fas fa-file-pdf"></i><h3>No Notes</h3></div>';return}c.innerHTML=n.map(n=>`<div class="_lci" onclick="_oPdf('${n.pdfUrl}','${_e(n.title).replace(/'/g,"\\'")}')"><div class="_licn _pdf"><i class="fas fa-file-pdf"></i></div><div class="_lin"><strong>${_e(n.title)}</strong><small>Click to view</small></div><div class="_lar"><i class="fas fa-eye"></i></div></div>`).join('')}else{c.innerHTML='<div class="_es"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>'}})}
-function _oPdf(u,t){const c=document.getElementById('nL');_nBk=c.innerHTML;c.innerHTML=`<button class="_bb" onclick="_bNot()"><i class="fas fa-arrow-left"></i> Back</button><div class="_pw"><iframe src="${u}" sandbox="allow-scripts allow-same-origin"></iframe></div><p style="text-align:center;margin-top:8px;"><a href="${u}" target="_blank" style="color:var(--p);">Open in new tab</a></p>`;document.getElementById('mT').textContent='📄 '+t}
-function _bNot(){if(_nBk){document.getElementById('nL').innerHTML=_nBk;_nBk=null}const c=_aC.find(c=>c.id===_cI);if(c)document.getElementById('mT').textContent=c.title||'Chapter'}
-function _lCbt(id){const c=document.getElementById('cC');c.innerHTML='<div class="_sp"></div>';_d.ref(`chapters/${id}/cbt`).on('value',(s)=>{if(s.exists()){const d=s.val();if(d.cbtUrl){c.innerHTML=`<div class="_cb"><i class="fas fa-brain" style="font-size:3rem;color:var(--p);margin-bottom:12px;"></i><h3>CBT Exam Ready</h3><p style="color:var(--tl);margin:8px 0 20px;">Test your knowledge</p><button class="_cbtb" onclick="window.open('${d.cbtUrl}','_blank')"><i class="fas fa-play-circle"></i> Start Exam</button><p style="margin-top:12px;font-size:0.75rem;color:var(--tl);">📁 ${d.filename||''}</p></div>`}else{c.innerHTML='<div class="_es"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>'}}else{c.innerHTML='<div class="_es"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>'}})}
-function _lImg(id){const c=document.getElementById('iG');c.innerHTML='<div class="_sp" style="grid-column:1/-1;"></div>';_d.ref(`chapters/${id}/images`).on('value',(s)=>{if(s.exists()){const im=[];s.forEach(c=>im.push({id:c.key,...c.val()}));if(!im.length){c.innerHTML='<div class="_es" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';return}c.innerHTML=im.map(i=>`<div class="_gi" onclick="_oLb('${i.url}')"><img src="${i.url}" alt="${_e(i.title||'Image')}" loading="lazy"></div>`).join('')}else{c.innerHTML='<div class="_es" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>'}})}
-function _oLb(u){document.getElementById('lI').src=u;document.getElementById('lB').classList.add('_a')}
-function cLb(){document.getElementById('lB').classList.remove('_a')}
-function _uS(){document.getElementById('tC').textContent=_aC.length;document.getElementById('tN').textContent=_tNC;document.getElementById('tL').textContent=_tLC}
-document.addEventListener('DOMContentLoaded',_lC);
-</script>
+
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-section">
+                <div class="logo-icon">SYF</div>
+                <div class="logo-text"><h1>SYF Mathematics</h1><span>SSC • BANK • RAILWAY</span></div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge"><i class="fas fa-book-open"></i><span id="totalChapters">0</span> Ch</div>
+                <div class="stat-badge"><i class="fas fa-play-circle"></i><span id="totalLectures">0</span> Lec</div>
+                <div class="stat-badge"><i class="fas fa-file-pdf"></i><span id="totalNotes">0</span> PDF</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Search chapters..." oninput="filterChapters()">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="section-title"><i class="fas fa-list-ol" style="color:var(--accent);"></i> All Chapters</div>
+        <div class="chapter-grid" id="chapterGrid"><div class="spinner"></div></div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header"><h3 id="modalTitle">Chapter Details</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('lectures',event)"><i class="fas fa-play-circle"></i> Lectures</button>
+                    <button class="tab-btn" onclick="switchTab('notes',event)"><i class="fas fa-file-pdf"></i> Notes</button>
+                    <button class="tab-btn" onclick="switchTab('cbt',event)"><i class="fas fa-question-circle"></i> CBT</button>
+                    <button class="tab-btn" onclick="switchTab('images',event)"><i class="fas fa-images"></i> Images</button>
+                </div>
+                <div class="tab-content active" id="tab-lectures"><div id="lecturesList"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-notes"><div id="notesList"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-cbt"><div id="cbtContainer"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-images"><div class="image-gallery" id="imageGallery"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img src="" id="lightboxImg"></div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
+            authDomain: "starlet-registor.firebaseapp.com",
+            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
+            projectId: "starlet-registor",
+            storageBucket: "starlet-registor.firebasestorage.app",
+            messagingSenderId: "904193225045",
+            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
+            measurementId: "G-1NLM1F0262"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let allChapters = [], currentChapterId = null;
+        let totalNotesCount = 0, totalLecturesCount = 0;
+        let _lecturesBackup = null, _notesBackup = null;
+
+        function loadChapters() {
+            const grid = document.getElementById('chapterGrid');
+            grid.innerHTML = '<div class="spinner"></div>';
+            
+            db.ref('chapters').on('value', (snapshot) => {
+                allChapters = []; 
+                totalNotesCount = 0; 
+                totalLecturesCount = 0;
+                
+                if (snapshot.exists()) {
+                    const promises = [];
+                    snapshot.forEach((child) => {
+                        const chapterData = child.val();
+                        const chapterId = child.key;
+                        
+                        const obj = { 
+                            id: chapterId, 
+                            ...chapterData,
+                            notesCount: 0,
+                            lecturesCount: 0
+                        };
+                        
+                        const lecturePromise = db.ref(`chapters/${chapterId}/lectures`).once('value')
+                            .then(ls => {
+                                if (ls.exists()) {
+                                    obj.lecturesCount = ls.numChildren();
+                                    totalLecturesCount += obj.lecturesCount;
+                                }
+                            });
+                            
+                        const notesPromise = db.ref(`chapters/${chapterId}/notes`).once('value')
+                            .then(ns => {
+                                if (ns.exists()) {
+                                    obj.notesCount = ns.numChildren();
+                                    totalNotesCount += obj.notesCount;
+                                }
+                            });
+                        
+                        promises.push(lecturePromise, notesPromise);
+                        allChapters.push(obj);
+                    });
+                    
+                    Promise.all(promises).then(() => {
+                        allChapters.sort((a,b) => (a.order||0)-(b.order||0));
+                        renderChapters(allChapters);
+                        updateStats();
+                    }).catch(() => {
+                        renderChapters(allChapters);
+                        updateStats();
+                    });
+                } else {
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3></div>';
+                    updateStats();
+                }
+            });
+        }
+
+        function renderChapters(chapters) {
+            const grid = document.getElementById('chapterGrid');
+            if (!chapters.length) {
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h3>No Match</h3></div>';
+                return;
+            }
+            grid.innerHTML = chapters.map((ch,i) => `
+                <div class="chapter-card" onclick="openChapter('${ch.id}')">
+                    <div class="chapter-number">Chapter ${ch.order||i+1}</div>
+                    <div class="chapter-title">${escapeHTML(ch.title||'Untitled')}</div>
+                    <div class="chapter-desc">${escapeHTML(ch.description||'Explore lectures, notes & more')}</div>
+                    <div class="chapter-meta">
+                        <span class="meta-item"><i class="fas fa-play-circle"></i>${ch.lecturesCount||0} Lectures</span>
+                        <span class="meta-item"><i class="fas fa-file-pdf"></i>${ch.notesCount||0} Notes</span>
+                        <span class="meta-item"><i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT Available' : 'No CBT'}</span>
+                    </div>
+                </div>`).join('');
+        }
+
+        function filterChapters() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderChapters(allChapters.filter(c => 
+                (c.title||'').toLowerCase().includes(q) || 
+                (c.description||'').toLowerCase().includes(q)
+            ));
+        }
+
+        function openChapter(id) {
+            currentChapterId = id;
+            const ch = allChapters.find(c => c.id === id);
+            if(!ch) return;
+            
+            document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            loadLectures(id);
+            loadNotes(id);
+            loadCBT(id);
+            loadImages(id);
+            
+            const firstTab = document.querySelector('.tab-btn');
+            if(firstTab) switchTab('lectures', {target: firstTab});
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            currentChapterId = null;
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', e => { 
+            if(e.target === e.currentTarget) closeModal(); 
+        });
+
+        document.addEventListener('keydown', e => { 
+            if(e.key === 'Escape') { 
+                closeModal(); 
+                closeLightbox(); 
+            } 
+        });
+
+        function switchTab(name, event) {
+            const btn = event.target.closest('.tab-btn');
+            if(!btn) return;
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            btn.classList.add('active');
+            const tab = document.getElementById(`tab-${name}`);
+            if(tab) tab.classList.add('active');
+        }
+
+        // ============ LECTURES ============
+        function loadLectures(chapterId) {
+            const container = document.getElementById('lecturesList');
+            container.innerHTML = '<div class="spinner"></div>';
+            
+            db.ref(`chapters/${chapterId}/lectures`).on('value', (snap) => {
+                if(snap.exists()){
+                    const lectures = [];
+                    snap.forEach(c => lectures.push({id: c.key, ...c.val()}));
+                    
+                    if(!lectures.length){
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures</h3></div>';
+                        return;
+                    }
+                    
+                    container.innerHTML = lectures.map((l, i) => {
+                        const videoId = extractYouTubeID(l.youtubeUrl);
+                        const thumb = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
+                        
+                        return `
+                        <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title || 'Lecture ' + (i+1)).replace(/'/g, "\\'")}')">
+                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" onerror="this.style.display='none'">` : ''}
+                            <div class="list-info">
+                                <strong>${escapeHTML(l.title || 'Lecture ' + (i+1))}</strong>
+                                <small>${escapeHTML(l.description || '')}</small>
+                            </div>
+                            <div class="list-arrow"><i class="fas fa-play-circle"></i></div>
+                        </div>`;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3></div>';
+                }
+            });
+        }
+
+        function extractYouTubeID(url) {
+            if(!url) return null;
+            const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]{11})/);
+            return m ? m[1] : null;
+        }
+
+        function playLecture(videoId, title) {
+            if(!videoId) return;
+            
+            const container = document.getElementById('lecturesList');
+            _lecturesBackup = container.innerHTML;
+            
+            container.innerHTML = `
+                <button class="back-btn" onclick="backToLectures()"><i class="fas fa-arrow-left"></i> Back</button>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                            allow="autoplay; encrypted-media" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <h4 style="margin-top:10px;">▶ ${title}</h4>`;
+            
+            document.getElementById('modalTitle').textContent = '🎥 ' + title;
+        }
+
+        function backToLectures() {
+            if(_lecturesBackup){
+                document.getElementById('lecturesList').innerHTML = _lecturesBackup;
+                _lecturesBackup = null;
+            }
+            const ch = allChapters.find(c => c.id === currentChapterId);
+            if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+        }
+
+        // ============ NOTES ============
+        function loadNotes(chapterId) {
+            const container = document.getElementById('notesList');
+            container.innerHTML = '<div class="spinner"></div>';
+            
+            db.ref(`chapters/${chapterId}/notes`).on('value', (snap) => {
+                if(snap.exists()){
+                    const notes = [];
+                    snap.forEach(c => notes.push({id: c.key, ...c.val()}));
+                    
+                    if(!notes.length){
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes</h3></div>';
+                        return;
+                    }
+                    
+                    container.innerHTML = notes.map(n => `
+                        <div class="list-item" onclick="openPdf('${n.pdfUrl}', '${escapeHTML(n.title).replace(/'/g, "\\'")}')">
+                            <div class="list-icon pdf"><i class="fas fa-file-pdf"></i></div>
+                            <div class="list-info">
+                                <strong>${escapeHTML(n.title)}</strong>
+                                <small>Click to view</small>
+                            </div>
+                            <div class="list-arrow"><i class="fas fa-eye"></i></div>
+                        </div>`).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>';
+                }
+            });
+        }
+
+        function openPdf(pdfUrl, title) {
+            const container = document.getElementById('notesList');
+            _notesBackup = container.innerHTML;
+            
+            container.innerHTML = `
+                <button class="back-btn" onclick="backToNotes()"><i class="fas fa-arrow-left"></i> Back</button>
+                <div class="pdf-wrapper">
+                    <iframe src="${pdfUrl}" sandbox="allow-scripts allow-same-origin"></iframe>
+                </div>
+                <p style="text-align:center;margin-top:8px;">
+                    <a href="${pdfUrl}" target="_blank" style="color:var(--primary);">Open in new tab</a>
+                </p>`;
+            
+            document.getElementById('modalTitle').textContent = '📄 ' + title;
+        }
+
+        function backToNotes() {
+            if(_notesBackup){
+                document.getElementById('notesList').innerHTML = _notesBackup;
+                _notesBackup = null;
+            }
+            const ch = allChapters.find(c => c.id === currentChapterId);
+            if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+        }
+
+        // ============ CBT ============
+        function loadCBT(chapterId) {
+            const container = document.getElementById('cbtContainer');
+            container.innerHTML = '<div class="spinner"></div>';
+            
+            db.ref(`chapters/${chapterId}/cbt`).on('value', (snap) => {
+                if(snap.exists()){
+                    const cbt = snap.val();
+                    if(cbt.cbtUrl){
+                        container.innerHTML = `
+                            <div class="cbt-box">
+                                <i class="fas fa-brain" style="font-size:3rem;color:var(--primary);margin-bottom:12px;"></i>
+                                <h3>CBT Exam Ready</h3>
+                                <p style="color:var(--text-light);margin:8px 0 20px;">Test your knowledge</p>
+                                <button class="cbt-btn" onclick="window.open('${cbt.cbtUrl}','_blank')">
+                                    <i class="fas fa-play-circle"></i> Start Exam
+                                </button>
+                                <p style="margin-top:12px;font-size:0.75rem;color:var(--text-light);">
+                                    📁 ${cbt.filename || ''}
+                                </p>
+                            </div>`;
+                    } else {
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>';
+                    }
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>';
+                }
+            });
+        }
+
+        // ============ IMAGES ============
+        function loadImages(chapterId) {
+            const container = document.getElementById('imageGallery');
+            container.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
+            
+            db.ref(`chapters/${chapterId}/images`).on('value', (snap) => {
+                if(snap.exists()){
+                    const imgs = [];
+                    snap.forEach(c => imgs.push({id: c.key, ...c.val()}));
+                    
+                    if(!imgs.length){
+                        container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
+                        return;
+                    }
+                    
+                    container.innerHTML = imgs.map(i => `
+                        <div class="gallery-item" onclick="openLightbox('${i.url}')">
+                            <img src="${i.url}" alt="${escapeHTML(i.title || 'Image')}" loading="lazy">
+                        </div>`).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
+                }
+            });
+        }
+
+        function openLightbox(url) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function escapeHTML(str) {
+            if(!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function updateStats() {
+            document.getElementById('totalChapters').textContent = allChapters.length;
+            document.getElementById('totalNotes').textContent = totalNotesCount;
+            document.getElementById('totalLectures').textContent = totalLecturesCount;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadChapters);
+    </script>
 </body>
 </html>
