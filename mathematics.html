@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYF - SSC Bank Railway Math | Advanced Learning Platform</title>
-    <meta name="description" content="SYF Mathematics - SSC, Bank, Railway exam preparation with advanced features">
+    <meta name="description" content="SYF Mathematics - SSC, Bank, Railway exam preparation">
     <meta name="theme-color" content="#2563eb">
-    <link rel="manifest" href="manifest.json">
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -65,7 +64,7 @@
         .header { 
             background: linear-gradient(135deg, #0f172a, #1e293b, #1e3a5f); 
             color: white; padding: 12px 0; position: sticky; top: 0; z-index: 1000; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         .header-inner { 
             max-width: 1300px; margin: 0 auto; padding: 0 24px; 
@@ -169,24 +168,6 @@
         .meta-item.cbt-na { background: #fef3c7; color: #d97706; }
         [data-theme="dark"] .meta-item.cbt-na { background: #451a03; color: #fbbf24; }
 
-        .bookmark-btn {
-            position: absolute; top: 12px; right: 12px; z-index: 2;
-            background: none; border: none; cursor: pointer; color: #94a3b8;
-            font-size: 1.1rem; transition: var(--transition);
-        }
-        .bookmark-btn.active { color: #f59e0b; }
-        .bookmark-btn:hover { transform: scale(1.2); }
-
-        /* Progress Bar */
-        .progress-bar {
-            height: 3px; background: var(--border); border-radius: 2px;
-            margin-top: 12px; overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%; background: var(--primary); border-radius: 2px;
-            transition: width 0.5s ease;
-        }
-
         /* Modal */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -263,10 +244,6 @@
             width: 120px; height: 68px; border-radius: 8px; object-fit: cover; 
             flex-shrink: 0; background: #1e293b; 
         }
-        .watched-badge {
-            position: absolute; top: 4px; left: 4px; background: #16a34a; color: white;
-            font-size: 0.6rem; padding: 2px 6px; border-radius: 4px;
-        }
 
         /* Video & PDF */
         .video-wrapper { 
@@ -295,7 +272,7 @@
         /* Image Swiper */
         .swiper-container {
             width: 100%; border-radius: var(--radius-lg); overflow: hidden;
-            background: #1e293b;
+            background: #1e293b; margin-bottom: 16px;
         }
         .swiper-slide {
             display: flex; align-items: center; justify-content: center;
@@ -307,7 +284,6 @@
         .swiper-button-next, .swiper-button-prev { color: white !important; }
         .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
         .swiper-pagination-bullet-active { opacity: 1; }
-        .swiper-zoom-container { cursor: zoom-in; }
 
         /* Gallery Grid */
         .image-gallery { 
@@ -320,7 +296,7 @@
         .gallery-item:hover { border-color: var(--primary); transform: scale(1.03); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Lightbox with Zoom */
+        /* Lightbox */
         .lightbox { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.95); z-index: 3000; display: none; 
@@ -355,17 +331,6 @@
         }
         .back-btn:hover { background: var(--primary-dark); transform: translateX(-4px); }
 
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, var(--border) 25%, transparent 50%, var(--border) 75%);
-            background-size: 200% 100%; animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .skeleton-card { height: 180px; }
-        .skeleton-text { height: 16px; margin-bottom: 8px; }
-        .skeleton-text.short { width: 60%; }
-
         /* Spinner */
         .spinner { 
             width: 40px; height: 40px; border: 3px solid #e2e8f0; 
@@ -381,7 +346,7 @@
         .empty-state i { font-size: 3.5rem; opacity: 0.2; margin-bottom: 12px; }
         .empty-state h3 { margin-bottom: 6px; }
 
-        /* Toast Notification */
+        /* Toast */
         .toast {
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: #1e293b; color: white; padding: 12px 24px; border-radius: 10px;
@@ -450,10 +415,7 @@
         </div>
         
         <div class="chapter-grid" id="chapterGrid">
-            <!-- Skeleton Loading -->
-            <div class="chapter-card skeleton skeleton-card"></div>
-            <div class="chapter-card skeleton skeleton-card"></div>
-            <div class="chapter-card skeleton skeleton-card"></div>
+            <div class="spinner"></div>
         </div>
     </div>
 
@@ -562,22 +524,27 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ============ Load Chapters ============
+        // ============ Load Chapters - FIXED ============
         function loadChapters() {
             const grid = document.getElementById('chapterGrid');
+            grid.innerHTML = '<div class="spinner"></div>';
             
-            db.ref('chapters').on('value', (snapshot) => {
+            // Get chapters from Firebase
+            db.ref('chapters').once('value').then((snapshot) => {
                 allChapters = []; 
                 totalNotesCount = 0; 
                 totalLecturesCount = 0;
                 totalCBTCount = 0;
                 
                 if (snapshot.exists()) {
-                    const promises = [];
+                    const chaptersData = snapshot.val();
+                    const chapterKeys = Object.keys(chaptersData);
                     
-                    snapshot.forEach((child) => {
-                        const chapterData = child.val();
-                        const chapterId = child.key;
+                    console.log('✅ Chapters found:', chapterKeys.length);
+                    
+                    // Create array of promises to load all sub-data
+                    const allPromises = chapterKeys.map((chapterId) => {
+                        const chapterData = chaptersData[chapterId];
                         
                         const obj = { 
                             id: chapterId, 
@@ -588,50 +555,63 @@
                             isBookmarked: bookmarkedChapters.includes(chapterId)
                         };
                         
+                        // Load lectures
                         const lecturePromise = db.ref(`chapters/${chapterId}/lectures`).once('value')
                             .then(ls => {
                                 if (ls.exists()) {
                                     obj.lecturesCount = ls.numChildren();
                                     totalLecturesCount += obj.lecturesCount;
+                                    console.log(`📹 ${chapterId}: ${obj.lecturesCount} lectures`);
                                 }
-                            }).catch(() => {});
+                            });
                             
+                        // Load notes
                         const notesPromise = db.ref(`chapters/${chapterId}/notes`).once('value')
                             .then(ns => {
                                 if (ns.exists()) {
                                     obj.notesCount = ns.numChildren();
                                     totalNotesCount += obj.notesCount;
+                                    console.log(`📄 ${chapterId}: ${obj.notesCount} notes`);
                                 }
-                            }).catch(() => {});
+                            });
                         
+                        // Load CBT
                         const cbtPromise = db.ref(`chapters/${chapterId}/cbt`).once('value')
                             .then(cs => {
                                 if (cs.exists()) {
                                     const cbtData = cs.val();
-                                    if (cbtData.cbtUrl && cbtData.cbtUrl.trim() !== '') {
+                                    if (cbtData && cbtData.cbtUrl && cbtData.cbtUrl.trim() !== '') {
                                         obj.hasCBT = true;
                                         totalCBTCount++;
+                                        console.log(`📝 ${chapterId}: CBT available`);
                                     }
                                 }
-                            }).catch(() => {});
+                            });
                         
-                        promises.push(lecturePromise, notesPromise, cbtPromise);
                         allChapters.push(obj);
+                        return Promise.all([lecturePromise, notesPromise, cbtPromise]);
                     });
                     
-                    Promise.all(promises).then(() => {
+                    // Wait for all data to load
+                    Promise.all(allPromises).then(() => {
                         allChapters.sort((a,b) => (a.order||0)-(b.order||0));
-                        filterAndRender();
-                        updateStats();
-                    }).catch(() => {
+                        console.log('✅ All data loaded:', {
+                            chapters: allChapters.length,
+                            lectures: totalLecturesCount,
+                            notes: totalNotesCount,
+                            cbt: totalCBTCount
+                        });
                         filterAndRender();
                         updateStats();
                     });
+                    
                 } else {
+                    console.log('❌ No chapters found in database');
                     grid.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3><p>Please add chapters to your Firebase database.</p></div>';
                     updateStats();
                 }
-            }, () => {
+            }).catch((error) => {
+                console.error('❌ Error loading chapters:', error);
                 grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Data</h3><p>Unable to connect to database.</p></div>';
             });
         }
@@ -681,15 +661,10 @@
             }
             
             grid.innerHTML = chapters.map((ch,i) => {
-                const totalItems = (ch.lecturesCount || 0) + (ch.notesCount || 0);
-                const watchedCount = ch.lecturesCount ? (watchedVideos[ch.id]?.length || 0) : 0;
-                const progress = totalItems > 0 ? Math.round((watchedCount / Math.max(totalItems, 1)) * 100) : 0;
-                
                 return `
                 <div class="chapter-card" onclick="openChapter('${ch.id}')">
-                    <button class="bookmark-btn ${ch.isBookmarked ? 'active' : ''}" 
-                            onclick="event.stopPropagation(); toggleBookmark('${ch.id}')" 
-                            title="${ch.isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}">
+                    <button class="bookmark-btn" onclick="event.stopPropagation(); toggleBookmark('${ch.id}')" 
+                            style="position:absolute;top:12px;right:12px;z-index:2;background:none;border:none;cursor:pointer;font-size:1.1rem;color:${ch.isBookmarked ? '#f59e0b' : '#94a3b8'};">
                         <i class="fas fa-bookmark"></i>
                     </button>
                     <div class="chapter-number">Chapter ${ch.order||i+1}</div>
@@ -702,10 +677,6 @@
                             <i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT ✓' : 'No CBT'}
                         </span>
                     </div>
-                    ${totalItems > 0 ? `
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width:${progress}%"></div>
-                    </div>` : ''}
                 </div>`;
             }).join('');
         }
@@ -747,11 +718,11 @@
                 cbtTabBtn.innerHTML = '<i class="fas fa-question-circle"></i> CBT';
             }
             
-            // Reset all tabs
-            ['lectures', 'notes', 'cbt'].forEach(tab => {
-                const container = document.getElementById(`${tab === 'cbt' ? 'cbtContainer' : tab + 'List'}`);
-                if (container) container.innerHTML = '<div class="spinner"></div>';
-            });
+            // Reset all tabs with loading state
+            document.getElementById('lecturesList').innerHTML = '<div class="spinner"></div>';
+            document.getElementById('notesList').innerHTML = '<div class="spinner"></div>';
+            document.getElementById('cbtContainer').innerHTML = '<div class="spinner"></div>';
+            document.getElementById('imageGallery').innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
             
             // Reset swiper
             if(swiperInstance) {
@@ -759,7 +730,6 @@
                 swiperInstance = null;
             }
             document.getElementById('imageSwiper').style.display = 'none';
-            document.getElementById('imageGallery').innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
             
             // Load content
             loadLectures(id);
@@ -802,12 +772,14 @@
             if(tab) tab.classList.add('active');
         }
 
-        // ============ LECTURES ============
+        // ============ LECTURES - FIXED ============
         function loadLectures(chapterId) {
             const container = document.getElementById('lecturesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/lectures`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/lectures`).once('value').then((snap) => {
+                console.log(`📹 Loading lectures for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
+                
                 if(snap.exists()){
                     const lectures = [];
                     snap.forEach(c => lectures.push({id: c.key, ...c.val()}));
@@ -818,19 +790,13 @@
                         return;
                     }
                     
-                    const chapterWatched = watchedVideos[chapterId] || [];
-                    
                     container.innerHTML = lectures.map((l, i) => {
                         const videoId = extractYouTubeID(l.youtubeUrl);
                         const thumb = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
-                        const isWatched = chapterWatched.includes(l.id);
                         
                         return `
-                        <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title || 'Lecture ' + (i+1)).replace(/'/g, "\\'")}', '${l.id}')">
-                            ${thumb ? `<div style="position:relative;flex-shrink:0;">
-                                ${isWatched ? '<span class="watched-badge">✓ Watched</span>' : ''}
-                                <img class="lecture-thumb" src="${thumb}" alt="Thumbnail" onerror="this.style.display='none'">
-                            </div>` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;"><i class="fas fa-play"></i></div>'}
+                        <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title || 'Lecture ' + (i+1)).replace(/'/g, "\\'")}')">
+                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" alt="Thumbnail" onerror="this.style.display='none'">` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;"><i class="fas fa-play"></i></div>'}
                             <div class="list-info">
                                 <strong>${escapeHTML(l.title || 'Lecture ' + (i+1))}</strong>
                                 <small>${escapeHTML(l.description || 'Click to watch')}</small>
@@ -841,7 +807,8 @@
                 } else {
                     container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3><p>Add lectures to this chapter.</p></div>';
                 }
-            }, () => {
+            }).catch((error) => {
+                console.error('❌ Error loading lectures:', error);
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
             });
         }
@@ -859,17 +826,8 @@
             return null;
         }
 
-        function playLecture(videoId, title, lectureId) {
+        function playLecture(videoId, title) {
             if(!videoId) { alert('Invalid YouTube URL'); return; }
-            
-            // Mark as watched
-            if(currentChapterId && lectureId) {
-                if(!watchedVideos[currentChapterId]) watchedVideos[currentChapterId] = [];
-                if(!watchedVideos[currentChapterId].includes(lectureId)) {
-                    watchedVideos[currentChapterId].push(lectureId);
-                    localStorage.setItem('syf_watched', JSON.stringify(watchedVideos));
-                }
-            }
             
             const container = document.getElementById('lecturesList');
             _lecturesBackup = container.innerHTML;
@@ -895,12 +853,14 @@
             if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
         }
 
-        // ============ NOTES ============
+        // ============ NOTES - FIXED ============
         function loadNotes(chapterId) {
             const container = document.getElementById('notesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/notes`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/notes`).once('value').then((snap) => {
+                console.log(`📄 Loading notes for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
+                
                 if(snap.exists()){
                     const notes = [];
                     snap.forEach(c => notes.push({id: c.key, ...c.val()}));
@@ -923,7 +883,8 @@
                 } else {
                     container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>';
                 }
-            }, () => {
+            }).catch((error) => {
+                console.error('❌ Error loading notes:', error);
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
             });
         }
@@ -957,15 +918,17 @@
             if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
         }
 
-        // ============ CBT ============
+        // ============ CBT - FIXED ============
         function loadCBT(chapterId) {
             const container = document.getElementById('cbtContainer');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/cbt`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/cbt`).once('value').then((snap) => {
+                console.log(`📝 Loading CBT for ${chapterId}:`, snap.exists() ? 'found' : 'none');
+                
                 if(snap.exists()){
                     const cbt = snap.val();
-                    if(cbt.cbtUrl && cbt.cbtUrl.trim() !== ''){
+                    if(cbt && cbt.cbtUrl && cbt.cbtUrl.trim() !== ''){
                         container.innerHTML = `
                             <div class="cbt-box">
                                 <i class="fas fa-brain" style="font-size:4rem;color:var(--primary);margin-bottom:16px;"></i>
@@ -983,12 +946,13 @@
                 } else {
                     container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3><p>CBT exams will be added soon!</p></div>';
                 }
-            }, () => {
+            }).catch((error) => {
+                console.error('❌ Error loading CBT:', error);
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
             });
         }
 
-        // ============ IMAGES with Swiper ============
+        // ============ IMAGES with Swiper - FIXED ============
         function loadImages(chapterId) {
             const galleryContainer = document.getElementById('imageGallery');
             const swiperContainer = document.getElementById('imageSwiper');
@@ -997,7 +961,9 @@
             galleryContainer.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
             swiperContainer.style.display = 'none';
             
-            db.ref(`chapters/${chapterId}/images`).on('value', (snap) => {
+            db.ref(`chapters/${chapterId}/images`).once('value').then((snap) => {
+                console.log(`🖼️ Loading images for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
+                
                 if(snap.exists()){
                     const imgs = [];
                     snap.forEach(c => imgs.push({id: c.key, ...c.val()}));
@@ -1031,7 +997,6 @@
                         },
                         keyboard: { enabled: true },
                         grabCursor: true,
-                        zoom: { maxRatio: 3 },
                     });
                     
                     swiperContainer.style.display = 'block';
@@ -1046,7 +1011,8 @@
                 } else {
                     galleryContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
                 }
-            }, () => {
+            }).catch((error) => {
+                console.error('❌ Error loading images:', error);
                 galleryContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
             });
         }
@@ -1076,7 +1042,7 @@
             document.getElementById('lightboxImg').classList.toggle('zoomed');
         }
 
-        // ============ Keyboard Navigation ============
+        // Keyboard navigation for lightbox
         document.addEventListener('keydown', e => {
             if(document.getElementById('lightbox').classList.contains('active')) {
                 if(e.key === 'ArrowLeft') navigateLightbox(-1);
@@ -1086,7 +1052,7 @@
             }
         });
 
-        // ============ Touch Swipe for Lightbox ============
+        // Touch swipe for lightbox
         let touchStartX = 0;
         document.getElementById('lightbox').addEventListener('touchstart', e => {
             touchStartX = e.touches[0].clientX;
@@ -1117,13 +1083,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             applyDarkMode();
             loadChapters();
+            console.log('🚀 SYF Platform Initialized');
+            console.log('📊 Check browser console (F12) for data loading logs');
         });
-
-        // ============ Service Worker for PWA ============
-        if('serviceWorker' in navigator) {
-            // Uncomment to enable PWA
-            // navigator.serviceWorker.register('/sw.js');
-        }
     </script>
 </body>
 </html>
