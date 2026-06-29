@@ -3,385 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYF - SSC Bank Railway Math | Advanced Learning Platform</title>
+    <title>SYF - SSC Bank Railway Math | Learning Platform</title>
     <meta name="description" content="SYF Mathematics - SSC, Bank, Railway exam preparation">
-    <meta name="theme-color" content="#2563eb">
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
     <style>
         :root {
             --primary: #2563eb; --primary-dark: #1d4ed8; --accent: #f97316;
             --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; --text-light: #64748b;
             --border: #e2e8f0; --shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-            --radius: 12px; --radius-lg: 16px; --radius-xl: 20px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --radius: 12px; --radius-lg: 16px; --transition: all 0.25s ease;
         }
-
-        [data-theme="dark"] {
-            --bg: #0f172a; --card-bg: #1e293b; --text: #f1f5f9;
-            --text-light: #94a3b8; --border: #334155; --shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
-        }
-
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { 
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
-            background: var(--bg); color: var(--text); min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        /* Floating Actions */
-        .floating-actions {
-            position: fixed; bottom: 24px; right: 24px; z-index: 1500;
-            display: flex; flex-direction: column; gap: 12px;
-        }
-        .fab {
-            width: 52px; height: 52px; border-radius: 50%; border: none;
-            background: var(--primary); color: white; cursor: pointer;
-            box-shadow: var(--shadow-lg); transition: var(--transition);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; position: relative;
-        }
-        .fab:hover { transform: scale(1.1); background: var(--primary-dark); }
-        .fab.dark-mode { background: #334155; }
-        .fab.back-to-top { background: var(--accent); }
-        .fab .tooltip {
-            position: absolute; right: 60px; background: #1e293b; color: white;
-            padding: 6px 12px; border-radius: 6px; font-size: 0.75rem;
-            white-space: nowrap; opacity: 0; pointer-events: none;
-            transition: opacity 0.2s;
-        }
-        .fab:hover .tooltip { opacity: 1; }
-
-        /* Header */
-        .header { 
-            background: linear-gradient(135deg, #0f172a, #1e293b, #1e3a5f); 
-            color: white; padding: 12px 0; position: sticky; top: 0; z-index: 1000; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .header-inner { 
-            max-width: 1300px; margin: 0 auto; padding: 0 24px; 
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; 
-        }
+        .header { background: linear-gradient(135deg, #0f172a, #1e293b, #1e3a5f); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .header-inner { max-width: 1300px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
         .logo-section { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { 
-            width: 44px; height: 44px; background: var(--accent); border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(249,115,22,0.4); }
-        }
-        .logo-text h1 { font-size: 1.3rem; font-weight: 800; } 
-        .logo-text span { font-size: 0.65rem; color: #fb923c; letter-spacing: 1.5px; }
-        
-        .header-stats { display: flex; gap: 10px; flex-wrap: wrap; }
-        .stat-badge { 
-            background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 10px; 
-            display: flex; align-items: center; gap: 6px; font-size: 0.78rem;
-            backdrop-filter: blur(10px); transition: var(--transition);
-        }
-        .stat-badge:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        .logo-icon { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; }
+        .logo-text h1 { font-size: 1.4rem; font-weight: 800; } .logo-text span { font-size: 0.7rem; color: #fb923c; letter-spacing: 1.5px; }
+        .header-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+        .stat-badge { background: rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 10px; display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
         .stat-badge i { color: #fb923c; }
 
-        /* Container */
-        .container { max-width: 1300px; margin: 0 auto; padding: 24px; }
-
-        /* Search with Filters */
-        .search-section { margin-bottom: 24px; }
-        .search-wrapper { 
-            position: relative; max-width: 500px; margin-bottom: 12px; 
-        }
-        .search-wrapper input { 
-            width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--border); 
-            border-radius: 50px; font-size: 0.95rem; outline: none; background: var(--card-bg);
-            color: var(--text); transition: var(--transition);
-        }
-        .search-wrapper input:focus { 
-            border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); 
-        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+        .search-wrapper { position: relative; max-width: 480px; margin-bottom: 28px; }
+        .search-wrapper input { width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--border); border-radius: 50px; font-size: 0.95rem; outline: none; background: var(--card-bg); }
+        .search-wrapper input:focus { border-color: var(--primary); }
         .search-wrapper i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
         
-        .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-        .filter-chip { 
-            padding: 6px 14px; border-radius: 20px; border: 2px solid var(--border);
-            background: var(--card-bg); cursor: pointer; font-size: 0.78rem; font-weight: 600;
-            color: var(--text-light); transition: var(--transition);
-        }
-        .filter-chip.active, .filter-chip:hover { 
-            background: var(--primary); color: white; border-color: var(--primary); 
-        }
-
-        /* Section Title */
-        .section-title { 
-            font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; 
-            display: flex; align-items: center; gap: 10px;
-        }
-        .section-title .count { 
-            font-size: 0.85rem; background: var(--primary); color: white; 
-            padding: 4px 12px; border-radius: 20px; 
-        }
-
-        /* Chapter Grid */
-        .chapter-grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 18px; margin-bottom: 40px; 
-        }
-        .chapter-card { 
-            background: var(--card-bg); border-radius: var(--radius-lg); padding: 22px; 
-            box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); 
-            border-left: 4px solid var(--primary); transition: var(--transition);
-            position: relative; overflow: hidden;
-        }
-        .chapter-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            opacity: 0; transition: opacity 0.3s; z-index: 0;
-        }
-        .chapter-card:hover::before { opacity: 0.03; }
-        .chapter-card:hover { 
-            transform: translateY(-4px); box-shadow: var(--shadow-lg); 
-        }
-        .chapter-card > * { position: relative; z-index: 1; }
-        .chapter-number { 
-            font-size: 0.7rem; color: var(--primary); font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; 
-        }
-        .chapter-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-        .chapter-desc { font-size: 0.82rem; color: var(--text-light); margin-bottom: 14px; line-height: 1.4; }
-        .chapter-meta { display: flex; gap: 6px; flex-wrap: wrap; }
-        .meta-item { 
-            font-size: 0.72rem; background: #f8fafc; padding: 4px 10px; border-radius: 20px; 
-            display: flex; align-items: center; gap: 4px; border: 1px solid var(--border);
-        }
-        [data-theme="dark"] .meta-item { background: #334155; }
-        .meta-item.cbt-available { background: #dcfce7; color: #16a34a; font-weight: 600; border-color: #86efac; }
-        [data-theme="dark"] .meta-item.cbt-available { background: #14532d; color: #86efac; }
+        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; margin-bottom: 40px; }
+        .chapter-card { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); border-left: 4px solid var(--primary); transition: var(--transition); }
+        .chapter-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.12); }
+        .chapter-number { font-size: 0.73rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .chapter-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+        .chapter-desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 14px; }
+        .chapter-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+        .meta-item { font-size: 0.75rem; background: #f8fafc; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+        .meta-item.cbt-available { background: #dcfce7; color: #16a34a; font-weight: 600; }
         .meta-item.cbt-na { background: #fef3c7; color: #d97706; }
-        [data-theme="dark"] .meta-item.cbt-na { background: #451a03; color: #fbbf24; }
 
-        /* Modal */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.75); z-index: 2000; display: none; 
-            align-items: center; justify-content: center; backdrop-filter: blur(4px); 
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-overlay.active { display: flex; }
-        .modal { 
-            background: var(--card-bg); border-radius: var(--radius-xl); 
-            width: 95%; max-width: 1100px; max-height: 90vh; display: flex; 
-            flex-direction: column; overflow: hidden; animation: modalIn 0.3s ease;
-        }
-        @keyframes modalIn { 
-            from { opacity:0; transform: scale(0.93) translateY(20px); } 
-            to { opacity:1; transform: scale(1) translateY(0); } 
-        }
-        .modal-header { 
-            padding: 16px 24px; border-bottom: 1px solid var(--border); 
-            display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; 
-        }
-        .modal-header h3 { display: flex; align-items: center; gap: 8px; }
-        .modal-close { 
-            width: 36px; height: 36px; border-radius: 50%; border: none; 
-            background: #f1f5f9; cursor: pointer; font-size: 1.1rem; transition: var(--transition); 
-        }
+        .modal { background: var(--card-bg); border-radius: var(--radius-lg); width: 95%; max-width: 1000px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity:0; transform: scale(0.93); } to { opacity:1; transform: scale(1); } }
+        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #f1f5f9; cursor: pointer; font-size: 1.1rem; transition: var(--transition); }
         .modal-close:hover { background: #ef4444; color: white; }
         .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
 
-        /* Tabs */
-        .tab-buttons { 
-            display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap;
-            background: var(--bg); padding: 4px; border-radius: 25px; 
-        }
-        .tab-btn { 
-            padding: 9px 16px; border: none; background: transparent; 
-            border-radius: 22px; cursor: pointer; font-weight: 600; font-size: 0.78rem; 
-            transition: var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 5px;
-            color: var(--text-light);
-        }
-        .tab-btn.active { 
-            background: white; color: var(--primary); box-shadow: var(--shadow); 
-        }
-        [data-theme="dark"] .tab-btn.active { background: #334155; color: white; }
-        .tab-btn .cbt-badge { 
-            background: #16a34a; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; 
-        }
-        .tab-content { display: none; } 
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-buttons { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+        .tab-btn { padding: 9px 16px; border: 2px solid var(--border); background: white; border-radius: 22px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-btn .cbt-badge { background: #16a34a; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
+        .tab-content { display: none; } .tab-content.active { display: block; }
 
-        /* Lists */
         .list-container { display: flex; flex-direction: column; gap: 8px; }
-        .list-item { 
-            display: flex; align-items: center; gap: 14px; padding: 14px 16px; 
-            background: #f8fafc; border-radius: 10px; cursor: pointer; 
-            border: 1px solid var(--border); transition: var(--transition); 
-        }
-        [data-theme="dark"] .list-item { background: #1e293b; }
-        .list-item:hover { 
-            background: #eff6ff; border-color: var(--primary); transform: translateX(4px); 
-        }
-        [data-theme="dark"] .list-item:hover { background: #1e3a5f; }
-        .list-icon { 
-            width: 40px; height: 40px; border-radius: 8px; display: flex; 
-            align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; 
-        }
-        .list-icon.pdf { background: #ef4444; } 
-        .list-icon.video { background: #ff0000; }
-        .list-info { flex: 1; } 
-        .list-info strong { display: block; font-size: 0.9rem; } 
-        .list-info small { font-size: 0.78rem; color: var(--text-light); }
+        .list-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #f8fafc; border-radius: 10px; cursor: pointer; border: 1px solid var(--border); transition: var(--transition); }
+        .list-item:hover { background: #eff6ff; border-color: var(--primary); }
+        .list-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; }
+        .list-icon.pdf { background: #ef4444; } .list-icon.video { background: #ff0000; }
+        .list-info { flex: 1; } .list-info strong { display: block; font-size: 0.9rem; } .list-info small { font-size: 0.78rem; color: var(--text-light); }
         .list-arrow { color: var(--primary); }
-        .lecture-thumb { 
-            width: 120px; height: 68px; border-radius: 8px; object-fit: cover; 
-            flex-shrink: 0; background: #1e293b; 
-        }
 
-        /* Video & PDF */
-        .video-wrapper { 
-            position: relative; width: 100%; padding-bottom: 56.25%; 
-            border-radius: 10px; overflow: hidden; background: #000; 
-        }
-        .video-wrapper iframe { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; 
-        }
-        .pdf-wrapper { 
-            width: 100%; height: 65vh; border-radius: 10px; overflow: hidden; 
-            background: #fff; border: 1px solid var(--border); 
-        }
+        .lecture-thumb { width: 120px; height: 68px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #1e293b; }
+        
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 10px; overflow: hidden; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .pdf-wrapper { width: 100%; height: 65vh; border-radius: 10px; overflow: hidden; background: #fff; border: 1px solid var(--border); }
         .pdf-wrapper iframe { width: 100%; height: 100%; border: none; }
-
-        /* CBT */
+        
         .cbt-box { text-align: center; padding: 40px; }
-        .cbt-btn { 
-            padding: 16px 36px; background: var(--gradient); color: white; 
-            border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; 
-            cursor: pointer; transition: var(--transition); display: inline-flex; 
-            align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(37,99,235,0.3);
-        }
-        .cbt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(37,99,235,0.5); }
-
-        /* Image Swiper */
-        .swiper-container {
-            width: 100%; border-radius: var(--radius-lg); overflow: hidden;
-            background: #1e293b; margin-bottom: 16px;
-        }
-        .swiper-slide {
-            display: flex; align-items: center; justify-content: center;
-            background: #1e293b; cursor: pointer;
-        }
-        .swiper-slide img {
-            width: 100%; height: 400px; object-fit: contain;
-        }
-        .swiper-button-next, .swiper-button-prev { color: white !important; }
-        .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
-        .swiper-pagination-bullet-active { opacity: 1; }
-
-        /* Gallery Grid */
-        .image-gallery { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; 
-        }
-        .gallery-item { 
-            border-radius: 10px; overflow: hidden; cursor: pointer; aspect-ratio: 1; 
-            border: 2px solid transparent; transition: var(--transition); position: relative;
-        }
-        .gallery-item:hover { border-color: var(--primary); transform: scale(1.03); }
+        .cbt-box h3 { margin-bottom: 8px; }
+        .cbt-btn { padding: 16px 36px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .cbt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.4); }
+        
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+        .gallery-item { border-radius: 10px; overflow: hidden; cursor: pointer; aspect-ratio: 1; border: 2px solid transparent; transition: var(--transition); }
+        .gallery-item:hover { border-color: var(--primary); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Lightbox */
-        .lightbox { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 3000; display: none; 
-            align-items: center; justify-content: center; 
-        }
-        .lightbox.active { display: flex; }
-        .lightbox img { 
-            max-width: 90%; max-height: 90%; border-radius: 10px; 
-            transition: transform 0.3s; cursor: zoom-in;
-        }
-        .lightbox img.zoomed { transform: scale(2); cursor: zoom-out; }
-        .lightbox-close { 
-            position: absolute; top: 20px; right: 30px; color: white; 
-            font-size: 2rem; cursor: pointer; z-index: 10;
-        }
-        .lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.2); color: white; border: none;
-            width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem; transition: var(--transition);
-        }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.4); }
-        .lightbox-nav.prev { left: 20px; }
-        .lightbox-nav.next { right: 20px; }
-
-        /* Back Button */
-        .back-btn { 
-            display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; 
-            background: var(--primary); color: white; border: none; border-radius: 20px; 
-            cursor: pointer; margin-bottom: 12px; font-weight: 600; font-size: 0.8rem;
-            transition: var(--transition);
-        }
-        .back-btn:hover { background: var(--primary-dark); transform: translateX(-4px); }
-
-        /* Spinner */
-        .spinner { 
-            width: 40px; height: 40px; border: 3px solid #e2e8f0; 
-            border-top-color: var(--primary); border-radius: 50%; 
-            animation: spin 0.7s linear infinite; margin: 30px auto; 
-        }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 20px; cursor: pointer; margin-bottom: 12px; font-weight: 600; font-size: 0.82rem; }
+        .back-btn:hover { background: var(--primary-dark); }
+        
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; } .lightbox img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer; }
+        
+        .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 30px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Empty State */
-        .empty-state { 
-            text-align: center; padding: 40px; color: var(--text-light); 
-        }
-        .empty-state i { font-size: 3.5rem; opacity: 0.2; margin-bottom: 12px; }
-        .empty-state h3 { margin-bottom: 6px; }
-
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: #1e293b; color: white; padding: 12px 24px; border-radius: 10px;
-            z-index: 5000; font-size: 0.85rem; box-shadow: var(--shadow-lg);
-            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
-        }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(-50%) translateY(20px); } }
-
-        /* Responsive */
+        .empty-state { text-align: center; padding: 40px; color: var(--text-light); }
+        .empty-state i { font-size: 3rem; opacity: 0.25; margin-bottom: 12px; }
+        
         @media (max-width:768px) { 
             .chapter-grid { grid-template-columns: 1fr; } 
-            .modal { width: 98%; max-height: 95vh; border-radius: var(--radius-lg); } 
+            .modal { width: 98%; max-height: 93vh; } 
             .lecture-thumb { width: 90px; height: 50px; } 
             .header-stats { width: 100%; justify-content: center; }
-            .swiper-slide img { height: 250px; }
-            .floating-actions { bottom: 16px; right: 16px; }
-            .fab { width: 44px; height: 44px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Toast Container -->
-    <div id="toastContainer"></div>
-
-    <!-- Header -->
     <header class="header">
         <div class="header-inner">
             <div class="logo-section">
                 <div class="logo-icon">SYF</div>
-                <div class="logo-text">
-                    <h1>SYF Mathematics</h1>
-                    <span>SSC • BANK • RAILWAY</span>
-                </div>
+                <div class="logo-text"><h1>SYF Mathematics</h1><span>SSC • BANK • RAILWAY</span></div>
             </div>
             <div class="header-stats">
                 <div class="stat-badge"><i class="fas fa-book-open"></i><span id="totalChapters">0</span> Ch</div>
@@ -392,40 +125,18 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
-        <div class="search-section">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Search chapters, topics..." oninput="filterChapters()">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="filter-chips">
-                <button class="filter-chip active" onclick="setFilter('all', this)">All</button>
-                <button class="filter-chip" onclick="setFilter('cbt', this)"><i class="fas fa-question-circle"></i> CBT Available</button>
-                <button class="filter-chip" onclick="setFilter('lectures', this)"><i class="fas fa-play-circle"></i> Has Lectures</button>
-                <button class="filter-chip" onclick="setFilter('notes', this)"><i class="fas fa-file-pdf"></i> Has Notes</button>
-                <button class="filter-chip" onclick="setFilter('bookmarked', this)"><i class="fas fa-bookmark"></i> Bookmarked</button>
-            </div>
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Search chapters..." oninput="filterChapters()">
+            <i class="fas fa-search"></i>
         </div>
-        
-        <div class="section-title">
-            <i class="fas fa-list-ol" style="color:var(--accent);"></i> 
-            All Chapters 
-            <span class="count" id="visibleCount">0</span>
-        </div>
-        
-        <div class="chapter-grid" id="chapterGrid">
-            <div class="spinner"></div>
-        </div>
+        <div class="section-title"><i class="fas fa-list-ol" style="color:var(--accent);"></i> All Chapters</div>
+        <div class="chapter-grid" id="chapterGrid"><div class="spinner"></div></div>
     </div>
 
-    <!-- Modal -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
-            <div class="modal-header">
-                <h3 id="modalTitle">Chapter Details</h3>
-                <button class="modal-close" onclick="closeModal()">✕</button>
-            </div>
+            <div class="modal-header"><h3 id="modalTitle">Chapter Details</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
             <div class="modal-body">
                 <div class="tab-buttons">
                     <button class="tab-btn active" onclick="switchTab('lectures',event)"><i class="fas fa-play-circle"></i> Lectures</button>
@@ -436,41 +147,14 @@
                 <div class="tab-content active" id="tab-lectures"><div id="lecturesList"><div class="spinner"></div></div></div>
                 <div class="tab-content" id="tab-notes"><div id="notesList"><div class="spinner"></div></div></div>
                 <div class="tab-content" id="tab-cbt"><div id="cbtContainer"><div class="spinner"></div></div></div>
-                <div class="tab-content" id="tab-images">
-                    <div class="swiper-container" id="imageSwiper" style="display:none;">
-                        <div class="swiper-wrapper" id="swiperWrapper"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                    <div class="image-gallery" id="imageGallery"></div>
-                </div>
+                <div class="tab-content" id="tab-images"><div class="image-gallery" id="imageGallery"></div></div>
             </div>
         </div>
     </div>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-close">&times;</span>
-        <button class="lightbox-nav prev" onclick="event.stopPropagation(); navigateLightbox(-1)"><i class="fas fa-chevron-left"></i></button>
-        <button class="lightbox-nav next" onclick="event.stopPropagation(); navigateLightbox(1)"><i class="fas fa-chevron-right"></i></button>
-        <img src="" id="lightboxImg" onclick="event.stopPropagation(); toggleZoom()">
-    </div>
-
-    <!-- Floating Actions -->
-    <div class="floating-actions">
-        <button class="fab dark-mode" onclick="toggleDarkMode()" title="Toggle Dark Mode">
-            <i class="fas fa-moon"></i>
-            <span class="tooltip">Dark Mode</span>
-        </button>
-        <button class="fab back-to-top" onclick="scrollToTop()" title="Back to Top">
-            <i class="fas fa-arrow-up"></i>
-            <span class="tooltip">Back to Top</span>
-        </button>
-    </div>
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img src="" id="lightboxImg"></div>
 
     <script>
-        // ============ Firebase Init ============
         const firebaseConfig = {
             apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
             authDomain: "starlet-registor.firebaseapp.com",
@@ -484,223 +168,116 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ============ State ============
         let allChapters = [], currentChapterId = null;
         let totalNotesCount = 0, totalLecturesCount = 0, totalCBTCount = 0;
         let _lecturesBackup = null, _notesBackup = null;
-        let currentFilter = 'all';
-        let swiperInstance = null;
-        let lightboxImages = [], lightboxIndex = 0;
-        let watchedVideos = JSON.parse(localStorage.getItem('syf_watched') || '{}');
-        let bookmarkedChapters = JSON.parse(localStorage.getItem('syf_bookmarks') || '[]');
-        let isDarkMode = localStorage.getItem('syf_darkmode') === 'true';
 
-        // ============ Dark Mode ============
-        function applyDarkMode() {
-            document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : '');
-            const icon = document.querySelector('.fab.dark-mode i');
-            if(icon) icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
-        }
-        
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            localStorage.setItem('syf_darkmode', isDarkMode);
-            applyDarkMode();
-            showToast(isDarkMode ? '🌙 Dark mode on' : '☀️ Light mode on');
-        }
-
-        // ============ Toast ============
-        function showToast(message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        // ============ Scroll to Top ============
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============ Load Chapters - FIXED ============
         function loadChapters() {
             const grid = document.getElementById('chapterGrid');
             grid.innerHTML = '<div class="spinner"></div>';
             
-            // Get chapters from Firebase
-            db.ref('chapters').once('value').then((snapshot) => {
+            db.ref('chapters').on('value', (snapshot) => {
                 allChapters = []; 
                 totalNotesCount = 0; 
                 totalLecturesCount = 0;
                 totalCBTCount = 0;
                 
                 if (snapshot.exists()) {
-                    const chaptersData = snapshot.val();
-                    const chapterKeys = Object.keys(chaptersData);
+                    const promises = [];
                     
-                    console.log('✅ Chapters found:', chapterKeys.length);
-                    
-                    // Create array of promises to load all sub-data
-                    const allPromises = chapterKeys.map((chapterId) => {
-                        const chapterData = chaptersData[chapterId];
+                    snapshot.forEach((child) => {
+                        const chapterData = child.val();
+                        const chapterId = child.key;
                         
                         const obj = { 
                             id: chapterId, 
                             ...chapterData,
                             notesCount: 0,
                             lecturesCount: 0,
-                            hasCBT: false,
-                            isBookmarked: bookmarkedChapters.includes(chapterId)
+                            hasCBT: false
                         };
                         
-                        // Load lectures
+                        // Load lectures count
                         const lecturePromise = db.ref(`chapters/${chapterId}/lectures`).once('value')
                             .then(ls => {
                                 if (ls.exists()) {
                                     obj.lecturesCount = ls.numChildren();
                                     totalLecturesCount += obj.lecturesCount;
-                                    console.log(`📹 ${chapterId}: ${obj.lecturesCount} lectures`);
                                 }
-                            });
-                            
-                        // Load notes
+                            }).catch(() => {});
+                        
+                        // Load notes count
                         const notesPromise = db.ref(`chapters/${chapterId}/notes`).once('value')
                             .then(ns => {
                                 if (ns.exists()) {
                                     obj.notesCount = ns.numChildren();
                                     totalNotesCount += obj.notesCount;
-                                    console.log(`📄 ${chapterId}: ${obj.notesCount} notes`);
                                 }
-                            });
+                            }).catch(() => {});
                         
-                        // Load CBT
+                        // Load CBT status - check if CBT exists and has valid URL
                         const cbtPromise = db.ref(`chapters/${chapterId}/cbt`).once('value')
                             .then(cs => {
                                 if (cs.exists()) {
                                     const cbtData = cs.val();
-                                    if (cbtData && cbtData.cbtUrl && cbtData.cbtUrl.trim() !== '') {
+                                    // CBT is available only if it has a valid URL
+                                    if (cbtData.cbtUrl && cbtData.cbtUrl.trim() !== '') {
                                         obj.hasCBT = true;
                                         totalCBTCount++;
-                                        console.log(`📝 ${chapterId}: CBT available`);
                                     }
                                 }
-                            });
+                            }).catch(() => {});
                         
+                        promises.push(lecturePromise, notesPromise, cbtPromise);
                         allChapters.push(obj);
-                        return Promise.all([lecturePromise, notesPromise, cbtPromise]);
                     });
                     
-                    // Wait for all data to load
-                    Promise.all(allPromises).then(() => {
+                    Promise.all(promises).then(() => {
                         allChapters.sort((a,b) => (a.order||0)-(b.order||0));
-                        console.log('✅ All data loaded:', {
-                            chapters: allChapters.length,
-                            lectures: totalLecturesCount,
-                            notes: totalNotesCount,
-                            cbt: totalCBTCount
-                        });
-                        filterAndRender();
+                        renderChapters(allChapters);
+                        updateStats();
+                    }).catch(() => {
+                        renderChapters(allChapters);
                         updateStats();
                     });
-                    
                 } else {
-                    console.log('❌ No chapters found in database');
                     grid.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3><p>Please add chapters to your Firebase database.</p></div>';
                     updateStats();
                 }
-            }).catch((error) => {
-                console.error('❌ Error loading chapters:', error);
-                grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Data</h3><p>Unable to connect to database.</p></div>';
+            }, () => {
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Data</h3><p>Unable to connect to database. Please check your connection.</p></div>';
             });
         }
 
-        // ============ Filtering ============
-        function setFilter(filter, btn) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
-            filterAndRender();
-        }
-
-        function filterAndRender() {
-            let filtered = [...allChapters];
-            
-            // Apply search filter
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            if(q) {
-                filtered = filtered.filter(c => 
-                    (c.title||'').toLowerCase().includes(q) || 
-                    (c.description||'').toLowerCase().includes(q)
-                );
-            }
-            
-            // Apply chip filter
-            switch(currentFilter) {
-                case 'cbt': filtered = filtered.filter(c => c.hasCBT); break;
-                case 'lectures': filtered = filtered.filter(c => c.lecturesCount > 0); break;
-                case 'notes': filtered = filtered.filter(c => c.notesCount > 0); break;
-                case 'bookmarked': filtered = filtered.filter(c => c.isBookmarked); break;
-            }
-            
-            renderChapters(filtered);
-            document.getElementById('visibleCount').textContent = filtered.length;
-        }
-
-        function filterChapters() {
-            filterAndRender();
-        }
-
-        // ============ Render Chapters ============
         function renderChapters(chapters) {
             const grid = document.getElementById('chapterGrid');
             if (!chapters.length) {
-                grid.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h3>No Match</h3><p>Try different search or filter</p></div>';
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h3>No Match</h3></div>';
                 return;
             }
-            
-            grid.innerHTML = chapters.map((ch,i) => {
-                return `
+            grid.innerHTML = chapters.map((ch,i) => `
                 <div class="chapter-card" onclick="openChapter('${ch.id}')">
-                    <button class="bookmark-btn" onclick="event.stopPropagation(); toggleBookmark('${ch.id}')" 
-                            style="position:absolute;top:12px;right:12px;z-index:2;background:none;border:none;cursor:pointer;font-size:1.1rem;color:${ch.isBookmarked ? '#f59e0b' : '#94a3b8'};">
-                        <i class="fas fa-bookmark"></i>
-                    </button>
                     <div class="chapter-number">Chapter ${ch.order||i+1}</div>
                     <div class="chapter-title">${escapeHTML(ch.title||'Untitled')}</div>
                     <div class="chapter-desc">${escapeHTML(ch.description||'Explore lectures, notes & more')}</div>
                     <div class="chapter-meta">
-                        <span class="meta-item"><i class="fas fa-play-circle"></i>${ch.lecturesCount||0} Lec</span>
+                        <span class="meta-item"><i class="fas fa-play-circle"></i>${ch.lecturesCount||0} Lectures</span>
                         <span class="meta-item"><i class="fas fa-file-pdf"></i>${ch.notesCount||0} Notes</span>
                         <span class="meta-item ${ch.hasCBT ? 'cbt-available' : 'cbt-na'}">
-                            <i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT ✓' : 'No CBT'}
+                            <i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT Available ✓' : 'No CBT'}
                         </span>
                     </div>
-                </div>`;
-            }).join('');
+                </div>`).join('');
         }
 
-        // ============ Bookmark ============
-        function toggleBookmark(chapterId) {
-            const idx = bookmarkedChapters.indexOf(chapterId);
-            if(idx > -1) {
-                bookmarkedChapters.splice(idx, 1);
-                showToast('🔖 Bookmark removed');
-            } else {
-                bookmarkedChapters.push(chapterId);
-                showToast('🔖 Bookmarked!');
-            }
-            localStorage.setItem('syf_bookmarks', JSON.stringify(bookmarkedChapters));
-            
-            // Update chapter data
-            const ch = allChapters.find(c => c.id === chapterId);
-            if(ch) ch.isBookmarked = bookmarkedChapters.includes(chapterId);
-            
-            filterAndRender();
+        function filterChapters() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderChapters(allChapters.filter(c => 
+                (c.title||'').toLowerCase().includes(q) || 
+                (c.description||'').toLowerCase().includes(q)
+            ));
         }
 
-        // ============ Open Chapter ============
         function openChapter(id) {
             currentChapterId = id;
             const ch = allChapters.find(c => c.id === id);
@@ -710,7 +287,7 @@
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Update CBT tab badge
+            // Update CBT tab button with badge
             const cbtTabBtn = document.getElementById('cbtTabBtn');
             if (ch.hasCBT) {
                 cbtTabBtn.innerHTML = '<i class="fas fa-question-circle"></i> CBT <span class="cbt-badge">Available</span>';
@@ -718,26 +295,21 @@
                 cbtTabBtn.innerHTML = '<i class="fas fa-question-circle"></i> CBT';
             }
             
-            // Reset all tabs with loading state
-            document.getElementById('lecturesList').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('notesList').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('cbtContainer').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('imageGallery').innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
+            // Reset all tabs
+            ['lectures', 'notes', 'cbt', 'images'].forEach(tab => {
+                const container = document.getElementById(`${tab === 'cbt' ? 'cbtContainer' : tab + 'List'}`);
+                if (container) {
+                    container.innerHTML = '<div class="spinner"></div>';
+                }
+            });
             
-            // Reset swiper
-            if(swiperInstance) {
-                swiperInstance.destroy(true, true);
-                swiperInstance = null;
-            }
-            document.getElementById('imageSwiper').style.display = 'none';
-            
-            // Load content
+            // Load all content
             loadLectures(id);
             loadNotes(id);
             loadCBT(id);
             loadImages(id);
             
-            // Switch to first tab
+            // Always switch to lectures tab first when opening
             const firstTab = document.querySelector('.tab-btn');
             if(firstTab) switchTab('lectures', {target: firstTab});
         }
@@ -746,10 +318,6 @@
             document.getElementById('modalOverlay').classList.remove('active');
             document.body.style.overflow = '';
             currentChapterId = null;
-            if(swiperInstance) {
-                swiperInstance.destroy(true, true);
-                swiperInstance = null;
-            }
         }
 
         document.getElementById('modalOverlay').addEventListener('click', e => { 
@@ -757,7 +325,10 @@
         });
 
         document.addEventListener('keydown', e => { 
-            if(e.key === 'Escape') { closeModal(); closeLightbox(); } 
+            if(e.key === 'Escape') { 
+                closeModal(); 
+                closeLightbox(); 
+            } 
         });
 
         function switchTab(name, event) {
@@ -772,21 +343,22 @@
             if(tab) tab.classList.add('active');
         }
 
-        // ============ LECTURES - FIXED ============
+        // ============ LECTURES ============
         function loadLectures(chapterId) {
             const container = document.getElementById('lecturesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/lectures`).once('value').then((snap) => {
-                console.log(`📹 Loading lectures for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
-                
+            db.ref(`chapters/${chapterId}/lectures`).on('value', (snap) => {
                 if(snap.exists()){
                     const lectures = [];
-                    snap.forEach(c => lectures.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => {
+                        lectures.push({id: c.key, ...c.val()});
+                    });
+                    
                     lectures.sort((a, b) => (a.order || 0) - (b.order || 0));
                     
                     if(!lectures.length){
-                        container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures</h3><p>Add lectures to this chapter.</p></div>';
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures</h3><p>Add lectures to this chapter in Firebase.</p></div>';
                         return;
                     }
                     
@@ -796,7 +368,7 @@
                         
                         return `
                         <div class="list-item" onclick="playLecture('${videoId}', '${escapeHTML(l.title || 'Lecture ' + (i+1)).replace(/'/g, "\\'")}')">
-                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" alt="Thumbnail" onerror="this.style.display='none'">` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;"><i class="fas fa-play"></i></div>'}
+                            ${thumb ? `<img class="lecture-thumb" src="${thumb}" alt="Thumbnail" onerror="this.style.display='none'">` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;"><i class="fas fa-play"></i></div>'}
                             <div class="list-info">
                                 <strong>${escapeHTML(l.title || 'Lecture ' + (i+1))}</strong>
                                 <small>${escapeHTML(l.description || 'Click to watch')}</small>
@@ -805,11 +377,10 @@
                         </div>`;
                     }).join('');
                 } else {
-                    container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3><p>Add lectures to this chapter.</p></div>';
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3><p>Add lectures to this chapter in Firebase.</p></div>';
                 }
-            }).catch((error) => {
-                console.error('❌ Error loading lectures:', error);
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
+            }, () => {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Lectures</h3><p>Unable to load data. Please try again.</p></div>';
             });
         }
 
@@ -819,6 +390,7 @@
                 /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]{11})/,
                 /^([a-zA-Z0-9_-]{11})$/
             ];
+            
             for (const pattern of patterns) {
                 const match = url.match(pattern);
                 if (match) return match[1];
@@ -827,7 +399,10 @@
         }
 
         function playLecture(videoId, title) {
-            if(!videoId) { alert('Invalid YouTube URL'); return; }
+            if(!videoId) {
+                alert('Invalid YouTube URL');
+                return;
+            }
             
             const container = document.getElementById('lecturesList');
             _lecturesBackup = container.innerHTML;
@@ -836,7 +411,8 @@
                 <button class="back-btn" onclick="backToLectures()"><i class="fas fa-arrow-left"></i> Back to Lectures</button>
                 <div class="video-wrapper">
                     <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
-                            allow="autoplay; encrypted-media" allowfullscreen>
+                            allow="autoplay; encrypted-media" 
+                            allowfullscreen>
                     </iframe>
                 </div>
                 <h4 style="margin-top:10px;">▶ ${title}</h4>`;
@@ -853,21 +429,22 @@
             if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
         }
 
-        // ============ NOTES - FIXED ============
+        // ============ NOTES ============
         function loadNotes(chapterId) {
             const container = document.getElementById('notesList');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/notes`).once('value').then((snap) => {
-                console.log(`📄 Loading notes for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
-                
+            db.ref(`chapters/${chapterId}/notes`).on('value', (snap) => {
                 if(snap.exists()){
                     const notes = [];
-                    snap.forEach(c => notes.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => {
+                        notes.push({id: c.key, ...c.val()});
+                    });
+                    
                     notes.sort((a, b) => (a.order || 0) - (b.order || 0));
                     
                     if(!notes.length){
-                        container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes</h3></div>';
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes</h3><p>Add notes to this chapter in Firebase.</p></div>';
                         return;
                     }
                     
@@ -881,16 +458,18 @@
                             <div class="list-arrow"><i class="fas fa-eye fa-lg"></i></div>
                         </div>`).join('');
                 } else {
-                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>';
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3><p>Add notes to this chapter in Firebase.</p></div>';
                 }
-            }).catch((error) => {
-                console.error('❌ Error loading notes:', error);
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
+            }, () => {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Notes</h3><p>Unable to load data. Please try again.</p></div>';
             });
         }
 
         function openPdf(pdfUrl, title) {
-            if(!pdfUrl) { alert('PDF URL is missing'); return; }
+            if(!pdfUrl) {
+                alert('PDF URL is missing');
+                return;
+            }
             
             const container = document.getElementById('notesList');
             _notesBackup = container.innerHTML;
@@ -902,7 +481,7 @@
                 </div>
                 <p style="text-align:center;margin-top:12px;">
                     <a href="${pdfUrl}" target="_blank" style="color:var(--primary);text-decoration:none;">
-                        <i class="fas fa-external-link-alt"></i> Open in new tab
+                        <i class="fas fa-external-link-alt"></i> Open PDF in new tab
                     </a>
                 </p>`;
             
@@ -918,17 +497,16 @@
             if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
         }
 
-        // ============ CBT - FIXED ============
+        // ============ CBT ============
         function loadCBT(chapterId) {
             const container = document.getElementById('cbtContainer');
             container.innerHTML = '<div class="spinner"></div>';
             
-            db.ref(`chapters/${chapterId}/cbt`).once('value').then((snap) => {
-                console.log(`📝 Loading CBT for ${chapterId}:`, snap.exists() ? 'found' : 'none');
-                
+            db.ref(`chapters/${chapterId}/cbt`).on('value', (snap) => {
                 if(snap.exists()){
                     const cbt = snap.val();
-                    if(cbt && cbt.cbtUrl && cbt.cbtUrl.trim() !== ''){
+                    // Check if CBT URL exists and is not empty
+                    if(cbt.cbtUrl && cbt.cbtUrl.trim() !== ''){
                         container.innerHTML = `
                             <div class="cbt-box">
                                 <i class="fas fa-brain" style="font-size:4rem;color:var(--primary);margin-bottom:16px;"></i>
@@ -941,130 +519,54 @@
                                 ${cbt.description ? `<p style="margin-top:8px;font-size:0.85rem;color:var(--text-light);">${escapeHTML(cbt.description)}</p>` : ''}
                             </div>`;
                     } else {
-                        container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3><p>CBT URL is missing.</p></div>';
+                        container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3><p>CBT data exists but URL is missing. Please add a valid URL.</p></div>';
                     }
                 } else {
-                    container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3><p>CBT exams will be added soon!</p></div>';
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3><p>CBT exams will be added soon. Stay tuned!</p></div>';
                 }
-            }).catch((error) => {
-                console.error('❌ Error loading CBT:', error);
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
+            }, () => {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading CBT</h3><p>Unable to load data. Please try again.</p></div>';
             });
         }
 
-        // ============ IMAGES with Swiper - FIXED ============
+        // ============ IMAGES ============
         function loadImages(chapterId) {
-            const galleryContainer = document.getElementById('imageGallery');
-            const swiperContainer = document.getElementById('imageSwiper');
-            const swiperWrapper = document.getElementById('swiperWrapper');
+            const container = document.getElementById('imageGallery');
+            container.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
             
-            galleryContainer.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
-            swiperContainer.style.display = 'none';
-            
-            db.ref(`chapters/${chapterId}/images`).once('value').then((snap) => {
-                console.log(`🖼️ Loading images for ${chapterId}:`, snap.exists() ? snap.numChildren() + ' found' : 'none');
-                
+            db.ref(`chapters/${chapterId}/images`).on('value', (snap) => {
                 if(snap.exists()){
                     const imgs = [];
-                    snap.forEach(c => imgs.push({id: c.key, ...c.val()}));
+                    snap.forEach(c => {
+                        imgs.push({id: c.key, ...c.val()});
+                    });
                     
                     if(!imgs.length){
-                        galleryContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
+                        container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3><p>Add images to this chapter in Firebase.</p></div>';
                         return;
                     }
                     
-                    lightboxImages = imgs.map(i => i.url);
-                    
-                    // Swiper View
-                    swiperWrapper.innerHTML = imgs.map(i => `
-                        <div class="swiper-slide" onclick="openLightbox(${lightboxImages.indexOf(i.url)})">
-                            <img src="${i.url}" alt="${escapeHTML(i.title || 'Image')}" loading="lazy">
-                        </div>
-                    `).join('');
-                    
-                    if(swiperInstance) swiperInstance.destroy(true, true);
-                    
-                    swiperInstance = new Swiper('#imageSwiper', {
-                        slidesPerView: 1,
-                        spaceBetween: 10,
-                        navigation: {
-                            nextEl: '#imageSwiper .swiper-button-next',
-                            prevEl: '#imageSwiper .swiper-button-prev',
-                        },
-                        pagination: {
-                            el: '#imageSwiper .swiper-pagination',
-                            clickable: true,
-                        },
-                        keyboard: { enabled: true },
-                        grabCursor: true,
-                    });
-                    
-                    swiperContainer.style.display = 'block';
-                    
-                    // Gallery Grid
-                    galleryContainer.innerHTML = imgs.map(i => `
-                        <div class="gallery-item" onclick="openLightbox(${lightboxImages.indexOf(i.url)})">
-                            <img src="${i.url}" alt="${escapeHTML(i.title || 'Image')}" loading="lazy" 
-                                 onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>Error</text></svg>'">
+                    container.innerHTML = imgs.map(i => `
+                        <div class="gallery-item" onclick="openLightbox('${i.url}')">
+                            <img src="${i.url}" alt="${escapeHTML(i.title || 'Image')}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>Error</text></svg>'">
                         </div>`).join('');
-                    
                 } else {
-                    galleryContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>';
+                    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3><p>Add images to this chapter in Firebase.</p></div>';
                 }
-            }).catch((error) => {
-                console.error('❌ Error loading images:', error);
-                galleryContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-exclamation-triangle"></i><h3>Error</h3></div>';
+            }, () => {
+                container.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Images</h3><p>Unable to load data. Please try again.</p></div>';
             });
         }
 
-        // ============ Lightbox ============
-        function openLightbox(index) {
-            lightboxIndex = index;
-            document.getElementById('lightboxImg').src = lightboxImages[index];
-            document.getElementById('lightboxImg').classList.remove('zoomed');
+        function openLightbox(url) {
+            document.getElementById('lightboxImg').src = url;
             document.getElementById('lightbox').classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
-            document.getElementById('lightboxImg').classList.remove('zoomed');
-            document.body.style.overflow = '';
         }
 
-        function navigateLightbox(dir) {
-            lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
-            document.getElementById('lightboxImg').src = lightboxImages[lightboxIndex];
-            document.getElementById('lightboxImg').classList.remove('zoomed');
-        }
-
-        function toggleZoom() {
-            document.getElementById('lightboxImg').classList.toggle('zoomed');
-        }
-
-        // Keyboard navigation for lightbox
-        document.addEventListener('keydown', e => {
-            if(document.getElementById('lightbox').classList.contains('active')) {
-                if(e.key === 'ArrowLeft') navigateLightbox(-1);
-                if(e.key === 'ArrowRight') navigateLightbox(1);
-                if(e.key === '+') document.getElementById('lightboxImg').classList.add('zoomed');
-                if(e.key === '-') document.getElementById('lightboxImg').classList.remove('zoomed');
-            }
-        });
-
-        // Touch swipe for lightbox
-        let touchStartX = 0;
-        document.getElementById('lightbox').addEventListener('touchstart', e => {
-            touchStartX = e.touches[0].clientX;
-        });
-        document.getElementById('lightbox').addEventListener('touchend', e => {
-            const diff = touchStartX - e.changedTouches[0].clientX;
-            if(Math.abs(diff) > 50) {
-                navigateLightbox(diff > 0 ? 1 : -1);
-            }
-        });
-
-        // ============ Utilities ============
         function escapeHTML(str) {
             if(!str) return '';
             const div = document.createElement('div');
@@ -1079,12 +581,9 @@
             document.getElementById('totalCBT').textContent = totalCBTCount;
         }
 
-        // ============ Init ============
+        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
-            applyDarkMode();
             loadChapters();
-            console.log('🚀 SYF Platform Initialized');
-            console.log('📊 Check browser console (F12) for data loading logs');
         });
     </script>
 </body>
