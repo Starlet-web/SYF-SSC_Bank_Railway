@@ -3,51 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYF Admin Panel</title>
+    <title>SYF Admin Panel | Teacher Dashboard</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg: #f1f5f9; --sidebar-bg: #0f172a; --primary: #10b981; --primary-hover: #059669;
+            --danger: #ef4444; --warning: #f59e0b; --text: #1e293b; --card: #ffffff;
+            --border: #e2e8f0; --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07); --radius: 10px; --radius-lg: 14px;
+            --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+        }
         * { margin:0; padding:0; box-sizing:border-box; }
-        :root { --bg: #f5f6fa; --sidebar-bg: #1e272e; --primary: #0fb9b1; --primary-hover: #0a9e98; --danger: #e84118; --text: #2f3640; --card: #ffffff; --border: #dcdde1; --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px; --transition: 0.2s ease; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background: var(--sidebar-bg); color: white; padding: 25px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; }
-        .sidebar .logo { padding: 0 20px 30px; font-size: 1.4rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-        .sidebar .logo i { color: var(--primary); margin-right: 8px; }
-        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); font-weight: 500; }
-        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); color: white; border-left: 4px solid var(--primary); }
-        .sidebar nav a i { width: 20px; }
-        .main { margin-left: 250px; flex: 1; padding: 30px; }
-        .page { display: none; } .page.active { display: block; }
-        h2 { margin-bottom: 25px; color: var(--text); display: flex; align-items: center; gap: 10px; } h2 i { color: var(--primary); }
-        .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 25px; }
-        .card h3 { margin-bottom: 18px; color: var(--text); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.9rem; }
-        input, textarea, select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; transition: var(--transition); font-family: inherit; }
-        input:focus, textarea:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(15,185,177,0.1); }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 28px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; }
+        .sidebar .logo { padding: 0 24px 28px; font-size: 1.3rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .sidebar .logo i { color: var(--primary); }
+        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 13px 24px; color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition); font-weight: 500; font-size: 0.9rem; border-left: 3px solid transparent; margin: 2px 0; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--primary); }
+        .sidebar nav a i { width: 20px; text-align: center; }
+
+        .main { margin-left: 260px; flex: 1; padding: 32px; }
+        .page { display: none; } .page.active { display: block; animation: fadeSlide 0.3s ease; }
+        @keyframes fadeSlide { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+        
+        h2 { margin-bottom: 24px; color: var(--text); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.5rem; }
+        h2 i { color: var(--primary); }
+        
+        .card { background: var(--card); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--border); }
+        .card h3 { margin-bottom: 18px; color: var(--text); font-weight: 600; }
+        
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.85rem; }
+        input, textarea, select { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.9rem; transition: var(--transition); font-family: inherit; }
+        input:focus, textarea:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
         textarea { resize: vertical; min-height: 80px; }
-        .btn { padding: 10px 22px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover { background: var(--primary-hover); }
+        
+        .btn { padding: 10px 20px; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
         .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { opacity: 0.9; }
         .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); } .btn-outline:hover { background: var(--primary); color: white; }
-        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; }
-        th { background: #f8f9fa; font-weight: 600; font-size: 0.85rem; }
-        td { font-size: 0.9rem; }
-        .img-preview { max-width: 60px; border-radius: 6px; cursor: pointer; }
-        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 15px; font-weight: 500; animation: slideDown 0.3s ease; }
-        .alert-success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
-        .alert-error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.85rem; }
+        th { background: #f8fafc; font-weight: 600; color: var(--text); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .img-preview { max-width: 55px; border-radius: 6px; cursor: pointer; }
+        
+        .alert { padding: 12px 18px; border-radius: var(--radius); margin-bottom: 16px; font-weight: 500; font-size: 0.9rem; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { transform: translateY(-20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        .alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid var(--primary); }
+        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid var(--danger); }
+        
+        .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .help-text { font-size: 0.8rem; color: #666; margin-top: 5px; }
-        @media (max-width:768px) { .sidebar { width:200px; } .main { margin-left:200px; padding:20px; } }
-        @media (max-width:600px) { .sidebar { width:60px; } .sidebar .logo span, .sidebar nav a span { display:none; } .sidebar nav a { justify-content:center; padding:15px; } .main { margin-left:60px; padding:15px; } }
+        .help-text { font-size: 0.78rem; color: #64748b; margin-top: 4px; }
+        .help-text a { color: var(--primary); }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: var(--card); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center; }
+        .stat-card .stat-value { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .stat-card .stat-label { font-size: 0.8rem; color: var(--text); margin-top: 4px; font-weight: 500; }
+
+        @media (max-width:768px) { .sidebar { width: 60px; } .sidebar .logo span, .sidebar nav a span { display: none; } .sidebar nav a { justify-content: center; padding: 14px; } .main { margin-left: 60px; padding: 16px; } }
     </style>
 </head>
 <body>
@@ -68,75 +92,69 @@
         <!-- Chapters Page -->
         <div class="page active" id="page-chapters">
             <h2><i class="fas fa-list-ol"></i> Manage Chapters</h2>
+            <div class="stats-row" id="chapterStats"></div>
             <div class="card">
                 <h3 id="chapterFormTitle">Add New Chapter</h3>
                 <input type="hidden" id="chapterId">
                 <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Number System"></div>
                 <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description..."></textarea></div>
                 <div class="form-group"><label>Order Number</label><input type="number" id="chapterOrder" value="1" min="1"></div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save Chapter</button>
-                    <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()"><i class="fas fa-times"></i> Cancel</button>
-                </div>
+                <div style="display:flex; gap:10px;"><button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save</button><button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()">Cancel</button></div>
             </div>
-            <div class="card"><h3>All Chapters</h3><div style="overflow-x:auto;"><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Order</th><th>Lectures</th><th>Notes</th><th>CBT</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All Chapters</h3><table id="chaptersTable"><thead><tr><th>#</th><th>Title</th><th>Lectures</th><th>Notes</th><th>CBT</th><th>Images</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
         </div>
 
         <!-- Lectures Page -->
         <div class="page" id="page-lectures">
-            <h2><i class="fas fa-play-circle"></i> Manage YouTube Lectures</h2>
+            <h2><i class="fas fa-play-circle"></i> Manage Lectures</h2>
             <div class="card">
-                <h3>Add New Lecture</h3>
-                <div class="form-group"><label>Select Chapter *</label><select id="lectureChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>Lecture Title *</label><input type="text" id="lectureTitle" placeholder="e.g., Number System Part 1"></div>
-                <div class="form-group"><label>Description</label><input type="text" id="lectureDesc" placeholder="Short description..."></div>
-                <div class="form-group">
-                    <label>YouTube Link *</label>
-                    <input type="url" id="lectureUrl" placeholder="https://youtu.be/xxxxx or https://www.youtube.com/watch?v=xxxxx">
-                    <p class="help-text">Any YouTube URL format accepted</p>
-                </div>
+                <h3>Add YouTube Lecture</h3>
+                <div class="form-group"><label>Chapter *</label><select id="lectureChapterSelect"></select></div>
+                <div class="form-group"><label>Title *</label><input type="text" id="lectureTitle" placeholder="e.g., Digital Sum Part 1"></div>
+                <div class="form-group"><label>Description</label><input type="text" id="lectureDesc" placeholder="Optional"></div>
+                <div class="form-group"><label>YouTube Link *</label><input type="url" id="lectureUrl" placeholder="https://youtu.be/..."></div>
                 <button class="btn btn-primary" onclick="saveLecture()"><i class="fas fa-save"></i> Save Lecture</button>
             </div>
-            <div class="card"><h3>All Lectures</h3><div style="overflow-x:auto;"><table id="lecturesTable"><thead><tr><th>Chapter</th><th>Title</th><th>YouTube Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All Lectures</h3><table id="lecturesTable"><thead><tr><th>Chapter</th><th>Title</th><th>Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
         </div>
 
         <!-- Notes Page -->
         <div class="page" id="page-notes">
-            <h2><i class="fas fa-file-pdf"></i> Manage PDF Notes (PDFhost)</h2>
+            <h2><i class="fas fa-file-pdf"></i> PDF Notes</h2>
             <div class="card">
-                <h3>Add New PDF Note</h3>
-                <p class="help-text" style="margin-bottom:15px;">📌 <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> par upload karein → link yahan paste karein</p>
-                <div class="form-group"><label>Select Chapter *</label><select id="noteChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>Note Title *</label><input type="text" id="noteTitle" placeholder="e.g., Number System Full Notes"></div>
-                <div class="form-group"><label>PDF Link *</label><input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/xxxxx.pdf"></div>
+                <h3>Add PDF Note</h3>
+                <p class="help-text" style="margin-bottom:16px;">📌 Upload PDF to <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> → paste link below</p>
+                <div class="form-group"><label>Chapter *</label><select id="noteChapterSelect"></select></div>
+                <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Full Chapter Notes"></div>
+                <div class="form-group"><label>PDF Link *</label><input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/..."></div>
                 <button class="btn btn-primary" onclick="saveNote()"><i class="fas fa-save"></i> Save Note</button>
             </div>
-            <div class="card"><h3>All Notes</h3><div style="overflow-x:auto;"><table id="notesTable"><thead><tr><th>Chapter</th><th>Title</th><th>PDF Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All Notes</h3><table id="notesTable"><thead><tr><th>Chapter</th><th>Title</th><th>Link</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
         </div>
 
         <!-- CBT Page -->
         <div class="page" id="page-cbt">
-            <h2><i class="fas fa-tasks"></i> CBT Exam Management</h2>
+            <h2><i class="fas fa-tasks"></i> CBT Exams</h2>
             <div class="card">
-                <h3>Add/Update CBT Exam</h3>
-                <div class="form-group"><label>Select Chapter *</label><select id="cbtChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>CBT Filename *</label><input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html"><p class="help-text">📁 File <code>cbt/</code> folder mein honi chahiye</p></div>
+                <h3>Add CBT</h3>
+                <div class="form-group"><label>Chapter *</label><select id="cbtChapterSelect"></select></div>
+                <div class="form-group"><label>Filename *</label><input type="text" id="cbtFilename" placeholder="e.g., digitalsumcbt1.html"><p class="help-text">📁 Place file in <code>cbt/</code> folder</p></div>
                 <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
             </div>
-            <div class="card"><h3>Existing CBT Exams</h3><div style="overflow-x:auto;"><table id="cbtTable"><thead><tr><th>Chapter</th><th>Filename</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All CBT</h3><table id="cbtTable"><thead><tr><th>Chapter</th><th>Filename</th><th>Updated</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
         </div>
 
         <!-- Images Page -->
         <div class="page" id="page-images">
-            <h2><i class="fas fa-images"></i> Class Images (ImgBB)</h2>
+            <h2><i class="fas fa-images"></i> Class Images</h2>
             <div class="card">
-                <h3>Upload New Image</h3>
-                <div class="form-group"><label>Select Chapter *</label><select id="imageChapterSelect"><option value="">-- Choose Chapter --</option></select></div>
-                <div class="form-group"><label>Image Title</label><input type="text" id="imageTitle" placeholder="Optional title"></div>
-                <div class="form-group"><label>Choose Image *</label><input type="file" id="imageFile" accept="image/*"></div>
-                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload via ImgBB</button>
+                <h3>Upload Image (ImgBB)</h3>
+                <div class="form-group"><label>Chapter *</label><select id="imageChapterSelect"></select></div>
+                <div class="form-group"><label>Title</label><input type="text" id="imageTitle" placeholder="Optional"></div>
+                <div class="form-group"><label>File *</label><input type="file" id="imageFile" accept="image/*"></div>
+                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
             </div>
-            <div class="card"><h3>Uploaded Images</h3><div style="overflow-x:auto;"><table id="imagesTable"><thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Actions</th></tr></thead><tbody></tbody></table></div></div>
+            <div class="card"><h3>All Images</h3><table id="imagesTable"><thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
         </div>
     </div>
 
@@ -155,7 +173,7 @@
         const db = firebase.database();
         const IMGBB_API_KEY = "53fb01955a45c5462724b8f7d238500a";
 
-        // Sidebar Navigation
+        // Sidebar
         document.querySelectorAll('.sidebar nav a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -165,52 +183,58 @@
                 document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
                 link.classList.add('active');
                 if(page==='chapters') loadChaptersTable();
-                if(page==='lectures'){ loadChapterDropdown('lectureChapterSelect'); loadLecturesTable(); }
-                if(page==='notes'){ loadChapterDropdown('noteChapterSelect'); loadNotesTable(); }
-                if(page==='cbt'){ loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); }
-                if(page==='images'){ loadChapterDropdown('imageChapterSelect'); loadImagesTable(); }
+                if(page==='lectures'){ loadAllDropdowns('lectureChapterSelect'); loadLecturesTable(); }
+                if(page==='notes'){ loadAllDropdowns('noteChapterSelect'); loadNotesTable(); }
+                if(page==='cbt'){ loadAllDropdowns('cbtChapterSelect'); loadCBTTable(); }
+                if(page==='images'){ loadAllDropdowns('imageChapterSelect'); loadImagesTable(); }
             });
         });
 
         function showAlert(msg, type='success'){
-            const container = document.getElementById('alertContainer');
-            container.querySelectorAll('.alert').forEach(a=>a.remove());
+            const c = document.getElementById('alertContainer');
+            c.querySelectorAll('.alert').forEach(a=>a.remove());
             const d = document.createElement('div');
             d.className=`alert alert-${type}`;
             d.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
-            container.insertBefore(d, container.firstChild);
+            c.insertBefore(d, c.firstChild);
             setTimeout(()=>d.remove(), 4000);
         }
 
-        function loadChapterDropdown(selectId){
+        function loadAllDropdowns(selectId){
             const select = document.getElementById(selectId);
             if(!select) return;
             db.ref('chapters').on('value', snap => {
-                select.innerHTML='<option value="">-- Choose Chapter --</option>';
+                select.innerHTML='<option value="">-- Select --</option>';
                 if(snap.exists()){
-                    const chapters=[];
-                    snap.forEach(c=>chapters.push({id:c.key,...c.val()}));
-                    chapters.sort((a,b)=>(a.order||0)-(b.order||0));
-                    chapters.forEach(c=>select.innerHTML+=`<option value="${c.id}">${c.order||'?'}. ${c.title}</option>`);
+                    const chs=[];
+                    snap.forEach(c=>chs.push({id:c.key,...c.val()}));
+                    chs.sort((a,b)=>(a.order||0)-(b.order||0));
+                    chs.forEach(c=>select.innerHTML+=`<option value="${c.id}">${c.order||'?'}. ${c.title}</option>`);
                 }
             });
         }
 
-        // ===== CHAPTERS =====
+        // Chapters
         function loadChaptersTable(){
             db.ref('chapters').on('value', snap => {
                 const tbody=document.querySelector('#chaptersTable tbody');
                 tbody.innerHTML='';
+                let totalL=0, totalN=0;
                 if(snap.exists()){
-                    const chapters=[];
-                    snap.forEach(c=>chapters.push({id:c.key,...c.val()}));
-                    chapters.sort((a,b)=>(a.order||0)-(b.order||0));
-                    chapters.forEach(ch=>{
-                        tbody.innerHTML+=`<tr><td>${ch.order||'-'}</td><td><strong>${ch.title}</strong></td><td>${ch.order}</td><td>${ch.lecturesCount||0}</td><td>${ch.notesCount||0}</td><td>${ch.hasCBT?'✅':'❌'}</td>
-                        <td><button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                    const chs=[];
+                    snap.forEach(c=>chs.push({id:c.key,...c.val()}));
+                    chs.sort((a,b)=>(a.order||0)-(b.order||0));
+                    chs.forEach(ch=>{
+                        totalL+=ch.lecturesCount||0; totalN+=ch.notesCount||0;
+                        tbody.innerHTML+=`<tr><td>${ch.order||'-'}</td><td><strong>${ch.title}</strong></td><td>${ch.lecturesCount||0}</td><td>${ch.notesCount||0}</td><td>${ch.hasCBT?'✅':'❌'}</td><td>${ch.imagesCount||0}</td><td><button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button></td></tr>`;
                     });
-                } else tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;">No chapters yet.</td></tr>';
+                    document.getElementById('chapterStats').innerHTML=`
+                        <div class="stat-card"><div class="stat-value">${chs.length}</div><div class="stat-label">Total Chapters</div></div>
+                        <div class="stat-card"><div class="stat-value">${totalL}</div><div class="stat-label">Total Lectures</div></div>
+                        <div class="stat-card"><div class="stat-value">${totalN}</div><div class="stat-label">Total Notes</div></div>`;
+                } else {
+                    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;">No chapters</td></tr>';
+                }
             });
         }
         window.editChapter=function(id){
@@ -224,16 +248,10 @@
                 document.getElementById('cancelChapterBtn').style.display='inline-flex';
             });
         };
-        window.deleteChapter=function(id){
-            if(confirm('Delete chapter and ALL data?')){
-                db.ref(`chapters/${id}`).remove().then(()=>showAlert('Deleted!'));
-            }
-        };
+        window.deleteChapter=function(id){ if(confirm('Delete chapter and ALL content?')) db.ref(`chapters/${id}`).remove().then(()=>showAlert('Deleted!')); };
         function resetChapterForm(){
-            document.getElementById('chapterId').value='';
-            document.getElementById('chapterTitle').value='';
-            document.getElementById('chapterDesc').value='';
-            document.getElementById('chapterOrder').value=1;
+            document.getElementById('chapterId').value=''; document.getElementById('chapterTitle').value='';
+            document.getElementById('chapterDesc').value=''; document.getElementById('chapterOrder').value=1;
             document.getElementById('chapterFormTitle').textContent='Add New Chapter';
             document.getElementById('cancelChapterBtn').style.display='none';
         }
@@ -244,145 +262,115 @@
             const order=parseInt(document.getElementById('chapterOrder').value)||1;
             if(!title) return showAlert('Title required!','error');
             const data={title,description:desc,order,updatedAt:Date.now()};
-            if(id){ db.ref(`chapters/${id}`).update(data).then(()=>showAlert('Updated!')); }
-            else { data.createdAt=Date.now(); db.ref('chapters').push(data).then(()=>showAlert('Added!')); }
-            resetChapterForm();
+            (id ? db.ref(`chapters/${id}`).update(data) : db.ref('chapters').push({...data,createdAt:Date.now()}))
+                .then(()=>{showAlert(id?'Updated!':'Added!'); resetChapterForm();});
         };
 
-        // ===== LECTURES =====
+        // Lectures
         window.saveLecture=function(){
-            const chapterId=document.getElementById('lectureChapterSelect').value;
+            const ch=document.getElementById('lectureChapterSelect').value;
             const title=document.getElementById('lectureTitle').value.trim();
             const desc=document.getElementById('lectureDesc').value.trim();
             const url=document.getElementById('lectureUrl').value.trim();
-            if(!chapterId||!title||!url) return showAlert('All fields required!','error');
-            db.ref(`chapters/${chapterId}/lectures`).push({title,description:desc,youtubeUrl:url,uploadedAt:Date.now()})
-                .then(()=>{
-                    showAlert('✅ Lecture saved!');
-                    document.getElementById('lectureTitle').value='';
-                    document.getElementById('lectureDesc').value='';
-                    document.getElementById('lectureUrl').value='';
-                    loadLecturesTable();
-                });
+            if(!ch||!title||!url) return showAlert('All * fields required!','error');
+            db.ref(`chapters/${ch}/lectures`).push({title,description:desc,youtubeUrl:url,uploadedAt:Date.now()})
+                .then(()=>{showAlert('Lecture saved!'); document.getElementById('lectureTitle').value=''; document.getElementById('lectureDesc').value=''; document.getElementById('lectureUrl').value=''; loadLecturesTable();});
         };
         function loadLecturesTable(){
             const tbody=document.querySelector('#lecturesTable tbody');
             tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
             db.ref('chapters').once('value',chSnap=>{
                 tbody.innerHTML='';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
-                let has=false;
-                chSnap.forEach(ch=>{
-                    db.ref(`chapters/${ch.key}/lectures`).once('value',lSnap=>{
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters</td></tr>'; return; }
+                let has=false, pending=0;
+                chSnap.forEach(ch=>{ pending++;
+                    db.ref(`chapters/${ch.key}/lectures`).once('value',lSnap=>{ pending--;
                         if(lSnap.exists()){ has=true;
-                            lSnap.forEach(l=>{
-                                const d=l.val();
-                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.youtubeUrl}" target="_blank">Watch</a></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="deleteLecture('${ch.key}','${l.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                            lSnap.forEach(l=>{ const d=l.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.youtubeUrl}" target="_blank">🎥 Watch</a></td><td><button class="btn btn-danger btn-sm" onclick="deleteLecture('${ch.key}','${l.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No lectures</td></tr>';
                     });
                 });
-                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No lectures.</td></tr>'; },500);
             });
         }
-        window.deleteLecture=function(chId,lId){
-            if(confirm('Delete lecture?')){ db.ref(`chapters/${chId}/lectures/${lId}`).remove().then(()=>{showAlert('Deleted!');loadLecturesTable();}); }
-        };
+        window.deleteLecture=function(chId,lId){ if(confirm('Delete?')) db.ref(`chapters/${chId}/lectures/${lId}`).remove().then(()=>{showAlert('Deleted!');loadLecturesTable();}); };
 
-        // ===== NOTES =====
+        // Notes
         window.saveNote=function(){
-            const chapterId=document.getElementById('noteChapterSelect').value;
+            const ch=document.getElementById('noteChapterSelect').value;
             const title=document.getElementById('noteTitle').value.trim();
             const pdfUrl=document.getElementById('notePdfUrl').value.trim();
-            if(!chapterId||!title||!pdfUrl) return showAlert('All fields required!','error');
-            db.ref(`chapters/${chapterId}/notes`).push({title,pdfUrl,uploadedAt:Date.now(),source:'pdfhost'})
-                .then(()=>{
-                    showAlert('✅ Note saved!');
-                    document.getElementById('noteTitle').value='';
-                    document.getElementById('notePdfUrl').value='';
-                    loadNotesTable();
-                });
+            if(!ch||!title||!pdfUrl) return showAlert('All * fields required!','error');
+            db.ref(`chapters/${ch}/notes`).push({title,pdfUrl,uploadedAt:Date.now(),source:'pdfhost'})
+                .then(()=>{showAlert('Note saved!'); document.getElementById('noteTitle').value=''; document.getElementById('notePdfUrl').value=''; loadNotesTable();});
         };
         function loadNotesTable(){
             const tbody=document.querySelector('#notesTable tbody');
             tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
             db.ref('chapters').once('value',chSnap=>{
                 tbody.innerHTML='';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
-                let has=false;
-                chSnap.forEach(ch=>{
-                    db.ref(`chapters/${ch.key}/notes`).once('value',nSnap=>{
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters</td></tr>'; return; }
+                let has=false, pending=0;
+                chSnap.forEach(ch=>{ pending++;
+                    db.ref(`chapters/${ch.key}/notes`).once('value',nSnap=>{ pending--;
                         if(nSnap.exists()){ has=true;
-                            nSnap.forEach(n=>{
-                                const d=n.val();
-                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.pdfUrl}" target="_blank">View PDF</a></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="deleteNote('${ch.key}','${n.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                            nSnap.forEach(n=>{ const d=n.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><strong>${d.title}</strong></td><td><a href="${d.pdfUrl}" target="_blank">📄 View</a></td><td><button class="btn btn-danger btn-sm" onclick="deleteNote('${ch.key}','${n.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No notes</td></tr>';
                     });
                 });
-                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No notes.</td></tr>'; },500);
             });
         }
-        window.deleteNote=function(chId,nId){
-            if(confirm('Delete note?')){ db.ref(`chapters/${chId}/notes/${nId}`).remove().then(()=>{showAlert('Deleted!');loadNotesTable();}); }
-        };
+        window.deleteNote=function(chId,nId){ if(confirm('Delete?')) db.ref(`chapters/${chId}/notes/${nId}`).remove().then(()=>{showAlert('Deleted!');loadNotesTable();}); };
 
-        // ===== CBT =====
+        // CBT
         window.saveCBT=function(){
-            const chapterId=document.getElementById('cbtChapterSelect').value;
-            const filename=document.getElementById('cbtFilename').value.trim();
-            if(!chapterId||!filename) return showAlert('All fields required!','error');
-            if(!filename.endsWith('.html')) return showAlert('Must be .html!','error');
-            db.ref(`chapters/${chapterId}/cbt`).set({filename,cbtUrl:'cbt/'+filename,updatedAt:Date.now()});
-            db.ref(`chapters/${chapterId}/hasCBT`).set(true);
-            showAlert('✅ CBT saved!');
-            document.getElementById('cbtFilename').value='';
-            loadCBTTable();
+            const ch=document.getElementById('cbtChapterSelect').value;
+            const fn=document.getElementById('cbtFilename').value.trim();
+            if(!ch||!fn) return showAlert('All * fields required!','error');
+            if(!fn.endsWith('.html')) return showAlert('Must be .html!','error');
+            db.ref(`chapters/${ch}/cbt`).set({filename:fn,cbtUrl:'cbt/'+fn,updatedAt:Date.now()});
+            db.ref(`chapters/${ch}/hasCBT`).set(true);
+            showAlert('CBT saved!'); document.getElementById('cbtFilename').value=''; loadCBTTable();
         };
         function loadCBTTable(){
             const tbody=document.querySelector('#cbtTable tbody');
             tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
             db.ref('chapters').once('value',chSnap=>{
                 tbody.innerHTML='';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
-                let has=false;
-                chSnap.forEach(ch=>{
-                    db.ref(`chapters/${ch.key}/cbt`).once('value',cSnap=>{
-                        if(cSnap.exists()){ has=true;
-                            const d=cSnap.val();
-                            const date=d.updatedAt?new Date(d.updatedAt).toLocaleString('hi-IN'):'Unknown';
-                            tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><code>${d.filename}</code></td><td>${date}</td>
-                            <td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${ch.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters</td></tr>'; return; }
+                let has=false, pending=0;
+                chSnap.forEach(ch=>{ pending++;
+                    db.ref(`chapters/${ch.key}/cbt`).once('value',cSnap=>{ pending--;
+                        if(cSnap.exists()){ has=true; const d=cSnap.val();
+                            tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><code>${d.filename}</code></td><td>${d.updatedAt?new Date(d.updatedAt).toLocaleString('hi-IN'):'-'}</td><td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${ch.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                         }
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No CBT</td></tr>';
                     });
                 });
-                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No CBT.</td></tr>'; },500);
             });
         }
-        window.deleteCBT=function(chId){
-            if(confirm('Remove CBT?')){ db.ref(`chapters/${chId}/cbt`).remove(); db.ref(`chapters/${chId}/hasCBT`).set(false); showAlert('Removed!'); loadCBTTable(); }
-        };
+        window.deleteCBT=function(chId){ if(confirm('Remove?')){ db.ref(`chapters/${chId}/cbt`).remove(); db.ref(`chapters/${chId}/hasCBT`).set(false); showAlert('Removed!'); loadCBTTable(); } };
 
-        // ===== IMAGES =====
+        // Images
         window.uploadImage=async function(){
-            const chapterId=document.getElementById('imageChapterSelect').value;
+            const ch=document.getElementById('imageChapterSelect').value;
             const title=document.getElementById('imageTitle').value.trim()||'Class Image';
             const file=document.getElementById('imageFile').files[0];
-            if(!chapterId||!file) return showAlert('Chapter and image required!','error');
-            const btn=document.getElementById('uploadImageBtn');
-            const orig=btn.innerHTML;
+            if(!ch||!file) return showAlert('Chapter and file required!','error');
+            const btn=document.getElementById('uploadImageBtn'), orig=btn.innerHTML;
             btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Uploading...';
             const fd=new FormData(); fd.append('image',file); fd.append('key',IMGBB_API_KEY);
             try{
                 const res=await fetch('https://api.imgbb.com/1/upload',{method:'POST',body:fd});
                 const data=await res.json();
                 if(!data.success) throw new Error(data.error?.message||'Failed');
-                await db.ref(`chapters/${chapterId}/images`).push({title,url:data.data.url,uploadedAt:Date.now(),source:'imgbb'});
-                showAlert('✅ Uploaded!');
-                document.getElementById('imageTitle').value=''; document.getElementById('imageFile').value='';
-                loadImagesTable();
+                await db.ref(`chapters/${ch}/images`).push({title,url:data.data.url,uploadedAt:Date.now(),source:'imgbb'});
+                showAlert('Uploaded!'); document.getElementById('imageTitle').value=''; document.getElementById('imageFile').value=''; loadImagesTable();
             }catch(e){ showAlert(e.message,'error'); }
             finally{ btn.disabled=false; btn.innerHTML=orig; }
         };
@@ -391,25 +379,21 @@
             tbody.innerHTML='<tr><td colspan="4">Loading...</td></tr>';
             db.ref('chapters').once('value',chSnap=>{
                 tbody.innerHTML='';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters.</td></tr>'; return; }
-                let has=false;
-                chSnap.forEach(ch=>{
-                    db.ref(`chapters/${ch.key}/images`).once('value',iSnap=>{
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No chapters</td></tr>'; return; }
+                let has=false, pending=0;
+                chSnap.forEach(ch=>{ pending++;
+                    db.ref(`chapters/${ch.key}/images`).once('value',iSnap=>{ pending--;
                         if(iSnap.exists()){ has=true;
-                            iSnap.forEach(i=>{
-                                const d=i.val();
-                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><img src="${d.url}" class="img-preview" onclick="window.open('${d.url}','_blank')"></td><td>${d.title}</td>
-                                <td><button class="btn btn-danger btn-sm" onclick="deleteImage('${ch.key}','${i.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
+                            iSnap.forEach(i=>{ const d=i.val();
+                                tbody.innerHTML+=`<tr><td>${ch.val().title}</td><td><img src="${d.url}" class="img-preview" onclick="window.open('${d.url}','_blank')"></td><td>${d.title}</td><td><button class="btn btn-danger btn-sm" onclick="deleteImage('${ch.key}','${i.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No images</td></tr>';
                     });
                 });
-                setTimeout(()=>{ if(!has) tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:30px;">No images.</td></tr>'; },500);
             });
         }
-        window.deleteImage=function(chId,iId){
-            if(confirm('Delete image?')){ db.ref(`chapters/${chId}/images/${iId}`).remove().then(()=>{showAlert('Deleted!');loadImagesTable();}); }
-        };
+        window.deleteImage=function(chId,iId){ if(confirm('Delete?')) db.ref(`chapters/${chId}/images/${iId}`).remove().then(()=>{showAlert('Deleted!');loadImagesTable();}); };
 
         document.addEventListener('DOMContentLoaded', ()=>{ loadChaptersTable(); });
     </script>
