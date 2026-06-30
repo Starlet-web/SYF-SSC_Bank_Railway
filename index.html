@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="SYF - Secure Your Future | Apple-Inspired Quantum Neural CBT Exam Preparation Platform with Admin Panel">
+  <meta name="description" content="SYF - Secure Your Future | Premium CBT Exam Preparation with ₹20 Registration">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>SYF – Neural Adaptive Prep | Apple Design + Admin</title>
+  <title>SYF – Premium Neural Adaptive Prep | ₹20 Registration</title>
 
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <!-- Razorpay -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    /* ========== APPLE-INSPIRED ULTRA PREMIUM DESIGN SYSTEM ========== */
     :root {
       --bg-primary: #f5f5f7;
       --bg-secondary: #ffffff;
@@ -59,7 +62,6 @@
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
     }
-
     [data-theme="dark"] {
       --bg-primary: #000000;
       --bg-secondary: #1c1c1e;
@@ -72,7 +74,6 @@
       --border-subtle: rgba(255, 255, 255, 0.06);
       --border-medium: rgba(255, 255, 255, 0.1);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; -webkit-tap-highlight-color: transparent; }
     body {
@@ -90,7 +91,6 @@
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 20px; }
-
     .app-container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
     @media (min-width: 768px) { .app-container { padding: 0 40px; } }
     @media (min-width: 1200px) { .app-container { padding: 0 64px; } }
@@ -120,6 +120,8 @@
     }
     .nav-link:hover { color: var(--text-primary); }
     .nav-link.active { background: var(--bg-tertiary); color: var(--text-primary); font-weight: 600; }
+    .nav-link.locked { opacity: 0.5; pointer-events: none; }
+    .nav-link.locked::after { content: ' 🔒'; font-size: 0.7rem; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
     .icon-btn {
       width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent;
@@ -128,7 +130,7 @@
     }
     .icon-btn:hover { background: var(--bg-tertiary); }
     .badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--accent-rose); border-radius: 50%; border: 2px solid var(--bg-secondary); }
-    .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; cursor: pointer; font-size: 1.25rem; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; }
+    .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; cursor: pointer; font-size: 1.25rem; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; color: var(--text-primary); }
     .auth-btn { padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; background: var(--accent-blue); color: #fff; transition: all var(--transition-fast); letter-spacing: -0.01em; }
     .auth-btn:hover { opacity: 0.9; transform: scale(1.02); }
     .user-menu { display: none; align-items: center; gap: 10px; }
@@ -142,6 +144,7 @@
     .btn-sm { padding: 6px 16px; font-size: 0.78rem; }
     .btn-back { background: transparent; border: 1.5px solid var(--border-medium); color: var(--text-secondary); }
     .btn-danger { background: var(--accent-rose); color: #fff; }
+    .btn-emerald { background: var(--accent-emerald); color: #fff; }
 
     .hero-section { padding: 56px 0 40px; text-align: center; }
     @media (min-width: 768px) { .hero-section { padding: 72px 0 48px; } }
@@ -173,8 +176,11 @@
 
     .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.03em; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-bottom: 40px; }
-    .subject-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 24px 20px; border: 0.5px solid var(--border-subtle); cursor: pointer; transition: all var(--transition-smooth); position: relative; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .subject-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 24px 20px; border: 0.5px solid var(--border-subtle); cursor: pointer; transition: all var(--transition-smooth); position: relative; overflow: hidden; box-shadow: var(--shadow-sm); text-decoration: none; color: var(--text-primary); display: block; }
     .subject-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: var(--border-medium); }
+    .subject-card.locked { opacity: 0.6; cursor: not-allowed; }
+    .subject-card.locked:hover { transform: none; box-shadow: var(--shadow-sm); }
+    .subject-card.locked::after { content: '🔒 Premium'; position: absolute; top: 12px; right: 12px; background: var(--accent-rose); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; }
     .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
     .accent-math { background: var(--gradient-accent); } .accent-reason { background: var(--gradient-emerald); } .accent-english { background: var(--gradient-warm); } .accent-gk { background: var(--gradient-purple); }
     .subj-icon { font-size: 2.4rem; margin-bottom: 10px; display: block; }
@@ -195,10 +201,9 @@
     .continue-card:hover { box-shadow: var(--shadow-lg); transform: translateX(4px); border-color: var(--border-medium); }
     .continue-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; }
 
-    /* Modals */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
     .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal-content { background: var(--bg-secondary); border-radius: var(--radius-3xl); width: 100%; max-width: 920px; max-height: 85vh; overflow-y: auto; border: 0.5px solid var(--border-medium); box-shadow: var(--shadow-xl); padding: 36px; position: relative; }
+    .modal-content { background: var(--bg-secondary); border-radius: var(--radius-3xl); width: 100%; max-width: 550px; max-height: 85vh; overflow-y: auto; border: 0.5px solid var(--border-medium); box-shadow: var(--shadow-xl); padding: 36px; position: relative; }
     .modal-close { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--bg-tertiary); cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--text-secondary); transition: all var(--transition-fast); }
     .modal-close:hover { background: var(--border-medium); color: var(--text-primary); }
     .cbt-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid var(--border-subtle); }
@@ -213,8 +218,8 @@
     @media (min-width: 1100px) { .bottom-nav { display: none; } }
     .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.68rem; font-weight: 500; color: var(--text-tertiary); transition: all var(--transition-fast); border: none; background: transparent; font-family: var(--font-body); }
     .bottom-nav-item.active { color: var(--accent-blue); font-weight: 600; }
+    .bottom-nav-item.locked { opacity: 0.5; pointer-events: none; }
 
-    .registration-modal { max-width: 500px; }
     .step-indicator { display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; }
     .step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-medium); transition: all 0.4s ease; }
     .step-dot.active { background: var(--accent-blue); box-shadow: 0 0 0 5px rgba(0,113,227,0.2); }
@@ -235,19 +240,18 @@
     .password-strength { height: 4px; background: var(--bg-tertiary); border-radius: 2px; margin-top: 6px; overflow: hidden; }
     .password-strength-bar { height: 100%; border-radius: 2px; transition: width 0.4s; width: 0%; }
     .strength-weak { background: var(--accent-rose); width: 33%; } .strength-medium { background: var(--accent-amber); width: 66%; } .strength-strong { background: var(--accent-emerald); width: 100%; }
-
+    .photo-upload-area { border: 2px dashed var(--border-medium); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px; }
+    .photo-upload-area:hover { border-color: var(--accent-blue); background: rgba(0,113,227,0.02); }
+    .photo-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: none; }
+    .price-display { text-align: center; background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 16px; margin: 16px 0; }
+    .price-amount { font-family: var(--font-heading); font-weight: 800; font-size: 2.5rem; color: var(--accent-blue); }
+    .price-amount small { font-size: 1rem; color: var(--text-secondary); display: block; }
     .animate-in { animation: appleFadeUp 0.7s ease forwards; opacity: 0; }
     .delay-1 { animation-delay: 0.12s; } .delay-2 { animation-delay: 0.24s; } .delay-3 { animation-delay: 0.36s; } .delay-4 { animation-delay: 0.48s; } .delay-5 { animation-delay: 0.6s; }
     @keyframes appleFadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     #upload-avatar-input { display: none; }
-
-    /* Admin Panel */
-    .admin-panel { display: none; }
-    .admin-panel.active { display: block; }
-    .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
-    .admin-table th { font-weight: 600; color: var(--text-secondary); }
-    .admin-input { width: 80px; padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--border-medium); background: var(--bg-primary); font-family: var(--font-body); font-size: 0.85rem; text-align: center; }
+    .spinner-inline { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -255,16 +259,15 @@
     <div class="app-container header-inner">
       <a class="logo-group" href="index.html" title="SYF Home">
         <div class="logo-icon">SYF</div>
-        <div class="logo-text">Secure Your Future<span>Neural Adaptive Prep</span></div>
+        <div class="logo-text">Secure Your Future<span>Premium Prep v7.0</span></div>
       </a>
       <nav class="nav-links" id="mainNav">
         <a class="nav-link active" href="index.html">Home</a>
-        <a class="nav-link" href="mathematics.html">Mathematics</a>
-        <a class="nav-link" href="reasoning.html">Reasoning</a>
-        <a class="nav-link" href="english.html">English</a>
-        <a class="nav-link" href="gk.html">GK/GS</a>
-        <a class="nav-link" href="#" onclick="SYF.openCBTModal(); return false;">CBT Mock</a>
-        <a class="nav-link" href="#" id="adminNavLink" style="display:none;" onclick="SYF.toggleAdminPanel(); return false;">⚙️ Admin</a>
+        <a class="nav-link locked" href="mathematics.html" id="navMath">Mathematics</a>
+        <a class="nav-link locked" href="reasoning.html" id="navReason">Reasoning</a>
+        <a class="nav-link locked" href="english.html" id="navEnglish">English</a>
+        <a class="nav-link locked" href="gk.html" id="navGK">GK/GS</a>
+        <a class="nav-link" href="#" id="navCBT" onclick="SYF.openCBTModal(); return false;">CBT Mock</a>
       </nav>
       <div class="header-actions">
         <button class="icon-btn" title="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
@@ -282,24 +285,10 @@
   </header>
 
   <main class="app-container" style="padding-top:12px;">
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel" style="margin-bottom: 32px;">
-      <div class="perf-card">
-        <div class="section-title">⚙️ Admin Panel — User Management</div>
-        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px;">Edit streak, accuracy, questions solved, and rank for any user. Changes are saved in real‑time.</p>
-        <div id="adminUserList" style="max-height: 400px; overflow-y: auto;">
-          <table class="admin-table">
-            <thead><tr><th>Email</th><th>Name</th><th>Streak</th><th>Accuracy (%)</th><th>Solved</th><th>Rank</th><th>Actions</th></tr></thead>
-            <tbody id="adminTableBody"><tr><td colspan="7" style="text-align:center;padding:20px;">Loading users…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
     <section class="hero-section animate-in">
-      <div class="hero-badge"><span class="pulse-dot"></span> Trusted by 3.8L+ Aspirants</div>
+      <div class="hero-badge"><span class="pulse-dot"></span> Premium Access — ₹20 Only</div>
       <h1 class="hero-title">Your <span class="highlight">Government Exam</span><br>Success Starts Here</h1>
-      <p class="hero-subtitle">Apple-inspired quantum-adaptive CBT preparation for SSC, Banking, Railway & all competitive exams. Real-time neural analytics with a premium, trustworthy experience.</p>
+      <p class="hero-subtitle">Premium CBT preparation for SSC, Banking, Railway & all competitive exams. Unlock all subjects with a one-time ₹20 registration.</p>
     </section>
 
     <div class="dashboard-grid">
@@ -307,7 +296,7 @@
         <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('upload-avatar-input').click()" title="Update profile picture">👤<span>📷</span></div>
         <input type="file" id="upload-avatar-input" accept="image/*" onchange="SYF.uploadAvatar(event)">
         <div class="profile-name" id="profileName">Guest User</div>
-        <div class="profile-email" id="profileEmail">Sign in to continue</div>
+        <div class="profile-email" id="profileEmail">Sign in to unlock</div>
         <div class="streak-row">🔥 <span id="streakCount">0</span> Day Streak</div>
         <div class="mini-stat-row">
           <div class="mini-stat"><div class="mini-stat-val" id="totalQuestions">0</div><div class="mini-stat-lbl">Solved</div></div>
@@ -319,15 +308,13 @@
       <div style="display:flex;flex-direction:column;gap:22px;">
         <div class="animate-in delay-2">
           <div class="section-title">Continue Learning</div>
-          <div class="continue-card" onclick="window.location.href='mathematics.html'">
+          <div class="continue-card" onclick="SYF.navigateTo('mathematics.html')">
             <div class="continue-icon" style="background:var(--gradient-accent);">📐</div>
-            <div style="flex:1;"><div style="font-weight:600;">Mathematics → Digital Sum</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 3 · 42% complete</div></div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            <div style="flex:1;"><div style="font-weight:600;">Mathematics → Digital Sum</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 3 · 42% complete</div></div><span>▶</span>
           </div>
-          <div class="continue-card" onclick="window.location.href='reasoning.html'">
+          <div class="continue-card" onclick="SYF.navigateTo('reasoning.html')">
             <div class="continue-icon" style="background:var(--gradient-emerald);">🧠</div>
-            <div style="flex:1;"><div style="font-weight:600;">Reasoning → Blood Relations</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 7 · 68% complete</div></div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            <div style="flex:1;"><div style="font-weight:600;">Reasoning → Blood Relations</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 7 · 68% complete</div></div><span>▶</span>
           </div>
         </div>
         <div class="perf-card animate-in delay-3">
@@ -353,17 +340,75 @@
     <section class="animate-in delay-5">
       <div class="section-title">Core Subjects</div>
       <div class="subject-grid">
-        <div class="subject-card" onclick="window.location.href='mathematics.html'"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="window.location.href='reasoning.html'"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></div>
-        <div class="subject-card" onclick="window.location.href='english.html'"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="window.location.href='gk.html'"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></div>
+        <a class="subject-card locked" href="mathematics.html" id="cardMath" onclick="return SYF.handleSubjectClick('mathematics.html', event)"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></a>
+        <a class="subject-card locked" href="reasoning.html" id="cardReason" onclick="return SYF.handleSubjectClick('reasoning.html', event)"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></a>
+        <a class="subject-card locked" href="english.html" id="cardEnglish" onclick="return SYF.handleSubjectClick('english.html', event)"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></a>
+        <a class="subject-card locked" href="gk.html" id="cardGK" onclick="return SYF.handleSubjectClick('gk.html', event)"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></a>
       </div>
     </section>
   </main>
 
+  <!-- Auth / Payment Modal -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-content" style="max-width:550px;">
+      <button class="modal-close" onclick="SYF.closeAuthModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      
+      <!-- Tabs -->
+      <div style="display:flex;justify-content:center;gap:0;margin-bottom:24px;background:var(--bg-tertiary);border-radius:50px;padding:4px;">
+        <button id="tabSignIn" class="btn" style="flex:1;background:var(--accent-blue);color:#fff;border-radius:50px;" onclick="SYF.switchAuthTab('signin')">Sign In</button>
+        <button id="tabSignUp" class="btn" style="flex:1;background:transparent;color:var(--text-secondary);border-radius:50px;" onclick="SYF.switchAuthTab('signup')">Register (₹20)</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div id="signInForm">
+        <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:16px;">Welcome Back</h3>
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="signInEmail" placeholder="rahul@email.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" class="form-input" id="signInPassword" placeholder="Your password"></div>
+        <button class="btn btn-primary" style="width:100%;" onclick="SYF.handleSignIn()">Sign In</button>
+      </div>
+
+      <!-- Register + Payment Form -->
+      <div id="signUpForm" style="display:none;">
+        <div class="step-indicator"><div class="step-dot active" data-step="1"></div><div class="step-dot" data-step="2"></div><div class="step-dot" data-step="3"></div></div>
+        <form id="registrationForm" onsubmit="return false;">
+          <div class="registration-step active" id="step1">
+            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Create Account</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px;">Step 1 of 3</p>
+            <div class="form-row"><div class="form-group"><label>First Name</label><input class="form-input" id="firstName" placeholder="Rahul"></div><div class="form-group"><label>Last Name</label><input class="form-input" id="lastName" placeholder="Sharma"></div></div>
+            <div class="form-group"><label>Email</label><input type="email" class="form-input" id="regEmail" placeholder="rahul@email.com"></div>
+            <div class="form-group"><label>Phone</label><input type="tel" class="form-input" id="phone" placeholder="9876543210"></div>
+            <button type="button" class="btn btn-primary" style="width:100%;" onclick="SYF.registration.nextStep(2)">Continue →</button>
+          </div>
+          <div class="registration-step" id="step2">
+            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Profile Photo</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px;">Step 2 of 3</p>
+            <div class="photo-upload-area" onclick="document.getElementById('regAvatarInput').click()">
+              <img class="photo-preview" id="regPhotoPreview" src="" alt="Preview">
+              <div id="photoPlaceholder">📷 Click to upload photo</div>
+              <input type="file" id="regAvatarInput" accept="image/*" onchange="SYF.previewRegPhoto(event)" style="display:none;">
+            </div>
+            <div class="form-group"><label>Password</label><input type="password" class="form-input" id="regPassword" placeholder="8+ characters" oninput="SYF.checkPasswordStrength(this.value)"><div class="password-strength"><div class="password-strength-bar" id="passwordStrengthBar"></div></div></div>
+            <div class="form-group"><label>Confirm Password</label><input type="password" class="form-input" id="confirmPassword" oninput="SYF.checkPasswordMatch()"><div id="passwordMatchMsg" style="font-size:0.78rem;margin-top:4px;"></div></div>
+            <div style="display:flex;gap:12px;margin-top:18px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(1)">← Back</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(3)">Continue</button></div>
+          </div>
+          <div class="registration-step" id="step3">
+            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Payment</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px;">Step 3 of 3 — Pay ₹20 to unlock all subjects</p>
+            <div class="price-display">
+              <div class="price-amount">₹20 <small>one-time payment</small></div>
+              <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:8px;">✓ All Subjects Unlocked<br>✓ 2,500+ Practice Questions<br>✓ 50+ Mock Tests<br>✓ AI Analytics</p>
+            </div>
+            <div id="registrationSummary" style="background:var(--bg-tertiary);padding:14px;border-radius:14px;margin-bottom:16px;font-size:0.85rem;"></div>
+            <div style="display:flex;gap:12px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button><button type="button" class="btn btn-emerald" style="flex:1;" id="payBtn" onclick="SYF.initiatePayment()">💳 Pay ₹20 & Register</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- CBT Modal -->
   <div class="modal-overlay" id="cbtModal">
-    <div class="modal-content">
+    <div class="modal-content" style="max-width:920px;">
       <button class="modal-close" onclick="SYF.closeCBTModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       <div class="cbt-header">
         <div><strong id="cbtSubjectLabel">Mathematics</strong> — <span id="cbtChapterLabel" style="color:var(--text-secondary);">Digital Sum</span></div>
@@ -382,68 +427,25 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal-content registration-modal">
-      <button class="modal-close" onclick="SYF.closeAuthModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <!-- Sign In / Sign Up Toggle -->
-      <div style="display:flex;justify-content:center;gap:0;margin-bottom:24px;background:var(--bg-tertiary);border-radius:50px;padding:4px;">
-        <button id="tabSignIn" class="btn" style="flex:1;background:var(--accent-blue);color:#fff;border-radius:50px;" onclick="SYF.switchAuthTab('signin')">Sign In</button>
-        <button id="tabSignUp" class="btn" style="flex:1;background:transparent;color:var(--text-secondary);border-radius:50px;" onclick="SYF.switchAuthTab('signup')">Sign Up</button>
-      </div>
-      <!-- Sign In Form -->
-      <div id="signInForm">
-        <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:16px;">Welcome Back</h3>
-        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="signInEmail" placeholder="rahul@email.com"></div>
-        <div class="form-group"><label>Password</label><input type="password" class="form-input" id="signInPassword" placeholder="Your password"></div>
-        <button class="btn btn-primary" style="width:100%;" onclick="SYF.handleSignIn()">Sign In</button>
-      </div>
-      <!-- Sign Up Form (3 steps) -->
-      <div id="signUpForm" style="display:none;">
-        <div class="step-indicator"><div class="step-dot active" data-step="1"></div><div class="step-dot" data-step="2"></div><div class="step-dot" data-step="3"></div></div>
-        <form id="registrationForm" onsubmit="return false;">
-          <div class="registration-step active" id="step1">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Create Account</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Join 3.8L+ aspirants</p>
-            <div class="form-row"><div class="form-group"><label>First Name</label><input class="form-input" id="firstName" placeholder="Rahul"></div><div class="form-group"><label>Last Name</label><input class="form-input" id="lastName" placeholder="Sharma"></div></div>
-            <div class="form-group"><label>Email</label><input type="email" class="form-input" id="regEmail" placeholder="rahul@email.com"></div>
-            <div class="form-group"><label>Password</label><input type="password" class="form-input" id="regPassword" placeholder="8+ characters" oninput="SYF.checkPasswordStrength(this.value)"><div class="password-strength"><div class="password-strength-bar" id="passwordStrengthBar"></div></div></div>
-            <div class="form-group"><label>Confirm Password</label><input type="password" class="form-input" id="confirmPassword" oninput="SYF.checkPasswordMatch()"><div id="passwordMatchMsg" style="font-size:0.78rem;margin-top:4px;"></div></div>
-            <button type="button" class="btn btn-primary" style="width:100%;" onclick="SYF.registration.nextStep(2)">Continue</button>
-          </div>
-          <div class="registration-step" id="step2">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Preferences</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Personalize your learning</p>
-            <div class="form-group"><label>Target Exams</label><div class="skill-tags" id="targetExams"><span class="skill-tag" data-value="ssc">SSC</span><span class="skill-tag" data-value="bank">Bank</span><span class="skill-tag" data-value="railway">Railway</span><span class="skill-tag" data-value="upsc">UPSC</span></div></div>
-            <div style="display:flex;gap:12px;margin-top:18px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(1)">← Back</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(3)">Continue</button></div>
-          </div>
-          <div class="registration-step" id="step3">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Complete</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Review your details</p>
-            <div id="registrationSummary" style="background:var(--bg-tertiary);padding:18px;border-radius:16px;margin-bottom:18px;font-size:0.9rem;"></div>
-            <div style="display:flex;gap:12px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.submitRegistration()">Create Account</button></div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
   <div class="toast-container" id="toastContainer"></div>
 
   <nav class="bottom-nav">
     <button class="bottom-nav-item active" onclick="window.location.href='index.html'">🏠<span>Home</span></button>
-    <button class="bottom-nav-item" onclick="window.location.href='mathematics.html'">📐<span>Math</span></button>
-    <button class="bottom-nav-item" onclick="window.location.href='reasoning.html'">🧠<span>Reason</span></button>
+    <button class="bottom-nav-item locked" id="bottomMath" onclick="SYF.navigateTo('mathematics.html')">📐<span>Math</span></button>
+    <button class="bottom-nav-item locked" id="bottomReason" onclick="SYF.navigateTo('reasoning.html')">🧠<span>Reason</span></button>
     <button class="bottom-nav-item" onclick="SYF.openCBTModal()">💻<span>CBT</span></button>
     <button class="bottom-nav-item" onclick="document.getElementById('profileCard').scrollIntoView({behavior:'smooth'})">👤<span>Profile</span></button>
   </nav>
 
   <script>
     (function() {
+      // ========== CONFIGURATION ==========
+      const RAZORPAY_KEY_ID = 'rzp_live_T7tknhaLrGXKDS'; // Live Key
+      const REGISTRATION_AMOUNT = 2000; // ₹20 in paise
+      
       const firebaseConfig = {
         apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
         authDomain: "starlet-registor.firebaseapp.com",
-        databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
         projectId: "starlet-registor",
         storageBucket: "starlet-registor.firebasestorage.app",
         messagingSenderId: "904193225045",
@@ -454,8 +456,9 @@
       const firestore = firebase.firestore();
 
       let currentUser = null;
-      let userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---' };
-      const ADMIN_EMAILS = ['admin@syf.com', 'test@admin.com']; // Add admin emails here
+      let userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---', paymentStatus: 'pending' };
+      let regPhotoFile = null;
+      let regPhotoDataUrl = null;
 
       const cbtQuestions = [
         { q: 'Digital sum of 8756?', opts: ['8', '7', '5', '2'], ans: 0 },
@@ -474,27 +477,49 @@
       function showToast(msg, type = 'info') {
         const container = document.getElementById('toastContainer');
         const toast = document.createElement('div'); toast.className = 'toast';
-        toast.textContent = `${type==='success'?'✓':type==='error'?'✗':'ℹ'} ${msg}`;
+        const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+        toast.textContent = `${icons[type] || 'ℹ️'} ${msg}`;
         container.appendChild(toast);
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(60px)'; setTimeout(() => toast.remove(), 350); }, 3400);
       }
 
       function initTheme() {
         const toggle = document.getElementById('themeToggle');
-        const saved = localStorage.getItem('syf-theme-v6') || 'light';
+        const saved = localStorage.getItem('syf-theme-v7') || 'light';
         document.documentElement.setAttribute('data-theme', saved);
-        toggle.innerHTML = saved === 'dark' ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-        toggle.addEventListener('click', () => {
-          const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('syf-theme-v6', next);
-          initTheme();
+        if (toggle) {
+          toggle.innerHTML = saved === 'dark' ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+          toggle.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('syf-theme-v7', next);
+            initTheme();
+          });
+        }
+      }
+
+      function unlockAllSubjects() {
+        const lockedElements = document.querySelectorAll('.locked');
+        lockedElements.forEach(el => {
+          el.classList.remove('locked');
+          if (el.tagName === 'A') {
+            el.onclick = null;
+            el.style.cursor = 'pointer';
+          }
         });
+        document.querySelectorAll('.subject-card.locked').forEach(c => c.classList.remove('locked'));
+        document.getElementById('navMath')?.classList.remove('locked');
+        document.getElementById('navReason')?.classList.remove('locked');
+        document.getElementById('navEnglish')?.classList.remove('locked');
+        document.getElementById('navGK')?.classList.remove('locked');
+        document.getElementById('bottomMath')?.classList.remove('locked');
+        document.getElementById('bottomReason')?.classList.remove('locked');
+        showToast('🔓 All subjects unlocked!', 'success');
       }
 
       function updateUI() {
         document.getElementById('profileName').textContent = userProfile.name;
-        document.getElementById('profileEmail').textContent = userProfile.email || 'Sign in to continue';
+        document.getElementById('profileEmail').textContent = userProfile.email || 'Sign in to unlock';
         document.getElementById('streakCount').textContent = userProfile.streak;
         document.getElementById('totalQuestions').textContent = userProfile.questionsSolved;
         document.getElementById('overallAccuracy').textContent = userProfile.accuracy + '%';
@@ -510,14 +535,8 @@
         document.getElementById('perfWeak').textContent = Math.max(1, Math.floor((100 - userProfile.accuracy) / 8));
         const circle = document.querySelector('.ring-chart circle:last-child');
         if (circle) { const c = 2 * Math.PI * 40; circle.style.strokeDasharray = c; circle.style.strokeDashoffset = c - (userProfile.accuracy / 100) * c; }
+        if (userProfile.paymentStatus === 'paid') unlockAllSubjects();
         renderTodayTarget();
-        // Admin visibility
-        if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
-          document.getElementById('adminNavLink').style.display = 'inline-block';
-        } else {
-          document.getElementById('adminNavLink').style.display = 'none';
-          document.getElementById('adminPanel').classList.remove('active');
-        }
       }
 
       function renderTodayTarget() {
@@ -529,12 +548,7 @@
           { name: 'English', task: 'RC Practice', done: userProfile.accuracy > 72 },
           { name: 'GK', task: 'History Quiz', done: userProfile.streak > 6 }
         ];
-        container.innerHTML = tasks.map(t => `
-          <div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--bg-tertiary);border-radius:14px;">
-            <span style="font-size:1.2rem;">${t.done ? '✓' : '○'}</span>
-            <div style="flex:1;"><strong>${t.name}</strong><br><small style="color:var(--text-tertiary);">${t.task}</small></div>
-            <span style="color:${t.done ? 'var(--accent-emerald)' : 'var(--accent-amber)'};font-weight:500;font-size:0.8rem;">${t.done ? 'Done' : 'Pending'}</span>
-          </div>`).join('');
+        container.innerHTML = tasks.map(t => `<div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--bg-tertiary);border-radius:14px;"><span style="font-size:1.2rem;">${t.done ? '✓' : '○'}</span><div style="flex:1;"><strong>${t.name}</strong><br><small style="color:var(--text-tertiary);">${t.task}</small></div><span style="color:${t.done ? 'var(--accent-emerald)' : 'var(--accent-amber)'};font-weight:500;font-size:0.8rem;">${t.done ? 'Done' : 'Pending'}</span></div>`).join('');
       }
 
       async function loadProfile(uid) {
@@ -542,10 +556,12 @@
           const doc = await firestore.collection('users').doc(uid).get();
           if (doc.exists) {
             const d = doc.data();
-            userProfile = { name: d.name || 'User', email: d.email || '', avatar: d.avatar || '', streak: d.streak || 0, questionsSolved: d.questionsSolved || 0, accuracy: d.accuracy || 50, rank: d.rank || '#---' };
-          } else {
-            await firestore.collection('users').doc(uid).set({ name: 'User', email: currentUser.email, streak: 1, accuracy: 58, questionsSolved: 14, rank: '#1380', lastActiveDate: new Date().toISOString().split('T')[0] });
-            userProfile = { name: 'User', email: currentUser.email, avatar: '', streak: 1, questionsSolved: 14, accuracy: 58, rank: '#1380' };
+            userProfile = {
+              name: d.name || 'User', email: d.email || '', avatar: d.avatar || '',
+              streak: d.streak || 0, questionsSolved: d.questionsSolved || 0,
+              accuracy: d.accuracy || 50, rank: d.rank || '#---',
+              paymentStatus: d.paymentStatus || 'pending'
+            };
           }
           updateUI();
         } catch (e) { console.error(e); updateUI(); }
@@ -558,12 +574,17 @@
           await loadProfile(user.uid);
         } else {
           currentUser = null; loginBtn.style.display = 'inline-block'; menu.classList.remove('active');
-          userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---' };
+          userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---', paymentStatus: 'pending' };
           updateUI();
+          // Re-lock subjects
+          document.querySelectorAll('.subject-card').forEach(c => c.classList.add('locked'));
+          document.getElementById('navMath')?.classList.add('locked');
+          document.getElementById('navReason')?.classList.add('locked');
+          document.getElementById('navEnglish')?.classList.add('locked');
+          document.getElementById('navGK')?.classList.add('locked');
         }
       });
 
-      // Auth Tabs
       function switchAuthTab(tab) {
         const signInForm = document.getElementById('signInForm');
         const signUpForm = document.getElementById('signUpForm');
@@ -577,44 +598,234 @@
           signInForm.style.display = 'none'; signUpForm.style.display = 'block';
           tabSignUp.style.background = 'var(--accent-blue)'; tabSignUp.style.color = '#fff';
           tabSignIn.style.background = 'transparent'; tabSignIn.style.color = 'var(--text-secondary)';
+          goToStep(1);
         }
       }
 
-      function handleSignIn() {
+      async function handleSignIn() {
         const email = document.getElementById('signInEmail').value.trim();
         const password = document.getElementById('signInPassword').value;
         if (!email || !password) return showToast('Enter email and password', 'warning');
-        auth.signInWithEmailAndPassword(email, password)
-          .then(() => { showToast('Signed in successfully', 'success'); SYF.closeAuthModal(); })
-          .catch(e => showToast(e.message, 'error'));
+        try {
+          const userCred = await auth.signInWithEmailAndPassword(email, password);
+          showToast('✅ Signed in!', 'success');
+          SYF.closeAuthModal();
+        } catch (e) {
+          let msg = 'Sign in failed';
+          if (e.code === 'auth/user-not-found') msg = 'No account found. Please register.';
+          else if (e.code === 'auth/wrong-password') msg = 'Incorrect password.';
+          showToast(msg, 'error');
+        }
+      }
+
+      function handleLogout() {
+        auth.signOut().then(() => showToast('Signed out', 'success'));
+      }
+
+      function previewRegPhoto(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { showToast('Image too large (max 5MB)', 'error'); return; }
+        regPhotoFile = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          regPhotoDataUrl = e.target.result;
+          document.getElementById('regPhotoPreview').src = regPhotoDataUrl;
+          document.getElementById('regPhotoPreview').style.display = 'block';
+          document.getElementById('photoPlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      async function uploadRegPhoto() {
+        if (!regPhotoFile) return null;
+        const formData = new FormData();
+        formData.append('image', regPhotoFile);
+        try {
+          const resp = await fetch('https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a', { method: 'POST', body: formData });
+          const json = await resp.json();
+          if (json.success) return json.data.url;
+        } catch (e) { console.error('Photo upload error:', e); }
+        return null;
       }
 
       function goToStep(step) {
         document.querySelectorAll('.step-dot').forEach((d, i) => { d.classList.remove('active', 'completed'); if (i + 1 < step) d.classList.add('completed'); if (i + 1 === step) d.classList.add('active'); });
         document.querySelectorAll('.registration-step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        if (step === 3) generateSummary();
+        const targetStep = document.getElementById(`step${step}`);
+        if (targetStep) targetStep.classList.add('active');
+        if (step === 3) {
+          const fn = document.getElementById('firstName')?.value.trim() || '';
+          const ln = document.getElementById('lastName')?.value.trim() || '';
+          const em = document.getElementById('regEmail')?.value.trim() || '';
+          document.getElementById('registrationSummary').innerHTML = `<strong>Name:</strong> ${fn} ${ln}<br><strong>Email:</strong> ${em}<br><strong>Amount:</strong> ₹20`;
+        }
       }
 
-      function generateSummary() {
-        const fn = document.getElementById('firstName')?.value.trim() || '';
-        const ln = document.getElementById('lastName')?.value.trim() || '';
-        const em = document.getElementById('regEmail')?.value.trim() || '';
-        const exams = Array.from(document.querySelectorAll('#targetExams .skill-tag.selected')).map(t => t.dataset.value).join(', ') || 'None';
-        document.getElementById('registrationSummary').innerHTML = `<strong>Name:</strong> ${fn} ${ln}<br><strong>Email:</strong> ${em}<br><strong>Exams:</strong> ${exams}`;
+      function checkPasswordStrength(pw) {
+        const bar = document.getElementById('passwordStrengthBar');
+        bar.className = 'password-strength-bar';
+        let s = 0;
+        if (pw.length >= 8) s++;
+        if (pw.length >= 12) s++;
+        if (/[A-Z]/.test(pw)) s++;
+        if (/[0-9]/.test(pw)) s++;
+        if (/[^A-Za-z0-9]/.test(pw)) s++;
+        if (s <= 2) bar.classList.add('strength-weak');
+        else if (s <= 4) bar.classList.add('strength-medium');
+        else bar.classList.add('strength-strong');
       }
 
+      function checkPasswordMatch() {
+        const pw = document.getElementById('regPassword').value;
+        const cp = document.getElementById('confirmPassword').value;
+        const msg = document.getElementById('passwordMatchMsg');
+        if (cp === '') msg.textContent = '';
+        else if (pw === cp) { msg.textContent = '✓ Match'; msg.style.color = 'var(--accent-emerald)'; }
+        else { msg.textContent = '✗ Not match'; msg.style.color = 'var(--accent-rose)'; }
+      }
+
+      function initiatePayment() {
+        const fn = document.getElementById('firstName').value.trim();
+        const ln = document.getElementById('lastName').value.trim();
+        const em = document.getElementById('regEmail').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const pw = document.getElementById('regPassword').value;
+        const cp = document.getElementById('confirmPassword').value;
+
+        if (!fn || !ln || !em.includes('@') || pw.length < 8) return showToast('Fill all fields correctly', 'error');
+        if (pw !== cp) return showToast('Passwords do not match', 'error');
+
+        const btn = document.getElementById('payBtn');
+        btn.innerHTML = '<span class="spinner-inline"></span> Processing...';
+        btn.disabled = true;
+
+        const receiptId = 'SYF_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        const options = {
+          key: RAZORPAY_KEY_ID,
+          amount: REGISTRATION_AMOUNT,
+          currency: 'INR',
+          name: 'SYF - Secure Your Future',
+          description: 'Premium Exam Prep Registration',
+          handler: async function(response) {
+            btn.innerHTML = '<span class="spinner-inline"></span> Creating account...';
+            try {
+              // Upload photo first
+              let avatarUrl = '';
+              if (regPhotoFile) {
+                avatarUrl = await uploadRegPhoto();
+              }
+
+              // Create Firebase user
+              const userCred = await auth.createUserWithEmailAndPassword(em, pw);
+              await userCred.user.updateProfile({ displayName: `${fn} ${ln}` });
+
+              // Save to Firestore
+              await firestore.collection('users').doc(userCred.user.uid).set({
+                name: `${fn} ${ln}`,
+                email: em,
+                phone: phone,
+                avatar: avatarUrl || '',
+                streak: 1,
+                accuracy: 55,
+                questionsSolved: 0,
+                rank: '#---',
+                paymentStatus: 'paid',
+                paymentId: response.razorpay_payment_id,
+                receiptId: receiptId,
+                amount: 20,
+                lastActiveDate: new Date().toISOString().split('T')[0],
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              showToast('🎉 Registration successful! All subjects unlocked.', 'success');
+              SYF.closeAuthModal();
+            } catch (e) {
+              showToast('Error: ' + e.message, 'error');
+              btn.innerHTML = '💳 Pay ₹20 & Register';
+              btn.disabled = false;
+            }
+          },
+          modal: {
+            ondismiss: function() {
+              btn.innerHTML = '💳 Pay ₹20 & Register';
+              btn.disabled = false;
+              showToast('Payment cancelled', 'warning');
+            }
+          },
+          prefill: { name: `${fn} ${ln}`, email: em, contact: phone },
+          notes: { receipt_id: receiptId },
+          theme: { color: '#0071e3' }
+        };
+
+        try {
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function(response) {
+            btn.innerHTML = '💳 Pay ₹20 & Register';
+            btn.disabled = false;
+            showToast('Payment failed: ' + response.error.description, 'error');
+          });
+          rzp.open();
+        } catch (e) {
+          btn.innerHTML = '💳 Pay ₹20 & Register';
+          btn.disabled = false;
+          showToast('Error opening payment gateway', 'error');
+        }
+      }
+
+      function handleSubjectClick(url, event) {
+        if (!currentUser || userProfile.paymentStatus !== 'paid') {
+          event.preventDefault();
+          showToast('🔒 Please register (₹20) to unlock all subjects', 'warning');
+          SYF.openAuthModal();
+          return false;
+        }
+        return true;
+      }
+
+      function navigateTo(url) {
+        if (!currentUser || userProfile.paymentStatus !== 'paid') {
+          showToast('🔒 Please register (₹20) to unlock all subjects', 'warning');
+          SYF.openAuthModal();
+          return;
+        }
+        window.location.href = url;
+      }
+
+      async function uploadAvatar(event) {
+        if (!currentUser) return showToast('Sign in first', 'warning');
+        const file = event.target.files[0];
+        if (!file || file.size > 5 * 1024 * 1024) return;
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+          const resp = await fetch('https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a', { method: 'POST', body: formData });
+          const json = await resp.json();
+          if (json.success) {
+            userProfile.avatar = json.data.url;
+            updateUI();
+            await firestore.collection('users').doc(currentUser.uid).update({ avatar: json.data.url });
+            showToast('Avatar updated!', 'success');
+          }
+        } catch (e) { showToast('Upload failed', 'error'); }
+      }
+
+      // CBT Functions
       function startCBT() {
         if (cbtState.timer) clearInterval(cbtState.timer);
         cbtState = { idx: 0, answers: Array(10).fill(null), marked: new Set(), sec: 900, timer: null, submitted: false };
-        document.getElementById('cbtModal').classList.add('active'); document.body.style.overflow = 'hidden';
-        renderCBT(); startTimer();
+        document.getElementById('cbtModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderCBT();
+        startTimer();
       }
 
       function startTimer() {
         cbtState.timer = setInterval(() => {
           if (cbtState.submitted) { clearInterval(cbtState.timer); return; }
-          cbtState.sec--; const m = Math.floor(cbtState.sec / 60), s = cbtState.sec % 60;
+          cbtState.sec--;
+          const m = Math.floor(cbtState.sec / 60), s = cbtState.sec % 60;
           document.getElementById('cbtTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
           if (cbtState.sec <= 0) { clearInterval(cbtState.timer); submitCBT(); }
         }, 1000);
@@ -625,91 +836,58 @@
         const q = cbtQuestions[cbtState.idx];
         document.getElementById('cbtQuestion').textContent = q.q;
         document.getElementById('cbtQNum').textContent = cbtState.idx + 1;
-        const opts = document.getElementById('cbtOptions'); opts.innerHTML = '';
+        const opts = document.getElementById('cbtOptions');
+        opts.innerHTML = '';
         q.opts.forEach((o, i) => {
-          const btn = document.createElement('button'); btn.className = 'option-btn' + (cbtState.answers[cbtState.idx] === i ? ' selected' : '');
-          btn.textContent = o; btn.onclick = () => { cbtState.answers[cbtState.idx] = i; renderCBT(); renderPalette(); };
+          const btn = document.createElement('button');
+          btn.className = 'option-btn' + (cbtState.answers[cbtState.idx] === i ? ' selected' : '');
+          btn.textContent = o;
+          btn.onclick = () => { cbtState.answers[cbtState.idx] = i; renderCBT(); renderPalette(); };
           opts.appendChild(btn);
         });
         renderPalette();
       }
 
       function renderPalette() {
-        const p = document.getElementById('questionPalette'); p.innerHTML = '';
+        const p = document.getElementById('questionPalette');
+        p.innerHTML = '';
         for (let i = 0; i < 10; i++) {
           const d = document.createElement('span');
           d.style.cssText = `width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:1.5px solid var(--border-medium);${cbtState.answers[i]!==null?'background:var(--accent-blue);color:#fff;':''}${cbtState.marked.has(i)?'border-color:var(--accent-amber);':''}${i===cbtState.idx?'font-weight:700;box-shadow:0 0 0 4px rgba(0,113,227,0.3);':''}`;
-          d.textContent = i + 1; d.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBT(); } };
+          d.textContent = i + 1;
+          d.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBT(); } };
           p.appendChild(d);
         }
       }
 
       async function submitCBT() {
         if (cbtState.submitted) return;
-        cbtState.submitted = true; if (cbtState.timer) clearInterval(cbtState.timer);
-        let score = 0; cbtState.answers.forEach((a, i) => { if (a === cbtQuestions[i].ans) score++; });
+        cbtState.submitted = true;
+        if (cbtState.timer) clearInterval(cbtState.timer);
+        let score = 0;
+        cbtState.answers.forEach((a, i) => { if (a === cbtQuestions[i].ans) score++; });
         const acc = Math.round((score / 10) * 100);
         document.getElementById('cbtQuestion').innerHTML = `<div style="text-align:center;padding:28px;"><div style="font-size:3.5rem;font-weight:700;background:var(--gradient-accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${score}/10</div><p style="font-size:1.1rem;color:var(--text-secondary);">Accuracy: ${acc}%</p></div>`;
-        document.getElementById('cbtOptions').innerHTML = ''; document.getElementById('cbtTimer').textContent = 'Done'; document.getElementById('questionPalette').innerHTML = '';
+        document.getElementById('cbtOptions').innerHTML = '';
+        document.getElementById('cbtTimer').textContent = 'Done';
+        document.getElementById('questionPalette').innerHTML = '';
         if (currentUser) {
           try {
             await firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add({ score, accuracy: acc, timestamp: new Date() });
-            const ref = firestore.collection('users').doc(currentUser.uid); const doc = await ref.get();
+            const ref = firestore.collection('users').doc(currentUser.uid);
+            const doc = await ref.get();
             if (doc.exists) {
-              const d = doc.data(); const tQ = (d.questionsSolved || 0) + 10;
+              const d = doc.data();
+              const tQ = (d.questionsSolved || 0) + 10;
               const newAcc = Math.round(((d.accuracy || 50) / 100 * (tQ - 10) + score) / tQ * 100);
               await ref.update({ questionsSolved: tQ, accuracy: Math.max(54, newAcc) });
-              userProfile.questionsSolved = tQ; userProfile.accuracy = Math.max(54, newAcc); updateUI();
+              userProfile.questionsSolved = tQ;
+              userProfile.accuracy = Math.max(54, newAcc);
+              updateUI();
             }
           } catch (e) { console.error(e); }
         }
         showToast(`Score: ${score}/10 (${acc}%)`, 'success');
-      }
-
-      // Admin Functions
-      async function loadAdminUsers() {
-        if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) return;
-        const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;">Loading…</td></tr>';
-        try {
-          const snapshot = await firestore.collection('users').get();
-          tbody.innerHTML = '';
-          snapshot.forEach(doc => {
-            const d = doc.data();
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${d.email || '—'}</td>
-              <td>${d.name || '—'}</td>
-              <td><input class="admin-input" type="number" value="${d.streak || 0}" id="streak_${doc.id}"></td>
-              <td><input class="admin-input" type="number" value="${d.accuracy || 50}" id="acc_${doc.id}" min="0" max="100"></td>
-              <td><input class="admin-input" type="number" value="${d.questionsSolved || 0}" id="solved_${doc.id}"></td>
-              <td><input class="admin-input" type="text" value="${d.rank || '#---'}" id="rank_${doc.id}"></td>
-              <td><button class="btn btn-sm btn-primary" onclick="SYF.adminSaveUser('${doc.id}')">Save</button></td>
-            `;
-            tbody.appendChild(row);
-          });
-        } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="7">Error loading users.</td></tr>'; }
-      }
-
-      async function adminSaveUser(uid) {
-        const streak = parseInt(document.getElementById(`streak_${uid}`).value) || 0;
-        const accuracy = Math.min(100, Math.max(0, parseInt(document.getElementById(`acc_${uid}`).value) || 50));
-        const solved = parseInt(document.getElementById(`solved_${uid}`).value) || 0;
-        const rank = document.getElementById(`rank_${uid}`).value || '#---';
-        try {
-          await firestore.collection('users').doc(uid).update({ streak, accuracy, questionsSolved: solved, rank });
-          showToast('User updated successfully', 'success');
-          if (uid === currentUser?.uid) {
-            userProfile.streak = streak; userProfile.accuracy = accuracy; userProfile.questionsSolved = solved; userProfile.rank = rank;
-            updateUI();
-          }
-        } catch (e) { showToast('Update failed: ' + e.message, 'error'); }
-      }
-
-      function toggleAdminPanel() {
-        const panel = document.getElementById('adminPanel');
-        panel.classList.toggle('active');
-        if (panel.classList.contains('active')) loadAdminUsers();
       }
 
       window.SYF = {
@@ -718,28 +896,14 @@
         closeAuthModal: () => { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = ''; },
         switchAuthTab,
         handleSignIn,
-        handleLogout: () => auth.signOut().then(() => showToast('Signed out', 'success')),
-        uploadAvatar: async (ev) => {
-          if (!currentUser) return showToast('Sign in first', 'warning');
-          const f = ev.target.files[0]; if (!f || f.size > 5e6) return;
-          const fd = new FormData(); fd.append('image', f);
-          try {
-            const r = await fetch('https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a', { method: 'POST', body: fd });
-            const j = await r.json();
-            if (j.success) { userProfile.avatar = j.data.url; updateUI(); await firestore.collection('users').doc(currentUser.uid).update({ avatar: j.data.url }); showToast('Avatar updated', 'success'); }
-          } catch (ex) { showToast('Upload failed', 'error'); }
-        },
-        checkPasswordStrength: (pw) => { const b = document.getElementById('passwordStrengthBar'); b.className = 'password-strength-bar'; let s = 0; if (pw.length >= 8) s++; if (pw.length >= 12) s++; if (/[A-Z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++; if (s <= 2) b.classList.add('strength-weak'); else if (s <= 4) b.classList.add('strength-medium'); else b.classList.add('strength-strong'); },
-        checkPasswordMatch: () => { const pw = document.getElementById('regPassword').value, cp = document.getElementById('confirmPassword').value, msg = document.getElementById('passwordMatchMsg'); if (cp === '') msg.textContent = ''; else if (pw === cp) { msg.textContent = '✓ Match'; msg.style.color = 'var(--accent-emerald)'; } else { msg.textContent = '✗ Not match'; msg.style.color = 'var(--accent-rose)'; } },
-        submitRegistration: async () => {
-          const fn = document.getElementById('firstName').value.trim(), ln = document.getElementById('lastName').value.trim(), em = document.getElementById('regEmail').value.trim(), pw = document.getElementById('regPassword').value;
-          if (!fn || !ln || !em.includes('@') || pw.length < 8) return showToast('Fill correctly', 'error');
-          try {
-            const uc = await auth.createUserWithEmailAndPassword(em, pw); await uc.user.updateProfile({ displayName: `${fn} ${ln}` });
-            await firestore.collection('users').doc(uc.user.uid).set({ name: `${fn} ${ln}`, email: em, streak: 1, accuracy: 57, questionsSolved: 12, rank: '#1400', lastActiveDate: new Date().toISOString().split('T')[0] });
-            showToast('Account created!', 'success'); SYF.closeAuthModal();
-          } catch (e) { showToast(e.message, 'error'); }
-        },
+        handleLogout,
+        previewRegPhoto,
+        initiatePayment,
+        handleSubjectClick,
+        navigateTo,
+        uploadAvatar,
+        checkPasswordStrength,
+        checkPasswordMatch,
         openCBTModal: startCBT,
         closeCBTModal: () => { document.getElementById('cbtModal').classList.remove('active'); if (cbtState.timer) clearInterval(cbtState.timer); document.body.style.overflow = ''; },
         cbt: {
@@ -749,23 +913,38 @@
           submitTest: submitCBT
         },
         registration: {
-          nextStep: (step) => { if (step === 2 && !document.getElementById('regEmail').value.includes('@')) return showToast('Valid email required', 'error'); goToStep(step); },
+          nextStep: (step) => {
+            if (step === 2 && !document.getElementById('regEmail').value.includes('@')) return showToast('Valid email required', 'error');
+            if (step === 3) {
+              const pw = document.getElementById('regPassword').value;
+              const cp = document.getElementById('confirmPassword').value;
+              if (pw.length < 8) return showToast('Password min 8 characters', 'error');
+              if (pw !== cp) return showToast('Passwords do not match', 'error');
+            }
+            goToStep(step);
+          },
           prevStep: (step) => goToStep(step)
-        },
-        toggleAdminPanel,
-        adminSaveUser
+        }
       };
 
       document.addEventListener('click', (e) => { if (e.target.classList.contains('skill-tag')) e.target.classList.toggle('selected'); });
       document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) SYF.closeAuthModal(); });
       document.getElementById('cbtModal').addEventListener('click', function(e) { if (e.target === this) SYF.closeCBTModal(); });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { if (document.getElementById('authModal').classList.contains('active')) SYF.closeAuthModal(); if (document.getElementById('cbtModal').classList.contains('active')) SYF.closeCBTModal(); }
-        if (document.getElementById('cbtModal').classList.contains('active') && !cbtState.submitted) { if (e.key === 'ArrowRight') { e.preventDefault(); cbtState.idx = Math.min(9, cbtState.idx + 1); renderCBT(); } if (e.key === 'ArrowLeft') { e.preventDefault(); cbtState.idx = Math.max(0, cbtState.idx - 1); renderCBT(); } }
+        if (e.key === 'Escape') {
+          if (document.getElementById('authModal').classList.contains('active')) SYF.closeAuthModal();
+          if (document.getElementById('cbtModal').classList.contains('active')) SYF.closeCBTModal();
+        }
+        if (document.getElementById('cbtModal').classList.contains('active') && !cbtState.submitted) {
+          if (e.key === 'ArrowRight') { e.preventDefault(); cbtState.idx = Math.min(9, cbtState.idx + 1); renderCBT(); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); cbtState.idx = Math.max(0, cbtState.idx - 1); renderCBT(); }
+        }
       });
 
-      initTheme(); updateUI(); renderTodayTarget();
-      console.log('🚀 SYF Apple-Inspired Platform v6.0 with Admin Ready');
+      initTheme();
+      updateUI();
+      renderTodayTarget();
+      console.log('🚀 SYF Premium v7.0 — ₹20 Live Payment Ready');
     })();
   </script>
 </body>
