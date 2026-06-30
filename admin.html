@@ -3,23 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="SYF - Secure Your Future | Apple-Inspired Quantum Neural CBT Exam Preparation Platform with Admin Panel">
+  <meta name="description" content="SYF Admin Panel - Secure Your Future | User Management & Performance Control">
   <meta name="theme-color" content="#000000">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>SYF – Neural Adaptive Prep | Apple Design + Admin</title>
+  <title>SYF Admin Panel | User Management</title>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    /* ========== APPLE-INSPIRED ULTRA PREMIUM DESIGN SYSTEM ========== */
     :root {
       --bg-primary: #f5f5f7;
       --bg-secondary: #ffffff;
@@ -37,11 +33,7 @@
       --shadow-xl: 0 32px 72px rgba(0, 0, 0, 0.08);
       --gradient-brand: linear-gradient(135deg, #0a0a0a 0%, #1c1c1e 40%, #2c2c2e 100%);
       --gradient-accent: linear-gradient(135deg, #0071e3 0%, #0077ed 40%, #5ac8fa 100%);
-      --gradient-emerald: linear-gradient(135deg, #30d158 0%, #34c759 60%, #30d158 100%);
-      --gradient-warm: linear-gradient(135deg, #ff9f0a 0%, #ff9f0a 50%, #ffb340 100%);
-      --gradient-purple: linear-gradient(135deg, #af52de 0%, #bf5af2 50%, #da8fff 100%);
       --accent-blue: #0071e3;
-      --accent-navy: #1d1d1f;
       --accent-emerald: #34c759;
       --accent-amber: #ff9f0a;
       --accent-rose: #ff375f;
@@ -95,7 +87,7 @@
     @media (min-width: 768px) { .app-container { padding: 0 40px; } }
     @media (min-width: 1200px) { .app-container { padding: 0 64px; } }
 
-    .app-header {
+    .admin-header {
       position: sticky; top: 0; z-index: 100;
       background: var(--bg-glass); backdrop-filter: blur(40px) saturate(200%);
       -webkit-backdrop-filter: blur(40px) saturate(200%);
@@ -110,29 +102,9 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     .logo-text { font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem; color: var(--text-primary); letter-spacing: -0.5px; line-height: 1.15; }
-    .logo-text span { display: block; font-size: 0.6rem; font-weight: 600; color: var(--accent-blue); letter-spacing: 2.5px; text-transform: uppercase; }
-    .nav-links { display: none; gap: 2px; align-items: center; flex-wrap: wrap; }
-    @media (min-width: 1100px) { .nav-links { display: flex; } }
-    .nav-link {
-      padding: 8px 18px; border-radius: 50px; font-weight: 500; font-size: 0.82rem;
-      color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
-      white-space: nowrap; border: none; background: transparent; font-family: var(--font-body); text-decoration: none; letter-spacing: -0.01em;
-    }
-    .nav-link:hover { color: var(--text-primary); }
-    .nav-link.active { background: var(--bg-tertiary); color: var(--text-primary); font-weight: 600; }
+    .logo-text span { display: block; font-size: 0.6rem; font-weight: 600; color: var(--accent-rose); letter-spacing: 2.5px; text-transform: uppercase; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
-    .icon-btn {
-      width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 1.15rem; transition: all var(--transition-fast); color: var(--text-primary); position: relative;
-    }
-    .icon-btn:hover { background: var(--bg-tertiary); }
-    .badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--accent-rose); border-radius: 50%; border: 2px solid var(--bg-secondary); }
-    .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; cursor: pointer; font-size: 1.25rem; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; }
-    .auth-btn { padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; background: var(--accent-blue); color: #fff; transition: all var(--transition-fast); letter-spacing: -0.01em; }
-    .auth-btn:hover { opacity: 0.9; transform: scale(1.02); }
-    .user-menu { display: none; align-items: center; gap: 10px; }
-    .user-menu.active { display: flex; }
+    .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent; cursor: pointer; font-size: 1.25rem; transition: all 0.5s ease; display: flex; align-items: center; justify-content: center; color: var(--text-primary); }
 
     .btn { padding: 10px 22px; border-radius: 50px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-body); font-size: 0.85rem; transition: all var(--transition-fast); display: inline-flex; align-items: center; gap: 6px; letter-spacing: -0.01em; }
     .btn:hover { opacity: 0.88; transform: scale(1.02); }
@@ -140,303 +112,161 @@
     .btn-primary { background: var(--accent-blue); color: #fff; }
     .btn-outline { background: transparent; border: 1.5px solid var(--border-medium); color: var(--text-primary); }
     .btn-sm { padding: 6px 16px; font-size: 0.78rem; }
-    .btn-back { background: transparent; border: 1.5px solid var(--border-medium); color: var(--text-secondary); }
     .btn-danger { background: var(--accent-rose); color: #fff; }
+    .btn-emerald { background: var(--accent-emerald); color: #fff; }
 
-    .hero-section { padding: 56px 0 40px; text-align: center; }
-    @media (min-width: 768px) { .hero-section { padding: 72px 0 48px; } }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-tertiary); border-radius: 50px; padding: 6px 18px; font-size: 0.8rem; font-weight: 600; color: var(--accent-emerald); margin-bottom: 18px; letter-spacing: -0.01em; }
-    .pulse-dot { width: 7px; height: 7px; background: var(--accent-emerald); border-radius: 50%; animation: applePulse 2.5s infinite; }
-    @keyframes applePulse { 0%,100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(52,199,89,0.4); } 50% { opacity: 0.7; transform: scale(1.8); box-shadow: 0 0 0 6px rgba(52,199,89,0); } }
-    .hero-title { font-family: var(--font-heading); font-weight: 700; font-size: 2.8rem; letter-spacing: -0.04em; line-height: 1.1; color: var(--text-primary); margin-bottom: 10px; }
-    .hero-title .highlight { background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-subtitle { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto; font-weight: 400; }
-    @media (min-width: 768px) { .hero-title { font-size: 3.6rem; } }
+    .admin-panel { padding: 32px 0; }
+    .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 1.5rem; letter-spacing: -0.03em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .section-subtitle { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px; }
 
-    .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
-    @media (min-width: 950px) { .dashboard-grid { grid-template-columns: 280px 1fr 1fr; } }
-    @media (min-width: 1350px) { .dashboard-grid { grid-template-columns: 300px 1fr 1fr 300px; } }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      background: var(--bg-card); border-radius: var(--radius-xl); padding: 20px;
+      border: 0.5px solid var(--border-subtle); box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    .stat-card .stat-value { font-family: var(--font-heading); font-weight: 700; font-size: 2rem; }
+    .stat-card .stat-label { font-size: 0.78rem; color: var(--text-tertiary); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .profile-card { background: var(--bg-card); border-radius: var(--radius-2xl); padding: 32px 24px; border: 0.5px solid var(--border-subtle); box-shadow: var(--shadow-md); text-align: center; position: relative; overflow: hidden; }
-    .profile-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 100px; background: var(--gradient-brand); border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; z-index: 0; }
-    .profile-card>* { position: relative; z-index: 1; }
-    .profile-avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--bg-card); margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 600; color: var(--accent-navy); border: 3px solid var(--bg-card); box-shadow: 0 4px 16px rgba(0,0,0,0.08); background-size: cover; background-position: center; cursor: pointer; transition: transform 0.3s ease; }
-    .profile-avatar:hover { transform: scale(1.04); }
-    .profile-avatar span { position: absolute; bottom: -2px; right: -2px; background: var(--accent-blue); color: #fff; border-radius: 50%; width: 26px; height: 26px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; border: 3px solid white; }
-    .profile-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.15rem; margin-top: 6px; }
-    .profile-email { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 14px; }
-    .streak-row { display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg-tertiary); border-radius: 50px; padding: 7px 18px; font-weight: 600; font-size: 0.8rem; color: var(--accent-amber); margin-bottom: 14px; }
-    .mini-stat-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .mini-stat { text-align: center; background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 12px 16px; min-width: 72px; }
-    .mini-stat-val { font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; }
-    .mini-stat-lbl { font-size: 0.68rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.3px; }
+    .search-bar {
+      display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1; min-width: 200px; padding: 10px 16px; border-radius: 50px;
+      border: 1.5px solid var(--border-medium); background: var(--bg-primary);
+      font-family: var(--font-body); font-size: 0.9rem; color: var(--text-primary);
+      transition: 0.25s;
+    }
+    .search-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(0,113,227,0.12); }
 
-    .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.03em; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
-    .subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-bottom: 40px; }
-    .subject-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 24px 20px; border: 0.5px solid var(--border-subtle); cursor: pointer; transition: all var(--transition-smooth); position: relative; overflow: hidden; box-shadow: var(--shadow-sm); }
-    .subject-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: var(--border-medium); }
-    .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
-    .accent-math { background: var(--gradient-accent); } .accent-reason { background: var(--gradient-emerald); } .accent-english { background: var(--gradient-warm); } .accent-gk { background: var(--gradient-purple); }
-    .subj-icon { font-size: 2.4rem; margin-bottom: 10px; display: block; }
-    .subj-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.05rem; }
-    .subj-chapters { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px; }
-    .progress-bar-wrap { background: var(--bg-tertiary); border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 8px; }
-    .progress-bar-fill { height: 100%; border-radius: 20px; transition: width 1.5s ease; }
-    .fill-math { background: var(--gradient-accent); width: 72%; } .fill-reason { background: var(--gradient-emerald); width: 58%; } .fill-english { background: var(--gradient-warm); width: 45%; } .fill-gk { background: var(--gradient-purple); width: 34%; }
-    .subj-meta { display: flex; justify-content: space-between; font-size: 0.73rem; color: var(--text-tertiary); font-weight: 500; }
-    .badge-difficulty { padding: 3px 10px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; }
-    .badge-easy { background: rgba(52,199,89,0.15); color: #248a3d; } .badge-medium { background: rgba(255,159,10,0.15); color: #b06a00; } .badge-hard { background: rgba(255,55,95,0.15); color: #c7002b; }
-    [data-theme="dark"] .badge-easy { background: rgba(52,199,89,0.2); color: #30d158; } [data-theme="dark"] .badge-medium { background: rgba(255,159,10,0.2); color: #ff9f0a; } [data-theme="dark"] .badge-hard { background: rgba(255,55,95,0.2); color: #ff375f; }
+    .table-wrapper {
+      background: var(--bg-card); border-radius: var(--radius-2xl);
+      border: 0.5px solid var(--border-subtle); box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th, .admin-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
+    .admin-table th { font-weight: 600; color: var(--text-secondary); background: var(--bg-tertiary); position: sticky; top: 0; z-index: 1; }
+    .admin-table tbody tr:hover { background: var(--bg-tertiary); }
+    .admin-input {
+      width: 80px; padding: 8px 10px; border-radius: 8px;
+      border: 1.5px solid var(--border-medium); background: var(--bg-primary);
+      font-family: var(--font-body); font-size: 0.85rem; text-align: center;
+      color: var(--text-primary); transition: 0.2s;
+    }
+    .admin-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
+    .admin-input.wide { width: 120px; }
+    .action-btns { display: flex; gap: 6px; }
 
-    .perf-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 22px; border: 0.5px solid var(--border-subtle); box-shadow: var(--shadow-md); }
-    .ring-chart { width: 96px; height: 96px; flex-shrink: 0; position: relative; }
-    .ring-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 1.4rem; }
-    .continue-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 18px 20px; border: 0.5px solid var(--border-subtle); cursor: pointer; display: flex; align-items: center; gap: 16px; transition: all var(--transition-smooth); margin-bottom: 12px; }
-    .continue-card:hover { box-shadow: var(--shadow-lg); transform: translateX(4px); border-color: var(--border-medium); }
-    .continue-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; }
-
-    /* Modals */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
-    .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal-content { background: var(--bg-secondary); border-radius: var(--radius-3xl); width: 100%; max-width: 920px; max-height: 85vh; overflow-y: auto; border: 0.5px solid var(--border-medium); box-shadow: var(--shadow-xl); padding: 36px; position: relative; }
-    .modal-close { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--bg-tertiary); cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--text-secondary); transition: all var(--transition-fast); }
-    .modal-close:hover { background: var(--border-medium); color: var(--text-primary); }
-    .cbt-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid var(--border-subtle); }
-    .cbt-timer { font-family: var(--font-mono); font-weight: 600; font-size: 1.4rem; color: var(--accent-rose); background: var(--bg-tertiary); padding: 8px 20px; border-radius: 50px; }
-    .option-btn { display: block; width: 100%; text-align: left; padding: 14px 18px; margin-bottom: 10px; border-radius: var(--radius-md); border: 1.5px solid var(--border-medium); background: var(--bg-card); cursor: pointer; font-family: var(--font-body); font-size: 0.9rem; transition: all var(--transition-fast); color: var(--text-primary); }
-    .option-btn:hover { border-color: var(--accent-blue); background: rgba(0,113,227,0.04); }
-    .option-btn.selected { border-color: var(--accent-blue); background: rgba(0,113,227,0.1); font-weight: 600; }
     .toast-container { position: fixed; bottom: 32px; right: 32px; z-index: 300; display: flex; flex-direction: column; gap: 10px; }
-    .toast { background: var(--bg-card); border: 0.5px solid var(--border-medium); border-radius: var(--radius-md); padding: 14px 22px; font-weight: 500; font-size: 0.85rem; box-shadow: var(--shadow-lg); animation: slideInRight 0.45s ease; color: var(--text-primary); }
+    .toast {
+      background: var(--bg-card); border: 0.5px solid var(--border-medium);
+      border-radius: var(--radius-md); padding: 14px 22px; font-weight: 500;
+      font-size: 0.85rem; box-shadow: var(--shadow-lg);
+      animation: slideInRight 0.45s ease; color: var(--text-primary);
+    }
     @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
-    .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); z-index: 100; padding: 8px 12px; padding-bottom: max(8px, env(safe-area-inset-bottom)); justify-content: space-around; border-top: 0.5px solid var(--border-subtle); }
-    @media (min-width: 1100px) { .bottom-nav { display: none; } }
-    .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.68rem; font-weight: 500; color: var(--text-tertiary); transition: all var(--transition-fast); border: none; background: transparent; font-family: var(--font-body); }
-    .bottom-nav-item.active { color: var(--accent-blue); font-weight: 600; }
 
-    .registration-modal { max-width: 500px; }
-    .step-indicator { display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; }
-    .step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-medium); transition: all 0.4s ease; }
-    .step-dot.active { background: var(--accent-blue); box-shadow: 0 0 0 5px rgba(0,113,227,0.2); }
-    .step-dot.completed { background: var(--accent-emerald); }
-    .registration-step { display: none; animation: fadeInUp 0.5s ease; }
-    .registration-step.active { display: block; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
-    .form-group { margin-bottom: 18px; }
+    .login-overlay {
+      position: fixed; inset: 0; background: var(--bg-primary);
+      z-index: 999; display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      background: var(--bg-card); border-radius: var(--radius-3xl);
+      padding: 40px 36px; border: 0.5px solid var(--border-subtle);
+      box-shadow: var(--shadow-xl); width: 100%; max-width: 420px; text-align: center;
+    }
+    .login-card h2 { font-family: var(--font-heading); font-weight: 600; margin-bottom: 6px; }
+    .login-card p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px; }
+    .form-group { margin-bottom: 18px; text-align: left; }
     .form-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); }
-    .form-input, .form-select { width: 100%; padding: 12px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--border-medium); background: var(--bg-primary); font-family: var(--font-body); font-size: 0.9rem; transition: 0.25s; color: var(--text-primary); }
-    .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(0,113,227,0.12); }
-    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2386868b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 44px; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    .skill-tag { padding: 7px 16px; border-radius: 50px; border: 1.5px solid var(--border-medium); background: var(--bg-primary); cursor: pointer; font-size: 0.82rem; transition: all var(--transition-fast); user-select: none; }
-    .skill-tag:hover { border-color: var(--accent-blue); background: rgba(0,113,227,0.04); }
-    .skill-tag.selected { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
-    .password-strength { height: 4px; background: var(--bg-tertiary); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-    .password-strength-bar { height: 100%; border-radius: 2px; transition: width 0.4s; width: 0%; }
-    .strength-weak { background: var(--accent-rose); width: 33%; } .strength-medium { background: var(--accent-amber); width: 66%; } .strength-strong { background: var(--accent-emerald); width: 100%; }
-
-    .animate-in { animation: appleFadeUp 0.7s ease forwards; opacity: 0; }
-    .delay-1 { animation-delay: 0.12s; } .delay-2 { animation-delay: 0.24s; } .delay-3 { animation-delay: 0.36s; } .delay-4 { animation-delay: 0.48s; } .delay-5 { animation-delay: 0.6s; }
-    @keyframes appleFadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    #upload-avatar-input { display: none; }
-
-    /* Admin Panel */
-    .admin-panel { display: none; }
-    .admin-panel.active { display: block; }
-    .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
-    .admin-table th { font-weight: 600; color: var(--text-secondary); }
-    .admin-input { width: 80px; padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--border-medium); background: var(--bg-primary); font-family: var(--font-body); font-size: 0.85rem; text-align: center; }
+    .form-input {
+      width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-medium); background: var(--bg-primary);
+      font-family: var(--font-body); font-size: 0.9rem; color: var(--text-primary); transition: 0.25s;
+    }
+    .form-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(0,113,227,0.12); }
   </style>
 </head>
 <body>
-  <header class="app-header">
-    <div class="app-container header-inner">
-      <a class="logo-group" href="index.html" title="SYF Home">
-        <div class="logo-icon">SYF</div>
-        <div class="logo-text">Secure Your Future<span>Neural Adaptive Prep</span></div>
-      </a>
-      <nav class="nav-links" id="mainNav">
-        <a class="nav-link active" href="index.html">Home</a>
-        <a class="nav-link" href="mathematics.html">Mathematics</a>
-        <a class="nav-link" href="reasoning.html">Reasoning</a>
-        <a class="nav-link" href="english.html">English</a>
-        <a class="nav-link" href="gk.html">GK/GS</a>
-        <a class="nav-link" href="#" onclick="SYF.openCBTModal(); return false;">CBT Mock</a>
-        <a class="nav-link" href="#" id="adminNavLink" style="display:none;" onclick="SYF.toggleAdminPanel(); return false;">⚙️ Admin</a>
-      </nav>
-      <div class="header-actions">
-        <button class="icon-btn" title="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-        <button class="icon-btn" title="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="badge-dot"></span></button>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
-        <div id="auth-section">
-          <button class="auth-btn" id="loginBtn" onclick="SYF.openAuthModal()">Sign In</button>
-          <div class="user-menu" id="userMenu">
-            <span id="displayNameSmall" style="font-weight:600;font-size:0.85rem;"></span>
-            <button class="btn-outline btn-sm" onclick="SYF.handleLogout()">Sign Out</button>
-          </div>
+  <!-- Admin Login Screen -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div style="font-size:3rem;margin-bottom:12px;">⚙️</div>
+      <h2>SYF Admin Panel</h2>
+      <p>Sign in with your admin credentials</p>
+      <div class="form-group">
+        <label>Admin Email</label>
+        <input type="email" class="form-input" id="adminEmail" placeholder="admin@syf.com" value="admin@syf.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" value="admin123">
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="SYF.adminLogin()">Sign In to Admin</button>
+      <p style="margin-top:16px;font-size:0.78rem;color:var(--text-tertiary);">Default: admin@syf.com / admin123</p>
+    </div>
+  </div>
+
+  <!-- Main Admin Interface -->
+  <div id="adminInterface" style="display:none;">
+    <header class="admin-header">
+      <div class="app-container header-inner">
+        <a class="logo-group" href="index.html" title="SYF Home">
+          <div class="logo-icon">SYF</div>
+          <div class="logo-text">Secure Your Future<span>Admin Panel</span></div>
+        </a>
+        <div class="header-actions">
+          <span id="adminDisplayName" style="font-weight:600;font-size:0.9rem;"></span>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+          <button class="btn btn-outline btn-sm" onclick="SYF.adminLogout()">Sign Out</button>
+          <a href="index.html" class="btn btn-sm" style="background:var(--accent-blue);color:#fff;text-decoration:none;">← Main Site</a>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="app-container" style="padding-top:12px;">
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel" style="margin-bottom: 32px;">
-      <div class="perf-card">
-        <div class="section-title">⚙️ Admin Panel — User Management</div>
-        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px;">Edit streak, accuracy, questions solved, and rank for any user. Changes are saved in real‑time.</p>
-        <div id="adminUserList" style="max-height: 400px; overflow-y: auto;">
+    <main class="app-container admin-panel">
+      <div class="section-title">⚙️ User Management Dashboard</div>
+      <p class="section-subtitle">Edit streak, accuracy, questions solved, rank, and more. All changes are saved in real‑time to Firestore.</p>
+
+      <div class="stats-row" id="adminStats">
+        <div class="stat-card"><div class="stat-value" id="statTotalUsers">0</div><div class="stat-label">Total Users</div></div>
+        <div class="stat-card"><div class="stat-value" id="statAvgAccuracy">0%</div><div class="stat-label">Avg Accuracy</div></div>
+        <div class="stat-card"><div class="stat-value" id="statTotalSolved">0</div><div class="stat-label">Total Solved</div></div>
+        <div class="stat-card"><div class="stat-value" id="statActiveStreaks">0</div><div class="stat-label">Active Streaks</div></div>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search by name or email..." oninput="SYF.filterUsers()">
+        <button class="btn btn-outline btn-sm" onclick="SYF.refreshUsers()">🔄 Refresh</button>
+        <button class="btn btn-sm btn-emerald" onclick="SYF.exportCSV()">📥 Export CSV</button>
+      </div>
+
+      <div class="table-wrapper">
+        <div style="max-height: 60vh; overflow-y: auto;">
           <table class="admin-table">
-            <thead><tr><th>Email</th><th>Name</th><th>Streak</th><th>Accuracy (%)</th><th>Solved</th><th>Rank</th><th>Actions</th></tr></thead>
-            <tbody id="adminTableBody"><tr><td colspan="7" style="text-align:center;padding:20px;">Loading users…</td></tr></tbody>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Streak</th>
+                <th>Accuracy (%)</th>
+                <th>Questions Solved</th>
+                <th>Rank</th>
+                <th>Last Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:40px;">Loading users…</td></tr>
+            </tbody>
           </table>
         </div>
       </div>
-    </div>
-
-    <section class="hero-section animate-in">
-      <div class="hero-badge"><span class="pulse-dot"></span> Trusted by 3.8L+ Aspirants</div>
-      <h1 class="hero-title">Your <span class="highlight">Government Exam</span><br>Success Starts Here</h1>
-      <p class="hero-subtitle">Apple-inspired quantum-adaptive CBT preparation for SSC, Banking, Railway & all competitive exams. Real-time neural analytics with a premium, trustworthy experience.</p>
-    </section>
-
-    <div class="dashboard-grid">
-      <aside class="profile-card animate-in delay-1" id="profileCard">
-        <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('upload-avatar-input').click()" title="Update profile picture">👤<span>📷</span></div>
-        <input type="file" id="upload-avatar-input" accept="image/*" onchange="SYF.uploadAvatar(event)">
-        <div class="profile-name" id="profileName">Guest User</div>
-        <div class="profile-email" id="profileEmail">Sign in to continue</div>
-        <div class="streak-row">🔥 <span id="streakCount">0</span> Day Streak</div>
-        <div class="mini-stat-row">
-          <div class="mini-stat"><div class="mini-stat-val" id="totalQuestions">0</div><div class="mini-stat-lbl">Solved</div></div>
-          <div class="mini-stat"><div class="mini-stat-val" id="overallAccuracy">0%</div><div class="mini-stat-lbl">Accuracy</div></div>
-          <div class="mini-stat"><div class="mini-stat-val" id="userRank">#---</div><div class="mini-stat-lbl">Rank</div></div>
-        </div>
-      </aside>
-
-      <div style="display:flex;flex-direction:column;gap:22px;">
-        <div class="animate-in delay-2">
-          <div class="section-title">Continue Learning</div>
-          <div class="continue-card" onclick="window.location.href='mathematics.html'">
-            <div class="continue-icon" style="background:var(--gradient-accent);">📐</div>
-            <div style="flex:1;"><div style="font-weight:600;">Mathematics → Digital Sum</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 3 · 42% complete</div></div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-          <div class="continue-card" onclick="window.location.href='reasoning.html'">
-            <div class="continue-icon" style="background:var(--gradient-emerald);">🧠</div>
-            <div style="flex:1;"><div style="font-weight:600;">Reasoning → Blood Relations</div><div style="font-size:0.78rem;color:var(--text-secondary);">Chapter 7 · 68% complete</div></div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-        </div>
-        <div class="perf-card animate-in delay-3">
-          <div class="section-title">Performance Analytics</div>
-          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-            <div class="ring-chart"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="40" fill="none" stroke="var(--bg-tertiary)" stroke-width="7"/><circle cx="48" cy="48" r="40" fill="none" stroke="url(#ringGrad)" stroke-width="7" stroke-dasharray="251.3" stroke-dashoffset="55" stroke-linecap="round"/><defs><linearGradient id="ringGrad"><stop offset="0%" stop-color="#0071e3"/><stop offset="100%" stop-color="#5ac8fa"/></linearGradient></defs></svg><div class="ring-center" id="perfRingPercent">78%</div></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1;">
-              <div style="background:var(--bg-tertiary);padding:10px;border-radius:12px;"><div style="font-weight:700;color:var(--accent-emerald);" id="perfAccuracy">92%</div><small style="color:var(--text-tertiary);">Accuracy</small></div>
-              <div style="background:var(--bg-tertiary);padding:10px;border-radius:12px;"><div style="font-weight:700;color:var(--accent-blue);" id="perfSpeed">48s</div><small style="color:var(--text-tertiary);">Avg Speed</small></div>
-              <div style="background:var(--bg-tertiary);padding:10px;border-radius:12px;"><div style="font-weight:700;color:var(--accent-amber);" id="perfPYQs">1.2K</div><small style="color:var(--text-tertiary);">PYQs</small></div>
-              <div style="background:var(--bg-tertiary);padding:10px;border-radius:12px;"><div style="font-weight:700;color:var(--accent-rose);" id="perfWeak">3</div><small style="color:var(--text-tertiary);">Weak Areas</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="perf-card animate-in delay-4">
-        <div class="section-title">Today's Target</div>
-        <div id="todayTargetContainer" style="display:flex;flex-direction:column;gap:10px;"></div>
-      </div>
-    </div>
-
-    <section class="animate-in delay-5">
-      <div class="section-title">Core Subjects</div>
-      <div class="subject-grid">
-        <div class="subject-card" onclick="window.location.href='mathematics.html'"><div class="card-accent accent-math"></div><span class="subj-icon">📐</span><div class="subj-name">Mathematics</div><div class="subj-chapters">28 Chapters · 1,240+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-math"></div></div><div class="subj-meta"><span>72%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="window.location.href='reasoning.html'"><div class="card-accent accent-reason"></div><span class="subj-icon">🧠</span><div class="subj-name">Reasoning</div><div class="subj-chapters">22 Chapters · 980+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-reason"></div></div><div class="subj-meta"><span>58%</span><span class="badge-difficulty badge-easy">Easy</span></div></div>
-        <div class="subject-card" onclick="window.location.href='english.html'"><div class="card-accent accent-english"></div><span class="subj-icon">📖</span><div class="subj-name">English</div><div class="subj-chapters">18 Chapters · 760+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-english"></div></div><div class="subj-meta"><span>45%</span><span class="badge-difficulty badge-medium">Medium</span></div></div>
-        <div class="subject-card" onclick="window.location.href='gk.html'"><div class="card-accent accent-gk"></div><span class="subj-icon">🌍</span><div class="subj-name">GK / GS</div><div class="subj-chapters">35 Chapters · 2,100+ PYQs</div><div class="progress-bar-wrap"><div class="progress-bar-fill fill-gk"></div></div><div class="subj-meta"><span>34%</span><span class="badge-difficulty badge-hard">Hard</span></div></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- CBT Modal -->
-  <div class="modal-overlay" id="cbtModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="SYF.closeCBTModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <div class="cbt-header">
-        <div><strong id="cbtSubjectLabel">Mathematics</strong> — <span id="cbtChapterLabel" style="color:var(--text-secondary);">Digital Sum</span></div>
-        <div class="cbt-timer" id="cbtTimer">15:00</div>
-        <div style="font-weight:600;">Q <span id="cbtQNum">1</span>/10</div>
-      </div>
-      <div style="font-weight:600;font-size:1.1rem;margin-bottom:20px;" id="cbtQuestion"></div>
-      <div id="cbtOptions"></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
-        <button class="btn btn-outline btn-sm" onclick="SYF.cbt.markForReview()">📌 Mark</button>
-        <button class="btn btn-outline btn-sm" onclick="SYF.cbt.prevQuestion()">◀ Prev</button>
-        <button class="btn btn-primary btn-sm" onclick="SYF.cbt.saveAndNext()">Next ▶</button>
-        <button class="btn btn-sm" style="background:var(--accent-emerald);color:#fff;" onclick="SYF.cbt.submitTest()">✓ Submit</button>
-      </div>
-      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;" id="questionPalette"></div>
-    </div>
-  </div>
-
-  <!-- Auth Modal -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal-content registration-modal">
-      <button class="modal-close" onclick="SYF.closeAuthModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <!-- Sign In / Sign Up Toggle -->
-      <div style="display:flex;justify-content:center;gap:0;margin-bottom:24px;background:var(--bg-tertiary);border-radius:50px;padding:4px;">
-        <button id="tabSignIn" class="btn" style="flex:1;background:var(--accent-blue);color:#fff;border-radius:50px;" onclick="SYF.switchAuthTab('signin')">Sign In</button>
-        <button id="tabSignUp" class="btn" style="flex:1;background:transparent;color:var(--text-secondary);border-radius:50px;" onclick="SYF.switchAuthTab('signup')">Sign Up</button>
-      </div>
-      <!-- Sign In Form -->
-      <div id="signInForm">
-        <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:16px;">Welcome Back</h3>
-        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="signInEmail" placeholder="rahul@email.com"></div>
-        <div class="form-group"><label>Password</label><input type="password" class="form-input" id="signInPassword" placeholder="Your password"></div>
-        <button class="btn btn-primary" style="width:100%;" onclick="SYF.handleSignIn()">Sign In</button>
-      </div>
-      <!-- Sign Up Form (3 steps) -->
-      <div id="signUpForm" style="display:none;">
-        <div class="step-indicator"><div class="step-dot active" data-step="1"></div><div class="step-dot" data-step="2"></div><div class="step-dot" data-step="3"></div></div>
-        <form id="registrationForm" onsubmit="return false;">
-          <div class="registration-step active" id="step1">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Create Account</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Join 3.8L+ aspirants</p>
-            <div class="form-row"><div class="form-group"><label>First Name</label><input class="form-input" id="firstName" placeholder="Rahul"></div><div class="form-group"><label>Last Name</label><input class="form-input" id="lastName" placeholder="Sharma"></div></div>
-            <div class="form-group"><label>Email</label><input type="email" class="form-input" id="regEmail" placeholder="rahul@email.com"></div>
-            <div class="form-group"><label>Password</label><input type="password" class="form-input" id="regPassword" placeholder="8+ characters" oninput="SYF.checkPasswordStrength(this.value)"><div class="password-strength"><div class="password-strength-bar" id="passwordStrengthBar"></div></div></div>
-            <div class="form-group"><label>Confirm Password</label><input type="password" class="form-input" id="confirmPassword" oninput="SYF.checkPasswordMatch()"><div id="passwordMatchMsg" style="font-size:0.78rem;margin-top:4px;"></div></div>
-            <button type="button" class="btn btn-primary" style="width:100%;" onclick="SYF.registration.nextStep(2)">Continue</button>
-          </div>
-          <div class="registration-step" id="step2">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Preferences</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Personalize your learning</p>
-            <div class="form-group"><label>Target Exams</label><div class="skill-tags" id="targetExams"><span class="skill-tag" data-value="ssc">SSC</span><span class="skill-tag" data-value="bank">Bank</span><span class="skill-tag" data-value="railway">Railway</span><span class="skill-tag" data-value="upsc">UPSC</span></div></div>
-            <div style="display:flex;gap:12px;margin-top:18px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(1)">← Back</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.registration.nextStep(3)">Continue</button></div>
-          </div>
-          <div class="registration-step" id="step3">
-            <h3 style="font-family:var(--font-heading);font-weight:600;margin-bottom:6px;">Complete</h3>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:20px;">Review your details</p>
-            <div id="registrationSummary" style="background:var(--bg-tertiary);padding:18px;border-radius:16px;margin-bottom:18px;font-size:0.9rem;"></div>
-            <div style="display:flex;gap:12px;"><button type="button" class="btn btn-back" onclick="SYF.registration.prevStep(2)">← Back</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="SYF.submitRegistration()">Create Account</button></div>
-          </div>
-        </form>
-      </div>
-    </div>
+    </main>
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
-
-  <nav class="bottom-nav">
-    <button class="bottom-nav-item active" onclick="window.location.href='index.html'">🏠<span>Home</span></button>
-    <button class="bottom-nav-item" onclick="window.location.href='mathematics.html'">📐<span>Math</span></button>
-    <button class="bottom-nav-item" onclick="window.location.href='reasoning.html'">🧠<span>Reason</span></button>
-    <button class="bottom-nav-item" onclick="SYF.openCBTModal()">💻<span>CBT</span></button>
-    <button class="bottom-nav-item" onclick="document.getElementById('profileCard').scrollIntoView({behavior:'smooth'})">👤<span>Profile</span></button>
-  </nav>
 
   <script>
     (function() {
@@ -453,319 +283,241 @@
       const auth = firebase.auth();
       const firestore = firebase.firestore();
 
-      let currentUser = null;
-      let userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---' };
-      const ADMIN_EMAILS = ['admin@syf.com', 'test@admin.com']; // Add admin emails here
-
-      const cbtQuestions = [
-        { q: 'Digital sum of 8756?', opts: ['8', '7', '5', '2'], ans: 0 },
-        { q: 'A is brother of B, B sister of C. A is C\'s?', opts: ['Brother', 'Sister', 'Cousin', 'Uncle'], ans: 0 },
-        { q: 'Synonym of Benevolent?', opts: ['Cruel', 'Kind', 'Angry', 'Greedy'], ans: 1 },
-        { q: 'Chairman of Rajya Sabha?', opts: ['PM', 'President', 'Vice President', 'Speaker'], ans: 2 },
-        { q: 'Next in series: 2,6,12,20,?', opts: ['28', '30', '32', '26'], ans: 1 },
-        { q: 'Capital of Jharkhand?', opts: ['Patna', 'Ranchi', 'Raipur', 'Bhubaneswar'], ans: 1 },
-        { q: '5x+3=2x+15, x=?', opts: ['3', '4', '5', '6'], ans: 1 },
-        { q: 'Article for President impeachment?', opts: ['52', '61', '72', '356'], ans: 1 },
-        { q: 'Error: "Neither of the boys have submitted."', opts: ['Neither', 'boys', 'have', 'submitted'], ans: 2 },
-        { q: 'LCM of 12,18?', opts: ['6', '36', '72', '24'], ans: 1 }
-      ];
-      let cbtState = { idx: 0, answers: Array(10).fill(null), marked: new Set(), sec: 900, timer: null, submitted: false };
+      const ADMIN_EMAILS = ['admin@syf.com', 'test@admin.com', 'admin@test.com'];
+      const ADMIN_PASSWORD = 'admin123'; // In production, use proper authentication
+      let allUsers = [];
 
       function showToast(msg, type = 'info') {
         const container = document.getElementById('toastContainer');
         const toast = document.createElement('div'); toast.className = 'toast';
-        toast.textContent = `${type==='success'?'✓':type==='error'?'✗':'ℹ'} ${msg}`;
+        const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+        toast.textContent = `${icons[type] || 'ℹ️'} ${msg}`;
         container.appendChild(toast);
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(60px)'; setTimeout(() => toast.remove(), 350); }, 3400);
       }
 
       function initTheme() {
         const toggle = document.getElementById('themeToggle');
-        const saved = localStorage.getItem('syf-theme-v6') || 'light';
+        const saved = localStorage.getItem('syf-admin-theme') || 'light';
         document.documentElement.setAttribute('data-theme', saved);
-        toggle.innerHTML = saved === 'dark' ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-        toggle.addEventListener('click', () => {
-          const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('syf-theme-v6', next);
-          initTheme();
+        if (toggle) {
+          toggle.innerHTML = saved === 'dark' ? 
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' :
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+          toggle.addEventListener('click', () => {
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('syf-admin-theme', next);
+            initTheme();
+          });
+        }
+      }
+
+      function adminLogin() {
+        const email = document.getElementById('adminEmail').value.trim();
+        const password = document.getElementById('adminPassword').value;
+        
+        if (ADMIN_EMAILS.includes(email) && password === ADMIN_PASSWORD) {
+          document.getElementById('loginOverlay').style.display = 'none';
+          document.getElementById('adminInterface').style.display = 'block';
+          document.getElementById('adminDisplayName').textContent = email;
+          loadAllUsers();
+          showToast('Welcome, Admin!', 'success');
+        } else if (email && password) {
+          // Try Firebase Auth as fallback
+          auth.signInWithEmailAndPassword(email, password)
+            .then((userCred) => {
+              if (ADMIN_EMAILS.includes(userCred.user.email)) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('adminInterface').style.display = 'block';
+                document.getElementById('adminDisplayName').textContent = userCred.user.email;
+                loadAllUsers();
+                showToast('Welcome, Admin!', 'success');
+              } else {
+                auth.signOut();
+                showToast('Not an admin account', 'error');
+              }
+            })
+            .catch(e => showToast('Invalid credentials. Use admin@syf.com / admin123', 'error'));
+        } else {
+          showToast('Please enter credentials', 'warning');
+        }
+      }
+
+      function adminLogout() {
+        auth.signOut().then(() => {
+          document.getElementById('loginOverlay').style.display = 'flex';
+          document.getElementById('adminInterface').style.display = 'none';
+          allUsers = [];
         });
       }
 
-      function updateUI() {
-        document.getElementById('profileName').textContent = userProfile.name;
-        document.getElementById('profileEmail').textContent = userProfile.email || 'Sign in to continue';
-        document.getElementById('streakCount').textContent = userProfile.streak;
-        document.getElementById('totalQuestions').textContent = userProfile.questionsSolved;
-        document.getElementById('overallAccuracy').textContent = userProfile.accuracy + '%';
-        document.getElementById('userRank').textContent = userProfile.rank;
-        const avatar = document.getElementById('profileAvatar');
-        if (userProfile.avatar) { avatar.style.backgroundImage = `url(${userProfile.avatar})`; avatar.textContent = ''; }
-        else { avatar.style.backgroundImage = ''; avatar.textContent = currentUser ? (userProfile.name?.charAt(0) || '👤') : '👤'; }
-        if (currentUser) document.getElementById('displayNameSmall').textContent = userProfile.name || currentUser.email;
-        document.getElementById('perfRingPercent').textContent = userProfile.accuracy + '%';
-        document.getElementById('perfAccuracy').textContent = userProfile.accuracy + '%';
-        document.getElementById('perfSpeed').textContent = Math.max(26, 62 - userProfile.accuracy * 0.32) + 's';
-        document.getElementById('perfPYQs').textContent = (userProfile.questionsSolved * 0.85).toFixed(1) + 'K';
-        document.getElementById('perfWeak').textContent = Math.max(1, Math.floor((100 - userProfile.accuracy) / 8));
-        const circle = document.querySelector('.ring-chart circle:last-child');
-        if (circle) { const c = 2 * Math.PI * 40; circle.style.strokeDasharray = c; circle.style.strokeDashoffset = c - (userProfile.accuracy / 100) * c; }
-        renderTodayTarget();
-        // Admin visibility
-        if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
-          document.getElementById('adminNavLink').style.display = 'inline-block';
-        } else {
-          document.getElementById('adminNavLink').style.display = 'none';
-          document.getElementById('adminPanel').classList.remove('active');
-        }
-      }
-
-      function renderTodayTarget() {
-        const container = document.getElementById('todayTargetContainer');
-        if (!container) return;
-        const tasks = [
-          { name: 'Math', task: 'Digital Sum Set', done: userProfile.accuracy > 64 },
-          { name: 'Reasoning', task: 'Coding Decoding', done: userProfile.questionsSolved > 58 },
-          { name: 'English', task: 'RC Practice', done: userProfile.accuracy > 72 },
-          { name: 'GK', task: 'History Quiz', done: userProfile.streak > 6 }
-        ];
-        container.innerHTML = tasks.map(t => `
-          <div style="display:flex;gap:10px;align-items:center;padding:12px;background:var(--bg-tertiary);border-radius:14px;">
-            <span style="font-size:1.2rem;">${t.done ? '✓' : '○'}</span>
-            <div style="flex:1;"><strong>${t.name}</strong><br><small style="color:var(--text-tertiary);">${t.task}</small></div>
-            <span style="color:${t.done ? 'var(--accent-emerald)' : 'var(--accent-amber)'};font-weight:500;font-size:0.8rem;">${t.done ? 'Done' : 'Pending'}</span>
-          </div>`).join('');
-      }
-
-      async function loadProfile(uid) {
-        try {
-          const doc = await firestore.collection('users').doc(uid).get();
-          if (doc.exists) {
-            const d = doc.data();
-            userProfile = { name: d.name || 'User', email: d.email || '', avatar: d.avatar || '', streak: d.streak || 0, questionsSolved: d.questionsSolved || 0, accuracy: d.accuracy || 50, rank: d.rank || '#---' };
-          } else {
-            await firestore.collection('users').doc(uid).set({ name: 'User', email: currentUser.email, streak: 1, accuracy: 58, questionsSolved: 14, rank: '#1380', lastActiveDate: new Date().toISOString().split('T')[0] });
-            userProfile = { name: 'User', email: currentUser.email, avatar: '', streak: 1, questionsSolved: 14, accuracy: 58, rank: '#1380' };
-          }
-          updateUI();
-        } catch (e) { console.error(e); updateUI(); }
-      }
-
-      auth.onAuthStateChanged(async (user) => {
-        const loginBtn = document.getElementById('loginBtn'), menu = document.getElementById('userMenu');
-        if (user) {
-          currentUser = user; loginBtn.style.display = 'none'; menu.classList.add('active');
-          await loadProfile(user.uid);
-        } else {
-          currentUser = null; loginBtn.style.display = 'inline-block'; menu.classList.remove('active');
-          userProfile = { name: 'Guest User', email: '', avatar: '', streak: 0, questionsSolved: 0, accuracy: 50, rank: '#---' };
-          updateUI();
-        }
-      });
-
-      // Auth Tabs
-      function switchAuthTab(tab) {
-        const signInForm = document.getElementById('signInForm');
-        const signUpForm = document.getElementById('signUpForm');
-        const tabSignIn = document.getElementById('tabSignIn');
-        const tabSignUp = document.getElementById('tabSignUp');
-        if (tab === 'signin') {
-          signInForm.style.display = 'block'; signUpForm.style.display = 'none';
-          tabSignIn.style.background = 'var(--accent-blue)'; tabSignIn.style.color = '#fff';
-          tabSignUp.style.background = 'transparent'; tabSignUp.style.color = 'var(--text-secondary)';
-        } else {
-          signInForm.style.display = 'none'; signUpForm.style.display = 'block';
-          tabSignUp.style.background = 'var(--accent-blue)'; tabSignUp.style.color = '#fff';
-          tabSignIn.style.background = 'transparent'; tabSignIn.style.color = 'var(--text-secondary)';
-        }
-      }
-
-      function handleSignIn() {
-        const email = document.getElementById('signInEmail').value.trim();
-        const password = document.getElementById('signInPassword').value;
-        if (!email || !password) return showToast('Enter email and password', 'warning');
-        auth.signInWithEmailAndPassword(email, password)
-          .then(() => { showToast('Signed in successfully', 'success'); SYF.closeAuthModal(); })
-          .catch(e => showToast(e.message, 'error'));
-      }
-
-      function goToStep(step) {
-        document.querySelectorAll('.step-dot').forEach((d, i) => { d.classList.remove('active', 'completed'); if (i + 1 < step) d.classList.add('completed'); if (i + 1 === step) d.classList.add('active'); });
-        document.querySelectorAll('.registration-step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        if (step === 3) generateSummary();
-      }
-
-      function generateSummary() {
-        const fn = document.getElementById('firstName')?.value.trim() || '';
-        const ln = document.getElementById('lastName')?.value.trim() || '';
-        const em = document.getElementById('regEmail')?.value.trim() || '';
-        const exams = Array.from(document.querySelectorAll('#targetExams .skill-tag.selected')).map(t => t.dataset.value).join(', ') || 'None';
-        document.getElementById('registrationSummary').innerHTML = `<strong>Name:</strong> ${fn} ${ln}<br><strong>Email:</strong> ${em}<br><strong>Exams:</strong> ${exams}`;
-      }
-
-      function startCBT() {
-        if (cbtState.timer) clearInterval(cbtState.timer);
-        cbtState = { idx: 0, answers: Array(10).fill(null), marked: new Set(), sec: 900, timer: null, submitted: false };
-        document.getElementById('cbtModal').classList.add('active'); document.body.style.overflow = 'hidden';
-        renderCBT(); startTimer();
-      }
-
-      function startTimer() {
-        cbtState.timer = setInterval(() => {
-          if (cbtState.submitted) { clearInterval(cbtState.timer); return; }
-          cbtState.sec--; const m = Math.floor(cbtState.sec / 60), s = cbtState.sec % 60;
-          document.getElementById('cbtTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-          if (cbtState.sec <= 0) { clearInterval(cbtState.timer); submitCBT(); }
-        }, 1000);
-      }
-
-      function renderCBT() {
-        if (cbtState.submitted) return;
-        const q = cbtQuestions[cbtState.idx];
-        document.getElementById('cbtQuestion').textContent = q.q;
-        document.getElementById('cbtQNum').textContent = cbtState.idx + 1;
-        const opts = document.getElementById('cbtOptions'); opts.innerHTML = '';
-        q.opts.forEach((o, i) => {
-          const btn = document.createElement('button'); btn.className = 'option-btn' + (cbtState.answers[cbtState.idx] === i ? ' selected' : '');
-          btn.textContent = o; btn.onclick = () => { cbtState.answers[cbtState.idx] = i; renderCBT(); renderPalette(); };
-          opts.appendChild(btn);
-        });
-        renderPalette();
-      }
-
-      function renderPalette() {
-        const p = document.getElementById('questionPalette'); p.innerHTML = '';
-        for (let i = 0; i < 10; i++) {
-          const d = document.createElement('span');
-          d.style.cssText = `width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:1.5px solid var(--border-medium);${cbtState.answers[i]!==null?'background:var(--accent-blue);color:#fff;':''}${cbtState.marked.has(i)?'border-color:var(--accent-amber);':''}${i===cbtState.idx?'font-weight:700;box-shadow:0 0 0 4px rgba(0,113,227,0.3);':''}`;
-          d.textContent = i + 1; d.onclick = () => { if (!cbtState.submitted) { cbtState.idx = i; renderCBT(); } };
-          p.appendChild(d);
-        }
-      }
-
-      async function submitCBT() {
-        if (cbtState.submitted) return;
-        cbtState.submitted = true; if (cbtState.timer) clearInterval(cbtState.timer);
-        let score = 0; cbtState.answers.forEach((a, i) => { if (a === cbtQuestions[i].ans) score++; });
-        const acc = Math.round((score / 10) * 100);
-        document.getElementById('cbtQuestion').innerHTML = `<div style="text-align:center;padding:28px;"><div style="font-size:3.5rem;font-weight:700;background:var(--gradient-accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${score}/10</div><p style="font-size:1.1rem;color:var(--text-secondary);">Accuracy: ${acc}%</p></div>`;
-        document.getElementById('cbtOptions').innerHTML = ''; document.getElementById('cbtTimer').textContent = 'Done'; document.getElementById('questionPalette').innerHTML = '';
-        if (currentUser) {
-          try {
-            await firestore.collection('users').doc(currentUser.uid).collection('cbt_results').add({ score, accuracy: acc, timestamp: new Date() });
-            const ref = firestore.collection('users').doc(currentUser.uid); const doc = await ref.get();
-            if (doc.exists) {
-              const d = doc.data(); const tQ = (d.questionsSolved || 0) + 10;
-              const newAcc = Math.round(((d.accuracy || 50) / 100 * (tQ - 10) + score) / tQ * 100);
-              await ref.update({ questionsSolved: tQ, accuracy: Math.max(54, newAcc) });
-              userProfile.questionsSolved = tQ; userProfile.accuracy = Math.max(54, newAcc); updateUI();
-            }
-          } catch (e) { console.error(e); }
-        }
-        showToast(`Score: ${score}/10 (${acc}%)`, 'success');
-      }
-
-      // Admin Functions
-      async function loadAdminUsers() {
-        if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) return;
+      async function loadAllUsers() {
         const tbody = document.getElementById('adminTableBody');
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;">Loading…</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">Loading users…</td></tr>';
         try {
           const snapshot = await firestore.collection('users').get();
-          tbody.innerHTML = '';
+          allUsers = [];
           snapshot.forEach(doc => {
             const d = doc.data();
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${d.email || '—'}</td>
-              <td>${d.name || '—'}</td>
-              <td><input class="admin-input" type="number" value="${d.streak || 0}" id="streak_${doc.id}"></td>
-              <td><input class="admin-input" type="number" value="${d.accuracy || 50}" id="acc_${doc.id}" min="0" max="100"></td>
-              <td><input class="admin-input" type="number" value="${d.questionsSolved || 0}" id="solved_${doc.id}"></td>
-              <td><input class="admin-input" type="text" value="${d.rank || '#---'}" id="rank_${doc.id}"></td>
-              <td><button class="btn btn-sm btn-primary" onclick="SYF.adminSaveUser('${doc.id}')">Save</button></td>
-            `;
-            tbody.appendChild(row);
+            allUsers.push({
+              id: doc.id,
+              email: d.email || '—',
+              name: d.name || '—',
+              streak: d.streak || 0,
+              accuracy: d.accuracy || 50,
+              questionsSolved: d.questionsSolved || 0,
+              rank: d.rank || '#---',
+              lastActiveDate: d.lastActiveDate || '—',
+              avatar: d.avatar || '',
+              targetExams: d.targetExams || [],
+              studyLanguage: d.studyLanguage || '',
+              studyHours: d.studyHours || ''
+            });
           });
-        } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="7">Error loading users.</td></tr>'; }
+          renderUserTable(allUsers);
+          updateStats();
+        } catch (e) {
+          console.error(e);
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">Error loading users. Check console.</td></tr>';
+        }
       }
 
-      async function adminSaveUser(uid) {
-        const streak = parseInt(document.getElementById(`streak_${uid}`).value) || 0;
-        const accuracy = Math.min(100, Math.max(0, parseInt(document.getElementById(`acc_${uid}`).value) || 50));
-        const solved = parseInt(document.getElementById(`solved_${uid}`).value) || 0;
-        const rank = document.getElementById(`rank_${uid}`).value || '#---';
+      function renderUserTable(users) {
+        const tbody = document.getElementById('adminTableBody');
+        if (users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;">No users found.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = users.map(u => `
+          <tr data-user-id="${u.id}">
+            <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${u.email}">${u.email}</td>
+            <td>${u.name}</td>
+            <td><input class="admin-input" type="number" value="${u.streak}" id="streak_${u.id}" min="0"></td>
+            <td><input class="admin-input" type="number" value="${u.accuracy}" id="acc_${u.id}" min="0" max="100"></td>
+            <td><input class="admin-input wide" type="number" value="${u.questionsSolved}" id="solved_${u.id}" min="0"></td>
+            <td><input class="admin-input" type="text" value="${u.rank}" id="rank_${u.id}"></td>
+            <td style="font-size:0.75rem;color:var(--text-tertiary);">${u.lastActiveDate}</td>
+            <td>
+              <div class="action-btns">
+                <button class="btn btn-sm btn-primary" onclick="SYF.saveUser('${u.id}')">💾 Save</button>
+                <button class="btn btn-sm btn-danger" onclick="SYF.deleteUser('${u.id}', '${u.email}')">🗑 Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function updateStats() {
+        const total = allUsers.length;
+        const avgAcc = total > 0 ? Math.round(allUsers.reduce((s, u) => s + (u.accuracy || 0), 0) / total) : 0;
+        const totalSolved = allUsers.reduce((s, u) => s + (u.questionsSolved || 0), 0);
+        const activeStreaks = allUsers.filter(u => (u.streak || 0) > 0).length;
+        
+        document.getElementById('statTotalUsers').textContent = total;
+        document.getElementById('statAvgAccuracy').textContent = avgAcc + '%';
+        document.getElementById('statTotalSolved').textContent = totalSolved.toLocaleString();
+        document.getElementById('statActiveStreaks').textContent = activeStreaks;
+      }
+
+      async function saveUser(uid) {
+        const streak = parseInt(document.getElementById(`streak_${uid}`)?.value) || 0;
+        const accuracy = Math.min(100, Math.max(0, parseInt(document.getElementById(`acc_${uid}`)?.value) || 50));
+        const solved = parseInt(document.getElementById(`solved_${uid}`)?.value) || 0;
+        const rank = document.getElementById(`rank_${uid}`)?.value || '#---';
         try {
-          await firestore.collection('users').doc(uid).update({ streak, accuracy, questionsSolved: solved, rank });
-          showToast('User updated successfully', 'success');
-          if (uid === currentUser?.uid) {
-            userProfile.streak = streak; userProfile.accuracy = accuracy; userProfile.questionsSolved = solved; userProfile.rank = rank;
-            updateUI();
+          await firestore.collection('users').doc(uid).update({
+            streak, accuracy, questionsSolved: solved, rank
+          });
+          showToast(`✅ User ${uid.slice(0,8)}... updated`, 'success');
+          // Update local cache
+          const idx = allUsers.findIndex(u => u.id === uid);
+          if (idx >= 0) {
+            allUsers[idx].streak = streak;
+            allUsers[idx].accuracy = accuracy;
+            allUsers[idx].questionsSolved = solved;
+            allUsers[idx].rank = rank;
           }
-        } catch (e) { showToast('Update failed: ' + e.message, 'error'); }
+          updateStats();
+        } catch (e) {
+          showToast('❌ Update failed: ' + e.message, 'error');
+        }
       }
 
-      function toggleAdminPanel() {
-        const panel = document.getElementById('adminPanel');
-        panel.classList.toggle('active');
-        if (panel.classList.contains('active')) loadAdminUsers();
+      async function deleteUser(uid, email) {
+        if (!confirm(`Are you sure you want to delete user: ${email}?\\nThis action cannot be undone.`)) return;
+        try {
+          await firestore.collection('users').doc(uid).delete();
+          showToast(`🗑 User ${email} deleted`, 'success');
+          allUsers = allUsers.filter(u => u.id !== uid);
+          renderUserTable(allUsers);
+          updateStats();
+        } catch (e) {
+          showToast('❌ Delete failed: ' + e.message, 'error');
+        }
       }
 
-      window.SYF = {
-        showToast,
-        openAuthModal: () => { document.getElementById('authModal').classList.add('active'); document.body.style.overflow = 'hidden'; switchAuthTab('signin'); },
-        closeAuthModal: () => { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = ''; },
-        switchAuthTab,
-        handleSignIn,
-        handleLogout: () => auth.signOut().then(() => showToast('Signed out', 'success')),
-        uploadAvatar: async (ev) => {
-          if (!currentUser) return showToast('Sign in first', 'warning');
-          const f = ev.target.files[0]; if (!f || f.size > 5e6) return;
-          const fd = new FormData(); fd.append('image', f);
-          try {
-            const r = await fetch('https://api.imgbb.com/1/upload?key=53fb01955a45c5462724b8f7d238500a', { method: 'POST', body: fd });
-            const j = await r.json();
-            if (j.success) { userProfile.avatar = j.data.url; updateUI(); await firestore.collection('users').doc(currentUser.uid).update({ avatar: j.data.url }); showToast('Avatar updated', 'success'); }
-          } catch (ex) { showToast('Upload failed', 'error'); }
-        },
-        checkPasswordStrength: (pw) => { const b = document.getElementById('passwordStrengthBar'); b.className = 'password-strength-bar'; let s = 0; if (pw.length >= 8) s++; if (pw.length >= 12) s++; if (/[A-Z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++; if (s <= 2) b.classList.add('strength-weak'); else if (s <= 4) b.classList.add('strength-medium'); else b.classList.add('strength-strong'); },
-        checkPasswordMatch: () => { const pw = document.getElementById('regPassword').value, cp = document.getElementById('confirmPassword').value, msg = document.getElementById('passwordMatchMsg'); if (cp === '') msg.textContent = ''; else if (pw === cp) { msg.textContent = '✓ Match'; msg.style.color = 'var(--accent-emerald)'; } else { msg.textContent = '✗ Not match'; msg.style.color = 'var(--accent-rose)'; } },
-        submitRegistration: async () => {
-          const fn = document.getElementById('firstName').value.trim(), ln = document.getElementById('lastName').value.trim(), em = document.getElementById('regEmail').value.trim(), pw = document.getElementById('regPassword').value;
-          if (!fn || !ln || !em.includes('@') || pw.length < 8) return showToast('Fill correctly', 'error');
-          try {
-            const uc = await auth.createUserWithEmailAndPassword(em, pw); await uc.user.updateProfile({ displayName: `${fn} ${ln}` });
-            await firestore.collection('users').doc(uc.user.uid).set({ name: `${fn} ${ln}`, email: em, streak: 1, accuracy: 57, questionsSolved: 12, rank: '#1400', lastActiveDate: new Date().toISOString().split('T')[0] });
-            showToast('Account created!', 'success'); SYF.closeAuthModal();
-          } catch (e) { showToast(e.message, 'error'); }
-        },
-        openCBTModal: startCBT,
-        closeCBTModal: () => { document.getElementById('cbtModal').classList.remove('active'); if (cbtState.timer) clearInterval(cbtState.timer); document.body.style.overflow = ''; },
-        cbt: {
-          markForReview: () => { if (cbtState.submitted) return; cbtState.marked.has(cbtState.idx) ? cbtState.marked.delete(cbtState.idx) : cbtState.marked.add(cbtState.idx); renderPalette(); },
-          prevQuestion: () => { if (!cbtState.submitted && cbtState.idx > 0) { cbtState.idx--; renderCBT(); } },
-          saveAndNext: () => { if (!cbtState.submitted && cbtState.idx < 9) { cbtState.idx++; renderCBT(); } },
-          submitTest: submitCBT
-        },
-        registration: {
-          nextStep: (step) => { if (step === 2 && !document.getElementById('regEmail').value.includes('@')) return showToast('Valid email required', 'error'); goToStep(step); },
-          prevStep: (step) => goToStep(step)
-        },
-        toggleAdminPanel,
-        adminSaveUser
-      };
+      function filterUsers() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        if (!query) {
+          renderUserTable(allUsers);
+          return;
+        }
+        const filtered = allUsers.filter(u => 
+          (u.email || '').toLowerCase().includes(query) ||
+          (u.name || '').toLowerCase().includes(query)
+        );
+        renderUserTable(filtered);
+      }
 
-      document.addEventListener('click', (e) => { if (e.target.classList.contains('skill-tag')) e.target.classList.toggle('selected'); });
-      document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) SYF.closeAuthModal(); });
-      document.getElementById('cbtModal').addEventListener('click', function(e) { if (e.target === this) SYF.closeCBTModal(); });
+      function exportCSV() {
+        if (allUsers.length === 0) {
+          showToast('No data to export', 'warning');
+          return;
+        }
+        const headers = ['Email', 'Name', 'Streak', 'Accuracy', 'Questions Solved', 'Rank', 'Last Active'];
+        const rows = allUsers.map(u => [
+          u.email, u.name, u.streak, u.accuracy, u.questionsSolved, u.rank, u.lastActiveDate
+        ]);
+        let csv = headers.join(',') + '\n';
+        rows.forEach(row => {
+          csv += row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',') + '\n';
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `syf_users_export_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📥 CSV exported!', 'success');
+      }
+
+      function refreshUsers() {
+        loadAllUsers();
+        showToast('🔄 Refreshed', 'info');
+      }
+
+      // Keyboard shortcut for login
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { if (document.getElementById('authModal').classList.contains('active')) SYF.closeAuthModal(); if (document.getElementById('cbtModal').classList.contains('active')) SYF.closeCBTModal(); }
-        if (document.getElementById('cbtModal').classList.contains('active') && !cbtState.submitted) { if (e.key === 'ArrowRight') { e.preventDefault(); cbtState.idx = Math.min(9, cbtState.idx + 1); renderCBT(); } if (e.key === 'ArrowLeft') { e.preventDefault(); cbtState.idx = Math.max(0, cbtState.idx - 1); renderCBT(); } }
+        if (e.key === 'Enter' && document.getElementById('loginOverlay').style.display !== 'none') {
+          adminLogin();
+        }
       });
 
-      initTheme(); updateUI(); renderTodayTarget();
-      console.log('🚀 SYF Apple-Inspired Platform v6.0 with Admin Ready');
+      window.SYF = {
+        adminLogin,
+        adminLogout,
+        saveUser,
+        deleteUser,
+        filterUsers,
+        exportCSV,
+        refreshUsers,
+        showToast
+      };
+
+      initTheme();
+      console.log('🚀 SYF Admin Panel Ready');
     })();
   </script>
 </body>
