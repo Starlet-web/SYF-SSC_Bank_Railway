@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYF Math Admin Panel | Ultra Advanced Cloudinary Dashboard</title>
+    <title>SYF Math Admin Panel | Ultra Advanced Dashboard</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -22,6 +22,7 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
         
+        /* ============ SIDEBAR ============ */
         .sidebar { width: 280px; background: var(--sidebar-bg); color: white; padding: 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; overflow-x: hidden; }
         .sidebar .logo { padding: 24px 24px 20px; font-size: 1.4rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, rgba(59,130,246,0.15), transparent); }
         .sidebar .logo i { color: var(--primary); font-size: 1.5rem; }
@@ -38,6 +39,7 @@
         .sidebar-footer .avatar { width: 36px; height: 36px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
         .sidebar-footer .user-name { font-size: 0.8rem; font-weight: 600; } .sidebar-footer .user-role { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
 
+        /* ============ MAIN CONTENT ============ */
         .main { margin-left: 280px; flex: 1; padding: 32px; max-width: calc(100vw - 280px); }
         .page { display: none; } .page.active { display: block; animation: fadeSlide 0.35s ease; }
         @keyframes fadeSlide { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
@@ -47,6 +49,7 @@
         .page-header h2 i { color: var(--primary); }
         .page-header .header-actions { display: flex; gap: 8px; }
         
+        /* ============ STATS ============ */
         .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
         .stat-card { background: var(--card); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center; transition: all 0.25s; cursor: default; position: relative; overflow: hidden; }
         .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--primary); opacity: 0; transition: opacity 0.25s; }
@@ -56,11 +59,13 @@
         .stat-card .stat-value { font-size: 2rem; font-weight: 800; color: var(--text); }
         .stat-card .stat-label { font-size: 0.75rem; color: var(--text); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
 
+        /* ============ CARDS ============ */
         .card { background: var(--card); border-radius: var(--radius-xl); padding: 28px; box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--border); transition: var(--transition); }
         .card:hover { box-shadow: var(--shadow-md); }
         .card h3 { margin-bottom: 20px; color: var(--text); font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
         .card h3 i { color: var(--primary); }
         
+        /* ============ FORM ELEMENTS ============ */
         .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.82rem; letter-spacing: 0.3px; }
@@ -73,9 +78,10 @@
         .file-input-display { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 2px dashed var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition); background: #fafbfc; }
         .file-input-display:hover { border-color: var(--primary); background: #f0f7ff; }
         .file-input-display i { font-size: 1.5rem; color: var(--primary); }
-        .file-input-display .file-name { font-size: 0.85rem; color: var(--text-light); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .file-selected { border-color: var(--success); background: #f0fdf4; }
+        .file-input-display .file-name { font-size: 0.85rem; color: var(--text-light); }
+        .file-selected { border-color: var(--success) !important; background: #f0fdf4 !important; }
         
+        /* ============ BUTTONS ============ */
         .btn { padding: 10px 20px; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 7px; letter-spacing: 0.3px; }
         .btn-primary { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(59,130,246,0.3); } 
         .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
@@ -87,6 +93,7 @@
         .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
         .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
         
+        /* ============ TABLES ============ */
         .table-wrapper { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 14px 12px; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.84rem; }
@@ -101,34 +108,21 @@
         .status-warning { background: #fef3c7; color: #92400e; }
         .status-danger { background: #fee2e2; color: #991b1b; }
         
+        /* ============ ALERTS ============ */
         .alert { padding: 14px 20px; border-radius: var(--radius); margin-bottom: 20px; font-weight: 500; font-size: 0.9rem; animation: slideDown 0.3s ease; display: flex; align-items: center; gap: 10px; }
         @keyframes slideDown { from { transform: translateY(-20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
         .alert-success { background: #dbeafe; color: #1e40af; border-left: 4px solid var(--primary); }
         .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid var(--danger); }
         .alert-info { background: #e0e7ff; color: #3730a3; border-left: 4px solid #6366f1; }
         
+        /* ============ PROGRESS BAR ============ */
         .progress-wrapper { margin: 16px 0; display: none; }
         .progress-wrapper.active { display: block; }
         .progress-info { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.8rem; color: var(--text-light); }
         .progress-bar { background: #e2e8f0; border-radius: 10px; height: 10px; overflow: hidden; }
         .progress-fill { background: linear-gradient(90deg, var(--primary), #60a5fa); height: 100%; border-radius: 10px; transition: width 0.3s ease; width: 0%; }
         
-        .admin-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
-        .admin-modal-overlay.active { display: flex; }
-        .admin-modal { background: var(--card); border-radius: var(--radius-xl); width: 95%; max-width: 700px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s ease; }
-        @keyframes modalIn { from { opacity:0; transform: scale(0.9) translateY(20px); } to { opacity:1; transform: scale(1) translateY(0); } }
-        .admin-modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 1; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
-        .admin-modal-body { padding: 24px; }
-        
-        .spinner { display: inline-block; width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-spinner { width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 40px auto; }
-        
-        .help-text { font-size: 0.76rem; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 4px; }
-        .help-text i { font-size: 0.7rem; }
-        .help-text a { color: var(--primary); font-weight: 600; text-decoration: underline; }
-        .help-text code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
-        
+        /* ============ TAGS ============ */
         .tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 600; }
         .tag-blue { background: #dbeafe; color: #1e40af; }
         .tag-green { background: #dcfce7; color: #166534; }
@@ -136,14 +130,24 @@
         .tag-purple { background: #ede9fe; color: #5b21b6; }
         .tag-orange { background: #fff7ed; color: #c2410c; }
         
+        /* ============ EMPTY STATE ============ */
         .empty-state-admin { text-align: center; padding: 50px 20px; }
         .empty-state-admin i { font-size: 4rem; opacity: 0.15; margin-bottom: 16px; }
         .empty-state-admin h4 { color: var(--text-light); margin-bottom: 8px; }
         .empty-state-admin p { color: var(--text-light); font-size: 0.85rem; opacity: 0.7; }
         
-        .cloudinary-info { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 1px solid #bae6fd; padding: 14px 18px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #0369a1; }
-        .cloudinary-info i { font-size: 1.5rem; color: #0ea5e9; }
+        /* ============ LOADING ============ */
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 40px auto; }
         
+        /* ============ HELP TEXT ============ */
+        .help-text { font-size: 0.76rem; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 4px; }
+        .help-text i { font-size: 0.7rem; }
+        .help-text a { color: var(--primary); font-weight: 600; text-decoration: underline; }
+        .help-text code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+        
+        /* ============ RESPONSIVE ============ */
         @media (max-width:1024px) { 
             .sidebar { width: 70px; } 
             .sidebar .logo { padding: 16px 0; justify-content: center; }
@@ -197,7 +201,7 @@
                 <span class="count-badge" id="navImageCount">0</span>
             </a>
             <div class="nav-section">Quick Actions</div>
-            <a href="#" onclick="exportData()"><i class="fas fa-download"></i><span>Export Backup</span></a>
+            <a href="#" onclick="exportData()"><i class="fas fa-download"></i><span>Export Data</span></a>
             <a href="#" onclick="refreshAll()"><i class="fas fa-sync-alt"></i><span>Refresh All</span></a>
         </nav>
         <div class="sidebar-footer">
@@ -205,7 +209,7 @@
                 <div class="avatar"><i class="fas fa-user"></i></div>
                 <div>
                     <div class="user-name">Admin Teacher</div>
-                    <div class="user-role">Mathematics • Cloudinary</div>
+                    <div class="user-role">Mathematics</div>
                 </div>
             </div>
         </div>
@@ -277,21 +281,17 @@
             </div>
         </div>
 
-        <!-- ============ NOTES PAGE (CLOUDINARY PDF) ============ -->
+        <!-- ============ NOTES PAGE (Cloudinary Upload) ============ -->
         <div class="page" id="page-notes">
             <div class="page-header">
                 <h2><i class="fas fa-file-pdf"></i> PDF Notes</h2>
-                <span class="tag tag-orange"><i class="fas fa-cloud"></i> Cloudinary PDF</span>
-            </div>
-            <div class="cloudinary-info">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <div><strong>Cloudinary Connected</strong> • PDFs upload ho rahe hain <strong>dtr00rajz</strong> cloud pe • Preset: syf_pdf_upload</div>
+                <span class="tag tag-orange"><i class="fas fa-cloud"></i> Cloudinary</span>
             </div>
             <div class="card">
                 <h3><i class="fas fa-upload"></i> Upload PDF to Cloudinary</h3>
                 <p class="help-text" style="margin-bottom:18px;">
-                    <i class="fas fa-info-circle"></i> PDF directly Cloudinary pe upload hoga. Max size: <strong>100MB</strong>. 
-                    Ya external URL paste kar sakte hain.
+                    <i class="fas fa-info-circle"></i> PDF Cloudinary pe upload hoga. Max size: <strong>100MB</strong>. 
+                    Firebase mein URL save hoga. Ya external URL bhi paste kar sakte hain.
                 </p>
                 <div class="form-row">
                     <div class="form-group"><label>Chapter <span class="required">*</span></label><select id="noteChapterSelect"><option value="">-- Select --</option></select></div>
@@ -299,7 +299,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Upload PDF File (Max 100MB)</label>
+                        <label>Upload PDF File</label>
                         <div class="file-input-wrapper">
                             <input type="file" id="notePdfFile" accept=".pdf" onchange="handlePdfFileSelect(this)">
                             <div class="file-input-display" id="pdfFileDisplay">
@@ -309,16 +309,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>OR Paste External PDF URL</label>
+                        <label>OR Paste PDF URL</label>
                         <input type="url" id="notePdfUrl" placeholder="https://example.com/notes.pdf">
-                        <p class="help-text">Agar PDF already kahi hosted hai toh</p>
+                        <p class="help-text">Agar PDF already hosted hai toh URL paste karein</p>
                     </div>
                 </div>
                 <div class="progress-wrapper" id="pdfProgressWrapper">
-                    <div class="progress-info"><span id="pdfProgressStatus">Preparing upload...</span><span id="pdfProgressPercent">0%</span></div>
+                    <div class="progress-info"><span>Uploading PDF to Cloudinary...</span><span id="pdfProgressPercent">0%</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="pdfProgressFill"></div></div>
                 </div>
-                <button class="btn btn-primary" id="saveNoteBtn" onclick="saveNote()"><i class="fas fa-cloud-upload-alt"></i> Upload & Save PDF</button>
+                <button class="btn btn-primary" id="saveNoteBtn" onclick="saveNote()"><i class="fas fa-cloud-upload-alt"></i> Upload & Save</button>
             </div>
             <div class="card">
                 <h3><i class="fas fa-list"></i> All PDF Notes</h3>
@@ -359,37 +359,33 @@
             </div>
         </div>
 
-        <!-- ============ IMAGES PAGE (CLOUDINARY IMAGES) ============ -->
+        <!-- ============ IMAGES PAGE (Cloudinary Upload) ============ -->
         <div class="page" id="page-images">
             <div class="page-header">
                 <h2><i class="fas fa-images"></i> Class Images</h2>
-                <span class="tag tag-purple"><i class="fas fa-cloud"></i> Cloudinary Images</span>
-            </div>
-            <div class="cloudinary-info">
-                <i class="fas fa-image"></i>
-                <div><strong>Cloudinary Connected</strong> • Images upload ho rahi hain <strong>dtr00rajz</strong> cloud pe • Auto-optimization ON</div>
+                <span class="tag tag-orange"><i class="fas fa-cloud"></i> Cloudinary</span>
             </div>
             <div class="card">
                 <h3><i class="fas fa-upload"></i> Upload Image to Cloudinary</h3>
                 <p class="help-text" style="margin-bottom:18px;">
-                    <i class="fas fa-info-circle"></i> Image Cloudinary pe upload hogi with auto-compression. Max size: <strong>10MB</strong>
+                    <i class="fas fa-info-circle"></i> Image Cloudinary pe upload hoga. Firebase mein URL save hoga.
                 </p>
                 <div class="form-row">
                     <div class="form-group"><label>Chapter <span class="required">*</span></label><select id="imageChapterSelect"><option value="">-- Select --</option></select></div>
-                    <div class="form-group"><label>Title (Optional)</label><input type="text" id="imageTitle" placeholder="e.g., Whiteboard Notes - Algebra"></div>
+                    <div class="form-group"><label>Title</label><input type="text" id="imageTitle" placeholder="e.g., Whiteboard Notes"></div>
                 </div>
                 <div class="form-group">
-                    <label>Image File <span class="required">*</span> (Max 10MB)</label>
+                    <label>Image File <span class="required">*</span></label>
                     <div class="file-input-wrapper">
                         <input type="file" id="imageFile" accept="image/*" onchange="handleImageFileSelect(this)">
                         <div class="file-input-display" id="imageFileDisplay">
                             <i class="fas fa-image"></i>
-                            <span class="file-name">Click to select image (JPG, PNG, WebP)</span>
+                            <span class="file-name">Click to select image</span>
                         </div>
                     </div>
                 </div>
                 <div class="progress-wrapper" id="imageProgressWrapper">
-                    <div class="progress-info"><span id="imageProgressStatus">Preparing upload...</span><span id="imageProgressPercent">0%</span></div>
+                    <div class="progress-info"><span>Uploading Image to Cloudinary...</span><span id="imageProgressPercent">0%</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="imageProgressFill"></div></div>
                 </div>
                 <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload Image</button>
@@ -398,7 +394,7 @@
                 <h3><i class="fas fa-list"></i> All Images</h3>
                 <div class="table-wrapper">
                     <table id="imagesTable">
-                        <thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Size</th><th>Uploaded</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Uploaded</th><th>Actions</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -424,10 +420,9 @@
         // ============ CLOUDINARY CONFIG ============
         const CLOUDINARY_CLOUD_NAME = 'dtr00rajz';
         const CLOUDINARY_UPLOAD_PRESET = 'syf_pdf_upload';
-        const CLOUDINARY_PDF_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/raw/upload`;
-        const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+        const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
-        const DB_PATH = 'chapters'; // Change: reasoning, english, gkgs
+        const DB_PATH = 'chapters'; // Change to reasoning, english, gkgs for other subjects
 
         let chaptersCache = {};
         let selectedPdfFile = null;
@@ -502,7 +497,7 @@
             loadNotesTable();
             loadCBTTable();
             loadImagesTable();
-            showAlert('All data refreshed successfully! 🔄', 'info');
+            showAlert('All data refreshed! 🔄', 'info');
         }
 
         function exportData() {
@@ -515,11 +510,62 @@
                 a.download = `syf-math-backup-${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
-                showAlert('Backup downloaded successfully! 📥', 'success');
+                showAlert('Data exported successfully! 📥', 'success');
             });
         }
 
-        // ============ CHAPTER DROPDOWN LOADER ============
+        function updateNavCounts(ch, lec, note, cbt, img) {
+            document.getElementById('navChapterCount').textContent = ch;
+            document.getElementById('navLectureCount').textContent = lec;
+            document.getElementById('navNoteCount').textContent = note;
+            document.getElementById('navCBTCount').textContent = cbt;
+            document.getElementById('navImageCount').textContent = img;
+        }
+
+        // ============ CLOUDINARY UPLOADER ============
+        async function uploadToCloudinary(file, folder = 'pdfs') {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            formData.append('folder', `syf-math/${folder}`);
+            formData.append('resource_type', 'auto');
+
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', CLOUDINARY_UPLOAD_URL, true);
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        const progressFill = document.getElementById(folder === 'pdfs' ? 'pdfProgressFill' : 'imageProgressFill');
+                        const progressPercent = document.getElementById(folder === 'pdfs' ? 'pdfProgressPercent' : 'imageProgressPercent');
+                        if (progressFill) progressFill.style.width = percent + '%';
+                        if (progressPercent) progressPercent.textContent = percent + '%';
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve({
+                            url: response.secure_url,
+                            publicId: response.public_id,
+                            format: response.format,
+                            size: response.bytes,
+                            width: response.width,
+                            height: response.height
+                        });
+                    } else {
+                        reject(new Error('Upload failed: ' + xhr.status));
+                    }
+                };
+
+                xhr.onerror = () => reject(new Error('Network error'));
+                xhr.send(formData);
+            });
+        }
+
+        // ============ CHAPTER DROPDOWN ============
         function loadChapterDropdown(selectId) {
             const select = document.getElementById(selectId);
             if (!select) return;
@@ -541,24 +587,14 @@
             });
         }
 
-        // ============ FILE SELECTION HANDLERS ============
+        // ============ FILE HANDLERS ============
         function handlePdfFileSelect(input) {
             const file = input.files[0];
             const display = document.getElementById('pdfFileDisplay');
             if (file) {
-                if (file.type !== 'application/pdf') {
-                    showAlert('Only PDF files allowed!', 'error');
-                    input.value = '';
-                    return;
-                }
-                if (file.size > 100 * 1024 * 1024) {
-                    showAlert('PDF must be less than 100MB!', 'error');
-                    input.value = '';
-                    return;
-                }
                 selectedPdfFile = file;
                 display.classList.add('file-selected');
-                display.querySelector('.file-name').textContent = `📄 ${file.name} (${formatFileSize(file.size)})`;
+                display.querySelector('.file-name').textContent = `${file.name} (${formatFileSize(file.size)})`;
                 document.getElementById('notePdfUrl').value = '';
             } else {
                 selectedPdfFile = null;
@@ -571,23 +607,13 @@
             const file = input.files[0];
             const display = document.getElementById('imageFileDisplay');
             if (file) {
-                if (!file.type.startsWith('image/')) {
-                    showAlert('Only image files allowed!', 'error');
-                    input.value = '';
-                    return;
-                }
-                if (file.size > 10 * 1024 * 1024) {
-                    showAlert('Image must be less than 10MB!', 'error');
-                    input.value = '';
-                    return;
-                }
                 selectedImageFile = file;
                 display.classList.add('file-selected');
-                display.querySelector('.file-name').textContent = `🖼️ ${file.name} (${formatFileSize(file.size)})`;
+                display.querySelector('.file-name').textContent = `${file.name} (${formatFileSize(file.size)})`;
             } else {
                 selectedImageFile = null;
                 display.classList.remove('file-selected');
-                display.querySelector('.file-name').textContent = 'Click to select image (JPG, PNG, WebP)';
+                display.querySelector('.file-name').textContent = 'Click to select image';
             }
         }
 
@@ -604,39 +630,44 @@
                         const chData = c.val();
                         const chapterObj = { id: c.key, ...chData };
                         chapters.push(chapterObj);
-                        promises.push(db.ref(`${DB_PATH}/${c.key}/lectures`).once('value').then(ls => {
+                        const lp = db.ref(`${DB_PATH}/${c.key}/lectures`).once('value').then(ls => {
                             chapterObj.lectureCount = ls.exists() ? ls.numChildren() : 0;
                             totalL += chapterObj.lectureCount;
-                        }));
-                        promises.push(db.ref(`${DB_PATH}/${c.key}/notes`).once('value').then(ns => {
+                        });
+                        const np = db.ref(`${DB_PATH}/${c.key}/notes`).once('value').then(ns => {
                             chapterObj.noteCount = ns.exists() ? ns.numChildren() : 0;
                             totalN += chapterObj.noteCount;
-                        }));
-                        promises.push(db.ref(`${DB_PATH}/${c.key}/cbt`).once('value').then(cs => {
+                        });
+                        const cp = db.ref(`${DB_PATH}/${c.key}/cbt`).once('value').then(cs => {
                             chapterObj.hasCBT = cs.exists() && cs.val().cbtUrl && cs.val().cbtUrl.trim() !== '';
                             if (chapterObj.hasCBT) totalCBT++;
-                        }));
-                        promises.push(db.ref(`${DB_PATH}/${c.key}/images`).once('value').then(is => {
+                        });
+                        const ip = db.ref(`${DB_PATH}/${c.key}/images`).once('value').then(is => {
                             chapterObj.imageCount = is.exists() ? is.numChildren() : 0;
                             totalImg += chapterObj.imageCount;
-                        }));
+                        });
+                        promises.push(lp, np, cp, ip);
                     });
                     await Promise.all(promises);
                     chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
                     tbody.innerHTML = '';
                     chapters.forEach(ch => {
-                        tbody.innerHTML += `<tr>
-                            <td><strong>${ch.order || '-'}</strong></td>
-                            <td><strong>${escapeHTML(ch.title || 'Untitled')}</strong></td>
-                            <td><small>${escapeHTML((ch.description || '-').slice(0, 50))}${(ch.description||'').length > 50 ? '...' : ''}</small></td>
-                            <td><span class="tag tag-blue">${ch.lectureCount || 0}</span></td>
-                            <td><span class="tag tag-red">${ch.noteCount || 0}</span></td>
-                            <td>${ch.hasCBT ? '<span class="status-badge status-success"><i class="fas fa-check"></i> Available</span>' : '<span class="status-badge status-warning"><i class="fas fa-clock"></i> No</span>'}</td>
-                            <td><span class="tag tag-purple">${ch.imageCount || 0}</span></td>
-                            <td><div class="table-actions">
-                                <button class="btn btn-primary btn-xs" onclick="editChapter('${ch.id}')" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger btn-xs" onclick="deleteChapter('${ch.id}')" title="Delete"><i class="fas fa-trash"></i></button>
-                            </div></td></tr>`;
+                        tbody.innerHTML += `
+                            <tr>
+                                <td><strong>${ch.order || '-'}</strong></td>
+                                <td><strong>${escapeHTML(ch.title || 'Untitled')}</strong></td>
+                                <td><small>${escapeHTML((ch.description || '-').slice(0, 50))}${(ch.description||'').length > 50 ? '...' : ''}</small></td>
+                                <td><span class="tag tag-blue">${ch.lectureCount || 0}</span></td>
+                                <td><span class="tag tag-red">${ch.noteCount || 0}</span></td>
+                                <td>${ch.hasCBT ? '<span class="status-badge status-success"><i class="fas fa-check"></i> Available</span>' : '<span class="status-badge status-warning"><i class="fas fa-clock"></i> No</span>'}</td>
+                                <td><span class="tag tag-purple">${ch.imageCount || 0}</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-xs" onclick="editChapter('${ch.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-xs" onclick="deleteChapter('${ch.id}')" title="Delete"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>`;
                     });
                     document.getElementById('chapterStats').innerHTML = `
                         <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-value">${chapters.length}</div><div class="stat-label">Chapters</div></div>
@@ -646,19 +677,11 @@
                         <div class="stat-card"><div class="stat-icon">🖼️</div><div class="stat-value">${totalImg}</div><div class="stat-label">Images</div></div>`;
                     updateNavCounts(chapters.length, totalL, totalN, totalCBT, totalImg);
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state-admin"><i class="fas fa-book-open"></i><h4>No Chapters Yet</h4><p>Click "Add Chapter" button to get started</p></div></td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state-admin"><i class="fas fa-book-open"></i><h4>No Chapters Yet</h4><p>Click "Add Chapter" to get started</p></div></td></tr>';
                     document.getElementById('chapterStats').innerHTML = '';
                     updateNavCounts(0, 0, 0, 0, 0);
                 }
             });
-        }
-
-        function updateNavCounts(ch, lec, note, cbt, img) {
-            document.getElementById('navChapterCount').textContent = ch;
-            document.getElementById('navLectureCount').textContent = lec;
-            document.getElementById('navNoteCount').textContent = note;
-            document.getElementById('navCBTCount').textContent = cbt;
-            document.getElementById('navImageCount').textContent = img;
         }
 
         window.editChapter = function(id) {
@@ -676,7 +699,7 @@
         };
 
         window.deleteChapter = function(id) {
-            if (confirm('⚠️ Permanently delete this chapter and ALL its content?\n\nThis includes: Lectures, PDFs, CBT Exams, Images\n\nThis action CANNOT be undone!')) {
+            if (confirm('⚠️ Permanently delete this chapter and ALL its content?\n\nThis includes: Lectures, PDFs, CBT, Images\n\nThis action CANNOT be undone!')) {
                 db.ref(`${DB_PATH}/${id}`).remove()
                     .then(() => showAlert('Chapter and all content deleted! 🗑️'))
                     .catch(err => showAlert('Error: ' + err.message, 'error'));
@@ -719,7 +742,7 @@
             tbody.innerHTML = '<tr><td colspan="5"><div class="loading-spinner"></div></td></tr>';
             db.ref(DB_PATH).once('value', chSnap => {
                 tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-play-circle"></i><h4>No Chapters Found</h4></div></td></tr>'; return; }
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-play-circle"></i><h4>No Chapters</h4></div></td></tr>'; return; }
                 let has=false, pending=chSnap.numChildren();
                 chSnap.forEach(ch => {
                     db.ref(`${DB_PATH}/${ch.key}/lectures`).once('value', lSnap => {
@@ -729,7 +752,7 @@
                                 tbody.innerHTML+=`<tr><td>${escapeHTML(ch.val().title)}</td><td><strong>${escapeHTML(d.title)}</strong></td><td><small>${escapeHTML(d.description||'-')}</small></td><td><a href="${d.youtubeUrl}" target="_blank" style="color:var(--primary);">🎥 Watch</a></td><td><button class="btn btn-danger btn-xs" onclick="deleteLecture('${ch.key}','${l.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
                             });
                         }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-play-circle"></i><h4>No Lectures Yet</h4></div></td></tr>';
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-play-circle"></i><h4>No Lectures</h4></div></td></tr>';
                     });
                 });
             });
@@ -739,59 +762,7 @@
             if(confirm('Delete this lecture?')) db.ref(`${DB_PATH}/${chId}/lectures/${lId}`).remove().then(()=>{showAlert('Lecture deleted!');loadLecturesTable();});
         };
 
-        // ============ NOTES MANAGEMENT (CLOUDINARY PDF UPLOAD) ============
-        async function uploadPDFToCloudinary(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            formData.append('folder', 'syf_math_pdfs');
-            formData.append('resource_type', 'raw');
-            
-            const progressWrapper = document.getElementById('pdfProgressWrapper');
-            const progressFill = document.getElementById('pdfProgressFill');
-            const progressPercent = document.getElementById('pdfProgressPercent');
-            const progressStatus = document.getElementById('pdfProgressStatus');
-            
-            progressWrapper.classList.add('active');
-            progressStatus.textContent = 'Uploading to Cloudinary...';
-            
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', CLOUDINARY_PDF_URL, true);
-                
-                xhr.upload.onprogress = (e) => {
-                    if (e.lengthComputable) {
-                        const percent = Math.round((e.loaded / e.total) * 100);
-                        progressFill.style.width = percent + '%';
-                        progressPercent.textContent = percent + '%';
-                        progressStatus.textContent = `Uploading... ${percent}%`;
-                    }
-                };
-                
-                xhr.onload = () => {
-                    progressWrapper.classList.remove('active');
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        resolve({
-                            url: response.secure_url,
-                            publicId: response.public_id,
-                            size: response.bytes,
-                            format: response.format
-                        });
-                    } else {
-                        reject(new Error('Upload failed: ' + xhr.status));
-                    }
-                };
-                
-                xhr.onerror = () => {
-                    progressWrapper.classList.remove('active');
-                    reject(new Error('Network error during upload'));
-                };
-                
-                xhr.send(formData);
-            });
-        }
-
+        // ============ NOTES MANAGEMENT (Cloudinary) ============
         window.saveNote = async function() {
             const ch = document.getElementById('noteChapterSelect').value;
             const title = document.getElementById('noteTitle').value.trim();
@@ -811,14 +782,23 @@
                 let fileInfo = {};
                 
                 if (pdfFile) {
-                    const result = await uploadPDFToCloudinary(pdfFile);
+                    if (pdfFile.type !== 'application/pdf') return showAlert('Only PDF files allowed!', 'error');
+                    if (pdfFile.size > 100 * 1024 * 1024) return showAlert('File must be less than 100MB!', 'error');
+                    
+                    const progressWrapper = document.getElementById('pdfProgressWrapper');
+                    progressWrapper.classList.add('active');
+                    
+                    const result = await uploadToCloudinary(pdfFile, 'pdfs');
                     finalUrl = result.url;
                     fileInfo = {
-                        publicId: result.publicId,
-                        fileSize: result.size,
+                        fileName: pdfFile.name,
+                        fileSize: pdfFile.size,
+                        cloudinaryPublicId: result.publicId,
                         format: result.format,
                         source: 'cloudinary'
                     };
+                    
+                    progressWrapper.classList.remove('active');
                 }
                 
                 const noteData = {
@@ -830,7 +810,7 @@
                 };
                 
                 await db.ref(`${DB_PATH}/${ch}/notes`).push(noteData);
-                showAlert('PDF Note saved successfully! 📄');
+                showAlert('PDF Note saved! 📄');
                 document.getElementById('noteTitle').value = '';
                 document.getElementById('notePdfFile').value = '';
                 document.getElementById('notePdfUrl').value = '';
@@ -839,10 +819,12 @@
                 document.getElementById('pdfFileDisplay').querySelector('.file-name').textContent = 'Click to select PDF file';
                 loadNotesTable();
             } catch (error) {
-                showAlert('Upload Error: ' + error.message, 'error');
+                showAlert('Error: ' + error.message, 'error');
+                console.error('PDF upload error:', error);
             } finally {
                 saveBtn.disabled = false;
                 saveBtn.innerHTML = origHTML;
+                document.getElementById('pdfProgressWrapper').classList.remove('active');
             }
         };
 
@@ -925,122 +907,72 @@
             }
         };
 
-        // ============ IMAGES MANAGEMENT (CLOUDINARY IMAGE UPLOAD) ============
-        async function uploadImageToCloudinary(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            formData.append('folder', 'syf_math_images');
-            formData.append('quality', 'auto');
-            formData.append('fetch_format', 'auto');
-            
-            const progressWrapper = document.getElementById('imageProgressWrapper');
-            const progressFill = document.getElementById('imageProgressFill');
-            const progressPercent = document.getElementById('imageProgressPercent');
-            const progressStatus = document.getElementById('imageProgressStatus');
-            
-            progressWrapper.classList.add('active');
-            progressStatus.textContent = 'Uploading to Cloudinary...';
-            
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', CLOUDINARY_IMAGE_URL, true);
-                
-                xhr.upload.onprogress = (e) => {
-                    if (e.lengthComputable) {
-                        const percent = Math.round((e.loaded / e.total) * 100);
-                        progressFill.style.width = percent + '%';
-                        progressPercent.textContent = percent + '%';
-                        progressStatus.textContent = `Uploading... ${percent}%`;
-                    }
-                };
-                
-                xhr.onload = () => {
-                    progressWrapper.classList.remove('active');
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        resolve({
-                            url: response.secure_url,
-                            thumbnail: response.secure_url.replace('/upload/', '/upload/w_150,h_100,c_fill/'),
-                            publicId: response.public_id,
-                            size: response.bytes,
-                            width: response.width,
-                            height: response.height
-                        });
-                    } else {
-                        reject(new Error('Upload failed: ' + xhr.status));
-                    }
-                };
-                
-                xhr.onerror = () => {
-                    progressWrapper.classList.remove('active');
-                    reject(new Error('Network error during upload'));
-                };
-                
-                xhr.send(formData);
-            });
-        }
-
+        // ============ IMAGES MANAGEMENT (Cloudinary) ============
         window.uploadImage = async function() {
             const ch = document.getElementById('imageChapterSelect').value;
             const title = document.getElementById('imageTitle').value.trim() || 'Class Image';
             const file = selectedImageFile;
             
             if(!ch||!file) return showAlert('Chapter and image file required!','error');
+            if(!file.type.startsWith('image/')) return showAlert('Please select a valid image!','error');
+            if(file.size > 100*1024*1024) return showAlert('Image must be less than 100MB!','error');
             
             const btn = document.getElementById('uploadImageBtn');
             const orig = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Uploading...';
+            btn.disabled=true; 
+            btn.innerHTML='<span class="spinner"></span> Uploading...';
+            
+            const progressWrapper = document.getElementById('imageProgressWrapper');
+            progressWrapper.classList.add('active');
             
             try {
-                const result = await uploadImageToCloudinary(file);
+                const result = await uploadToCloudinary(file, 'images');
                 
-                await db.ref(`${DB_PATH}/${ch}/images`).push({
+                const imageData = {
                     title,
                     url: result.url,
-                    thumbnail: result.thumbnail,
-                    publicId: result.publicId,
-                    fileSize: result.size,
+                    thumbnail: result.url.replace('/upload/', '/upload/w_200,c_scale/'),
                     width: result.width,
                     height: result.height,
-                    uploadedAt: firebase.database.ServerValue.TIMESTAMP,
-                    source: 'cloudinary'
-                });
+                    cloudinaryPublicId: result.publicId,
+                    source: 'cloudinary',
+                    uploadedAt: firebase.database.ServerValue.TIMESTAMP
+                };
                 
-                showAlert('Image uploaded successfully! 🖼️');
+                await db.ref(`${DB_PATH}/${ch}/images`).push(imageData);
+                showAlert('Image uploaded! 🖼️');
                 document.getElementById('imageTitle').value = '';
                 document.getElementById('imageFile').value = '';
                 selectedImageFile = null;
                 document.getElementById('imageFileDisplay').classList.remove('file-selected');
-                document.getElementById('imageFileDisplay').querySelector('.file-name').textContent = 'Click to select image (JPG, PNG, WebP)';
+                document.getElementById('imageFileDisplay').querySelector('.file-name').textContent = 'Click to select image';
                 loadImagesTable();
-            } catch (error) {
-                showAlert('Upload Error: ' + error.message, 'error');
+            } catch(error) {
+                showAlert('Upload failed: ' + error.message, 'error');
+                console.error('Image upload error:', error);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = orig;
+                progressWrapper.classList.remove('active');
             }
         };
 
         function loadImagesTable() {
             const tbody = document.querySelector('#imagesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="6"><div class="loading-spinner"></div></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5"><div class="loading-spinner"></div></td></tr>';
             db.ref(DB_PATH).once('value', chSnap => {
                 tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="6"><div class="empty-state-admin"><i class="fas fa-images"></i><h4>No Chapters</h4></div></td></tr>'; return; }
+                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-images"></i><h4>No Chapters</h4></div></td></tr>'; return; }
                 let has=false, pending=chSnap.numChildren();
                 chSnap.forEach(ch => {
                     db.ref(`${DB_PATH}/${ch.key}/images`).once('value', iSnap => {
                         pending--;
                         if(iSnap.exists()){ has=true;
                             iSnap.forEach(i=>{ const d=i.val();
-                                const sourceTag = d.source === 'cloudinary' ? '<span class="tag tag-purple"><i class="fas fa-cloud"></i> Cloudinary</span>' : '<span class="tag tag-blue"><i class="fas fa-link"></i> URL</span>';
                                 tbody.innerHTML+=`<tr>
                                     <td>${escapeHTML(ch.val().title)}</td>
-                                    <td><img src="${d.thumbnail||d.url}" class="img-thumb" onclick="window.open('${d.url}','_blank')" onerror="this.style.display='none'"></td>
-                                    <td><strong>${escapeHTML(d.title||'Untitled')}</strong><br><small>${sourceTag}</small></td>
-                                    <td>${formatFileSize(d.fileSize)}</td>
+                                    <td><img src="${d.thumbnail||d.url}" class="img-thumb" onclick="window.open('${d.url}','_blank')" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2236%22><rect fill=%22%23ddd%22 width=%2248%22 height=%2236%22/></svg>'"></td>
+                                    <td><strong>${escapeHTML(d.title||'Untitled')}</strong></td>
                                     <td>${formatDate(d.uploadedAt)}</td>
                                     <td><div class="table-actions">
                                         <button class="btn btn-primary btn-xs" onclick="window.open('${d.url}','_blank')"><i class="fas fa-eye"></i></button>
@@ -1048,14 +980,18 @@
                                     </div></td></tr>`;
                             });
                         }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="6"><div class="empty-state-admin"><i class="fas fa-images"></i><h4>No Images</h4></div></td></tr>';
+                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="5"><div class="empty-state-admin"><i class="fas fa-images"></i><h4>No Images</h4></div></td></tr>';
                     });
                 });
             });
         }
 
         window.deleteImage = function(chId, iId) {
-            if(confirm('Delete this image?')) db.ref(`${DB_PATH}/${chId}/images/${iId}`).remove().then(()=>{showAlert('Image deleted!');loadImagesTable();});
+            if(confirm('Delete this image?')) {
+                db.ref(`${DB_PATH}/${chId}/images/${iId}`).remove()
+                    .then(()=>{showAlert('Image deleted!');loadImagesTable();})
+                    .catch(err=>showAlert('Error: '+err.message,'error'));
+            }
         };
 
         // ============ KEYBOARD SHORTCUTS ============
@@ -1080,8 +1016,6 @@
             loadChapterDropdown('noteChapterSelect');
             loadChapterDropdown('cbtChapterSelect');
             loadChapterDropdown('imageChapterSelect');
-            console.log('🚀 SYF Math Admin Panel Ready');
-            console.log('☁️ Cloudinary: dtr00rajz | Preset: syf_pdf_upload');
         });
     </script>
 </body>
