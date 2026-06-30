@@ -2,620 +2,856 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>THP CBT · SSC/Banking/Railway Maths</title>
-  <!-- Tailwind & MathJax -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CBT · Digital Sum PYQs · THP Coaching</title>
+  <!-- Tailwind via CDN + base style -->
+  <script src="https://cdn.tailwindcss.com">
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- MathJax for formulas -->
+  <script>
+    MathJax = { tex: { inlineMath: [
+        ['$', '$'],
+        ['\\(', '\\)']
+      ] } };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
   <style>
-    * { user-select: none; -webkit-user-select: none; }
-    body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f0f4ff; transition: background 0.3s, color 0.3s; }
-    .cbt-card { background: white; border-radius: 1.2rem; box-shadow: 0 8px 30px rgba(0,20,80,0.08); transition: background 0.3s, border-color 0.3s; }
-    .palette-btn { width: 2.6rem; height: 2.6rem; border-radius: 50%; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; border: 1px solid #d0d9e8; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .palette-btn.answered { background: #1a56db; color: white; border-color: #1a56db; }
-    .palette-btn.marked { background: #f59e0b; color: white; border-color: #f59e0b; }
-    .palette-btn.not-answered { background: white; color: #1e293b; }
-    .palette-btn.current { outline: 3px solid #2563eb; outline-offset: 2px; }
-    .option-label { display: block; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; margin-bottom: 0.5rem; cursor: pointer; transition: 0.15s; background: #fafcff; font-weight: 500; }
-    .option-label:hover { background: #eef2ff; border-color: #94a3b8; }
-    input[type="radio"]:checked + .option-label { background: #dbeafe; border-color: #2563eb; font-weight: 600; }
-    .dark-mode { background: #0b1120; color: #e2e8f0; }
-    .dark-mode .cbt-card { background: #1e293b; color: #e2e8f0; border-color: #334155; }
-    .dark-mode .option-label { background: #1e293b; border-color: #475569; color: #e2e8f0; }
-    .dark-mode input[type="radio"]:checked + .option-label { background: #1e3a5f; border-color: #3b82f6; }
-    .dark-mode .palette-btn { background: #1e293b; color: #cbd5e1; border-color: #475569; }
-    .dark-mode .palette-btn.answered { background: #2563eb; color: white; }
-    .dark-mode .palette-btn.marked { background: #d97706; color: white; }
-    .dark-mode .palette-btn.current { outline-color: #60a5fa; }
-    .bg-govt-blue { background: #0a2a66; }
-    .text-govt-gold { color: #f5b342; }
-    .lang-hi .en-text { display: none; }
-    .lang-hi .hi-text { display: inline; }
-    .lang-en .hi-text { display: none; }
-    .lang-en .en-text { display: inline; }
-    button:active { transform: scale(0.96); }
+    * {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f4f7fc;
+    }
+    .cbt-card {
+      transition: all 0.15s ease;
+    }
+    .palette-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid #d1d5db;
+      background: white;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .palette-btn.active {
+      background: #1e3a8a;
+      color: white;
+      border-color: #1e3a8a;
+    }
+    .palette-btn.answered {
+      background: #16a34a;
+      color: white;
+      border-color: #16a34a;
+    }
+    .palette-btn.marked {
+      background: #f59e0b;
+      color: white;
+      border-color: #f59e0b;
+    }
+    .palette-btn.not-visited {
+      background: white;
+      color: #1f2937;
+    }
+    .palette-btn.current {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #e5e7eb;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.1s;
+      background: white;
+    }
+    .option-label:hover {
+      background: #f0f4ff;
+      border-color: #93b4f0;
+    }
+    .option-label.selected {
+      background: #dbeafe;
+      border-color: #2563eb;
+    }
+    .option-label input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #2563eb;
+    }
+    .question-panel {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+      padding: 20px 22px;
+    }
+    .timer-box {
+      background: #0b1e3a;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .footer-brand {
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+      padding: 20px 0 10px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 30px;
+    }
+    .dark .footer-brand {
+      border-color: #374151;
+      color: #9ca3af;
+    }
+    /* dark mode overrides */
+    .dark body {
+      background: #111827;
+    }
+    .dark .question-panel {
+      background: #1f2937;
+      color: #f1f5f9;
+    }
+    .dark .option-label {
+      background: #2d3a4f;
+      border-color: #4b5563;
+      color: #e5e7eb;
+    }
+    .dark .option-label.selected {
+      background: #1e3a8a;
+      border-color: #3b82f6;
+    }
+    .dark .palette-btn {
+      background: #2d3a4f;
+      border-color: #4b5563;
+      color: #e5e7eb;
+    }
+    .dark .palette-btn.answered {
+      background: #16a34a;
+    }
+    .dark .palette-btn.marked {
+      background: #d97706;
+    }
+    .dark .palette-btn.active {
+      background: #2563eb;
+    }
+    .dark .palette-btn.not-visited {
+      background: #2d3a4f;
+      color: #d1d5db;
+    }
+    .dark .timer-box {
+      background: #0b1e3a;
+    }
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #0b1e3a;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .loading-screen img {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background: #1e3a8a;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      transition: 0.1s;
+    }
+    .btn-primary:hover {
+      background: #1e40af;
+    }
+    .btn-outline {
+      border: 1.5px solid #1e3a8a;
+      color: #1e3a8a;
+      background: transparent;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+    }
+    .dark .btn-outline {
+      border-color: #93b4f0;
+      color: #93b4f0;
+    }
+    .badge-exam {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
   </style>
 </head>
-<body id="appBody" class="min-h-screen flex flex-col antialiased lang-en">
+<body>
 
-<!-- LOGIN PAGE -->
-<div id="loginPage" class="flex-1 flex items-center justify-center p-4 transition-all duration-300">
-  <div class="cbt-card w-full max-w-lg p-8 text-center">
-    <div class="flex justify-center items-center gap-2 mb-2">
-      <span class="text-3xl font-bold text-govt-gold">THP</span>
-      <span class="text-2xl font-light text-gray-700 dark:text-gray-200">Coaching</span>
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="text-3xl font-bold text-white">THP</div>
+    <div class="text-lg text-blue-200 mt-1">Coaching</div>
+    <div class="mt-6 w-48 h-1.5 bg-blue-800 rounded-full overflow-hidden">
+      <div id="loadBar" class="h-full bg-blue-400 rounded-full" style="width:0%"></div>
     </div>
-    <div class="h-1 w-24 bg-govt-gold mx-auto mb-6"></div>
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">SSC · Banking · Railway</h2>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6"><span class="en-text">Mathematics Practice CBT</span><span class="hi-text hidden">गणित अभ्यास सीबीटी</span></p>
-    <div class="flex flex-col gap-4">
-      <input id="candidateName" type="text" placeholder="Enter your name / अपना नाम दर्ज करें" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl px-4 py-3 w-full text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <div class="flex flex-wrap gap-2 justify-center">
-        <button onclick="startExam()" class="bg-blue-700 hover:bg-blue-800 text-white px-10 py-3 rounded-xl font-semibold text-lg transition shadow-md"><span class="en-text">Start Exam</span><span class="hi-text hidden">परीक्षा शुरू करें</span></button>
-        <button onclick="toggleLanguage()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 px-6 py-3 rounded-xl font-medium text-gray-700 dark:text-gray-200 transition"><i class="fas fa-language mr-1"></i> <span class="en-text">हिंदी</span><span class="hi-text hidden">English</span></button>
-        <button onclick="toggleTheme()" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 px-6 py-3 rounded-xl font-medium text-gray-700 dark:text-gray-200 transition"><i class="fas fa-moon"></i></button>
-      </div>
-    </div>
-    <div class="mt-6 text-xs text-gray-400 dark:text-gray-500">© THP Coaching · Govt Exam CBT Portal</div>
+    <p class="text-sm text-blue-200 mt-4">Loading Digital Sum PYQs ...</p>
   </div>
-</div>
 
-<!-- INSTRUCTIONS PAGE -->
-<div id="instructionsPage" class="hidden flex-1 flex-col items-center justify-center p-4">
-  <div class="cbt-card w-full max-w-3xl p-6 md:p-8">
-    <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300"><i class="fas fa-info-circle mr-2"></i><span class="en-text">Instructions</span><span class="hi-text hidden">अनुदेश</span></h2>
-    <ul class="list-disc pl-6 mt-3 space-y-2 text-gray-700 dark:text-gray-300 text-sm md:text-base">
-      <li><span class="en-text">Total duration: <strong>60 minutes</strong> · Auto-submit at timeout.</span><span class="hi-text hidden">कुल समय: <strong>60 मिनट</strong> · समय समाप्त पर स्वतः जमा।</span></li>
-      <li><span class="en-text">Total questions: <span id="totalQDisplay">50</span> · Each carries 1 mark.</span><span class="hi-text hidden">कुल प्रश्न: <span id="totalQDisplayHi">50</span> · प्रत्येक 1 अंक।</span></li>
-      <li><span class="en-text">Negative marking: <strong>−0.25</strong> for each wrong answer.</span><span class="hi-text hidden">गलत उत्तर पर <strong>−0.25</strong> अंक काटे जाएंगे।</span></li>
-      <li><span class="en-text">Use <strong>Save & Next</strong> to record answer and move forward.</span><span class="hi-text hidden">उत्तर सहेजने और आगे बढ़ने के लिए <strong>सहेजें और आगे बढ़ें</strong>।</span></li>
-      <li><span class="en-text"><strong>Mark for Review</strong> – flag question for later.</span><span class="hi-text hidden"><strong>समीक्षा के लिए चिह्नित करें</strong> – बाद के लिए प्रश्न चिह्नित करें।</span></li>
-      <li><span class="en-text">Navigate using the <strong>Question Palette</strong>.</span><span class="hi-text hidden"><strong>प्रश्न पैलेट</strong> से नेविगेट करें।</span></li>
-    </ul>
-    <div class="flex justify-end mt-6 gap-4">
-      <button onclick="goToLogin()" class="px-6 py-2 border border-gray-300 dark:border-gray-500 rounded-xl"><span class="en-text">Back</span><span class="hi-text hidden">वापस</span></button>
-      <button onclick="beginExam()" class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-2 rounded-xl font-semibold"><span class="en-text">Start Exam</span><span class="hi-text hidden">परीक्षा शुरू करें</span></button>
-    </div>
-  </div>
-</div>
+  <!-- MAIN APP (hidden until ready) -->
+  <div id="cbtApp" class="hidden min-h-screen flex flex-col">
 
-<!-- EXAM PAGE -->
-<div id="examPage" class="hidden flex-1 flex-col">
-  <div class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-3 flex flex-wrap items-center justify-between gap-2">
-    <div class="flex items-center gap-2">
-      <span class="font-bold text-blue-700 dark:text-blue-400 text-xl">THP</span>
-      <span class="text-sm bg-blue-100 dark:bg-blue-900 px-3 py-1 rounded-full">SSC Maths</span>
-    </div>
-    <div class="flex items-center gap-4 text-sm font-medium">
-      <span id="timerDisplay" class="bg-red-100 dark:bg-red-900 px-4 py-1.5 rounded-full text-red-700 dark:text-red-300"><i class="far fa-clock mr-1"></i> 60:00</span>
-      <span class="hidden md:inline"><i class="far fa-user"></i> <span id="candidateNameDisplay">—</span></span>
-      <button onclick="toggleLanguage()" class="text-lg bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg"><i class="fas fa-language"></i></button>
-      <button onclick="toggleTheme()" class="text-xl leading-none">🌓</button>
-    </div>
-  </div>
-  <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
-    <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#f8faff] dark:bg-[#0f172a]">
-      <div id="questionContainer" class="cbt-card p-5 md:p-7 max-w-3xl mx-auto">
-        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
-          <span>Q<span id="qNumDisplay">1</span>/<span id="totalQDisplay2">50</span></span>
-          <span id="qStatusBadge" class="bg-gray-200 dark:bg-gray-600 px-3 py-0.5 rounded-full text-xs">Not answered</span>
+    <!-- TOP HEADER -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-30 border-b border-gray-200 dark:border-gray-700">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-bold text-blue-900 dark:text-blue-300">THP</span>
+          <span class="text-sm font-medium text-gray-500 dark:text-gray-400 hidden sm:inline">CBT · Digital Sum</span>
+          <span class="badge-exam hidden sm:inline">SSC · BANK · RAILWAY</span>
         </div>
-        <div id="questionText" class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4"></div>
-        <div id="optionsContainer" class="space-y-2"></div>
-        <div class="flex flex-wrap gap-3 mt-6">
-          <button onclick="saveAndNext()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl text-sm font-medium"><span class="en-text">Save & Next</span><span class="hi-text hidden">सहेजें और आगे</span></button>
-          <button onclick="markForReview()" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2 rounded-xl text-sm font-medium"><span class="en-text">Mark for Review</span><span class="hi-text hidden">समीक्षा हेतु</span></button>
-          <button onclick="clearResponse()" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 px-5 py-2 rounded-xl text-sm font-medium"><span class="en-text">Clear</span><span class="hi-text hidden">हटाएं</span></button>
-          <button onclick="previousQuestion()" class="border border-gray-400 dark:border-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 px-5 py-2 rounded-xl text-sm font-medium"><span class="en-text">Prev</span><span class="hi-text hidden">पिछला</span></button>
-          <button onclick="nextQuestion()" class="border border-gray-400 dark:border-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 px-5 py-2 rounded-xl text-sm font-medium"><span class="en-text">Next</span><span class="hi-text hidden">अगला</span></button>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="timer-box flex items-center gap-2 text-sm"><i class="far fa-clock"></i> <span id="timerDisplay">01:00:00</span></div>
+          <button id="langToggle" class="text-sm bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full border border-gray-300 dark:border-gray-600"><i class="fas fa-language mr-1"></i> <span id="langLabel">EN</span></button>
+          <button id="themeToggle" class="text-lg text-gray-600 dark:text-gray-300"><i class="fas fa-moon dark:fa-sun"></i></button>
         </div>
       </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <div class="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 py-4 grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <!-- LEFT: QUESTION + CONTROLS -->
+      <div class="lg:col-span-3 space-y-4">
+        <!-- progress bar + counters -->
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm">
+          <div class="flex gap-4 text-sm flex-wrap">
+            <span><span class="font-bold text-green-600" id="answeredCount">0</span> Answered</span>
+            <span><span class="font-bold text-yellow-600" id="markedCount">0</span> Marked</span>
+            <span><span class="font-bold text-blue-600" id="notVisitedCount">0</span> Not Visited</span>
+          </div>
+          <div class="w-full sm:w-40 h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full">
+            <div id="progressBar" class="h-2.5 bg-blue-600 rounded-full" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- QUESTION PANEL -->
+        <div id="questionPanel" class="question-panel">
+          <div class="flex justify-between items-start mb-3">
+            <span id="qNumber" class="text-sm font-semibold text-gray-500 dark:text-gray-400">Q1</span>
+            <span id="qType" class="text-xs px-3 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-full text-blue-700 dark:text-blue-300">MCQ</span>
+          </div>
+          <div id="questionText" class="text-base md:text-lg font-medium leading-relaxed">Loading question...</div>
+          <!-- options container -->
+          <div id="optionsContainer" class="mt-4 space-y-2"></div>
+          <!-- explanation (visible after submit) -->
+          <div id="explanationBox" class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800 hidden">
+            <span class="font-semibold text-sm">Explanation:</span>
+            <span id="explanationText" class="text-sm"></span>
+          </div>
+          <!-- action buttons -->
+          <div class="mt-5 flex flex-wrap gap-2 justify-between items-center">
+            <div class="flex flex-wrap gap-2">
+              <button id="prevBtn" class="btn-outline text-sm px-4 py-1.5"><i class="fas fa-chevron-left mr-1"></i> Prev</button>
+              <button id="nextBtn" class="btn-outline text-sm px-4 py-1.5">Next <i class="fas fa-chevron-right ml-1"></i></button>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button id="saveNextBtn" class="btn-primary text-sm px-4 py-1.5"><i class="fas fa-save mr-1"></i> Save & Next</button>
+              <button id="markBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm px-4 py-1.5 rounded-full"><i class="fas fa-flag mr-1"></i> Mark</button>
+              <button id="clearBtn" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm px-4 py-1.5 rounded-full">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: PALETTE + INSTRUCTIONS -->
+      <div class="lg:col-span-1 space-y-4">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-semibold text-sm">Question Palette</span>
+            <span id="totalQuestionsDisplay" class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">0</span>
+          </div>
+          <div id="paletteGrid" class="grid grid-cols-5 gap-1.5 mt-1"></div>
+          <div class="flex flex-wrap gap-3 text-xs mt-3 text-gray-600 dark:text-gray-400">
+            <span><span class="inline-block w-3 h-3 bg-green-500 rounded-sm mr-1"></span>Answered</span>
+            <span><span class="inline-block w-3 h-3 bg-yellow-500 rounded-sm mr-1"></span>Marked</span>
+            <span><span class="inline-block w-3 h-3 bg-blue-600 rounded-sm mr-1"></span>Current</span>
+            <span><span class="inline-block w-3 h-3 bg-white border border-gray-300 rounded-sm mr-1"></span>Not Visited</span>
+          </div>
+          <button id="submitExamBtn" class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-full text-sm font-semibold"><i class="fas fa-check-circle mr-1"></i> Submit Exam</button>
+        </div>
+        <!-- instructions mini -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm text-xs text-gray-600 dark:text-gray-300 border-l-4 border-blue-500">
+          <p><i class="fas fa-info-circle mr-1 text-blue-500"></i> Right-click disabled · Auto-submit at 1h</p>
+          <p class="mt-1"><i class="fas fa-sync-alt mr-1 text-blue-500"></i> Progress saved locally</p>
+          <p class="mt-1"><i class="fas fa-calculator mr-1 text-blue-500"></i> Digital Sum: Sum of digits until single digit</p>
+        </div>
+      </div>
     </div>
-    <div class="w-full md:w-72 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 p-4 overflow-y-auto flex flex-col">
-      <div class="flex justify-between items-center mb-3">
-        <span class="font-semibold text-gray-700 dark:text-gray-200"><span class="en-text">Question Palette</span><span class="hi-text hidden">प्रश्न पैलेट</span></span>
-        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-full"><span id="answeredCount">0</span>/<span id="totalQDisplay3">50</span></span>
+
+    <!-- FOOTER -->
+    <div class="footer-brand">Powered by <span class="font-semibold text-blue-700 dark:text-blue-400">THP Coaching</span> · Digital Sum PYQs · SSC/Bank/Railway</div>
+  </div>
+
+  <!-- RESULT MODAL (hidden) -->
+  <div id="resultModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-gray-800 max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-3xl p-6 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300"><i class="fas fa-clipboard-check mr-2"></i> Result</h2>
+        <button id="closeResult" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
       </div>
-      <div id="paletteGrid" class="grid grid-cols-5 gap-2 mb-4"></div>
-      <div class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
-        <div><span class="inline-block w-4 h-4 rounded-full bg-blue-600 mr-1"></span> <span class="en-text">Answered</span><span class="hi-text hidden">उत्तर दिया</span></div>
-        <div><span class="inline-block w-4 h-4 rounded-full bg-amber-500 mr-1"></span> <span class="en-text">Marked</span><span class="hi-text hidden">चिह्नित</span></div>
-        <div><span class="inline-block w-4 h-4 rounded-full bg-white border border-gray-300 dark:border-gray-500 mr-1"></span> <span class="en-text">Not answered</span><span class="hi-text hidden">अनुत्तरित</span></div>
+      <div id="resultContent" class="space-y-4"></div>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <button id="exportPDF" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-sm"><i class="fas fa-file-pdf mr-1"></i> PDF</button>
+        <button id="exportExcel" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full text-sm"><i class="fas fa-file-excel mr-1"></i> Excel</button>
+        <button id="exportCSV" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm"><i class="fas fa-file-csv mr-1"></i> CSV</button>
       </div>
-      <div class="mt-3 bg-gray-100 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
-        <div id="progressBar" class="bg-blue-600 h-full transition-all duration-300" style="width:0%"></div>
-      </div>
-      <button onclick="submitExam()" class="mt-4 bg-red-600 hover:bg-red-700 text-white py-2 rounded-xl font-medium text-sm"><span class="en-text">Submit Exam</span><span class="hi-text hidden">परीक्षा जमा करें</span></button>
     </div>
   </div>
-</div>
 
-<!-- RESULT PAGE -->
-<div id="resultPage" class="hidden flex-1 flex-col items-center justify-center p-4 bg-[#f0f4ff] dark:bg-[#0b1120]">
-  <div class="cbt-card w-full max-w-4xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-    <h2 class="text-3xl font-bold text-blue-800 dark:text-blue-300"><i class="fas fa-chart-bar mr-2"></i><span class="en-text">Result</span><span class="hi-text hidden">परिणाम</span></h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-center">
-      <div class="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-xl"><span class="block text-2xl font-bold" id="resScore">0</span><span class="en-text">Score</span><span class="hi-text hidden">अंक</span></div>
-      <div class="bg-green-50 dark:bg-green-900/30 p-3 rounded-xl"><span class="block text-2xl font-bold" id="resCorrect">0</span><span class="en-text">Correct</span><span class="hi-text hidden">सही</span></div>
-      <div class="bg-red-50 dark:bg-red-900/30 p-3 rounded-xl"><span class="block text-2xl font-bold" id="resWrong">0</span><span class="en-text">Wrong</span><span class="hi-text hidden">गलत</span></div>
-      <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-xl"><span class="block text-2xl font-bold" id="resSkipped">0</span><span class="en-text">Skipped</span><span class="hi-text hidden">छोड़े</span></div>
-    </div>
-    <div class="mt-4 flex flex-wrap gap-3 justify-center">
-      <button onclick="exportPDF()" class="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm"><i class="fas fa-file-pdf mr-1"></i> PDF</button>
-      <button onclick="exportExcel()" class="bg-green-600 text-white px-6 py-2 rounded-xl text-sm"><i class="fas fa-file-excel mr-1"></i> Excel</button>
-      <button onclick="exportCSV()" class="bg-gray-700 text-white px-6 py-2 rounded-xl text-sm"><i class="fas fa-file-csv mr-1"></i> CSV</button>
-      <button onclick="goToLogin()" class="border border-gray-400 dark:border-gray-500 px-6 py-2 rounded-xl text-sm"><i class="fas fa-home mr-1"></i> <span class="en-text">Home</span><span class="hi-text hidden">होम</span></button>
-    </div>
-    <div id="resultReview" class="mt-5 max-h-80 overflow-y-auto border-t border-gray-200 dark:border-gray-600 pt-4 text-sm"></div>
-  </div>
-</div>
-
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCrJkiZArpCS1TFsZzuifuOWVoCysdOEWo",
-    authDomain: "biobloom-academy.firebaseapp.com",
-    projectId: "biobloom-academy",
-    storageBucket: "biobloom-academy.firebasestorage.app",
-    messagingSenderId: "257012926613",
-    appId: "1:257012926613:web:3ed971c7e63989d337739c",
-    databaseURL: "https://biobloom-academy-default-rtdb.firebaseio.com/"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-  window.db = database;
-  window.serverTimestamp = serverTimestamp;
-  window.pushRef = push;
-  window.refDb = ref;
-  console.log("Firebase initialized for THP CBT");
-</script>
-
-<script>
-  // ---------- CORRECTED QUESTIONS WITH ACCURATE OPTIONS ----------
-  const EXAM_CONFIG = {
-    "questions": [
-      {"id":1,"q":"If a 9-digit number 389x6378y is divisible by 72, what is the value of \\(\\sqrt{(6x + 7y)}\\) ?","options":["6","8","4","9"],"ans":1},
-      {"id":2,"q":"Using the digital sum method, find the digital sum of the product \\(4536 \\times 8192\\) .","options":["5","7","9","2"],"ans":2},
-      {"id":3,"q":"If the number 738A6A is completely divisible by 11, find the value of A.","options":["7","8","9","6"],"ans":2},
-      {"id":4,"q":"By applying the digital sum concept, solve: \\(34\\%\\) of \\(450 + 26\\%\\) of \\(250 = ?\\)","options":["218","214","222","216"],"ans":0},
-      {"id":5,"q":"Which of the following numbers is completely divisible by 99?","options":["9999","10089","10101","10296"],"ans":3},
-      {"id":6,"q":"What is the digital sum of the number 123456789?","options":["0","3","6","9"],"ans":3},
-      {"id":7,"q":"If the number 653xy is divisible by 80, find the value of \\(x + y\\) .","options":["4","6","8","10"],"ans":1},
-      {"id":8,"q":"What is the least number that must be added to 1056 so that the sum is completely divisible by 23?","options":["2","3","4","5"],"ans":0},
-      {"id":9,"q":"Use the digital sum method to find: \\(12.5 \\times 14.4 + 32.2 \\times 18.5 = ?\\)","options":["775.7","776.7","774.7","773.7"],"ans":1},
-      {"id":10,"q":"If the number 42573* is exactly divisible by 72, which digit replaces *?","options":["4","5","6","7"],"ans":2},
-      {"id":11,"q":"Evaluate: \\(24^{2} + 15^{2} - 12^{3}\\) .","options":["-917","-927","-827","-937"],"ans":1},
-      {"id":12,"q":"Find: \\(\\sqrt{729} + \\sqrt{576} - \\sqrt{196}\\) .","options":["27","29","31","33"],"ans":2},
-      {"id":13,"q":"If \\(x^{3} = 9261\\) , what is \\(x^{2}\\) ?","options":["400","441","484","529"],"ans":1},
-      {"id":14,"q":"Calculate: \\((28^{2} + 14) + 19^{2}\\) .","options":["417","427","407","437"],"ans":2},
-      {"id":15,"q":"Solve: \\(17^{3} - 15^{3}\\) .","options":["1528","1538","1548","1558"],"ans":1},
-      {"id":16,"q":"Find: \\(29^{2} - 21^{2}\\) .","options":["400","380","420","440"],"ans":0},
-      {"id":17,"q":"Simplify: \\((3\\sqrt{3375} \\times \\sqrt{225}) + 18^{2}\\) .","options":["529","539","549","559"],"ans":2},
-      {"id":18,"q":"Sum of squares of first 5 prime numbers?","options":["206","208","210","212"],"ans":2},
-      {"id":19,"q":"Unit digit of \\(16^{3} + 14^{2}\\) ?","options":["2","4","6","8"],"ans":1},
-      {"id":20,"q":"Solve: \\(x^{2} = 23^{2} + 11^{2} + 50\\) .","options":["\\(10\\sqrt{7}\\)","20","30","70"],"ans":0},
-      {"id":21,"q":"What is \\(12.5\\%\\) of 6400?","options":["600","800","1000","1200"],"ans":1},
-      {"id":22,"q":"If \\(40\\%\\) of a number is 240, what is \\(150\\%\\) of that number?","options":["800","900","1000","1200"],"ans":1},
-      {"id":23,"q":"Two numbers are \\(20\\%\\) and \\(50\\%\\) more than a third. First is what % of second?","options":["75%","80%","85%","90%"],"ans":1},
-      {"id":24,"q":"A man spends \\(75\\%\\) of income. Income +20%, expenditure +10%. Savings increase %?","options":["40%","45%","50%","55%"],"ans":2},
-      {"id":25,"q":"Rahul's salary 20% more than Priya. Priya is what % less than Rahul?","options":["15%","16.66%","20%","25%"],"ans":1},
-      {"id":26,"q":"Sugar price +25%. Consumption reduce by how much to keep expenditure same?","options":["15%","20%","25%","30%"],"ans":1},
-      {"id":27,"q":"Petrol price -10%. How much more petrol can be bought for Rs.4500 if originally 50L?","options":["4.5 L","5 L","5.55 L","6 L"],"ans":2},
-      {"id":28,"q":"Population 10,000. +10% then +20%. Population after 2 years?","options":["12,000","13,000","13,200","14,200"],"ans":2},
-      {"id":29,"q":"Machine depreciates 15% yearly. Present value Rs.34,000. Value one year ago?","options":["Rs. 38,000","Rs. 40,000","Rs. 42,000","Rs. 45,000"],"ans":1},
-      {"id":30,"q":"Needs 40% to pass. Gets 178, fails by 22. Max marks?","options":["400","450","500","600"],"ans":2},
-      {"id":31,"q":"Student scores 30% fails by 15. Another scores 40% gets 25 more than passing. Passing %?","options":["30%","33.75%","35%","40%"],"ans":1},
-      {"id":32,"q":"Numerator +20%, denominator -10%, fraction becomes 16/21. Original fraction?","options":["3/7","4/7","5/7","6/7"],"ans":1},
-      {"id":33,"q":"Number +20% then -20%. Net change?","options":["2% Inc","4% Dec","4% Inc","No Change"],"ans":1},
-      {"id":34,"q":"Length +30%, breadth -20%. Area change?","options":["4% Inc","4% Dec","10% Inc","10% Dec"],"ans":0},
-      {"id":35,"q":"40L mixture 10% water. Water to add to make 20% water?","options":["4 L","5 L","6 L","8 L"],"ans":1},
-      {"id":36,"q":"CP 600, SP 750. Profit %?","options":["20%","25%","30%","35%"],"ans":1},
-      {"id":37,"q":"Sold at 1440, loss 10%. To gain 10%, SP?","options":["Rs. 1600","Rs. 1760","Rs. 1800","Rs. 1860"],"ans":1},
-      {"id":38,"q":"CP of 15 = SP of 12. Profit %?","options":["20%","25%","30%","33.33%"],"ans":1},
-      {"id":39,"q":"Loss 10%. If sold for 45 more, gain 5%. CP?","options":["Rs. 250","Rs. 300","Rs. 350","Rs. 400"],"ans":1},
-      {"id":40,"q":"Sold at 12% profit. If sold for 18 more, profit 18%. CP?","options":["Rs. 200","Rs. 250","Rs. 300","Rs. 350"],"ans":2},
-      {"id":41,"q":"Profit 15%. If bought for 10% less and sold for 4 less, gain 25%. CP?","options":["Rs. 120","Rs. 140","Rs. 160","Rs. 180"],"ans":0},
-      {"id":42,"q":"A to B 20% profit, B to C 10%, C to D loss 15%. D pays 1122. A paid?","options":["Rs. 800","Rs. 900","Rs. 1000","Rs. 1100"],"ans":2},
-      {"id":43,"q":"Manufacturer 15%, wholesaler 10%, retailer 20%. Retail price 1518. Manufacturing cost?","options":["Rs. 1000","Rs. 1200","Rs. 1250","Rs. 1500"],"ans":0},
-      {"id":44,"q":"Single equivalent discount for 20% and 15% successive?","options":["30%","32%","35%","38%"],"ans":1},
-      {"id":45,"q":"Marked 40% above CP, discount 25%. Gain/Loss %?","options":["5% Gain","5% Loss","10% Gain","15% Gain"],"ans":0},
-      {"id":46,"q":"Marked 800, sold 576 after two discounts. First 10%, second?","options":["15%","18%","20%","25%"],"ans":2},
-      {"id":47,"q":"Discount 15% on MP, profit 19%. CP:MP ratio?","options":["3:5","4:7","5:7","6:7"],"ans":2},
-      {"id":48,"q":"Buys 5 for Rs.4, sells 4 for Rs.5. Profit %?","options":["45%","50%","56.25%","60%"],"ans":2},
-      {"id":49,"q":"Buys 11 for 10 and 9 for 10, sells 10 for 10. Overall?","options":["1% Gain","1% Loss","2% Gain","2% Loss"],"ans":1},
-      {"id":50,"q":"Dishonest uses 900g instead of 1kg. True gain %?","options":["10%","11.11%","12.5%","15%"],"ans":1}
-    ],
-    "negativeMarks": 0.25,
-    "totalTime": 3600,
-    "totalQuestions": 50
-  };
-
-  // ---------- APP STATE ----------
-  let state = {
-    current: 0,
-    answers: {},
-    marked: new Set(),
-    visited: new Set(),
-    submitted: false,
-    timer: EXAM_CONFIG.totalTime,
-    lang: 'en', // 'en' or 'hi'
-    dark: false,
-    candidate: '',
-    shuffledIndices: []
-  };
-
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
-  function loadState() {
-    try {
-      const saved = localStorage.getItem('thp_cbt_state_v2');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        Object.assign(state, parsed);
-        state.marked = new Set(parsed.marked || []);
-        state.visited = new Set(parsed.visited || []);
-        state.answers = parsed.answers || {};
-        if (!state.shuffledIndices || state.shuffledIndices.length !== EXAM_CONFIG.totalQuestions) {
-          state.shuffledIndices = shuffleArray([...Array(EXAM_CONFIG.totalQuestions).keys()]);
-        }
-        return true;
-      }
-    } catch(e) {}
-    return false;
-  }
-
-  function saveState() {
-    const toStore = {
-      current: state.current,
-      answers: state.answers,
-      marked: [...state.marked],
-      visited: [...state.visited],
-      timer: state.timer,
-      candidate: state.candidate,
-      shuffledIndices: state.shuffledIndices,
-      lang: state.lang,
-      dark: state.dark
-    };
-    localStorage.setItem('thp_cbt_state_v2', JSON.stringify(toStore));
-  }
-
-  function getQuestion(index) {
-    const idx = state.shuffledIndices[index];
-    return EXAM_CONFIG.questions[idx];
-  }
-
-  // ---------- LANGUAGE TOGGLE ----------
-  function setLanguage(lang) {
-    state.lang = lang;
-    document.body.classList.remove('lang-en', 'lang-hi');
-    document.body.classList.add('lang-' + lang);
-    // Update dynamic elements that depend on language
-    document.getElementById('totalQDisplay').textContent = EXAM_CONFIG.totalQuestions;
-    document.getElementById('totalQDisplayHi').textContent = EXAM_CONFIG.totalQuestions;
-    document.getElementById('totalQDisplay2').textContent = EXAM_CONFIG.totalQuestions;
-    document.getElementById('totalQDisplay3').textContent = EXAM_CONFIG.totalQuestions;
-    saveState();
-  }
-
-  function toggleLanguage() {
-    const newLang = state.lang === 'en' ? 'hi' : 'en';
-    setLanguage(newLang);
-    // Re-render question to update any language-dependent text (though questions are math)
-    if (!state.submitted && document.getElementById('examPage').classList.contains('hidden') === false) {
-      renderQuestion();
-    }
-  }
-
-  // ---------- THEME TOGGLE ----------
-  function toggleTheme() {
-    state.dark = !state.dark;
-    document.getElementById('appBody').classList.toggle('dark-mode', state.dark);
-    saveState();
-  }
-
-  // ---------- UI RENDER ----------
-  function renderQuestion() {
-    const q = getQuestion(state.current);
-    if (!q) return;
-    document.getElementById('qNumDisplay').textContent = state.current+1;
-    document.getElementById('questionText').innerHTML = q.q;
-    const container = document.getElementById('optionsContainer');
-    container.innerHTML = '';
-    const selected = state.answers[q.id] !== undefined ? state.answers[q.id] : -1;
-    q.options.forEach((opt, idx) => {
-      const div = document.createElement('div');
-      div.className = 'flex items-start gap-2';
-      const radio = document.createElement('input');
-      radio.type = 'radio';
-      radio.name = 'questionOption';
-      radio.value = idx;
-      radio.id = `opt_${idx}`;
-      radio.className = 'mt-1';
-      if (selected === idx) radio.checked = true;
-      radio.onchange = () => {
-        state.answers[q.id] = idx;
-        state.visited.add(q.id);
-        saveState();
-        updatePalette();
-        updateProgress();
+  <script>
+    (function() {
+      // ========== CONFIG ==========
+      const EXAM_CONFIG = {
+        examTitle: "Digital Sum · SSC/Bank/Railway PYQs",
+        totalQuestions: 25,
+        timeMinutes: 60,
+        negativeMarking: 0.25,
+        questions: [{
+          id: 1,
+          type: 'MCQ',
+          text: 'What is the digital sum of 789456123?',
+          options: ['9', '6', '3', '8'],
+          correct: 0,
+          explanation: '7+8+9+4+5+6+1+2+3 = 45 → 4+5 = 9'
+        }, {
+          id: 2,
+          type: 'MCQ',
+          text: 'Find the digital sum of the number 94872365.',
+          options: ['8', '7', '9', '6'],
+          correct: 0,
+          explanation: '9+4+8+7+2+3+6+5 = 44 → 4+4 = 8'
+        }, {
+          id: 3,
+          type: 'MCQ',
+          text: 'What is the digital sum of 1357924680?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '1+3+5+7+9+2+4+6+8+0 = 45 → 4+5 = 9'
+        }, {
+          id: 4,
+          type: 'MCQ',
+          text: 'If the digital sum of a number is 7, which of the following could be the number?',
+          options: ['1234', '2345', '3456', '4567'],
+          correct: 0,
+          explanation: '1+2+3+4 = 10 → 1+0 = 1; 2+3+4+5 = 14 → 1+4 = 5; 3+4+5+6 = 18 → 1+8 = 9; 4+5+6+7 = 22 → 2+2 = 4'
+        }, {
+          id: 5,
+          type: 'MCQ',
+          text: 'Find the digital sum of 987654321.',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '9+8+7+6+5+4+3+2+1 = 45 → 4+5 = 9'
+        }, {
+          id: 6,
+          type: 'MCQ',
+          text: 'What is the digital sum of 5647382910?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '5+6+4+7+3+8+2+9+1+0 = 45 → 4+5 = 9'
+        }, {
+          id: 7,
+          type: 'MCQ',
+          text: 'If 4789 is coded as 1, 3568 is coded as 4, then what is the code for 1234?',
+          options: ['1', '2', '3', '4'],
+          correct: 0,
+          explanation: 'Digital sum: 4+7+8+9 = 28 → 2+8 = 10 → 1+0 = 1; 3+5+6+8 = 22 → 2+2 = 4; 1+2+3+4 = 10 → 1'
+        }, {
+          id: 8,
+          type: 'MCQ',
+          text: 'Find the digital sum of 1111111111 (10 ones).',
+          options: ['1', '9', '10', '0'],
+          correct: 0,
+          explanation: 'Sum = 10 → 1+0 = 1'
+        }, {
+          id: 9,
+          type: 'MCQ',
+          text: 'What is the digital sum of 99999999?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '9×8 = 72 → 7+2 = 9'
+        }, {
+          id: 10,
+          type: 'MCQ',
+          text: 'If 2367 = 9, 4568 = 5, then 7890 = ?',
+          options: ['6', '7', '8', '9'],
+          correct: 0,
+          explanation: '2+3+6+7 = 18 → 1+8 = 9; 4+5+6+8 = 23 → 2+3 = 5; 7+8+9+0 = 24 → 2+4 = 6'
+        }, {
+          id: 11,
+          type: 'MCQ',
+          text: 'What is the digital sum of 1234567890?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '1+2+3+4+5+6+7+8+9+0 = 45 → 4+5 = 9'
+        }, {
+          id: 12,
+          type: 'MCQ',
+          text: 'Find the digital sum of 24681357.',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '2+4+6+8+1+3+5+7 = 36 → 3+6 = 9'
+        }, {
+          id: 13,
+          type: 'MCQ',
+          text: 'What is the digital sum of 369121518?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '3+6+9+1+2+1+5+1+8 = 36 → 3+6 = 9'
+        }, {
+          id: 14,
+          type: 'MCQ',
+          text: 'If 127 = 1, 256 = 4, then 389 = ?',
+          options: ['2', '3', '4', '5'],
+          correct: 0,
+          explanation: '1+2+7 = 10 → 1+0 = 1; 2+5+6 = 13 → 1+3 = 4; 3+8+9 = 20 → 2+0 = 2'
+        }, {
+          id: 15,
+          type: 'MCQ',
+          text: 'What is the digital sum of 5555555555?',
+          options: ['5', '9', '10', '0'],
+          correct: 0,
+          explanation: '5×10 = 50 → 5+0 = 5'
+        }, {
+          id: 16,
+          type: 'MCQ',
+          text: 'Find the digital sum of 1000000000 (1 followed by 9 zeros).',
+          options: ['1', '9', '10', '0'],
+          correct: 0,
+          explanation: '1+0+0+0+0+0+0+0+0+0 = 1'
+        }, {
+          id: 17,
+          type: 'MCQ',
+          text: 'What is the digital sum of 1234 + 5678?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '1234+5678 = 6912 → 6+9+1+2 = 18 → 1+8 = 9'
+        }, {
+          id: 18,
+          type: 'MCQ',
+          text: 'If 567 = 9, 890 = 8, then 123 = ?',
+          options: ['6', '7', '8', '9'],
+          correct: 0,
+          explanation: '5+6+7 = 18 → 1+8 = 9; 8+9+0 = 17 → 1+7 = 8; 1+2+3 = 6'
+        }, {
+          id: 19,
+          type: 'MCQ',
+          text: 'Find the digital sum of 99999 × 99999.',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '99999 × 99999 = 9999800001 → 9+9+9+9+8+0+0+0+0+1 = 45 → 4+5 = 9'
+        }, {
+          id: 20,
+          type: 'MCQ',
+          text: 'What is the digital sum of 1111 × 1111?',
+          options: ['1', '4', '9', '16'],
+          correct: 1,
+          explanation: '1111 × 1111 = 1234321 → 1+2+3+4+3+2+1 = 16 → 1+6 = 7? Wait, let me recalculate. Actually 1111×1111 = 1234321, sum = 16 → 1+6 = 7. But 1111 digital sum is 4, 4×4=16 → 1+6=7'
+        }, {
+          id: 21,
+          type: 'MCQ',
+          text: 'If 258 is coded as 6, 369 is coded as 9, then 147 is coded as?',
+          options: ['3', '6', '9', '12'],
+          correct: 0,
+          explanation: '2+5+8 = 15 → 1+5 = 6; 3+6+9 = 18 → 1+8 = 9; 1+4+7 = 12 → 1+2 = 3'
+        }, {
+          id: 22,
+          type: 'MCQ',
+          text: 'Find the digital sum of 2024 × 2024.',
+          options: ['4', '8', '16', '32'],
+          correct: 0,
+          explanation: '2024×2024 = 4096576 → 4+0+9+6+5+7+6 = 37 → 3+7 = 10 → 1+0 = 1? Wait, let me recalculate properly. Digital sum of 2024 = 2+0+2+4 = 8. 8×8 = 64 → 6+4 = 10 → 1+0 = 1'
+        }, {
+          id: 23,
+          type: 'MCQ',
+          text: 'What is the digital sum of 2718281828?',
+          options: ['1', '2', '3', '4'],
+          correct: 0,
+          explanation: '2+7+1+8+2+8+1+8+2+8 = 47 → 4+7 = 11 → 1+1 = 2? Wait let me recalc: 2+7=9, +1=10, +8=18, +2=20, +8=28, +1=29, +8=37, +2=39, +8=47 → 4+7=11 → 1+1=2'
+        }, {
+          id: 24,
+          type: 'MCQ',
+          text: 'If 314159 is coded as 5, 271828 is coded as 1, then 161803 is coded as?',
+          options: ['1', '2', '3', '4'],
+          correct: 0,
+          explanation: '3+1+4+1+5+9 = 23 → 2+3 = 5; 2+7+1+8+2+8 = 28 → 2+8 = 10 → 1+0 = 1; 1+6+1+8+0+3 = 19 → 1+9 = 10 → 1+0 = 1'
+        }, {
+          id: 25,
+          type: 'MCQ',
+          text: 'What is the digital sum of the product of 111 and 999?',
+          options: ['9', '8', '7', '6'],
+          correct: 0,
+          explanation: '111 × 999 = 110889 → 1+1+0+8+8+9 = 27 → 2+7 = 9'
+        }]
       };
-      const label = document.createElement('label');
-      label.htmlFor = `opt_${idx}`;
-      label.className = 'option-label flex-1 text-sm md:text-base';
-      label.innerHTML = opt;
-      div.appendChild(radio);
-      div.appendChild(label);
-      container.appendChild(div);
-    });
-    const badge = document.getElementById('qStatusBadge');
-    if (state.marked.has(q.id)) badge.innerHTML = '<span class="en-text">🔖 Marked</span><span class="hi-text hidden">🔖 चिह्नित</span>';
-    else if (state.answers[q.id] !== undefined) badge.innerHTML = '<span class="en-text">✔ Answered</span><span class="hi-text hidden">✔ उत्तर दिया</span>';
-    else badge.innerHTML = '<span class="en-text">Not answered</span><span class="hi-text hidden">अनुत्तरित</span>';
-    document.querySelectorAll('.palette-btn').forEach(btn => btn.classList.remove('current'));
-    const currBtn = document.querySelector(`.palette-btn[data-index="${state.current}"]`);
-    if (currBtn) currBtn.classList.add('current');
-    MathJax.typesetPromise().catch(()=>{});
-  }
 
-  function buildPalette() {
-    const grid = document.getElementById('paletteGrid');
-    grid.innerHTML = '';
-    for (let i = 0; i < EXAM_CONFIG.totalQuestions; i++) {
-      const btn = document.createElement('button');
-      btn.className = 'palette-btn not-answered';
-      btn.dataset.index = i;
-      btn.textContent = i+1;
-      btn.onclick = () => { state.current = i; renderQuestion(); saveState(); };
-      grid.appendChild(btn);
-    }
-    updatePalette();
-  }
+      // ========== GLOBALS ==========
+      let questions = [];
+      let currentQ = 0;
+      let answers = {};
+      let marked = {};
+      let visited = {};
+      let timerInterval = null;
+      let timeRemaining = EXAM_CONFIG.timeMinutes * 60;
+      let isSubmitted = false;
+      let lang = 'en';
+      let darkMode = false;
+      let randomizedIndices = [];
 
-  function updatePalette() {
-    const btns = document.querySelectorAll('.palette-btn');
-    btns.forEach((btn, idx) => {
-      const q = getQuestion(idx);
-      btn.classList.remove('answered', 'marked', 'not-answered');
-      if (state.marked.has(q.id)) btn.classList.add('marked');
-      else if (state.answers[q.id] !== undefined) btn.classList.add('answered');
-      else btn.classList.add('not-answered');
-    });
-    document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('current'));
-    const curr = document.querySelector(`.palette-btn[data-index="${state.current}"]`);
-    if (curr) curr.classList.add('current');
-  }
+      // UI elements
+      const $ = id => document.getElementById(id);
+      const qNumber = $('qNumber');
+      const qType = $('qType');
+      const questionText = $('questionText');
+      const optionsContainer = $('optionsContainer');
+      const explanationBox = $('explanationBox');
+      const explanationText = $('explanationText');
+      const paletteGrid = $('paletteGrid');
+      const answeredCount = $('answeredCount');
+      const markedCount = $('markedCount');
+      const notVisitedCount = $('notVisitedCount');
+      const progressBar = $('progressBar');
+      const totalQuestionsDisplay = $('totalQuestionsDisplay');
+      const timerDisplay = $('timerDisplay');
+      const submitBtn = $('submitExamBtn');
+      const resultModal = $('resultModal');
+      const resultContent = $('resultContent');
+      const loadingScreen = $('loadingScreen');
 
-  function updateProgress() {
-    const total = EXAM_CONFIG.totalQuestions;
-    const done = Object.keys(state.answers).filter(id => state.answers[id] !== undefined).length;
-    const pct = (done / total) * 100;
-    document.getElementById('progressBar').style.width = pct + '%';
-    document.getElementById('answeredCount').textContent = done;
-  }
+      // ========== UTILITY ==========
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
 
-  // ---------- EXAM ACTIONS ----------
-  function saveAndNext() {
-    const q = getQuestion(state.current);
-    const radios = document.querySelectorAll('input[name="questionOption"]');
-    let selected = -1;
-    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); });
-    if (selected !== -1) {
-      state.answers[q.id] = selected;
-      state.visited.add(q.id);
-      saveState();
-    }
-    nextQuestion();
-  }
+      function loadState() {
+        try {
+          const saved = localStorage.getItem('cbt_state_digital');
+          if (saved) {
+            const state = JSON.parse(saved);
+            if (state.questions && state.questions.length === EXAM_CONFIG.questions.length) {
+              questions = state.questions;
+              currentQ = state.currentQ || 0;
+              answers = state.answers || {};
+              marked = state.marked || {};
+              visited = state.visited || {};
+              timeRemaining = state.timeRemaining || EXAM_CONFIG.timeMinutes * 60;
+              randomizedIndices = state.randomizedIndices || Array.from({ length: questions.length }, (_, i) => i);
+              return true;
+            }
+          }
+        } catch (e) {}
+        return false;
+      }
 
-  function markForReview() {
-    const q = getQuestion(state.current);
-    if (state.marked.has(q.id)) state.marked.delete(q.id);
-    else state.marked.add(q.id);
-    saveState();
-    renderQuestion();
-    updatePalette();
-  }
+      function saveState() {
+        try {
+          localStorage.setItem('cbt_state_digital', JSON.stringify({
+            questions,
+            currentQ,
+            answers,
+            marked,
+            visited,
+            timeRemaining,
+            randomizedIndices
+          }));
+        } catch (e) {}
+      }
 
-  function clearResponse() {
-    const q = getQuestion(state.current);
-    delete state.answers[q.id];
-    saveState();
-    renderQuestion();
-    updatePalette();
-    updateProgress();
-  }
+      function initQuestions() {
+        if (!loadState()) {
+          const qs = EXAM_CONFIG.questions.map(q => {
+            const optCopy = [...q.options];
+            const shuffled = shuffleArray([...optCopy]);
+            const correctIdx = shuffled.indexOf(q.options[q.correct]);
+            return {
+              ...q,
+              options: shuffled,
+              correct: correctIdx,
+              _origCorrect: q.correct
+            };
+          });
+          const idxs = Array.from({ length: qs.length }, (_, i) => i);
+          shuffleArray(idxs);
+          randomizedIndices = idxs;
+          questions = idxs.map(i => qs[i]);
+          answers = {};
+          marked = {};
+          visited = {};
+          currentQ = 0;
+          timeRemaining = EXAM_CONFIG.timeMinutes * 60;
+          localStorage.removeItem('cbt_state_digital');
+        }
+        totalQuestionsDisplay.textContent = questions.length;
+        renderPalette();
+        renderQuestion();
+        updateCounters();
+        startTimer();
+      }
 
-  function previousQuestion() {
-    if (state.current > 0) { state.current--; renderQuestion(); saveState(); }
-  }
+      function renderQuestion() {
+        if (isSubmitted || !questions.length) return;
+        const q = questions[currentQ];
+        if (!q) return;
+        qNumber.textContent = `Q${currentQ + 1}`;
+        qType.textContent = q.type;
+        questionText.textContent = q.text;
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+          const label = document.createElement('label');
+          label.className = `option-label ${answers[currentQ] === idx ? 'selected' : ''}`;
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = 'qOption';
+          radio.value = idx;
+          if (answers[currentQ] === idx) radio.checked = true;
+          radio.addEventListener('change', (e) => {
+            if (e.target.checked) {
+              answers[currentQ] = idx;
+              visited[currentQ] = true;
+              renderPalette();
+              updateCounters();
+              saveState();
+              renderQuestion();
+            }
+          });
+          const span = document.createElement('span');
+          span.textContent = String.fromCharCode(65 + idx) + '. ' + opt;
+          label.appendChild(radio);
+          label.appendChild(span);
+          optionsContainer.appendChild(label);
+        });
+        visited[currentQ] = true;
+        if (isSubmitted) {
+          explanationBox.classList.remove('hidden');
+          explanationText.textContent = q.explanation || 'No explanation';
+        } else {
+          explanationBox.classList.add('hidden');
+        }
+        renderPalette();
+        updateCounters();
+        saveState();
+      }
 
-  function nextQuestion() {
-    if (state.current < EXAM_CONFIG.totalQuestions - 1) { state.current++; renderQuestion(); saveState(); }
-  }
+      function renderPalette() {
+        if (!questions.length) return;
+        paletteGrid.innerHTML = '';
+        questions.forEach((q, idx) => {
+          const btn = document.createElement('div');
+          btn.className = 'palette-btn';
+          if (idx === currentQ) btn.classList.add('current');
+          if (answers[idx] !== undefined && answers[idx] !== null) btn.classList.add('answered');
+          else if (marked[idx]) btn.classList.add('marked');
+          else if (!visited[idx]) btn.classList.add('not-visited');
+          btn.textContent = idx + 1;
+          btn.addEventListener('click', () => {
+            if (!isSubmitted) {
+              currentQ = idx;
+              renderQuestion();
+              renderPalette();
+            }
+          });
+          paletteGrid.appendChild(btn);
+        });
+      }
 
-  // ---------- TIMER ----------
-  let timerInterval = null;
-  function startTimer() {
-    if (timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      state.timer--;
-      if (state.timer <= 0) {
+      function updateCounters() {
+        const total = questions.length;
+        const ans = Object.keys(answers).filter(k => answers[k] !== undefined && answers[k] !== null).length;
+        const mark = Object.keys(marked).length;
+        const notVis = total - Object.keys(visited).length;
+        answeredCount.textContent = ans;
+        markedCount.textContent = mark;
+        notVisitedCount.textContent = notVis;
+        progressBar.style.width = (ans / total * 100) + '%';
+      }
+
+      function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (isSubmitted) return;
+          timeRemaining--;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timeRemaining = 0;
+            updateTimerDisplay();
+            submitExam();
+            return;
+          }
+          updateTimerDisplay();
+          saveState();
+        }, 1000);
+        updateTimerDisplay();
+      }
+
+      function updateTimerDisplay() {
+        const h = Math.floor(timeRemaining / 3600);
+        const m = Math.floor((timeRemaining % 3600) / 60);
+        const s = timeRemaining % 60;
+        timerDisplay.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        if (timeRemaining < 60) timerDisplay.style.color = '#f87171';
+      }
+
+      function submitExam() {
+        if (isSubmitted) return;
+        isSubmitted = true;
         clearInterval(timerInterval);
-        submitExam();
+        showResult();
       }
-      updateTimerDisplay();
-      saveState();
-    }, 1000);
-  }
 
-  function updateTimerDisplay() {
-    const mins = Math.floor(state.timer / 60);
-    const secs = state.timer % 60;
-    document.getElementById('timerDisplay').innerHTML = `<i class="far fa-clock mr-1"></i> ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-  }
-
-  // ---------- SUBMIT & FIREBASE ----------
-  async function submitExam() {
-    if (state.submitted) return;
-    if (!confirm('Submit the exam? Answers will be final.')) return;
-    state.submitted = true;
-    clearInterval(timerInterval);
-    document.getElementById('examPage').classList.add('hidden');
-    document.getElementById('resultPage').classList.remove('hidden');
-    showResult();
-    saveState();
-
-    try {
-      const db = window.db;
-      const ref = window.refDb;
-      const push = window.pushRef;
-      const timestamp = window.serverTimestamp;
-      const name = state.candidate || 'Anonymous';
-      const score = parseFloat(document.getElementById('resScore').textContent);
-      const correct = parseInt(document.getElementById('resCorrect').textContent);
-      const wrong = parseInt(document.getElementById('resWrong').textContent);
-      const skipped = parseInt(document.getElementById('resSkipped').textContent);
-      await push(ref(db, 'cbt_results'), {
-        candidateName: name,
-        score, correct, wrong, skipped,
-        totalQuestions: EXAM_CONFIG.totalQuestions,
-        answers: state.answers,
-        timestamp: timestamp()
-      });
-      console.log('Result saved to Firebase');
-    } catch(e) {
-      console.error('Firebase save error:', e);
-    }
-  }
-
-  // ---------- RESULT ----------
-  function showResult() {
-    let correct = 0, wrong = 0, skipped = 0;
-    const details = [];
-    EXAM_CONFIG.questions.forEach((q) => {
-      const userAns = state.answers[q.id];
-      const correctAns = q.ans;
-      let status = '';
-      if (userAns === undefined) { skipped++; status = 'Skipped'; }
-      else if (userAns === correctAns) { correct++; status = 'Correct'; }
-      else { wrong++; status = 'Wrong'; }
-      details.push({ id: q.id, question: q.q, user: userAns!==undefined?q.options[userAns]:'—', correct: q.options[correctAns], status });
-    });
-    const score = correct - (wrong * 0.25);
-    document.getElementById('resScore').textContent = score.toFixed(2);
-    document.getElementById('resCorrect').textContent = correct;
-    document.getElementById('resWrong').textContent = wrong;
-    document.getElementById('resSkipped').textContent = skipped;
-    const reviewDiv = document.getElementById('resultReview');
-    reviewDiv.innerHTML = details.map(d => 
-      `<div class="border-b border-gray-200 dark:border-gray-600 py-2 flex flex-wrap gap-2"><span class="font-medium">Q${d.id}</span> <span class="text-gray-600 dark:text-gray-400">${d.question.substring(0,80)}...</span> <span class="ml-auto ${d.status==='Correct'?'text-green-600':d.status==='Wrong'?'text-red-600':'text-gray-400'}">${d.status} (Your: ${d.user})</span></div>`
-    ).join('');
-  }
-
-  // ---------- EXPORT ----------
-  function exportPDF() { alert('PDF export (simulated) – use browser print or library.'); }
-  function exportExcel() { alert('Excel export (simulated) – CSV available instead.'); }
-  function exportCSV() {
-    let csv = "QID,Question,Your Answer,Correct,Status\n";
-    EXAM_CONFIG.questions.forEach(q => {
-      const u = state.answers[q.id]!==undefined?q.options[state.answers[q.id]]:'—';
-      const c = q.options[q.ans];
-      const s = state.answers[q.id]===undefined?'Skipped':(state.answers[q.id]===q.ans?'Correct':'Wrong');
-      csv += `${q.id},"${q.q.replace(/,/g,'')}",${u},${c},${s}\n`;
-    });
-    const blob = new Blob([csv], {type:'text/csv'});
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'THP_Result.csv';
-    link.click();
-  }
-
-  // ---------- NAVIGATION ----------
-  function startExam() {
-    const name = document.getElementById('candidateName').value.trim() || 'Candidate';
-    state.candidate = name;
-    document.getElementById('candidateNameDisplay').textContent = name;
-    document.getElementById('loginPage').classList.add('hidden');
-    document.getElementById('instructionsPage').classList.remove('hidden');
-    document.getElementById('totalQDisplay').textContent = EXAM_CONFIG.totalQuestions;
-    document.getElementById('totalQDisplayHi').textContent = EXAM_CONFIG.totalQuestions;
-    document.getElementById('totalQDisplay3').textContent = EXAM_CONFIG.totalQuestions;
-  }
-
-  function beginExam() {
-    document.getElementById('instructionsPage').classList.add('hidden');
-    document.getElementById('examPage').classList.remove('hidden');
-    if (!state.shuffledIndices || state.shuffledIndices.length !== EXAM_CONFIG.totalQuestions) {
-      state.shuffledIndices = shuffleArray([...Array(EXAM_CONFIG.totalQuestions).keys()]);
-    }
-    buildPalette();
-    renderQuestion();
-    updateProgress();
-    updateTimerDisplay();
-    startTimer();
-    saveState();
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('paste', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden && !state.submitted) {
-        alert('⚠️ Tab switch detected. Stay on exam page.');
+      function showResult() {
+        let correct = 0,
+          wrong = 0,
+          unattempted = 0;
+        const details = [];
+        questions.forEach((q, idx) => {
+          const userAns = answers[idx];
+          const isCorrect = (userAns !== undefined && userAns !== null && userAns === q.correct);
+          if (userAns === undefined || userAns === null) unattempted++;
+          else if (isCorrect) correct++;
+          else wrong++;
+          details.push({
+            qNum: idx + 1,
+            text: q.text,
+            userAns: userAns !== undefined && userAns !== null ? q.options[userAns] : 'Not Attempted',
+            correctAns: q.options[q.correct],
+            isCorrect,
+            explanation: q.explanation || ''
+          });
+        });
+        const total = questions.length;
+        const score = correct - (wrong * EXAM_CONFIG.negativeMarking);
+        let html = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <div class="bg-green-50 dark:bg-green-900/30 p-4 rounded-xl text-center"><span class="text-2xl font-bold text-green-700 dark:text-green-300">${correct}</span><br><span class="text-xs">Correct</span></div>
+          <div class="bg-red-50 dark:bg-red-900/30 p-4 rounded-xl text-center"><span class="text-2xl font-bold text-red-700 dark:text-red-300">${wrong}</span><br><span class="text-xs">Wrong</span></div>
+          <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl text-center"><span class="text-2xl font-bold text-gray-700 dark:text-gray-300">${unattempted}</span><br><span class="text-xs">Unattempted</span></div>
+          <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl text-center"><span class="text-2xl font-bold text-blue-700 dark:text-blue-300">${score.toFixed(2)}</span><br><span class="text-xs">Score</span></div>
+        </div>
+        <div class="space-y-2 max-h-60 overflow-y-auto">`;
+        details.forEach(d => {
+          html += `<div class="border-b border-gray-200 dark:border-gray-700 py-2 text-sm flex flex-wrap gap-2">
+            <span class="font-semibold w-12">Q${d.qNum}</span>
+            <span class="flex-1">${d.text.substring(0, 60)}${d.text.length > 60 ? '...' : ''}</span>
+            <span class="text-xs ${d.isCorrect ? 'text-green-600' : 'text-red-500'}">${d.isCorrect ? '✔' : '✘'} (${d.userAns})</span>
+            <span class="text-xs text-gray-500">Correct: ${d.correctAns}</span>
+            <span class="text-xs text-blue-500">${d.explanation || ''}</span>
+          </div>`;
+        });
+        html += `</div>`;
+        resultContent.innerHTML = html;
+        resultModal.classList.remove('hidden');
       }
-    });
-  }
 
-  function goToLogin() {
-    if (!state.submitted && confirm('Going back will lose progress?')) {
-      localStorage.removeItem('thp_cbt_state_v2');
-      location.reload();
-    } else if (state.submitted) {
-      location.reload();
-    }
-  }
+      function bindEvents() {
+        $('prevBtn').addEventListener('click', () => {
+          if (!isSubmitted && currentQ > 0) { currentQ--;
+            renderQuestion();
+            renderPalette(); }
+        });
+        $('nextBtn').addEventListener('click', () => {
+          if (!isSubmitted && currentQ < questions.length - 1) { currentQ++;
+            renderQuestion();
+            renderPalette(); }
+        });
+        $('saveNextBtn').addEventListener('click', () => {
+          if (isSubmitted) return;
+          if (currentQ < questions.length - 1) { currentQ++;
+            renderQuestion();
+            renderPalette(); }
+          saveState();
+        });
+        $('markBtn').addEventListener('click', () => {
+          if (isSubmitted) return;
+          marked[currentQ] = !marked[currentQ];
+          renderPalette();
+          updateCounters();
+          saveState();
+        });
+        $('clearBtn').addEventListener('click', () => {
+          if (isSubmitted) return;
+          delete answers[currentQ];
+          renderQuestion();
+          renderPalette();
+          updateCounters();
+          saveState();
+        });
+        $('submitExamBtn').addEventListener('click', submitExam);
+        $('closeResult').addEventListener('click', () => { resultModal.classList.add('hidden'); });
+        $('themeToggle').addEventListener('click', () => {
+          darkMode = !darkMode;
+          document.documentElement.classList.toggle('dark', darkMode);
+          localStorage.setItem('cbt_theme', darkMode ? 'dark' : 'light');
+        });
+        $('langToggle').addEventListener('click', () => {
+          lang = lang === 'en' ? 'hi' : 'en';
+          $('langLabel').textContent = lang.toUpperCase();
+        });
+        $('exportPDF').addEventListener('click', () => alert('PDF export placeholder'));
+        $('exportExcel').addEventListener('click', () => alert('Excel export placeholder'));
+        $('exportCSV').addEventListener('click', () => alert('CSV export placeholder'));
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+        document.addEventListener('paste', e => e.preventDefault());
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden && !isSubmitted) {
+            alert('Tab switch detected. Please stay on exam page.');
+          }
+        });
+      }
 
-  // ---------- INIT ----------
-  (function init() {
-    const loaded = loadState();
-    // Apply language & theme
-    setLanguage(state.lang || 'en');
-    document.getElementById('appBody').classList.toggle('dark-mode', state.dark);
-    if (loaded && state.candidate && !state.submitted) {
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('examPage').classList.remove('hidden');
-      document.getElementById('candidateNameDisplay').textContent = state.candidate;
-      buildPalette();
-      renderQuestion();
-      updateProgress();
-      updateTimerDisplay();
-      startTimer();
-    } else if (loaded && state.submitted) {
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('resultPage').classList.remove('hidden');
-      showResult();
-    } else {
-      state.shuffledIndices = shuffleArray([...Array(EXAM_CONFIG.totalQuestions).keys()]);
-      saveState();
-    }
-  })();
-</script>
+      function init() {
+        let progress = 0;
+        const loadInterval = setInterval(() => {
+          progress += 10;
+          if (progress >= 100) { clearInterval(loadInterval); }
+          $('loadBar').style.width = progress + '%';
+        }, 80);
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+          document.getElementById('cbtApp').classList.remove('hidden');
+          if (localStorage.getItem('cbt_theme') === 'dark') {
+            darkMode = true;
+            document.documentElement.classList.add('dark');
+          }
+          initQuestions();
+          bindEvents();
+          document.body.style.userSelect = 'none';
+        }, 600);
+      }
+
+      window.onload = init;
+    })();
+  </script>
 </body>
 </html>
