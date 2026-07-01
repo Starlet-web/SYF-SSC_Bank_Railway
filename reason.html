@@ -3,560 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYF Reasoning Admin Panel | Teacher Dashboard</title>
+    <title>SYF - SSC Bank Railway Reasoning | Learning Platform</title>
+    <meta name="description" content="SYF Reasoning - SSC, Bank, Railway exam preparation">
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <style>
         :root {
-            --bg: #f1f5f9; --sidebar-bg: #2e1065; --primary: #a78bfa; --primary-hover: #8b5cf6;
-            --danger: #ef4444; --warning: #f59e0b; --text: #1e293b; --card: #ffffff;
-            --border: #e2e8f0; --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07); --radius: 10px; --radius-lg: 14px;
-            --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+            --primary: #7c3aed; --primary-dark: #6d28d9; --accent: #f97316;
+            --bg: #f1f5f9; --card-bg: #ffffff; --text: #0f172a; --text-light: #64748b;
+            --border: #e2e8f0; --shadow: 0 4px 6px -1px rgba(0,0,0,0.07);
+            --radius: 12px; --radius-lg: 16px; --transition: all 0.25s ease;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); display: flex; min-height: 100vh; }
-        
-        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 28px 0; display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; overflow-y: auto; }
-        .sidebar .logo { padding: 0 24px 28px; font-size: 1.3rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .sidebar .logo i { color: var(--primary); }
-        .sidebar nav { flex: 1; }
-        .sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 13px 24px; color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition); font-weight: 500; font-size: 0.9rem; border-left: 3px solid transparent; margin: 2px 0; }
-        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.05); color: white; border-left-color: var(--primary); }
-        .sidebar nav a i { width: 20px; text-align: center; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        .main { margin-left: 260px; flex: 1; padding: 32px; max-width: calc(100vw - 260px); }
-        .page { display: none; } .page.active { display: block; animation: fadeSlide 0.3s ease; }
-        @keyframes fadeSlide { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+        .header { background: linear-gradient(135deg, #4c1d95, #5b21b6, #6d28d9); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .header-inner { max-width: 1300px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .logo-section { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; }
+        .logo-text h1 { font-size: 1.4rem; font-weight: 800; } .logo-text span { font-size: 0.7rem; color: #fb923c; letter-spacing: 1.5px; }
+        .header-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+        .stat-badge { background: rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 10px; display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+        .stat-badge i { color: #fb923c; }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+        .search-wrapper { position: relative; max-width: 480px; margin-bottom: 28px; }
+        .search-wrapper input { width: 100%; padding: 14px 50px 14px 20px; border: 2px solid var(--border); border-radius: 50px; font-size: 0.95rem; outline: none; background: var(--card-bg); }
+        .search-wrapper input:focus { border-color: var(--primary); }
+        .search-wrapper i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-light); }
         
-        h2 { margin-bottom: 24px; color: var(--text); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.5rem; }
-        h2 i { color: var(--primary); }
+        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; margin-bottom: 40px; }
+        .chapter-card { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); border-left: 4px solid var(--primary); transition: var(--transition); }
+        .chapter-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.12); }
+        .chapter-number { font-size: 0.73rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .chapter-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
+        .chapter-desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 14px; }
+        .chapter-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+        .meta-item { font-size: 0.75rem; background: #f8fafc; padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; }
+        .meta-item.cbt-available { background: #dcfce7; color: #16a34a; font-weight: 600; }
+        .meta-item.cbt-na { background: #fef3c7; color: #d97706; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--card-bg); border-radius: var(--radius-lg); width: 95%; max-width: 1000px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity:0; transform: scale(0.93); } to { opacity:1; transform: scale(1); } }
+        .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #f1f5f9; cursor: pointer; font-size: 1.1rem; transition: var(--transition); }
+        .modal-close:hover { background: #ef4444; color: white; }
+        .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+
+        .tab-buttons { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+        .tab-btn { padding: 9px 16px; border: 2px solid var(--border); background: white; border-radius: 22px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .tab-btn .cbt-badge { background: #16a34a; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; }
+        .tab-content { display: none; } .tab-content.active { display: block; }
+
+        .list-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #f8fafc; border-radius: 10px; cursor: pointer; border: 1px solid var(--border); transition: var(--transition); margin-bottom: 8px; }
+        .list-item:hover { background: #eff6ff; border-color: var(--primary); }
+        .list-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; flex-shrink: 0; }
+        .list-icon.pdf { background: #ef4444; } .list-icon.video { background: #ff0000; }
+        .list-info { flex: 1; } .list-info strong { display: block; font-size: 0.9rem; } .list-info small { font-size: 0.78rem; color: var(--text-light); }
+        .list-arrow { color: var(--primary); }
+
+        .lecture-thumb { width: 120px; height: 68px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #1e293b; }
         
-        .card { background: var(--card); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; border: 1px solid var(--border); }
-        .card h3 { margin-bottom: 18px; color: var(--text); font-weight: 600; }
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 10px; overflow: hidden; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); font-size: 0.85rem; }
-        input, textarea, select { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.9rem; transition: var(--transition); font-family: inherit; background: white; }
-        input:focus, textarea:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(167,139,250,0.1); }
-        textarea { resize: vertical; min-height: 80px; }
+        .cbt-box { text-align: center; padding: 40px; }
+        .cbt-btn { padding: 16px 36px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+        .cbt-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(124,58,237,0.4); }
         
-        .btn { padding: 10px 20px; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(167,139,250,0.3); }
-        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); } .btn-outline:hover { background: var(--primary); color: white; }
-        .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 20px; cursor: pointer; margin-bottom: 12px; font-weight: 600; font-size: 0.82rem; }
+        .back-btn:hover { background: var(--primary-dark); }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-        th, td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.85rem; }
-        th { background: #f8fafc; font-weight: 600; color: var(--text); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        tr:hover td { background: #f8fafc; }
-        .img-preview { max-width: 55px; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
-        .img-preview:hover { transform: scale(1.5); }
-        
-        .alert { padding: 12px 18px; border-radius: var(--radius); margin-bottom: 16px; font-weight: 500; font-size: 0.9rem; animation: slideDown 0.3s ease; display: flex; align-items: center; gap: 8px; }
-        @keyframes slideDown { from { transform: translateY(-20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-        .alert-success { background: #ede9fe; color: #5b21b6; border-left: 4px solid var(--primary); }
-        .alert-error { background: #fee2e2; color: #991b1b; border-left: 4px solid var(--danger); }
-        
-        .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 30px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .help-text { font-size: 0.78rem; color: #64748b; margin-top: 4px; }
-        .help-text a { color: var(--primary); font-weight: 600; }
-        .help-text code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
-        
-        .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-        .stat-card { background: var(--card); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center; transition: transform 0.2s; }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        .stat-card .stat-value { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .stat-card .stat-label { font-size: 0.8rem; color: var(--text); margin-top: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        @media (max-width:768px) { 
-            .sidebar { width: 60px; } 
-            .sidebar .logo span, .sidebar nav a span { display: none; } 
-            .sidebar nav a { justify-content: center; padding: 14px; } 
-            .main { margin-left: 60px; padding: 16px; max-width: calc(100vw - 60px); } 
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-        }
+        .empty-state { text-align: center; padding: 40px; color: var(--text-light); }
+        .empty-state i { font-size: 3rem; opacity: 0.25; margin-bottom: 12px; }
+
+        /* PDF Book Reader */
+        .pdf-book-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0f; z-index: 6000; display: none; flex-direction: column; animation: pdfFadeIn 0.3s ease; }
+        @keyframes pdfFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .pdf-book-overlay.active { display: flex; }
+        .pdf-book-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%); color: white; z-index: 10; flex-shrink: 0; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.08); transition: transform 0.3s, opacity 0.3s; }
+        .pdf-book-toolbar.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .pdf-book-toolbar .pdf-title { font-weight: 600; font-size: 0.85rem; flex: 1; min-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pdf-book-toolbar button { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 7px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .pdf-book-toolbar button:hover { background: rgba(255,255,255,0.18); }
+        .pdf-book-toolbar button.active-btn { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px rgba(124,58,237,0.4); }
+        .pdf-zoom-group { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.05); border-radius: 10px; padding: 3px; }
+        .pdf-zoom-group button { border-radius: 7px; padding: 6px 9px; border: none; background: transparent; }
+        .pdf-zoom-group span { font-size: 0.75rem; min-width: 40px; text-align: center; font-weight: 600; }
+        .pdf-book-container { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; }
+        .pdf-book-container.dark-mode iframe { filter: invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(1.1); }
+        .pdf-book-container.dark-mode { background: #0d0d1a; }
+        .pdf-book-container iframe { width: 100%; height: 100%; border: none; background: white; transition: transform 0.2s; }
+        .pdf-bottom-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%); color: white; flex-shrink: 0; border-top: 1px solid rgba(255,255,255,0.08); transition: transform 0.3s, opacity 0.3s; }
+        .pdf-bottom-bar.hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
+
+        /* Image Swiper */
+        .image-swiper-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 7000; display: none; flex-direction: column; animation: pdfFadeIn 0.3s ease; }
+        .image-swiper-overlay.active { display: flex; }
+        .image-swiper-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(0,0,0,0.9); color: white; z-index: 10; flex-shrink: 0; gap: 8px; }
+        .image-swiper-toolbar .img-counter { font-size: 0.85rem; font-weight: 600; }
+        .image-swiper-toolbar .img-title-display { font-size: 0.9rem; font-weight: 500; flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .image-swiper-toolbar button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+        .image-swiper-container { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .swiper { width: 100%; height: 100%; }
+        .swiper-slide { display: flex; align-items: center; justify-content: center; position: relative; }
+        .swiper-slide img { max-width: 95%; max-height: 90vh; object-fit: contain; border-radius: 4px; transition: transform 0.3s; cursor: zoom-in; }
+        .swiper-slide img.zoomed { cursor: zoom-out; transform: scale(2.5); }
+        .swiper-slide .slide-caption { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 10px 20px; border-radius: 25px; font-size: 0.85rem; backdrop-filter: blur(10px); z-index: 5; pointer-events: none; }
+        .image-thumb-strip { display: flex; gap: 8px; padding: 10px 16px; background: rgba(0,0,0,0.9); overflow-x: auto; flex-shrink: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .image-thumb-strip .thumb-item { width: 60px; height: 45px; border-radius: 6px; overflow: hidden; cursor: pointer; flex-shrink: 0; border: 2px solid transparent; transition: all 0.2s; opacity: 0.5; }
+        .image-thumb-strip .thumb-item.active-thumb { border-color: var(--primary); opacity: 1; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        .image-thumb-strip .thumb-item:hover { opacity: 0.8; }
+        .image-thumb-strip .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        @media (max-width:768px) { .chapter-grid { grid-template-columns: 1fr; } .modal { width: 98%; max-height: 93vh; } .lecture-thumb { width: 90px; height: 50px; } .header-stats { width: 100%; justify-content: center; } }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo"><i class="fas fa-shield-alt"></i><span>Reasoning Admin</span></div>
-        <nav>
-            <a href="#" data-page="chapters" class="active"><i class="fas fa-list-ol"></i><span>Chapters</span></a>
-            <a href="#" data-page="lectures"><i class="fas fa-play-circle"></i><span>Lectures</span></a>
-            <a href="#" data-page="notes"><i class="fas fa-file-pdf"></i><span>PDF Notes</span></a>
-            <a href="#" data-page="cbt"><i class="fas fa-tasks"></i><span>CBT Exams</span></a>
-            <a href="#" data-page="images"><i class="fas fa-images"></i><span>Class Images</span></a>
-        </nav>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo-section"><div class="logo-icon">SYF</div><div class="logo-text"><h1>SYF Reasoning</h1><span>SSC • BANK • RAILWAY</span></div></div>
+            <div class="header-stats">
+                <div class="stat-badge"><i class="fas fa-book-open"></i><span id="totalChapters">0</span> Ch</div>
+                <div class="stat-badge"><i class="fas fa-play-circle"></i><span id="totalLectures">0</span> Lec</div>
+                <div class="stat-badge"><i class="fas fa-file-pdf"></i><span id="totalNotes">0</span> PDF</div>
+                <div class="stat-badge"><i class="fas fa-question-circle"></i><span id="totalCBT">0</span> CBT</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-wrapper"><input type="text" id="searchInput" placeholder="Search chapters..." oninput="filterChapters()"><i class="fas fa-search"></i></div>
+        <div class="section-title"><i class="fas fa-list-ol" style="color:var(--accent);"></i> All Chapters</div>
+        <div class="chapter-grid" id="chapterGrid"><div class="spinner"></div></div>
     </div>
 
-    <div class="main" id="mainContent">
-        <div id="alertContainer"></div>
-
-        <!-- Chapters Page -->
-        <div class="page active" id="page-chapters">
-            <h2><i class="fas fa-list-ol"></i> Manage Reasoning Chapters</h2>
-            <div class="stats-row" id="chapterStats"></div>
-            <div class="card">
-                <h3 id="chapterFormTitle">Add New Chapter</h3>
-                <input type="hidden" id="chapterId">
-                <div class="form-group"><label>Chapter Title *</label><input type="text" id="chapterTitle" placeholder="e.g., Coding-Decoding"></div>
-                <div class="form-group"><label>Description</label><textarea id="chapterDesc" placeholder="Short description..."></textarea></div>
-                <div class="form-group"><label>Order Number</label><input type="number" id="chapterOrder" value="1" min="1"></div>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn btn-primary" onclick="saveChapter()"><i class="fas fa-save"></i> Save Chapter</button>
-                    <button class="btn btn-outline" id="cancelChapterBtn" style="display:none;" onclick="resetChapterForm()"><i class="fas fa-times"></i> Cancel</button>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header"><h3 id="modalTitle">Chapter Details</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('lectures',event)"><i class="fas fa-play-circle"></i> Lectures</button>
+                    <button class="tab-btn" onclick="switchTab('notes',event)"><i class="fas fa-file-pdf"></i> Notes</button>
+                    <button class="tab-btn" id="cbtTabBtn" onclick="switchTab('cbt',event)"><i class="fas fa-question-circle"></i> CBT</button>
+                    <button class="tab-btn" onclick="switchTab('images',event)"><i class="fas fa-images"></i> Images</button>
                 </div>
-            </div>
-            <div class="card">
-                <h3>All Chapters</h3>
-                <div style="overflow-x: auto;">
-                    <table id="chaptersTable">
-                        <thead><tr><th>#</th><th>Title</th><th>Description</th><th>Lectures</th><th>Notes</th><th>CBT</th><th>Images</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+                <div class="tab-content active" id="tab-lectures"><div id="lecturesList"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-notes"><div id="notesList"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-cbt"><div id="cbtContainer"><div class="spinner"></div></div></div>
+                <div class="tab-content" id="tab-images"><div class="image-gallery" id="imageGallery"></div></div>
             </div>
         </div>
+    </div>
 
-        <!-- Lectures Page -->
-        <div class="page" id="page-lectures">
-            <h2><i class="fas fa-play-circle"></i> Manage Lectures</h2>
-            <div class="card">
-                <h3>Add YouTube Lecture</h3>
-                <div class="form-group"><label>Chapter *</label><select id="lectureChapterSelect"><option value="">-- Select Chapter --</option></select></div>
-                <div class="form-group"><label>Title *</label><input type="text" id="lectureTitle" placeholder="e.g., Coding-Decoding Part 1"></div>
-                <div class="form-group"><label>Description</label><input type="text" id="lectureDesc" placeholder="Optional"></div>
-                <div class="form-group"><label>YouTube Link *</label><input type="url" id="lectureUrl" placeholder="https://youtu.be/..."></div>
-                <button class="btn btn-primary" onclick="saveLecture()"><i class="fas fa-save"></i> Save Lecture</button>
-            </div>
-            <div class="card">
-                <h3>All Lectures</h3>
-                <div style="overflow-x: auto;">
-                    <table id="lecturesTable">
-                        <thead><tr><th>Chapter</th><th>Title</th><th>Description</th><th>Link</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="pdf-book-overlay" id="pdfBookOverlay">
+        <div class="pdf-book-toolbar" id="pdfToolbar">
+            <button onclick="closePdfBook()"><i class="fas fa-arrow-left"></i> Back</button>
+            <span class="pdf-title" id="pdfBookTitle">PDF Viewer</span>
+            <div class="pdf-zoom-group"><button onclick="pdfZoomOut()"><i class="fas fa-search-minus"></i></button><span id="pdfZoomLevel">100%</span><button onclick="pdfZoomIn()"><i class="fas fa-search-plus"></i></button></div>
+            <button onclick="pdfToggleFullscreen()"><i class="fas fa-expand"></i></button>
+            <button id="pdfDarkModeBtn" onclick="pdfToggleDarkMode()"><i class="fas fa-moon"></i></button>
         </div>
+        <div class="pdf-book-container" id="pdfBookContainer"><iframe id="pdfBookIframe" src="" allowfullscreen></iframe></div>
+        <div class="pdf-bottom-bar" id="pdfBottomBar"><span style="font-size:0.7rem;color:rgba(255,255,255,0.5);">📖 Swipe or use arrow keys</span><button onclick="pdfToggleToolbar()" style="background:transparent;border:none;color:white;cursor:pointer;"><i class="fas fa-ellipsis-h"></i></button></div>
+    </div>
 
-        <!-- Notes Page -->
-        <div class="page" id="page-notes">
-            <h2><i class="fas fa-file-pdf"></i> PDF Notes</h2>
-            <div class="card">
-                <h3>Add PDF Note</h3>
-                <p class="help-text" style="margin-bottom:16px;">📌 Upload PDF to <a href="https://pdfhost.io/" target="_blank">PDFhost.io</a> and paste the link below.</p>
-                <div class="form-group"><label>Chapter *</label><select id="noteChapterSelect"><option value="">-- Select Chapter --</option></select></div>
-                <div class="form-group"><label>Title *</label><input type="text" id="noteTitle" placeholder="e.g., Full Chapter Notes"></div>
-                <div class="form-group"><label>PDF Link *</label><input type="url" id="notePdfUrl" placeholder="https://pdfhost.io/v/..."></div>
-                <button class="btn btn-primary" onclick="saveNote()"><i class="fas fa-save"></i> Save Note</button>
-            </div>
-            <div class="card">
-                <h3>All Notes</h3>
-                <div style="overflow-x: auto;">
-                    <table id="notesTable">
-                        <thead><tr><th>Chapter</th><th>Title</th><th>Link</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="image-swiper-overlay" id="imageSwiperOverlay">
+        <div class="image-swiper-toolbar">
+            <button onclick="closeImageSwiper()"><i class="fas fa-arrow-left"></i> Back</button>
+            <span class="img-title-display" id="imgTitleDisplay">Image</span>
+            <span class="img-counter" id="imgCounter">1 / 1</span>
+            <button onclick="toggleImageZoom()"><i class="fas fa-search-plus"></i></button>
         </div>
-
-        <!-- CBT Page -->
-        <div class="page" id="page-cbt">
-            <h2><i class="fas fa-tasks"></i> CBT Exams</h2>
-            <div class="card">
-                <h3>Add/Update CBT Exam</h3>
-                <p class="help-text" style="margin-bottom:16px;">📌 Enter the full URL or relative path to your CBT HTML file.</p>
-                <div class="form-group"><label>Chapter *</label><select id="cbtChapterSelect"><option value="">-- Select Chapter --</option></select></div>
-                <div class="form-group"><label>CBT URL *</label><input type="text" id="cbtUrl" placeholder="e.g., cbt/coding.html or https://..."></div>
-                <div class="form-group"><label>Display Name (Optional)</label><input type="text" id="cbtDisplayName" placeholder="e.g., Coding-Decoding Test 1"></div>
-                <div class="form-group"><label>Description (Optional)</label><input type="text" id="cbtDescription" placeholder="e.g., 20 questions, 30 minutes"></div>
-                <button class="btn btn-primary" onclick="saveCBT()"><i class="fas fa-save"></i> Save CBT</button>
-            </div>
-            <div class="card">
-                <h3>All CBT Exams</h3>
-                <div style="overflow-x: auto;">
-                    <table id="cbtTable">
-                        <thead><tr><th>Chapter</th><th>Display Name</th><th>URL</th><th>Updated</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Images Page -->
-        <div class="page" id="page-images">
-            <h2><i class="fas fa-images"></i> Class Images</h2>
-            <div class="card">
-                <h3>Upload Image (via ImgBB)</h3>
-                <p class="help-text" style="margin-bottom:16px;">📌 Select an image file to upload.</p>
-                <div class="form-group"><label>Chapter *</label><select id="imageChapterSelect"><option value="">-- Select Chapter --</option></select></div>
-                <div class="form-group"><label>Title (Optional)</label><input type="text" id="imageTitle" placeholder="e.g., Whiteboard notes"></div>
-                <div class="form-group"><label>Image File *</label><input type="file" id="imageFile" accept="image/*"></div>
-                <button class="btn btn-primary" id="uploadImageBtn" onclick="uploadImage()"><i class="fas fa-cloud-upload-alt"></i> Upload Image</button>
-            </div>
-            <div class="card">
-                <h3>All Images</h3>
-                <div style="overflow-x: auto;">
-                    <table id="imagesTable">
-                        <thead><tr><th>Chapter</th><th>Preview</th><th>Title</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <div class="image-swiper-container"><div class="swiper" id="imageSwiper"><div class="swiper-wrapper" id="imageSwiperWrapper"></div><div class="swiper-button-next" style="color:white;"></div><div class="swiper-button-prev" style="color:white;"></div><div class="swiper-pagination" style="bottom:20px;"></div></div></div>
+        <div class="image-thumb-strip" id="imageThumbStrip"></div>
     </div>
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s",
-            authDomain: "starlet-registor.firebaseapp.com",
-            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com",
-            projectId: "starlet-registor",
-            storageBucket: "starlet-registor.firebasestorage.app",
-            messagingSenderId: "904193225045",
-            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc",
-            measurementId: "G-1NLM1F0262"
+            apiKey: "AIzaSyCOKKBSbZJk8QSGvj1CPYQb_kjQb1tXO6s", authDomain: "starlet-registor.firebaseapp.com",
+            databaseURL: "https://starlet-registor-default-rtdb.firebaseio.com", projectId: "starlet-registor",
+            storageBucket: "starlet-registor.firebasestorage.app", messagingSenderId: "904193225045",
+            appId: "1:904193225045:web:0c9ed3f3d7251862ff7fdc", measurementId: "G-1NLM1F0262"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const IMGBB_API_KEY = "53fb01955a45c5462724b8f7d238500a";
+        const DB_PATH = 'reasoning';
 
-        let chaptersCache = {};
+        let allChapters = [], currentChapterId = null;
+        let totalNotesCount = 0, totalLecturesCount = 0, totalCBTCount = 0;
+        let _lecturesBackup = null;
+        let pdfZoomLevel = 100, pdfIsDarkMode = false, pdfToolbarVisible = true, pdfToolbarTimeout;
+        let imageSwiperInstance = null, allChapterImages = [];
 
-        // Sidebar Navigation
-        document.querySelectorAll('.sidebar nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const page = link.dataset.page;
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
-                document.getElementById(`page-${page}`).classList.add('active');
-                link.classList.add('active');
-                switch(page) {
-                    case 'chapters': loadChaptersTable(); break;
-                    case 'lectures': loadChapterDropdown('lectureChapterSelect'); loadLecturesTable(); break;
-                    case 'notes': loadChapterDropdown('noteChapterSelect'); loadNotesTable(); break;
-                    case 'cbt': loadChapterDropdown('cbtChapterSelect'); loadCBTTable(); break;
-                    case 'images': loadChapterDropdown('imageChapterSelect'); loadImagesTable(); break;
-                }
-                document.querySelectorAll('.alert').forEach(a => a.remove());
-            });
-        });
-
-        function showAlert(msg, type = 'success') {
-            const container = document.getElementById('alertContainer');
-            container.querySelectorAll('.alert').forEach(a => a.remove());
-            const div = document.createElement('div');
-            div.className = `alert alert-${type}`;
-            div.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
-            container.appendChild(div);
-            setTimeout(() => { if (div.parentNode) div.remove(); }, 4000);
-        }
-
-        // Changed: 'chapters' → 'reasoning' in all db.ref calls
-        function loadChapterDropdown(selectId) {
-            const select = document.getElementById(selectId);
-            if (!select) return;
-            db.ref('reasoning').on('value', snap => {
-                select.innerHTML = '<option value="">-- Select Chapter --</option>';
-                chaptersCache = {};
-                if (snap.exists()) {
-                    const chapters = [];
-                    snap.forEach(c => {
-                        const data = c.val();
-                        chapters.push({ id: c.key, ...data });
-                        chaptersCache[c.key] = data;
-                    });
-                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
-                    chapters.forEach(ch => {
-                        select.innerHTML += `<option value="${ch.id}">${ch.order || '?'}. ${escapeHTML(ch.title || 'Untitled')}</option>`;
-                    });
-                }
-            });
-        }
-
-        function loadChaptersTable() {
-            db.ref('reasoning').on('value', async snap => {
-                const tbody = document.querySelector('#chaptersTable tbody');
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;">Loading...</td></tr>';
-                let totalL = 0, totalN = 0, totalCBT = 0, totalImg = 0;
-                const chapters = [];
-                if (snap.exists()) {
+        function loadChapters() {
+            const grid = document.getElementById('chapterGrid'); grid.innerHTML = '<div class="spinner"></div>';
+            db.ref(DB_PATH).on('value', (snapshot) => {
+                allChapters = []; totalNotesCount = 0; totalLecturesCount = 0; totalCBTCount = 0;
+                if (snapshot.exists()) {
                     const promises = [];
-                    snap.forEach(c => {
-                        const chData = c.val();
-                        const chapterObj = { id: c.key, ...chData };
-                        chapters.push(chapterObj);
-                        const lp = db.ref(`reasoning/${c.key}/lectures`).once('value').then(ls => {
-                            chapterObj.lectureCount = ls.exists() ? ls.numChildren() : 0;
-                            totalL += chapterObj.lectureCount;
-                        });
-                        const np = db.ref(`reasoning/${c.key}/notes`).once('value').then(ns => {
-                            chapterObj.noteCount = ns.exists() ? ns.numChildren() : 0;
-                            totalN += chapterObj.noteCount;
-                        });
-                        const cp = db.ref(`reasoning/${c.key}/cbt`).once('value').then(cs => {
-                            chapterObj.hasCBT = cs.exists() && cs.val().cbtUrl && cs.val().cbtUrl.trim() !== '';
-                            if (chapterObj.hasCBT) totalCBT++;
-                        });
-                        const ip = db.ref(`reasoning/${c.key}/images`).once('value').then(is => {
-                            chapterObj.imageCount = is.exists() ? is.numChildren() : 0;
-                            totalImg += chapterObj.imageCount;
-                        });
-                        promises.push(lp, np, cp, ip);
+                    snapshot.forEach((child) => {
+                        const cd = child.val(), cid = child.key;
+                        const obj = { id: cid, ...cd, notesCount: 0, lecturesCount: 0, hasCBT: false };
+                        promises.push(db.ref(`${DB_PATH}/${cid}/lectures`).once('value').then(ls => { if(ls.exists()){ obj.lecturesCount = ls.numChildren(); totalLecturesCount += obj.lecturesCount; } }));
+                        promises.push(db.ref(`${DB_PATH}/${cid}/notes`).once('value').then(ns => { if(ns.exists()){ obj.notesCount = ns.numChildren(); totalNotesCount += obj.notesCount; } }));
+                        promises.push(db.ref(`${DB_PATH}/${cid}/cbt`).once('value').then(cs => { if(cs.exists() && cs.val().cbtUrl && cs.val().cbtUrl.trim() !== ''){ obj.hasCBT = true; totalCBTCount++; } }));
+                        allChapters.push(obj);
                     });
-                    await Promise.all(promises);
-                    chapters.sort((a, b) => (a.order || 0) - (b.order || 0));
-                    tbody.innerHTML = '';
-                    chapters.forEach(ch => {
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>${ch.order || '-'}</td>
-                                <td><strong>${escapeHTML(ch.title || 'Untitled')}</strong></td>
-                                <td><small>${escapeHTML(ch.description || '-')}</small></td>
-                                <td>${ch.lectureCount || 0}</td>
-                                <td>${ch.noteCount || 0}</td>
-                                <td>${ch.hasCBT ? '<span style="color:#7c3aed;">✅ Available</span>' : '<span style="color:#94a3b8;">❌ No</span>'}</td>
-                                <td>${ch.imageCount || 0}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" onclick="editChapter('${ch.id}')"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteChapter('${ch.id}')"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>`;
-                    });
-                    document.getElementById('chapterStats').innerHTML = `
-                        <div class="stat-card"><div class="stat-value">${chapters.length}</div><div class="stat-label">Chapters</div></div>
-                        <div class="stat-card"><div class="stat-value">${totalL}</div><div class="stat-label">Lectures</div></div>
-                        <div class="stat-card"><div class="stat-value">${totalN}</div><div class="stat-label">PDF Notes</div></div>
-                        <div class="stat-card"><div class="stat-value">${totalCBT}</div><div class="stat-label">CBT Exams</div></div>
-                        <div class="stat-card"><div class="stat-value">${totalImg}</div><div class="stat-label">Images</div></div>`;
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;">No chapters yet.</td></tr>';
-                    document.getElementById('chapterStats').innerHTML = '';
+                    Promise.all(promises).then(() => { allChapters.sort((a,b) => (a.order||0)-(b.order||0)); renderChapters(allChapters); updateStats(); });
+                } else { grid.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><h3>No Chapters Yet</h3></div>'; updateStats(); }
+            });
+        }
+
+        function renderChapters(chapters) {
+            const grid = document.getElementById('chapterGrid');
+            if (!chapters.length) { grid.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h3>No Match</h3></div>'; return; }
+            grid.innerHTML = chapters.map((ch,i) => `
+                <div class="chapter-card" onclick="openChapter('${ch.id}')">
+                    <div class="chapter-number">Chapter ${ch.order||i+1}</div><div class="chapter-title">${escapeHTML(ch.title||'Untitled')}</div>
+                    <div class="chapter-desc">${escapeHTML(ch.description||'Explore lectures, notes & more')}</div>
+                    <div class="chapter-meta">
+                        <span class="meta-item"><i class="fas fa-play-circle"></i>${ch.lecturesCount||0} Lectures</span>
+                        <span class="meta-item"><i class="fas fa-file-pdf"></i>${ch.notesCount||0} Notes</span>
+                        <span class="meta-item ${ch.hasCBT ? 'cbt-available' : 'cbt-na'}"><i class="fas fa-question-circle"></i>${ch.hasCBT ? 'CBT ✓' : 'No CBT'}</span>
+                    </div></div>`).join('');
+        }
+
+        function filterChapters() { const q = document.getElementById('searchInput').value.toLowerCase(); renderChapters(allChapters.filter(c => (c.title||'').toLowerCase().includes(q) || (c.description||'').toLowerCase().includes(q))); }
+        function openChapter(id) {
+            currentChapterId = id; const ch = allChapters.find(c => c.id === id); if(!ch) return;
+            document.getElementById('modalTitle').textContent = ch.title || 'Chapter';
+            document.getElementById('modalOverlay').classList.add('active'); document.body.style.overflow = 'hidden';
+            document.getElementById('cbtTabBtn').innerHTML = ch.hasCBT ? '<i class="fas fa-question-circle"></i> CBT <span class="cbt-badge">Available</span>' : '<i class="fas fa-question-circle"></i> CBT';
+            ['lectures','notes','cbt','images'].forEach(tab => { const c = document.getElementById(`${tab==='cbt'?'cbtContainer':tab+'List'}`); if(c) c.innerHTML = '<div class="spinner"></div>'; });
+            loadLectures(id); loadNotes(id); loadCBT(id); loadImages(id);
+            const ft = document.querySelector('.tab-btn'); if(ft) switchTab('lectures', {target: ft});
+        }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
+        document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target === e.currentTarget) closeModal(); });
+        document.addEventListener('keydown', e => { if(e.key === 'Escape') { closeModal(); closePdfBook(); closeImageSwiper(); } });
+        function switchTab(name, event) { const btn = event.target.closest('.tab-btn'); if(!btn) return; document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); btn.classList.add('active'); const tab = document.getElementById(`tab-${name}`); if(tab) tab.classList.add('active'); }
+
+        function loadLectures(chapterId) {
+            const c = document.getElementById('lecturesList'); c.innerHTML = '<div class="spinner"></div>';
+            db.ref(`${DB_PATH}/${chapterId}/lectures`).on('value', (snap) => {
+                if(snap.exists()){
+                    const lec = []; snap.forEach(ch => lec.push({id: ch.key, ...ch.val()})); lec.sort((a,b) => (a.order||0)-(b.order||0));
+                    if(!lec.length){ c.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures</h3></div>'; return; }
+                    c.innerHTML = lec.map((l, i) => {
+                        const vid = extractYouTubeID(l.youtubeUrl), thumb = vid ? `https://img.youtube.com/vi/${vid}/mqdefault.jpg` : '';
+                        return `<div class="list-item" onclick="playLecture('${vid}', '${escapeHTML(l.title||'Lecture '+ (i+1)).replace(/'/g, "\\'")}')">${thumb ? `<img class="lecture-thumb" src="${thumb}">` : '<div style="width:120px;height:68px;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;"><i class="fas fa-play"></i></div>'}<div class="list-info"><strong>${escapeHTML(l.title||'Lecture '+ (i+1))}</strong><small>${escapeHTML(l.description||'Click to watch')}</small></div><div class="list-arrow"><i class="fas fa-play-circle fa-2x"></i></div></div>`;
+                    }).join('');
+                } else { c.innerHTML = '<div class="empty-state"><i class="fas fa-play-circle"></i><h3>No Lectures Yet</h3></div>'; }
+            });
+        }
+        function extractYouTubeID(url) { if(!url) return null; const p = [/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]{11})/, /^([a-zA-Z0-9_-]{11})$/]; for(const pt of p){ const m = url.match(pt); if(m) return m[1]; } return null; }
+        function playLecture(vid, title) { if(!vid) return; const c = document.getElementById('lecturesList'); _lecturesBackup = c.innerHTML; c.innerHTML = `<button class="back-btn" onclick="backToLectures()"><i class="fas fa-arrow-left"></i> Back</button><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=1&rel=0" allowfullscreen></iframe></div><h4 style="margin-top:10px;">▶ ${title}</h4>`; document.getElementById('modalTitle').textContent = '🎥 ' + title; }
+        function backToLectures() { if(_lecturesBackup){ document.getElementById('lecturesList').innerHTML = _lecturesBackup; _lecturesBackup = null; } const ch = allChapters.find(c => c.id === currentChapterId); if(ch) document.getElementById('modalTitle').textContent = ch.title || 'Chapter'; }
+
+        function loadNotes(chapterId) {
+            const c = document.getElementById('notesList'); c.innerHTML = '<div class="spinner"></div>';
+            db.ref(`${DB_PATH}/${chapterId}/notes`).on('value', (snap) => {
+                if(snap.exists()){
+                    const notes = []; snap.forEach(ch => notes.push({id: ch.key, ...ch.val()})); notes.sort((a,b) => (a.order||0)-(b.order||0));
+                    if(!notes.length){ c.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes</h3></div>'; return; }
+                    c.innerHTML = notes.map(n => `<div class="list-item" onclick="openPdfInBook('${n.pdfUrl}', '${escapeHTML(n.title).replace(/'/g, "\\'")}')"><div class="list-icon pdf"><i class="fas fa-file-pdf"></i></div><div class="list-info"><strong>${escapeHTML(n.title)}</strong><small>📖 Open in Book Reader</small></div><div class="list-arrow"><i class="fas fa-book-open fa-lg"></i></div></div>`).join('');
+                } else { c.innerHTML = '<div class="empty-state"><i class="fas fa-file-pdf"></i><h3>No Notes Yet</h3></div>'; }
+            });
+        }
+
+        function loadCBT(chapterId) {
+            const c = document.getElementById('cbtContainer'); c.innerHTML = '<div class="spinner"></div>';
+            db.ref(`${DB_PATH}/${chapterId}/cbt`).on('value', (snap) => {
+                if(snap.exists()){ const cbt = snap.val(); if(cbt.cbtUrl && cbt.cbtUrl.trim() !== ''){ c.innerHTML = `<div class="cbt-box"><i class="fas fa-brain" style="font-size:4rem;color:var(--primary);margin-bottom:16px;"></i><h3>CBT Exam Ready</h3><p style="color:var(--text-light);margin:8px 0 20px;">Test your reasoning skills</p><button class="cbt-btn" onclick="window.open('${cbt.cbtUrl}','_blank')"><i class="fas fa-play-circle"></i> Start Exam</button>${cbt.filename?`<p style="margin-top:12px;font-size:0.8rem;color:var(--text-light);">📁 ${cbt.filename}</p>`:''}</div>`; } else { c.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>'; } }
+                else { c.innerHTML = '<div class="empty-state"><i class="fas fa-hourglass-half"></i><h3>Coming Soon</h3></div>'; }
+            });
+        }
+
+        function loadImages(chapterId) {
+            const c = document.getElementById('imageGallery'); c.innerHTML = '<div class="spinner" style="grid-column:1/-1;"></div>';
+            db.ref(`${DB_PATH}/${chapterId}/images`).on('value', (snap) => {
+                if(snap.exists()){
+                    const imgs = []; snap.forEach(ch => imgs.push({id: ch.key, ...ch.val()}));
+                    if(!imgs.length){ c.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>'; return; }
+                    c.innerHTML = imgs.map((i, idx) => `<div class="gallery-item" onclick="openImageSwiper('${chapterId}', ${idx})" style="position:relative;"><img src="${i.url}" alt="${escapeHTML(i.title)}" loading="lazy"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;padding:6px 8px;font-size:0.7rem;text-align:center;">${escapeHTML(i.title||'Image '+ (idx+1))}</div></div>`).join('');
+                } else { c.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-images"></i><h3>No Images</h3></div>'; }
+            });
+        }
+
+        // PDF Reader
+        function openPdfInBook(url, title) { if(!url) return; document.getElementById('pdfBookTitle').textContent = title||'PDF'; document.getElementById('pdfBookIframe').src = url+'#toolbar=0'; document.getElementById('pdfBookOverlay').classList.add('active'); document.body.style.overflow='hidden'; pdfZoomLevel=100; pdfIsDarkMode=false; pdfToolbarVisible=true; document.getElementById('pdfZoomLevel').textContent='100%'; document.getElementById('pdfBookContainer').classList.remove('dark-mode'); document.getElementById('pdfDarkModeBtn').classList.remove('active-btn'); document.getElementById('pdfToolbar').classList.remove('hidden'); document.getElementById('pdfBottomBar').classList.remove('hidden'); resetPdfToolbarTimeout(); }
+        function closePdfBook() { document.getElementById('pdfBookOverlay').classList.remove('active'); document.getElementById('pdfBookIframe').src=''; document.body.style.overflow=''; clearTimeout(pdfToolbarTimeout); }
+        function pdfZoomIn() { pdfZoomLevel = Math.min(pdfZoomLevel+25, 300); updatePdfZoom(); }
+        function pdfZoomOut() { pdfZoomLevel = Math.max(pdfZoomLevel-25, 50); updatePdfZoom(); }
+        function updatePdfZoom() { document.getElementById('pdfZoomLevel').textContent = pdfZoomLevel+'%'; document.getElementById('pdfBookIframe').style.transform = `scale(${pdfZoomLevel/100})`; }
+        function pdfToggleFullscreen() { const el = document.getElementById('pdfBookOverlay'); document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen().catch(()=>{}); }
+        function pdfToggleDarkMode() { pdfIsDarkMode=!pdfIsDarkMode; const c=document.getElementById('pdfBookContainer'), b=document.getElementById('pdfDarkModeBtn'); if(pdfIsDarkMode){c.classList.add('dark-mode');b.classList.add('active-btn');b.innerHTML='<i class="fas fa-sun"></i> Light';}else{c.classList.remove('dark-mode');b.classList.remove('active-btn');b.innerHTML='<i class="fas fa-moon"></i> Dark';} }
+        function pdfToggleToolbar() { pdfToolbarVisible=!pdfToolbarVisible; const t=document.getElementById('pdfToolbar'), bb=document.getElementById('pdfBottomBar'); if(pdfToolbarVisible){t.classList.remove('hidden');bb.classList.remove('hidden');resetPdfToolbarTimeout();}else{t.classList.add('hidden');bb.classList.add('hidden');} }
+        function resetPdfToolbarTimeout() { clearTimeout(pdfToolbarTimeout); pdfToolbarTimeout = setTimeout(() => { if(pdfToolbarVisible){ document.getElementById('pdfToolbar').classList.add('hidden'); document.getElementById('pdfBottomBar').classList.add('hidden'); pdfToolbarVisible=false; } }, 4000); }
+
+        // Image Swiper
+        function openImageSwiper(chapterId, startIndex) {
+            const c=document.getElementById('imageSwiperWrapper'), ts=document.getElementById('imageThumbStrip'); c.innerHTML=''; ts.innerHTML=''; allChapterImages=[];
+            db.ref(`${DB_PATH}/${chapterId}/images`).once('value', (snap) => {
+                if(snap.exists()){ snap.forEach(ch => allChapterImages.push({id:ch.key,...ch.val()})); if(!allChapterImages.length) return;
+                    allChapterImages.forEach((img,idx)=>{ c.innerHTML+=`<div class="swiper-slide"><img src="${img.url}" class="swiper-image" onclick="toggleImageZoom()"><div class="slide-caption">${escapeHTML(img.title||'Image '+ (idx+1))}</div></div>`; ts.innerHTML+=`<div class="thumb-item ${idx===startIndex?'active-thumb':''}" onclick="imageSwiperInstance.slideTo(${idx})"><img src="${img.url}"></div>`; });
+                    document.getElementById('imageSwiperOverlay').classList.add('active'); document.body.style.overflow='hidden';
+                    if(imageSwiperInstance) imageSwiperInstance.destroy();
+                    imageSwiperInstance = new Swiper('#imageSwiper', { initialSlide: startIndex, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, pagination: { el: '.swiper-pagination', clickable: true }, keyboard: { enabled: true }, on: { slideChange: function() { updateImageCounter(); updateActiveThumb(); } } });
+                    updateImageCounter();
                 }
             });
         }
+        function closeImageSwiper() { document.getElementById('imageSwiperOverlay').classList.remove('active'); document.body.style.overflow=''; if(imageSwiperInstance){imageSwiperInstance.destroy();imageSwiperInstance=null;} }
+        function updateImageCounter() { if(!imageSwiperInstance) return; const cur=imageSwiperInstance.activeIndex+1, tot=allChapterImages.length; document.getElementById('imgCounter').textContent=`${cur} / ${tot}`; if(allChapterImages[imageSwiperInstance.activeIndex]) document.getElementById('imgTitleDisplay').textContent = allChapterImages[imageSwiperInstance.activeIndex].title||`Image ${cur}`; }
+        function updateActiveThumb() { if(!imageSwiperInstance) return; document.querySelectorAll('.thumb-item').forEach((t,i)=>{ t.classList.toggle('active-thumb', i===imageSwiperInstance.activeIndex); if(i===imageSwiperInstance.activeIndex) t.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}); }); }
+        function toggleImageZoom() { if(!imageSwiperInstance) return; const img=document.querySelector('.swiper-slide-active img'); if(img) img.classList.toggle('zoomed'); }
 
-        window.editChapter = function(id) {
-            db.ref(`reasoning/${id}`).once('value', snap => {
-                if (!snap.exists()) return;
-                const ch = snap.val();
-                document.getElementById('chapterId').value = id;
-                document.getElementById('chapterTitle').value = ch.title || '';
-                document.getElementById('chapterDesc').value = ch.description || '';
-                document.getElementById('chapterOrder').value = ch.order || 1;
-                document.getElementById('chapterFormTitle').textContent = 'Edit Chapter';
-                document.getElementById('cancelChapterBtn').style.display = 'inline-flex';
-                document.getElementById('chapterFormTitle').scrollIntoView({ behavior: 'smooth' });
-            });
-        };
+        function escapeHTML(str) { if(!str) return ''; const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+        function updateStats() { document.getElementById('totalChapters').textContent=allChapters.length; document.getElementById('totalNotes').textContent=totalNotesCount; document.getElementById('totalLectures').textContent=totalLecturesCount; document.getElementById('totalCBT').textContent=totalCBTCount; }
 
-        window.deleteChapter = function(id) {
-            if (confirm('⚠️ Delete chapter and ALL content?')) {
-                db.ref(`reasoning/${id}`).remove()
-                    .then(() => showAlert('Chapter deleted!'))
-                    .catch(err => showAlert('Error: ' + err.message, 'error'));
-            }
-        };
-
-        function resetChapterForm() {
-            document.getElementById('chapterId').value = '';
-            document.getElementById('chapterTitle').value = '';
-            document.getElementById('chapterDesc').value = '';
-            document.getElementById('chapterOrder').value = '1';
-            document.getElementById('chapterFormTitle').textContent = 'Add New Chapter';
-            document.getElementById('cancelChapterBtn').style.display = 'none';
-        }
-
-        window.saveChapter = function() {
-            const id = document.getElementById('chapterId').value;
-            const title = document.getElementById('chapterTitle').value.trim();
-            const desc = document.getElementById('chapterDesc').value.trim();
-            const order = parseInt(document.getElementById('chapterOrder').value) || 1;
-            if (!title) return showAlert('Title required!', 'error');
-            const data = { title, description: desc, order, updatedAt: firebase.database.ServerValue.TIMESTAMP };
-            const savePromise = id ? db.ref(`reasoning/${id}`).update(data) : db.ref('reasoning').push({ ...data, createdAt: firebase.database.ServerValue.TIMESTAMP });
-            savePromise.then(() => { showAlert(id ? 'Updated!' : 'Added!'); resetChapterForm(); }).catch(err => showAlert('Error: ' + err.message, 'error'));
-        };
-
-        window.saveLecture = function() {
-            const ch = document.getElementById('lectureChapterSelect').value;
-            const title = document.getElementById('lectureTitle').value.trim();
-            const desc = document.getElementById('lectureDesc').value.trim();
-            const url = document.getElementById('lectureUrl').value.trim();
-            if (!ch || !title || !url) return showAlert('All * fields required!', 'error');
-            db.ref(`reasoning/${ch}/lectures`).push({ title, description: desc, youtubeUrl: url, uploadedAt: firebase.database.ServerValue.TIMESTAMP })
-                .then(() => { showAlert('Lecture saved! 🎥'); document.getElementById('lectureTitle').value=''; document.getElementById('lectureDesc').value=''; document.getElementById('lectureUrl').value=''; loadLecturesTable(); });
-        };
-
-        function loadLecturesTable() {
-            const tbody = document.querySelector('#lecturesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
-            db.ref('reasoning').once('value', chSnap => {
-                tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="5">No chapters</td></tr>'; return; }
-                let has=false, pending=chSnap.numChildren();
-                chSnap.forEach(ch => {
-                    db.ref(`reasoning/${ch.key}/lectures`).once('value', lSnap => {
-                        pending--;
-                        if(lSnap.exists()){ has=true;
-                            lSnap.forEach(l=>{ const d=l.val();
-                                tbody.innerHTML+=`<tr><td>${escapeHTML(ch.val().title)}</td><td><strong>${escapeHTML(d.title)}</strong></td><td><small>${escapeHTML(d.description||'-')}</small></td><td><a href="${d.youtubeUrl}" target="_blank">🎥 Watch</a></td><td><button class="btn btn-danger btn-sm" onclick="deleteLecture('${ch.key}','${l.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
-                            });
-                        }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="5">No lectures</td></tr>';
-                    });
-                });
-            });
-        }
-
-        window.deleteLecture = function(chId, lId) {
-            if(confirm('Delete?')) db.ref(`reasoning/${chId}/lectures/${lId}`).remove().then(()=>{showAlert('Deleted!');loadLecturesTable();});
-        };
-
-        window.saveNote = function() {
-            const ch = document.getElementById('noteChapterSelect').value;
-            const title = document.getElementById('noteTitle').value.trim();
-            const pdfUrl = document.getElementById('notePdfUrl').value.trim();
-            if(!ch||!title||!pdfUrl) return showAlert('All * fields required!','error');
-            db.ref(`reasoning/${ch}/notes`).push({title, pdfUrl, uploadedAt: firebase.database.ServerValue.TIMESTAMP})
-                .then(()=>{showAlert('Note saved! 📄'); document.getElementById('noteTitle').value=''; document.getElementById('notePdfUrl').value=''; loadNotesTable();});
-        };
-
-        function loadNotesTable() {
-            const tbody = document.querySelector('#notesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
-            db.ref('reasoning').once('value', chSnap => {
-                tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4">No chapters</td></tr>'; return; }
-                let has=false, pending=chSnap.numChildren();
-                chSnap.forEach(ch => {
-                    db.ref(`reasoning/${ch.key}/notes`).once('value', nSnap => {
-                        pending--;
-                        if(nSnap.exists()){ has=true;
-                            nSnap.forEach(n=>{ const d=n.val();
-                                tbody.innerHTML+=`<tr><td>${escapeHTML(ch.val().title)}</td><td><strong>${escapeHTML(d.title)}</strong></td><td><a href="${d.pdfUrl}" target="_blank">📄 View</a></td><td><button class="btn btn-danger btn-sm" onclick="deleteNote('${ch.key}','${n.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
-                            });
-                        }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4">No notes</td></tr>';
-                    });
-                });
-            });
-        }
-
-        window.deleteNote = function(chId, nId) {
-            if(confirm('Delete?')) db.ref(`reasoning/${chId}/notes/${nId}`).remove().then(()=>{showAlert('Deleted!');loadNotesTable();});
-        };
-
-        window.saveCBT = function() {
-            const ch = document.getElementById('cbtChapterSelect').value;
-            const url = document.getElementById('cbtUrl').value.trim();
-            const displayName = document.getElementById('cbtDisplayName').value.trim();
-            const description = document.getElementById('cbtDescription').value.trim();
-            if(!ch||!url) return showAlert('Chapter and URL required!','error');
-            const cbtData = { cbtUrl: url, updatedAt: firebase.database.ServerValue.TIMESTAMP };
-            if(displayName) cbtData.filename = displayName;
-            if(description) cbtData.description = description;
-            Promise.all([
-                db.ref(`reasoning/${ch}/cbt`).set(cbtData),
-                db.ref(`reasoning/${ch}/hasCBT`).set(true)
-            ]).then(()=>{showAlert('CBT saved! 📝'); document.getElementById('cbtUrl').value=''; document.getElementById('cbtDisplayName').value=''; document.getElementById('cbtDescription').value=''; loadCBTTable(); loadChaptersTable();});
-        };
-
-        function loadCBTTable() {
-            const tbody = document.querySelector('#cbtTable tbody');
-            tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
-            db.ref('reasoning').once('value', chSnap => {
-                tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="5">No chapters</td></tr>'; return; }
-                let has=false, pending=chSnap.numChildren();
-                chSnap.forEach(ch => {
-                    db.ref(`reasoning/${ch.key}/cbt`).once('value', cSnap => {
-                        pending--;
-                        if(cSnap.exists()&&cSnap.val().cbtUrl){ has=true; const d=cSnap.val();
-                            const updatedDate = d.updatedAt ? new Date(d.updatedAt).toLocaleString('hi-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '-';
-                            tbody.innerHTML+=`<tr><td>${escapeHTML(ch.val().title)}</td><td><strong>${escapeHTML(d.filename||'CBT Exam')}</strong></td><td><a href="${d.cbtUrl}" target="_blank">🔗 Open</a></td><td>${updatedDate}</td><td><button class="btn btn-danger btn-sm" onclick="deleteCBT('${ch.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
-                        }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="5">No CBT exams</td></tr>';
-                    });
-                });
-            });
-        }
-
-        window.deleteCBT = function(chId) {
-            if(confirm('Remove CBT?')){
-                Promise.all([db.ref(`reasoning/${chId}/cbt`).remove(), db.ref(`reasoning/${chId}/hasCBT`).set(false)])
-                    .then(()=>{showAlert('CBT removed!');loadCBTTable();loadChaptersTable();});
-            }
-        };
-
-        window.uploadImage = async function() {
-            const ch = document.getElementById('imageChapterSelect').value;
-            const title = document.getElementById('imageTitle').value.trim() || 'Class Image';
-            const file = document.getElementById('imageFile').files[0];
-            if(!ch||!file) return showAlert('Chapter and file required!','error');
-            const btn = document.getElementById('uploadImageBtn'), orig = btn.innerHTML;
-            btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Uploading...';
-            const fd=new FormData(); fd.append('image',file); fd.append('key',IMGBB_API_KEY);
-            try{
-                const res=await fetch('https://api.imgbb.com/1/upload',{method:'POST',body:fd});
-                const data=await res.json();
-                if(!data.success) throw new Error(data.error?.message||'Failed');
-                await db.ref(`reasoning/${ch}/images`).push({title,url:data.data.url,uploadedAt:firebase.database.ServerValue.TIMESTAMP});
-                showAlert('Uploaded! 🖼️'); document.getElementById('imageTitle').value=''; document.getElementById('imageFile').value=''; loadImagesTable();
-            }catch(e){showAlert(e.message,'error');}
-            finally{btn.disabled=false;btn.innerHTML=orig;}
-        };
-
-        function loadImagesTable() {
-            const tbody = document.querySelector('#imagesTable tbody');
-            tbody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
-            db.ref('reasoning').once('value', chSnap => {
-                tbody.innerHTML = '';
-                if(!chSnap.exists()){ tbody.innerHTML='<tr><td colspan="4">No chapters</td></tr>'; return; }
-                let has=false, pending=chSnap.numChildren();
-                chSnap.forEach(ch => {
-                    db.ref(`reasoning/${ch.key}/images`).once('value', iSnap => {
-                        pending--;
-                        if(iSnap.exists()){ has=true;
-                            iSnap.forEach(i=>{ const d=i.val();
-                                tbody.innerHTML+=`<tr><td>${escapeHTML(ch.val().title)}</td><td><img src="${d.url}" class="img-preview" onclick="window.open('${d.url}','_blank')"></td><td>${escapeHTML(d.title)}</td><td><button class="btn btn-danger btn-sm" onclick="deleteImage('${ch.key}','${i.key}')"><i class="fas fa-trash"></i></button></td></tr>`;
-                            });
-                        }
-                        if(pending===0&&!has) tbody.innerHTML='<tr><td colspan="4">No images</td></tr>';
-                    });
-                });
-            });
-        }
-
-        window.deleteImage = function(chId, iId) {
-            if(confirm('Delete?')) db.ref(`reasoning/${chId}/images/${iId}`).remove().then(()=>{showAlert('Deleted!');loadImagesTable();});
-        };
-
-        function escapeHTML(str) {
-            if(!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadChaptersTable();
-            loadChapterDropdown('lectureChapterSelect');
-            loadChapterDropdown('noteChapterSelect');
-            loadChapterDropdown('cbtChapterSelect');
-            loadChapterDropdown('imageChapterSelect');
+        document.addEventListener('DOMContentLoaded', () => { loadChapters(); });
+        document.addEventListener('DOMContentLoaded', () => { const pc=document.getElementById('pdfBookContainer'); if(pc) pc.addEventListener('click', (e) => { if(e.target===pc||e.target.tagName==='IFRAME') pdfToggleToolbar(); }); });
+        document.addEventListener('keydown', (e) => {
+            const po=document.getElementById('pdfBookOverlay'), io=document.getElementById('imageSwiperOverlay');
+            if(po.classList.contains('active')){ switch(e.key){ case'+':case'=':pdfZoomIn();break;case'-':pdfZoomOut();break;case'f':pdfToggleFullscreen();break;case'd':pdfToggleDarkMode();break;case't':pdfToggleToolbar();break; } }
+            if(io.classList.contains('active')&&imageSwiperInstance){ switch(e.key){ case'ArrowLeft':imageSwiperInstance.slidePrev();break;case'ArrowRight':imageSwiperInstance.slideNext();break;case'z':toggleImageZoom();break; } }
         });
     </script>
 </body>
